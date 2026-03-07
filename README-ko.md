@@ -74,9 +74,11 @@ plugin.json (×5)          ← 플러그인 매니페스트
 
 에이전트를 만들다 보면 "이건 MCP 서버로 만들어야 하나, 스킬로 만들어야 하나?"라는 질문이 생깁니다. 이 스킬셋은 설계 단계에서 외부 API 연결(MCP)과 도메인 지식(Skills)을 어떻게 나누고 조합할지를 가이드합니다.
 
-### 6. v1.0 구조적 엄밀함
+### 6. 콘텐츠 구조적 엄밀함
 
-모든 스킬이 일관된 v1.0 구조를 따릅니다: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. Trigger Gate(Use / Route / Boundary)로 정확한 스킬이 정확한 상황에서 발동합니다. Failure Handling 테이블은 실패 모드별 감지 방법과 대안을 다룹니다. Quality Gate는 결과물 전달 전 셀프 점검입니다. 이건 포맷팅이 아니라, 프롬프트와 프로덕션급 스킬의 차이입니다.
+모든 스킬이 일관된 콘텐츠 구조를 따릅니다: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. Trigger Gate(Use / Route / Boundary)로 정확한 스킬이 정확한 상황에서 발동합니다. Failure Handling 테이블은 실패 모드별 감지 방법과 대안을 다룹니다. Quality Gate는 결과물 전달 전 셀프 점검입니다. 이건 포맷팅이 아니라, 프롬프트와 프로덕션급 스킬의 차이입니다.
+
+> 이 콘텐츠 구조는 Claude의 "Skills 2.0" 플랫폼 규격과는 별개의 레이어입니다. 아래 [스킬의 내부 구조](#스킬의-내부-구조)에서 2개 레이어의 관계를 설명합니다.
 
 ---
 
@@ -99,6 +101,138 @@ Plugin (oracle)
 ```
 
 > 스킬 파일(SKILL.md)은 표준 마크다운입니다. Gemini CLI, Cursor, Codex CLI, Kiro에서도 사용 가능합니다.
+
+---
+
+## 스킬의 내부 구조
+
+### 자동 호출 원리
+
+스킬은 직접 이름을 불러서 쓰는 게 아닙니다. **자연어로 작업을 설명하면, Claude가 각 SKILL.md의 `description` 필드를 매칭해서 가장 적합한 스킬을 자동 로드**합니다.
+
+```
+사용자: "에이전트가 환각을 일으키면 어떻게 복구하지?"
+         ↓
+Claude: description 매칭 → reliability 스킬 자동 로드
+         ↓
+스킬:   Trigger Gate 확인 → 조건 충족 → 스킬 실행
+```
+
+트리거 정확도는 96개 쿼리 기준 **97.9%** 입니다. 각 스킬의 `description`은 200자 이상으로, "Use when..." 패턴으로 발동 조건을 명시합니다.
+
+### SKILL.md 콘텐츠 구조
+
+모든 35개 스킬은 동일한 콘텐츠 구조를 따릅니다:
+
+```
+┌─────────────────────────────────────────────┐
+│  Frontmatter                                │
+│  - name, description (200자+), argument-hint│
+├─────────────────────────────────────────────┤
+│  Core Goal          ← 1-2문장 목적          │
+├─────────────────────────────────────────────┤
+│  Trigger Gate                               │
+│  - Use: 이 스킬을 써야 할 때               │
+│  - Route: 다른 스킬로 보내야 할 때          │
+│  - Boundary: 이 스킬의 범위 밖인 것         │
+├─────────────────────────────────────────────┤
+│  개념 설명 + 실행 절차   ← 본문 콘텐츠      │
+├─────────────────────────────────────────────┤
+│  Failure Handling                           │
+│  - 실패 모드 │ 감지 방법 │ 대안 (테이블)     │
+├─────────────────────────────────────────────┤
+│  Quality Gate        ← 전달 전 체크리스트    │
+├─────────────────────────────────────────────┤
+│  Examples            ← 좋은/나쁜 출력 신호   │
+└─────────────────────────────────────────────┘
+```
+
+**Trigger Gate**가 핵심입니다. Use/Route/Boundary 3가지 조건으로 "이 스킬이 맞는지, 다른 스킬로 보내야 하는지, 아예 범위 밖인지"를 판단합니다. 이 구조 덕분에 스킬 간 충돌 없이 정확한 스킬이 정확한 상황에서 발동합니다.
+
+### 커맨드 체이닝
+
+커맨드(`/write-prd`, `/discover` 등)는 여러 스킬을 순서대로 엮는 워크플로우입니다.
+
+```
+/discover 고객 상담 자동화
+  ① opp-tree     → 기회 매핑
+  ② assumptions  → 가정 검증
+  ③ build-or-buy → 실현성 스코어링
+  → 종합 리포트 출력
+```
+
+| 커맨드 | 체이닝되는 스킬 | 플러그인 |
+|--------|---------------|---------|
+| `/discover` | opp-tree → assumptions → build-or-buy | oracle |
+| `/validate` | assumptions → hitl → cost-sim | oracle |
+| `/architecture` | orchestration → 3-tier → memory-arch | atlas |
+| `/strategy-review` | moat → biz-model → growth-loop | atlas |
+| `/write-prd` | prd → instruction → ctx-budget | forge |
+| `/set-okr` | okr → kpi → north-star | forge+argus |
+| `/sprint` | stakeholder-map → agent-plan-review | forge |
+| `/health-check` | kpi → reliability → burn-rate | argus |
+| `/cost-review` | burn-rate → cost-sim → router | argus+oracle+atlas |
+| `/extract` | pm-framework (TK 포착) | muse |
+| `/decide` | pm-decision (패턴 매칭) | muse |
+| `/tk-to-instruction` | pm-engine → instruction | muse+forge |
+
+> 커맨드는 Claude Code 전용입니다. 다른 도구에서는 스킬만 개별 사용 가능합니다.
+
+### 플랫폼 규격과 콘텐츠 구조 — 2개 레이어
+
+AI_PM_Skills는 두 개의 독립된 레이어로 구성됩니다.
+
+```
+┌─ Platform Layer (Skills 2.0 규격) ──────────────────────────┐
+│  Claude Code가 정의한 스킬 플랫폼 규격                        │
+│  frontmatter · auto-invocation · subagent · hooks            │
+│  marketplace · evals · plugin directory structure             │
+├─ Content Layer (AI_PM_Skills 콘텐츠 구조) ──────────────────┤
+│  이 프로젝트가 정의한 스킬 콘텐츠 설계 패턴                    │
+│  Core Goal → Trigger Gate → Failure Handling                 │
+│  → Quality Gate → Examples                                   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Platform Layer**는 Claude Code가 스킬을 *발견하고 실행하는 방법*을 정의합니다. YAML frontmatter 스키마, 디렉토리 구조, `description` 기반 자동 호출 메커니즘이 여기에 해당합니다. 이 규격은 Claude Code가 제공하며, 2025년 Skills 1.0에서 2026년 Skills 2.0으로 진화했습니다.
+
+**Content Layer**는 스킬 안에 *무엇을 담느냐*의 문제입니다. 같은 플랫폼 위에서도 Trigger Gate 없이 만들면 스킬 간 충돌이 나고, Failure Handling 없이 만들면 프로덕션에서 문제가 생깁니다. AI_PM_Skills의 콘텐츠 구조(Core Goal → Trigger Gate → ... → Examples)는 이 레이어의 설계 패턴이며, 이 프로젝트 고유의 기여입니다.
+
+> 혼동 방지: 문서에서 "Skills 2.0"은 Claude Code의 **플랫폼 규격**을, "콘텐츠 구조"는 AI_PM_Skills의 **스킬 설계 패턴**을 지칭합니다.
+
+### Skills 1.0 vs Skills 2.0 비교
+
+Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로 진화했습니다. AI_PM_Skills는 Skills 2.0 규격 위에서 동작합니다.
+
+| 기능 | Skills 1.0 (2025) | Skills 2.0 (2026) | AI_PM_Skills 활용 |
+|------|-------------------|-------------------|-------------------|
+| **스킬 위치** | `.claude/commands/` | `.claude/skills/` + 플러그인 디렉토리 | ✅ 플러그인 디렉토리 구조 |
+| **Frontmatter** | 없음 (단순 마크다운) | `name`, `description`, `argument-hint`, `allowed-tools`, `context`, `agent`, `hooks` 등 | ✅ `name`, `description` (200자+), `argument-hint` |
+| **자동 호출** | ❌ 명시적 `/` 커맨드만 | ✅ `description` 매칭으로 자동 로드 | ✅ 96개 쿼리 97.9% 정확도 |
+| **커맨드 통합** | 커맨드와 스킬 분리 | 커맨드가 스킬 시스템에 통합 | ✅ 12개 커맨드 |
+| **서브에이전트** | ❌ | `context: fork`로 격리 실행 | ⬜ 미활용 |
+| **도구 제한** | ❌ | `allowed-tools`로 사용 도구 제한 | ⬜ 미활용 |
+| **동적 주입** | ❌ | `` !`command` `` 구문으로 다른 스킬 동적 포함 | ⬜ 미활용 |
+| **변수 치환** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}` 등 | ⬜ 미활용 |
+| **모델 지정** | ❌ | `model: haiku` 등 스킬별 모델 선택 | ⬜ 미활용 |
+| **Hooks** | ❌ | `hooks: PreToolUse, PostToolUse` | ⬜ 미활용 |
+| **마켓플레이스** | ❌ | `marketplace.json` 스키마 | ✅ 마켓플레이스 등록 |
+| **Eval 시스템** | ❌ | `evals.json` 스키마 | ✅ 10 tests, 54 assertions |
+
+### 미활용 Skills 2.0 기능 — 향후 로드맵
+
+현재 AI_PM_Skills가 활용하지 않는 Skills 2.0 기능과, 적용 시 기대 효과입니다.
+
+| 기능 | 적용 시나리오 | 기대 효과 |
+|------|-------------|----------|
+| `context: fork` | `premortem` 스킬이 별도 서브에이전트에서 코드 스캐닝 | 메인 컨텍스트 오염 없이 대규모 분석 |
+| `allowed-tools` | `cost-sim` 스킬이 계산기·웹 검색만 사용하도록 제한 | 의도치 않은 도구 호출 방지, 비용 절감 |
+| `` !`command` `` 동적 주입 | `/write-prd` 실행 시 GitHub 이슈를 동적으로 가져와 PRD에 반영 | 외부 데이터 실시간 연동 |
+| `$ARGUMENTS` 변수 | `/discover <topic>` 에서 토픽을 변수로 전달 | 커맨드 유연성 향상 |
+| `model: haiku` | 단순 분류 스킬(Trigger Gate 판단)은 Haiku로 실행 | 비용 40-60% 절감 |
+| `hooks` | 스킬 실행 전 입력 검증, 실행 후 결과 로깅 | 프로덕션 관찰 가능성 확보 |
+
+> 기여자가 이 기능들을 활용하는 PR을 보내주시면 환영합니다. [CONTRIBUTING.md](CONTRIBUTING.md) 참고.
 
 ---
 
@@ -198,28 +332,42 @@ AI_PM_Skills/
 
 ## 설치하기
 
-### Claude Cowork (GUI — CLI 불필요)
+### 방법 1: GitHub에서 마켓플레이스 등록 (권장)
 
-1. **Cowork**를 열고 새 세션을 시작하세요
-2. 사이드바에서 **Plugins**를 클릭
-3. `AI_PM_Skills`를 검색
-4. **Install** 클릭 — 5개 플러그인이 한번에 설치됩니다
-
-<!-- TODO: GitHub 업로드 후 설치 GIF 추가 -->
-<!-- ![설치 데모](docs/images/install-cowork.gif) -->
-
-### Claude Code (CLI)
+Claude Code에서 `/plugin` 명령어로 마켓플레이스를 등록한 뒤, 개별 플러그인을 설치합니다.
 
 ```bash
-# 마켓플레이스 설치 (5개 플러그인 한번에)
-claude plugin marketplace add kimsanguine/AI_PM_Skills
+# 1단계: 마켓플레이스 등록
+/plugin marketplace add kimsanguine/AI_PM_Skills
 
-# 또는 개별 설치
-claude plugin add oracle/    # 발견
-claude plugin add atlas/     # 설계
-claude plugin add forge/     # 실행
-claude plugin add argus/     # 운영
-claude plugin add muse/      # 학습
+# 2단계: 개별 플러그인 설치
+/plugin install oracle@kimsanguine-AI_PM_Skills
+/plugin install atlas@kimsanguine-AI_PM_Skills
+/plugin install forge@kimsanguine-AI_PM_Skills
+/plugin install argus@kimsanguine-AI_PM_Skills
+/plugin install muse@kimsanguine-AI_PM_Skills
+```
+
+> 설치 후 Claude Code를 재시작하면 스킬이 자동으로 로드됩니다.
+
+### 방법 2: 로컬에 클론해서 직접 로드
+
+GitHub에서 다운로드한 뒤 `--plugin-dir` 플래그로 직접 로드합니다.
+
+```bash
+# 레포 클론
+git clone https://github.com/kimsanguine/AI_PM_Skills.git
+
+# 개별 플러그인 로드 (원하는 것만)
+claude --plugin-dir ./AI_PM_Skills/oracle
+claude --plugin-dir ./AI_PM_Skills/forge
+
+# 또는 전체 로드
+claude --plugin-dir ./AI_PM_Skills/oracle \
+       --plugin-dir ./AI_PM_Skills/atlas \
+       --plugin-dir ./AI_PM_Skills/forge \
+       --plugin-dir ./AI_PM_Skills/argus \
+       --plugin-dir ./AI_PM_Skills/muse
 ```
 
 어떤 에이전트를 만들지 아직 모르겠다면 → `oracle`만 먼저 설치하세요.
@@ -227,12 +375,14 @@ claude plugin add muse/      # 학습
 
 ### 다른 AI 도구
 
+스킬 파일(SKILL.md)은 표준 마크다운이라 Claude Code 외 도구에서도 사용 가능합니다. 커맨드 체이닝(`/write-prd` 등)은 Claude Code 전용입니다.
+
 | 도구 | 스킬 | 커맨드 | 사용법 |
 |------|:----:|:------:|-------|
-| **Gemini CLI** | ✅ | ⚠️ 수동 | `.gemini/skills/`에 복사 |
-| **Cursor** | ✅ | ⚠️ 수동 | `.cursor/skills/`에 복사 |
-| **Codex CLI** | ✅ | ⚠️ 수동 | `.codex/skills/`에 복사 |
-| **Kiro** | ✅ | ⚠️ 수동 | `.kiro/skills/`에 복사 |
+| **Gemini CLI** | ✅ | ❌ | `.gemini/skills/`에 복사 |
+| **Cursor** | ✅ | ❌ | `.cursor/skills/`에 복사 |
+| **Codex CLI** | ✅ | ❌ | `.codex/skills/`에 복사 |
+| **Kiro** | ✅ | ❌ | `.kiro/skills/`에 복사 |
 
 ```bash
 # 전체 스킬을 다른 도구에 복사
@@ -250,12 +400,12 @@ done
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
-| `opp-tree` | 기회 트리 작성 | "뭘 자동화하면 좋을까?" |
-| `assumptions` | 4축 가정 검증 (가치/실현성/신뢰성/윤리) | "이거 진짜 만들어도 되나?" |
-| `build-or-buy` | 직접 구축 vs 외부 솔루션 판단 | "사서 쓸까 직접 만들까?" |
-| `hitl` | Human-in-the-Loop 범위 설정 | "어디까지 자동화하고 어디서 사람이 개입?" |
-| `cost-sim` | 토큰 비용 시뮬레이션 | "한 달에 얼마 들어?" |
-| `agent-gtm` | Go-to-Market 전략 | "출시를 어떻게 해야 하지?" |
+| `opp-tree` | 반복 빈도·자동화 적합성·판단 의존도 기준으로 기회 트리를 만들고 우선순위 매김 | "팀에 자동화 후보가 10개인데 뭐부터 해야 하지?" |
+| `assumptions` | 가치/실현성/신뢰성/윤리 4축으로 가정을 뽑고, 2일 내 검증 실험 설계 | "이 에이전트 만들기 전에 가장 위험한 가정이 뭐지?" |
+| `build-or-buy` | 차별화·속도·비용·커스텀·유지보수·도메인 6개 축 스코어링으로 Build/Buy/No-code 판단 | "Intercom 봇 vs 직접 만든 에이전트, 어떤 게 나아?" |
+| `hitl` | 되돌림 가능성×오류 영향 2축 매트릭스로 자동화 레벨(1-5)과 에스컬레이션 트리거 설정 | "환불 결정은 에이전트가 해도 되나, 사람이 봐야 하나?" |
+| `cost-sim` | 모델별 토큰 단가×호출 패턴으로 1→10→100→1,000 유저 시나리오 월비용 시뮬레이션 | "Sonnet으로 하루 500건 처리하면 한 달에 얼마야?" |
+| `agent-gtm` | 비치헤드 세그먼트 5기준 스코어링 + Shadow→Co-pilot→Auto→Delegation 신뢰 구축 시퀀스 | "B2B 고객사에 이 에이전트를 어떤 순서로 풀어야 하지?" |
 
 **커맨드:** `/discover` · `/validate`
 
@@ -275,13 +425,13 @@ done
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
-| `3-tier` | 3계층 멀티에이전트 설계 | "에이전트 여러 개를 어떻게 엮지?" |
-| `orchestration` | 오케스트레이션 패턴 선택 | "Sequential? Parallel? Router?" |
-| `biz-model` | 수익 모델 설계 | "이걸로 어떻게 돈 벌지?" |
-| `router` | LLM 모델 라우팅 | "이 작업에 Haiku? Sonnet? Opus?" |
-| `memory-arch` | 메모리 아키텍처 | "대화 기록을 어떻게 관리하지?" |
-| `moat` | 경쟁 해자 분석 | "경쟁사가 따라오면 어쩌지?" |
-| `growth-loop` | 데이터 플라이휠 설계 | "사용할수록 똑똑해지게 만들려면?" |
+| `3-tier` | Prometheus(전략)→Atlas(조율)→Worker(실행) 3계층 역할·통신·위임 설계 | "에이전트 5개를 엮어야 하는데 누가 뭘 관장하지?" |
+| `orchestration` | Sequential/Parallel/Router/Hierarchical 패턴 비교 후 지연·에러·비용 기준 선택 | "문서 처리 파이프라인을 직렬로 할지 병렬로 할지?" |
+| `biz-model` | 건당/구독/성과 기반 가격 설계 + 변동비 구조 분석으로 >70% 마진 달성 | "에이전트 API 콜당 과금 vs 월정액, 뭐가 나아?" |
+| `router` | 작업 복잡도별 T1-T4 모델 자동 분배 + 폴백 체인으로 40-80% 비용 절감 | "간단한 FAQ는 Haiku, 복잡한 분석은 Opus — 자동 라우팅?" |
+| `memory-arch` | Working/Episodic/Semantic/Procedural 4종 메모리 설계 + 토큰 한도 내 검색 전략 | "어제 대화 맥락을 오늘 세션에서 어떻게 불러오지?" |
+| `moat` | 데이터 플라이휠·워크플로우 종속·네트워크 효과·전환비용·전문화·브랜드 6종 해자 진단 | "경쟁사가 GPT 기반으로 비슷한 거 만들면 뭘로 방어하지?" |
+| `growth-loop` | 사용→데이터→개선→재사용 루프 설계 + 콜드스타트 해결 + 반(反)루프 식별 | "유저가 쓸수록 추천이 정확해지는 구조를 어떻게 만들지?" |
 
 **커맨드:** `/architecture` · `/strategy-review`
 
@@ -301,17 +451,17 @@ done
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
-| `instruction` | 인스트럭션 7요소 설계 | "에이전트한테 뭐라고 말해줘야 하지?" |
-| `prd` | 에이전트 전용 PRD | "기획서를 어떤 형식으로 쓰지?" |
-| `prompt` | PM 관점 프롬프트 설계 (CRISP) | "프롬프트를 어떻게 잘 짜지?" |
-| `ctx-budget` | 컨텍스트 윈도우 예산 | "128K 토큰을 어떻게 배분하지?" |
-| `okr` | 에이전트 OKR | "성공 기준을 어떻게 잡지?" |
-| `stakeholder-map` | 이해관계자 매핑 | "누가 찬성하고 누가 막지?" |
-| `agent-plan-review` | 구현 전 4축 검증 + Mermaid | "이 설계 괜찮은지 구현 전에 봐줘" |
-| `gemini-image-flow` | 이미지 생성 파이프라인 | "이미지 생성 에이전트를 어떻게 만들지?" |
-| `infographic-gif-creator` | 인포그래픽 GIF/MP4 | "이 아키텍처를 애니메이션으로 만들어줘" |
-| `pptx-ai-slide` | 에이전트 프레젠테이션 | "이 에이전트 피치 덱 만들어줘" |
-| `agent-demo-video` | Remotion 데모 영상 | "이해관계자용 데모 영상 만들어줘" |
+| `instruction` | Role/Context/Goal/Tools/Memory/Output/Failure 7요소 + 최소 권한 원칙 적용 | "에이전트 시스템 프롬프트에 뭘 넣고 뭘 빼야 하지?" |
+| `prd` | 인스트럭션/도구/메모리/트리거/출력/실패 복구 7섹션 에이전트 전용 명세서 | "일반 PRD 말고, 환각 복구·도구 권한까지 담긴 기획서?" |
+| `prompt` | CRISP(Context/Role/Instruction/Scope/Parameters) + Why-First 원칙 + 7대 실패 패턴 회피 | "프롬프트가 길어질수록 에이전트가 이상하게 행동해" |
+| `ctx-budget` | 파일별 토큰 소비 추정 → 필수/조건부/제외 분류 → 70% 임계치 경고 | "RAG 문서 5개 + 대화 히스토리를 128K에 어떻게 넣지?" |
+| `okr` | 비즈니스 임팩트(시간·비용·에러 절감) + 운영 건강(정확도·비용·신뢰성) 2축 OKR + 필수 비용 KR | "에이전트 성공을 '정확도 95%'만으로 측정해도 되나?" |
+| `stakeholder-map` | Power-Interest 매트릭스 + 유형별 블로커 대응 전략 + 내부 챔피언 육성 | "법무팀이 에이전트 도입을 반대하는데 어떻게 설득하지?" |
+| `agent-plan-review` | 스코프/아키텍처/인스트럭션/신뢰성 4축 검증 + 실패 모드 매트릭스(5+종) + Mermaid 시각화 | "코딩 시작 전에 이 설계의 구멍을 찾아줘" |
+| `gemini-image-flow` | Gemini API Phase 0-7 단계별 이미지 생성 파이프라인 + 모델 티어 선택(Flash/Pro) | "스케치→코드, 이미지→마케팅 소재 파이프라인을 만들고 싶어" |
+| `infographic-gif-creator` | 에이전트 아키텍처·워크플로우·데이터 흐름을 HTML/CSS→GIF/MP4 애니메이션으로 변환 | "멀티에이전트 구조를 경영진에게 1분 애니메이션으로 보여줘" |
+| `pptx-ai-slide` | 에이전트 프로젝트를 스토리 기반 슬라이드로 변환 (피치/리뷰/투자자용) | "다음 주 이사회에서 이 에이전트를 10장 슬라이드로 설명해야 해" |
+| `agent-demo-video` | 화면 녹화+아키텍처 애니메이션+나레이션+자막을 Remotion으로 합성 | "비개발자 이해관계자에게 에이전트가 뭘 하는지 영상으로 보여줘" |
 
 **커맨드:** `/write-prd` · `/set-okr` · `/sprint`
 
@@ -331,14 +481,14 @@ done
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
-| `kpi` | 운영+비즈니스 KPI | "어떤 지표를 봐야 하지?" |
-| `reliability` | 신뢰성 점검 | "에이전트가 엉뚱한 답을 하면?" |
-| `premortem` | 실패 모드 분석 (FMEA) | "출시 전에 뭐가 터질 수 있지?" |
-| `burn-rate` | 비용 추적/최적화 | "비용이 왜 이렇게 늘었지?" |
-| `north-star` | North Star Metric | "궁극적 성공 지표는?" |
-| `agent-ab-test` | A/B 테스트 | "프롬프트 변경 효과가 진짜야?" |
-| `cohort` | 코호트 분석 | "버전별 성능이 어떻게 변하지?" |
-| `incident` | 장애 대응 프로토콜 | "에이전트가 터졌는데 어떻게 하지?" |
+| `kpi` | 운영 5-7개(지연시간/성공률/에러율) + 비즈니스(완료율/만족도/건당비용) 지표 정의 + 선행·후행 분류 | "에이전트 대시보드에 어떤 지표를 넣어야 하지?" |
+| `reliability` | P95/P99 최악 시나리오 정량화 + 입력/모델/연동 유형별 안전장치 + SLA 등급(Basic→Critical) 설정 | "에이전트가 100건 중 3건 환각인데, 이게 허용 범위야?" |
+| `premortem` | 심각도×발생확률×탐지난이도 RPN 스코어로 10-15개 실패 모드 사전 식별 + 분기 재점검 | "출시 전에 '이건 터지면 안 되는데' 리스트를 만들어줘" |
+| `burn-rate` | 모델별·작업유형별·유저세그먼트별 토큰 비용 시각화 + 스파이크 감지 + 월 예산 상한 알림 | "지난주 대비 토큰 비용 40% 증가 — 원인이 뭐야?" |
+| `north-star` | 실행가능·측정가능·책임자·방향성·실현가능 5기준으로 단일 핵심 지표 선정 + 반(反)지표 설정 | "KPI가 8개인데 팀이 뭘 최우선으로 봐야 할지 모르겠어" |
+| `agent-ab-test` | MDE(최소 탐지 효과) 산출 + 동시 실행(순차 아님) + LLM 비결정성 통제 + p-value 검증 | "프롬프트 A vs B 중 뭐가 나은지 통계적으로 확인하고 싶어" |
+| `cohort` | 배포 코호트별 4주+ 관측 + 샘플≥100 + 외부 변수 통제로 버전간 성능 변화 추적 | "v2.1로 올렸는데 이전 버전보다 정말 나아졌어?" |
+| `incident` | 사일런트 실패 감지 + 심각도 분류 + 피해 범위 차단 + 5 Whys(3회+) 포스트모템 | "에이전트가 30분째 응답이 없는데 알림도 안 왔어" |
 
 **커맨드:** `/health-check` · `/cost-review`
 
@@ -358,9 +508,9 @@ done
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
-| `pm-framework` | TK-NNN 암묵지 분류 | "내 경험을 체계적으로 정리하고 싶어" |
-| `pm-decision` | 6가지 의사결정 패턴 | "이 상황에서 어떻게 판단하지?" |
-| `pm-engine` | PM-ENGINE-MEMORY 인터페이스 | "축적된 TK를 에이전트에 주입하고 싶어" |
+| `pm-framework` | 경험 속 판단 기준을 TK-NNN 유닛으로 구조화 (활성/비활성 조건 포함) + 지식 그래프 연결 | "3년간 에이전트 운영하면서 배운 것들이 머릿속에만 있어" |
+| `pm-decision` | 반복되는 PM 의사결정 상황의 맥락·판단 기준·알려진 실패를 패턴 라이브러리로 축적 | "이 상황은 예전에도 겪었는데, 그때 왜 그렇게 결정했더라?" |
+| `pm-engine` | TK 지식 그래프를 에이전트가 실행 중 동적 참조 + 하루 1TK 자동 추출 + 인스트럭션 자동 갱신 | "내가 축적한 운영 노하우를 에이전트가 알아서 활용하게 만들고 싶어" |
 
 **커맨드:** `/extract` · `/decide` · `/tk-to-instruction`
 

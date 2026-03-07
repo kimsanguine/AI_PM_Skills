@@ -74,9 +74,11 @@ Full compliance with Claude Code's official spec — marketplace JSON schema, pl
 
 When building agents, the question always comes up: "Should this be an MCP server or a skill?" This skillset guides the architectural decision of how to divide external API connections (MCP) and domain knowledge (Skills) at design time.
 
-### 6. v1.0 Structural Rigor
+### 6. Content Structural Rigor
 
-Every skill follows a consistent v1.0 structure: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. The Trigger Gate (Use / Route / Boundary) ensures the right skill fires for the right task. The Failure Handling table covers detection and fallback for each failure mode. The Quality Gate is a self-check before delivery. This isn't formatting — it's the difference between a prompt and a production-grade skill.
+Every skill follows a consistent content structure: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. The Trigger Gate (Use / Route / Boundary) ensures the right skill fires for the right task. The Failure Handling table covers detection and fallback for each failure mode. The Quality Gate is a self-check before delivery. This isn't formatting — it's the difference between a prompt and a production-grade skill.
+
+> This content structure is a separate layer from Claude's "Skills 2.0" platform spec. See [Skill Internals](#skill-internals) below for how the two layers relate.
 
 ---
 
@@ -99,6 +101,138 @@ Plugin (oracle)
 ```
 
 > Skills are standard SKILL.md files — they work with Gemini CLI, Cursor, Codex CLI, and Kiro too.
+
+---
+
+## Skill Internals
+
+### Auto-Invocation
+
+You don't call skills by name. **Describe your task in natural language, and Claude matches it against each SKILL.md's `description` field to auto-load the best fit.**
+
+```
+User:  "How does the agent recover from hallucination?"
+         ↓
+Claude: description matching → reliability skill auto-loads
+         ↓
+Skill:  Trigger Gate check → condition met → skill executes
+```
+
+Trigger accuracy is **97.9%** across 96 test queries. Every skill's `description` is 200+ characters long with explicit "Use when..." trigger patterns.
+
+### SKILL.md Content Structure
+
+All 35 skills follow the same content structure:
+
+```
+┌─────────────────────────────────────────────┐
+│  Frontmatter                                │
+│  - name, description (200+ chars), arg-hint │
+├─────────────────────────────────────────────┤
+│  Core Goal          ← 1-2 sentence purpose  │
+├─────────────────────────────────────────────┤
+│  Trigger Gate                               │
+│  - Use: when to use this skill              │
+│  - Route: when to redirect to another skill │
+│  - Boundary: what's out of scope            │
+├─────────────────────────────────────────────┤
+│  Concepts + Procedures   ← main content     │
+├─────────────────────────────────────────────┤
+│  Failure Handling                           │
+│  - Failure mode │ Detection │ Fallback      │
+├─────────────────────────────────────────────┤
+│  Quality Gate     ← pre-delivery checklist  │
+├─────────────────────────────────────────────┤
+│  Examples         ← good/bad output signals │
+└─────────────────────────────────────────────┘
+```
+
+The **Trigger Gate** is the key innovation. Use / Route / Boundary conditions determine whether this skill should fire, redirect to another, or declare out-of-scope — eliminating skill collisions.
+
+### Command Chaining
+
+Commands (`/write-prd`, `/discover`, etc.) chain multiple skills into sequential workflows.
+
+```
+/discover customer support automation
+  ① opp-tree     → opportunity mapping
+  ② assumptions  → assumption validation
+  ③ build-or-buy → feasibility scoring
+  → consolidated report
+```
+
+| Command | Chained Skills | Plugin |
+|---------|---------------|--------|
+| `/discover` | opp-tree → assumptions → build-or-buy | oracle |
+| `/validate` | assumptions → hitl → cost-sim | oracle |
+| `/architecture` | orchestration → 3-tier → memory-arch | atlas |
+| `/strategy-review` | moat → biz-model → growth-loop | atlas |
+| `/write-prd` | prd → instruction → ctx-budget | forge |
+| `/set-okr` | okr → kpi → north-star | forge+argus |
+| `/sprint` | stakeholder-map → agent-plan-review | forge |
+| `/health-check` | kpi → reliability → burn-rate | argus |
+| `/cost-review` | burn-rate → cost-sim → router | argus+oracle+atlas |
+| `/extract` | pm-framework (TK capture) | muse |
+| `/decide` | pm-decision (pattern matching) | muse |
+| `/tk-to-instruction` | pm-engine → instruction | muse+forge |
+
+> Commands are Claude Code only. Other tools can use individual skills but not command chaining.
+
+### Platform Spec vs Content Structure — Two Layers
+
+AI_PM_Skills is built on two independent layers.
+
+```
+┌─ Platform Layer (Skills 2.0 Spec) ──────────────────────────┐
+│  Skill platform spec defined by Claude Code                  │
+│  frontmatter · auto-invocation · subagent · hooks            │
+│  marketplace · evals · plugin directory structure             │
+├─ Content Layer (AI_PM_Skills Structure) ─────────────────────┤
+│  Skill content design pattern defined by this project        │
+│  Core Goal → Trigger Gate → Failure Handling                 │
+│  → Quality Gate → Examples                                   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Platform Layer** defines *how Claude Code discovers and executes skills*. YAML frontmatter schema, directory structure, and `description`-based auto-invocation live here. This spec is provided by Claude Code and evolved from Skills 1.0 (2025) to Skills 2.0 (2026).
+
+**Content Layer** is about *what goes inside each skill*. On the same platform, skills without Trigger Gates cause collisions, and skills without Failure Handling break in production. AI_PM_Skills' content structure (Core Goal → Trigger Gate → ... → Examples) is the design pattern for this layer — and this project's unique contribution.
+
+> To avoid confusion: "Skills 2.0" in this doc refers to Claude Code's **platform spec**. "Content structure" refers to AI_PM_Skills' **skill design pattern**.
+
+### Skills 1.0 vs Skills 2.0
+
+Claude Code's skill platform evolved from Skills 1.0 (2025) to Skills 2.0 (2026). AI_PM_Skills runs on Skills 2.0.
+
+| Feature | Skills 1.0 (2025) | Skills 2.0 (2026) | AI_PM_Skills Usage |
+|---------|-------------------|-------------------|-------------------|
+| **Skill location** | `.claude/commands/` | `.claude/skills/` + plugin directories | ✅ Plugin directory structure |
+| **Frontmatter** | None (plain markdown) | `name`, `description`, `argument-hint`, `allowed-tools`, `context`, `agent`, `hooks`, etc. | ✅ `name`, `description` (200+ chars), `argument-hint` |
+| **Auto-invocation** | ❌ Explicit `/` commands only | ✅ Auto-load via `description` matching | ✅ 97.9% accuracy on 96 queries |
+| **Command integration** | Commands and skills separate | Commands merged into skill system | ✅ 12 commands |
+| **Subagent execution** | ❌ | `context: fork` for isolated execution | ⬜ Not yet used |
+| **Tool restriction** | ❌ | `allowed-tools` limits available tools | ⬜ Not yet used |
+| **Dynamic injection** | ❌ | `` !`command` `` syntax to include other skills | ⬜ Not yet used |
+| **Variable substitution** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}`, etc. | ⬜ Not yet used |
+| **Model selection** | ❌ | `model: haiku` per-skill model override | ⬜ Not yet used |
+| **Hooks** | ❌ | `hooks: PreToolUse, PostToolUse` | ⬜ Not yet used |
+| **Marketplace** | ❌ | `marketplace.json` schema | ✅ Marketplace registration |
+| **Eval system** | ❌ | `evals.json` schema | ✅ 10 tests, 54 assertions |
+
+### Unused Skills 2.0 Features — Future Roadmap
+
+Skills 2.0 features not yet utilized by AI_PM_Skills, with potential applications.
+
+| Feature | Scenario | Expected Impact |
+|---------|----------|----------------|
+| `context: fork` | `premortem` skill runs code scanning in an isolated subagent | Large-scale analysis without polluting main context |
+| `allowed-tools` | `cost-sim` restricted to calculator + web search only | Prevents unintended tool calls, reduces cost |
+| `` !`command` `` dynamic injection | `/write-prd` dynamically pulls GitHub issues into PRD | Real-time external data integration |
+| `$ARGUMENTS` variables | `/discover <topic>` passes topic as a variable | More flexible commands |
+| `model: haiku` | Simple classification skills (Trigger Gate decisions) run on Haiku | 40-60% cost reduction |
+| `hooks` | Pre-execution input validation, post-execution result logging | Production observability |
+
+> PRs that adopt these features are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -198,28 +332,42 @@ AI_PM_Skills/
 
 ## Installation
 
-### Claude Cowork (GUI — no CLI needed)
+### Option 1: Register via GitHub Marketplace (Recommended)
 
-1. Open **Cowork** and start a new session
-2. Click **Plugins** in the sidebar
-3. Search for `AI_PM_Skills`
-4. Click **Install** — all 5 plugins are added at once
-
-<!-- TODO: Add installation GIF after GitHub upload -->
-<!-- ![Installation demo](docs/images/install-cowork.gif) -->
-
-### Claude Code (CLI)
+Register the marketplace in Claude Code, then install individual plugins.
 
 ```bash
-# Marketplace install (all 5 plugins at once)
-claude plugin marketplace add kimsanguine/AI_PM_Skills
+# Step 1: Register marketplace
+/plugin marketplace add kimsanguine/AI_PM_Skills
 
-# Or install individually
-claude plugin add oracle/    # Discovery
-claude plugin add atlas/     # Architecture
-claude plugin add forge/     # Execution
-claude plugin add argus/     # Monitoring
-claude plugin add muse/      # Knowledge
+# Step 2: Install individual plugins
+/plugin install oracle@kimsanguine-AI_PM_Skills
+/plugin install atlas@kimsanguine-AI_PM_Skills
+/plugin install forge@kimsanguine-AI_PM_Skills
+/plugin install argus@kimsanguine-AI_PM_Skills
+/plugin install muse@kimsanguine-AI_PM_Skills
+```
+
+> Restart Claude Code after installation to load the skills.
+
+### Option 2: Clone and Load Locally
+
+Clone from GitHub and load directly with `--plugin-dir`.
+
+```bash
+# Clone the repo
+git clone https://github.com/kimsanguine/AI_PM_Skills.git
+
+# Load individual plugins (pick what you need)
+claude --plugin-dir ./AI_PM_Skills/oracle
+claude --plugin-dir ./AI_PM_Skills/forge
+
+# Or load all at once
+claude --plugin-dir ./AI_PM_Skills/oracle \
+       --plugin-dir ./AI_PM_Skills/atlas \
+       --plugin-dir ./AI_PM_Skills/forge \
+       --plugin-dir ./AI_PM_Skills/argus \
+       --plugin-dir ./AI_PM_Skills/muse
 ```
 
 Not sure which agent to build yet? → Start with `oracle`.
@@ -227,12 +375,14 @@ Already know what to build? → Start with `forge`.
 
 ### Other AI Tools
 
+Skill files (SKILL.md) are standard Markdown — they work outside Claude Code too. Command chaining (`/write-prd`, etc.) is Claude Code only.
+
 | Tool | Skills | Commands | How to use |
 |------|:------:|:--------:|-----------|
-| **Gemini CLI** | ✅ | ⚠️ Manual | Copy to `.gemini/skills/` |
-| **Cursor** | ✅ | ⚠️ Manual | Copy to `.cursor/skills/` |
-| **Codex CLI** | ✅ | ⚠️ Manual | Copy to `.codex/skills/` |
-| **Kiro** | ✅ | ⚠️ Manual | Copy to `.kiro/skills/` |
+| **Gemini CLI** | ✅ | ❌ | Copy to `.gemini/skills/` |
+| **Cursor** | ✅ | ❌ | Copy to `.cursor/skills/` |
+| **Codex CLI** | ✅ | ❌ | Copy to `.codex/skills/` |
+| **Kiro** | ✅ | ❌ | Copy to `.kiro/skills/` |
 
 ```bash
 # Copy all skills to another tool
@@ -250,12 +400,12 @@ done
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `opp-tree` | Opportunity Solution Tree | "What should we automate?" |
-| `assumptions` | 4-axis validation (Value/Feasibility/Reliability/Ethics) | "Should we really build this?" |
-| `build-or-buy` | Build vs buy decision | "Buy a solution or build our own?" |
-| `hitl` | Human-in-the-Loop scope | "Where does the human step in?" |
-| `cost-sim` | Token cost simulation | "How much per month?" |
-| `agent-gtm` | Go-to-Market strategy | "How do we launch this?" |
+| `opp-tree` | Build an opportunity tree scored by repeat frequency, automation fit, and judgment dependency | "We have 10 automation candidates — which one first?" |
+| `assumptions` | Extract riskiest assumptions across 4 axes (Value/Feasibility/Reliability/Ethics) and design 2-day validation experiments | "What's the biggest risk before we start building?" |
+| `build-or-buy` | Score Build vs Buy vs No-code across 6 axes (differentiation, speed, cost, customization, maintenance, domain) | "Should we use Intercom's bot or build our own agent?" |
+| `hitl` | Set automation levels (1-5) and escalation triggers via reversibility × error-impact matrix | "Can the agent decide refunds, or must a human approve?" |
+| `cost-sim` | Simulate monthly costs at 1→10→100→1,000 users by model pricing × call patterns | "Sonnet at 500 calls/day — what's the monthly bill?" |
+| `agent-gtm` | Score beachhead segments (5 criteria) + design Shadow→Co-pilot→Auto→Delegation trust sequence | "How do we roll this agent out to B2B customers?" |
 
 **Commands:** `/discover` · `/validate`
 
@@ -275,13 +425,13 @@ done
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `3-tier` | 3-tier multi-agent design (Prometheus-Atlas-Worker) | "How do I wire multiple agents together?" |
-| `orchestration` | Orchestration pattern selection | "Sequential? Parallel? Router?" |
-| `biz-model` | Revenue model design | "How do we monetize this?" |
-| `router` | Per-task LLM model selection | "Haiku for this? Sonnet? Opus?" |
-| `memory-arch` | Memory architecture design | "How do we manage conversation history?" |
-| `moat` | Competitive moat analysis | "What if competitors copy us?" |
-| `growth-loop` | Data flywheel design | "How does it get smarter with use?" |
+| `3-tier` | Design Prometheus (strategy) → Atlas (coordination) → Worker (execution) roles, comms, and delegation | "I need 5 agents — who controls whom?" |
+| `orchestration` | Compare Sequential/Parallel/Router/Hierarchical patterns by latency, error rate, and cost | "Should my doc pipeline run serial or parallel?" |
+| `biz-model` | Design per-use / subscription / outcome-based pricing + variable cost analysis targeting >70% margin | "Per-API-call billing or monthly flat fee?" |
+| `router` | Auto-route tasks to T1-T4 models by complexity + fallback chains for 40-80% cost reduction | "Simple FAQ → Haiku, complex analysis → Opus — auto?" |
+| `memory-arch` | Design Working/Episodic/Semantic/Procedural memory layers + token-budget-aware retrieval | "How does today's session recall yesterday's context?" |
+| `moat` | Diagnose 6 moat types: data flywheel, workflow lock-in, network effects, switching costs, specialization, brand | "A competitor ships a GPT clone — what's our defense?" |
+| `growth-loop` | Design usage→data→improvement→re-use loops + cold-start solutions + anti-loop identification | "How do we make recommendations improve with every use?" |
 
 **Commands:** `/architecture` · `/strategy-review`
 
@@ -301,17 +451,17 @@ done
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `instruction` | 7-element instruction design | "What do I tell the agent?" |
-| `prd` | Agent-specific PRD | "What format for the spec?" |
-| `prompt` | PM-perspective prompt design (CRISP) | "How do I write better prompts?" |
-| `ctx-budget` | Context window budget | "How to split 128K tokens?" |
-| `okr` | Agent OKR | "What does success look like?" |
-| `stakeholder-map` | Stakeholder mapping | "Who's for it, who's against it?" |
-| `agent-plan-review` | 4-axis pre-implementation review + Mermaid | "Sanity check before coding" |
-| `gemini-image-flow` | Image generation pipeline | "How to build an image gen agent?" |
-| `infographic-gif-creator` | Animated infographic GIF/MP4 | "Visualize this architecture as an animation" |
-| `pptx-ai-slide` | Agent presentation deck | "Make a pitch deck for this agent" |
-| `agent-demo-video` | Remotion-based demo video | "Create a demo video for stakeholders" |
+| `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
+| `prd` | 7-section agent spec: Instruction/Tools/Memory/Triggers/Output/Failure with dual narrative (tech + biz) | "I need a PRD that covers hallucination recovery and tool permissions" |
+| `prompt` | CRISP framework (Context/Role/Instruction/Scope/Parameters) + Why-First principle + 7 failure pattern avoidance | "Longer prompts make my agent behave worse" |
+| `ctx-budget` | Estimate per-file token usage → classify Essential/Conditional/Excluded → 70% threshold alerts | "How do I fit 5 RAG docs + chat history into 128K?" |
+| `okr` | Dual-axis OKRs: Business Impact (time/cost/error savings) + Operational Health (accuracy/cost/reliability) with mandatory cost KR | "Is 95% accuracy enough, or do I need cost metrics too?" |
+| `stakeholder-map` | Power-Interest matrix + blocker-by-type response strategies + internal champion cultivation | "Legal is blocking the agent rollout — how do I get buy-in?" |
+| `agent-plan-review` | Scope/Architecture/Instruction/Reliability 4-axis review + failure mode matrix (5+ types) + Mermaid output | "Find the holes in this design before we start coding" |
+| `gemini-image-flow` | End-to-end Gemini API image pipeline (Phase 0-7) with model tier selection (Flash/Pro) | "Build a sketch→code or image→marketing asset pipeline" |
+| `infographic-gif-creator` | Convert agent architecture / workflow / data flows into HTML/CSS → GIF/MP4 animations | "Show the multi-agent flow to execs in a 1-min animation" |
+| `pptx-ai-slide` | Translate agent project into story-driven slide decks (pitch / review / investor variants) | "I present to the board next week — 10 slides max" |
+| `agent-demo-video` | Compose screen recordings + architecture animations + narration + subtitles via Remotion | "Show non-technical stakeholders what the agent actually does" |
 
 **Commands:** `/write-prd` · `/set-okr` · `/sprint`
 
@@ -331,14 +481,14 @@ done
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `kpi` | Operational + business KPIs | "What metrics should I track?" |
-| `reliability` | Reliability audit | "The agent gives wrong answers" |
-| `premortem` | Failure mode analysis (FMEA) | "What could blow up at launch?" |
-| `burn-rate` | Cost tracking/optimization | "Why did costs spike?" |
-| `north-star` | North Star Metric | "What's the ultimate success metric?" |
-| `agent-ab-test` | A/B test design | "Is the prompt change actually better?" |
-| `cohort` | Cohort analysis | "How does performance change over versions?" |
-| `incident` | Incident response protocol | "The agent is down — what do we do?" |
+| `kpi` | Define 5-7 operational (latency/success/error rate) + business (completion/satisfaction/cost-per-task) metrics with leading/lagging split | "What goes on the agent dashboard?" |
+| `reliability` | Quantify P95/P99 worst cases + design safeguards by input/model/integration failure type + set SLA tiers (Basic→Critical) | "3 out of 100 responses hallucinate — is that acceptable?" |
+| `premortem` | Score 10-15 failure modes by Severity × Likelihood × Detection Difficulty (RPN) + quarterly re-review | "Give me a 'this must not break' list before launch" |
+| `burn-rate` | Visualize token costs by model/task/segment + spike detection + monthly budget caps with alerts | "Token costs jumped 40% this week — what caused it?" |
+| `north-star` | Select one metric via 5 criteria (Actionable/Measurable/Owner/Directional/Feasible) + set anti-metrics | "We track 8 KPIs but the team doesn't know which one matters most" |
+| `agent-ab-test` | Calculate MDE + run concurrent (not sequential) experiments + control for LLM nondeterminism + p-value validation | "Prompt A vs B — is the difference real or just noise?" |
+| `cohort` | Track performance by deployment cohort (4-week minimum, n≥100) + control external variables | "Did v2.1 actually improve over v2.0?" |
+| `incident` | Detect silent failures + triage severity + contain blast radius + 5 Whys postmortem (3+ iterations) | "The agent has been silent for 30 minutes — no alerts fired" |
 
 **Commands:** `/health-check` · `/cost-review`
 
@@ -358,9 +508,9 @@ done
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `pm-framework` | TK-NNN tacit knowledge classification | "I want to structure my experience" |
-| `pm-decision` | 6 core PM decision patterns | "How should I decide in this situation?" |
-| `pm-engine` | PM-ENGINE-MEMORY interface | "Inject my accumulated TK into agents" |
+| `pm-framework` | Convert implicit judgment into TK-NNN units with activation/deactivation conditions + knowledge graph linking | "3 years of agent ops experience is stuck in my head" |
+| `pm-decision` | Build a pattern library of recurring PM decisions with context, criteria, and known failures | "I've seen this situation before — why did I decide that way?" |
+| `pm-engine` | Agents dynamically query TK knowledge graph at runtime + auto-extract 1 TK/day + auto-update instructions | "I want my agents to leverage my operational know-how automatically" |
 
 **Commands:** `/extract` · `/decide` · `/tk-to-instruction`
 
