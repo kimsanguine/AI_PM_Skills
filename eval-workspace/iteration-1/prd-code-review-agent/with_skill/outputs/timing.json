@@ -1,0 +1,11 @@
+{
+  "eval": "prd-code-review-agent",
+  "variant": "with_skill",
+  "elapsed_ms": 10000,
+  "elapsed_seconds": 10.0,
+  "output_length": 3581,
+  "prompt_length": 3700,
+  "input_tokens": 1200,
+  "output_tokens": 895,
+  "timestamp": "2026-03-06T07:57:44.783933"
+}

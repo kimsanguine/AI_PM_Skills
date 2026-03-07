@@ -1,0 +1,43 @@
+{
+  "eval_id": 8,
+  "eval_name": "premortem-content-moderation",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output identifies false positive and false negative failure modes",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output addresses bias-related risks",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output considers regulatory/legal failure modes",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output assigns severity ratings to each failure mode",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output provides concrete mitigation strategies",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output includes escalation or human-in-the-loop fallback",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

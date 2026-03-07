@@ -1,0 +1,18 @@
+[
+  {
+    "query": "에이전트 모니터링 대시보드를 세팅하려는데, 어떤 KPI를 트래킹해야 할지 정의해줘. 운영 메트릭이랑 비즈니스 메트릭 둘 다.",
+    "should_trigger": true
+  },
+  {
+    "query": "What metrics should I track for our deployed translation agent? I need both operational health indicators and business impact measurements.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 Instruction을 설계해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 비즈니스 모델을 설계해줘.",
+    "should_trigger": false
+  }
+]

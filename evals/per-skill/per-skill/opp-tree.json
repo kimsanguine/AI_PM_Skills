@@ -1,0 +1,18 @@
+[
+  {
+    "query": "우리 CS팀에서 반복적으로 하는 업무가 많은데, 어떤 부분을 에이전트로 자동화하면 좋을지 기회를 체계적으로 분석해줘. 현재 티켓 분류, FAQ 응답, 에스컬레이션 판단을 수동으로 하고 있어.",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm a PM at an edtech startup and we want to explore where AI agents could add value in our tutoring platform. Students currently wait 2-3 hours for tutor responses. Help me map out the opportunity space.",
+    "should_trigger": true
+  },
+  {
+    "query": "우리 팀 OKR 작성 좀 도와줘. 이번 분기 목표는 MAU 20% 성장이야.",
+    "should_trigger": false
+  },
+  {
+    "query": "React로 대시보드 컴포넌트 만들어줘. 차트랑 필터 들어가야 해.",
+    "should_trigger": false
+  }
+]

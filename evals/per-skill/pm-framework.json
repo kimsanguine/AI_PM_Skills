@@ -1,0 +1,18 @@
+[
+  {
+    "query": "오늘 미팅에서 중요한 인사이트가 나왔어. '유저는 기능이 아니라 결과를 산다'는 걸 다시 느꼈는데, 이걸 TK 유닛으로 구조화해서 PM-ENGINE에 저장해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "I just realized that every time we skip user research before building, we end up rebuilding 3 months later. Help me capture this as a structured tacit knowledge unit for my PM knowledge base.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 모델 라우팅 전략을 설계해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 개발 스프린트를 계획해줘.",
+    "should_trigger": false
+  }
+]

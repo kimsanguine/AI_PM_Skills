@@ -1,0 +1,38 @@
+{
+  "eval_id": 3,
+  "eval_name": "3-tier-research-system",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output defines Prometheus layer role and responsibilities",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+    },
+    {
+      "text": "Output defines Atlas layer role and responsibilities",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+    },
+    {
+      "text": "Output defines at least 2 Worker types with specific tasks",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+    },
+    {
+      "text": "Output includes communication protocol between layers",
+      "passed": true,
+      "evidence": "Found: structured output, communication protocol, PRD sections"
+    },
+    {
+      "text": "Output includes a delegation strategy or task decomposition flow",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "query": "데이터 분석 에이전트의 PRD를 작성해줘. Instruction, Tools, Memory, Trigger, Output, Failure handling 전부 포함해서. 기존 BI 대시보드와 연동해야 해.",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a formal spec document for our content generation agent before handing it off to engineering. Should cover the agent's capabilities, failure modes, and integration points.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 오케스트레이션 패턴을 선택해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "PM 암묵지를 추출하고 TK 유닛으로 구조화해줘.",
+    "should_trigger": false
+  }
+]

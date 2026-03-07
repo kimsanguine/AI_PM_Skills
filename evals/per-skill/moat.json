@@ -1,0 +1,18 @@
+[
+  {
+    "query": "우리 AI 에이전트 제품이 경쟁사 대비 어떤 해자를 갖고 있는지 분석해줘. 데이터 플라이휠, 네트워크 효과, 전환 비용 관점에서 봐줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "We're worried competitors can easily replicate our AI agent. Help me analyze what competitive advantages we have and design strategies to build a sustainable moat.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 PRD를 작성해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트의 context window 토큰 예산을 계획해줘.",
+    "should_trigger": false
+  }
+]

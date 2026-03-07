@@ -1,0 +1,43 @@
+{
+  "eval_id": 5,
+  "eval_name": "prd-onboarding-agent",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output contains an Instruction section defining the agent's role and behavior",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output contains a Tools section listing required tools including Slack",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output contains a Memory section (what the agent remembers)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output contains Triggers section (when the agent activates)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output contains Failure handling or fallback strategy",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output includes success metrics or KPIs",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "query": "우리 에이전트가 간단한 질문은 Haiku로, 복잡한 분석은 Sonnet으로, 코딩은 Opus로 보내고 싶어. 태스크별 모델 라우팅 전략을 설계해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "My agent handles both simple FAQ responses and complex reasoning tasks. How should I route between GPT-4o-mini and GPT-4o to optimize cost without sacrificing quality?",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트의 KPI를 정의하고 모니터링 대시보드를 만들고 싶어.",
+    "should_trigger": false
+  },
+  {
+    "query": "이번 에이전트 기회를 OST로 분석해줘.",
+    "should_trigger": false
+  }
+]

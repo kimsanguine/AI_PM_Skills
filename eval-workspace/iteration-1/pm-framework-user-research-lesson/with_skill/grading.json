@@ -1,0 +1,38 @@
+{
+  "eval_id": 10,
+  "eval_name": "pm-framework-user-research-lesson",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output creates a structured TK unit with clear naming",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output captures the core insight about workarounds vs stated needs",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, workaround identification"
+    },
+    {
+      "text": "Output defines when to apply this knowledge (trigger/context)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output includes a decision framework or heuristic",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output shows how to embed this knowledge in an agent instruction",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

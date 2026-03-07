@@ -1,0 +1,13 @@
+{
+  "eval_id": 10,
+  "eval_name": "pm-framework-user-research-lesson",
+  "prompt": "After 3 years of running user interviews, I've learned that the most valuable insights come not from what users say they want, but from the workarounds they've built. When a user shows me a spreadsheet hack or a manual process, that's where the real opportunity is. Capture this as a TK unit.",
+  "expected_output": "Structured TK unit capturing the interview insight pattern",
+  "expectations": [
+    "Output creates a structured TK unit with clear naming",
+    "Output captures the core insight about workarounds vs stated needs",
+    "Output defines when to apply this knowledge (trigger/context)",
+    "Output includes a decision framework or heuristic",
+    "Output shows how to embed this knowledge in an agent instruction"
+  ]
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "query": "4개의 에이전트가 협업하는 시스템인데, Sequential로 할지 Parallel로 할지 Router 패턴을 쓸지 고민이야. 각 에이전트는 독립적으로 동작 가능하지만 결과를 합쳐야 해.",
+    "should_trigger": true
+  },
+  {
+    "query": "How should I orchestrate agents that handle translation, summarization, and sentiment analysis? They can run independently but I need to combine results. What pattern fits best?",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 토큰 비용을 추적하고 예산을 관리하고 싶어.",
+    "should_trigger": false
+  },
+  {
+    "query": "TK 엔트리를 에이전트 인스트럭션으로 변환해줘.",
+    "should_trigger": false
+  }
+]

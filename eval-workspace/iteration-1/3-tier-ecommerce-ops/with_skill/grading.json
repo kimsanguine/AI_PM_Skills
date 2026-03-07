@@ -1,0 +1,38 @@
+{
+  "eval_id": 4,
+  "eval_name": "3-tier-ecommerce-ops",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output has a clear 3-layer hierarchy (Prometheus/Atlas/Worker)",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, layer definitions, PRD sections"
+    },
+    {
+      "text": "Output defines 3 distinct workers: inventory, pricing, review analysis",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+    },
+    {
+      "text": "Output specifies how Atlas coordinates between workers",
+      "passed": true,
+      "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+    },
+    {
+      "text": "Output addresses error handling or fallback behavior",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output includes data flow or communication pattern between agents",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

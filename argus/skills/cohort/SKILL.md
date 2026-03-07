@@ -1,0 +1,141 @@
+---
+name: cohort
+description: "Track and analyze agent performance by deployment cohort — compare versions, measure retention, and identify degradation patterns over time. Use when monitoring agent releases, tracking version-over-version improvements, or diagnosing performance drift across user segments."
+argument-hint: "[agent to analyze cohorts for]"
+---
+
+# Agent Cohort Analysis
+
+> 에이전트 코호트 분석 — 버전별, 기간별, 세그먼트별 성능 추적
+
+## 개념
+
+에이전트 코호트 분석은 "지금 성능이 좋은가?"가 아니라 "시간이 지나면서 어떻게 변하는가?"를 추적한다. 모델 업데이트, 프롬프트 변경, 데이터 드리프트가 성능을 서서히 깎을 수 있다. 코호트로 추적하지 않으면 "언제부터 나빠졌는지" 모른 채 사후 대응하게 된다.
+
+## Instructions
+
+You are performing **cohort analysis** for: **$ARGUMENTS**
+
+### Step 1 — Cohort Definition
+
+에이전트 코호트를 정의합니다:
+
+**시간 기반 코호트** (가장 일반적)
+```
+Cohort = 에이전트 버전 배포 시점
+  v1.0 (2024-01 배포) — Baseline
+  v1.1 (2024-02 배포) — Prompt 개선
+  v1.2 (2024-03 배포) — Model 변경 (Sonnet → Haiku)
+  v2.0 (2024-04 배포) — Architecture 변경
+```
+
+**세그먼트 기반 코호트**
+```
+Cohort = 사용자 또는 사용 유형
+  Segment A: 내부 사용자 (직원)
+  Segment B: 외부 사용자 (고객)
+  Segment C: API 연동 (시스템)
+```
+
+**TK 기반 코호트** (이 스킬셋 고유)
+```
+Cohort = TK 축적 수준
+  Phase 1: TK 0~10개 (초기)
+  Phase 2: TK 11~50개 (도메인 전문가)
+  Phase 3: TK 51~100개 (복합 판단)
+  Phase 4: TK 100+개 (PM 분신)
+```
+
+### Step 2 — Metric Tracking Matrix
+
+| 메트릭 | Cohort 1 | Cohort 2 | Cohort 3 | 추세 |
+|--------|----------|----------|----------|------|
+| Task Accuracy | | | | ↗/→/↘ |
+| Avg Response Time | | | | |
+| Token Cost / Task | | | | |
+| User Reuse Rate | | | | |
+| Escalation Rate | | | | |
+| Hallucination Rate | | | | |
+
+**Week-over-Week 비교:**
+- 각 코호트의 첫 1주, 4주, 12주 성능 비교
+- 같은 코호트 내 시간에 따른 변화 추적
+- 코호트 간 같은 시점 성능 비교
+
+### Step 3 — Retention Curve
+
+에이전트 재사용률(리텐션)을 코호트별로 추적합니다:
+
+```
+        Week 0  Week 1  Week 2  Week 4  Week 8  Week 12
+v1.0    100%    [%]     [%]     [%]     [%]     [%]
+v1.1    100%    [%]     [%]     [%]     [%]     [%]
+v2.0    100%    [%]     [%]     [%]     [%]     [%]
+```
+
+**해석 가이드:**
+- Week 1 리텐션 < 40% → 온보딩 문제 또는 초기 품질 부족
+- Week 4 리텐션 < 20% → 핵심 가치 미전달
+- Week 12 리텐션 > 30% → 건강한 제품 (에이전트 기준)
+- 리텐션 곡선이 평탄해지는 지점 = Natural Usage Frequency
+
+### Step 4 — Degradation Detection
+
+성능 저하 패턴을 식별합니다:
+
+**Sudden Drop** (급락)
+- 원인: 모델 API 변경, 외부 데이터 소스 장애
+- 대응: 즉시 이전 버전 롤백 + 원인 분석
+
+**Gradual Decline** (점진적 하락)
+- 원인: 데이터 드리프트, 컨텍스트 윈도우 오염, 프롬프트 노후화
+- 대응: 주간 메트릭 리뷰 + 프롬프트 리프레시 주기 설정
+
+**Seasonal Pattern** (주기적 변동)
+- 원인: 사용 패턴 변화 (주중/주말, 월초/월말)
+- 대응: 정상 범위 설정 + 범위 이탈 시만 알림
+
+**Cohort-Specific Decline** (특정 코호트만 하락)
+- 원인: 세그먼트별 요구사항 차이, A/B 테스트 잔류 효과
+- 대응: 세그먼트별 프롬프트 분기 또는 모델 라우팅
+
+### Step 5 — Improvement Prioritization
+
+코호트 분석 결과를 개선 액션으로 연결합니다:
+
+```
+Priority Matrix:
+  Impact (성능 개선 크기) × Reach (영향받는 유저 수) = Priority Score
+
+Action Plan:
+  1. [Priority 1]: [action] — 예상 효과: [metric] +[N]%
+  2. [Priority 2]: [action] — 예상 효과: [metric] +[N]%
+  3. [Priority 3]: [action] — 예상 효과: [metric] +[N]%
+```
+
+### Output
+
+```
+Cohort Analysis: [agent name]
+──────────────────────────────
+Cohorts Analyzed: [N]
+Best Performing: [cohort] — [primary metric]: [value]
+Worst Performing: [cohort] — [primary metric]: [value]
+Retention (Week 4): [%]
+Degradation Pattern: [type or none]
+Top Improvement: [action] — Expected: [metric] +[N]%
+Next Review: [date]
+```
+
+---
+
+### 참고
+- 설계자: Sanguine Kim (이든), 2026-03
+- TK 기반 코호트: TK-NNN 축적 수준별 성능 변화 추적
+- agent-ab-test 스킬과 상호 보완 (A/B 결과 → 코호트 추적)
+
+---
+
+## Further Reading
+- Amplitude, "Mastering Retention" — Cohort analysis and retention curve interpretation
+- Alistair Croll & Benjamin Yoskovitz, *Lean Analytics* — Cohort metrics for product growth

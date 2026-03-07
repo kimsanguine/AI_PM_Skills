@@ -1,0 +1,14 @@
+{
+  "eval_id": 6,
+  "eval_name": "prd-code-review-agent",
+  "prompt": "Design an Agent PRD for an automated code review agent. It should review PRs on GitHub, check for security vulnerabilities, code style, and performance issues. It should post comments directly on the PR. Include failure modes.",
+  "expected_output": "Complete agent PRD covering all standard sections with GitHub integration specifics",
+  "expectations": [
+    "Output includes Instruction with clear agent role definition",
+    "Output lists Tools including GitHub API integration",
+    "Output defines what triggers the agent (e.g., PR creation/update)",
+    "Output specifies Output format (PR comments, review summary)",
+    "Output includes Failure handling with specific failure scenarios",
+    "Output addresses security or permission considerations"
+  ]
+}

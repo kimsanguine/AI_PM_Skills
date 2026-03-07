@@ -1,0 +1,18 @@
+[
+  {
+    "query": "고객 응대 에이전트를 GPT-4o로 만들려는데, 하루 1000건 처리 기준으로 월 비용이 얼마나 나올지 시뮬레이션해줘. 평균 대화 턴은 5회 정도야.",
+    "should_trigger": true
+  },
+  {
+    "query": "We want to estimate the token costs for our document analysis agent before getting budget approval. Each doc is ~10 pages, we process 200/day, using Claude Sonnet.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 reliability를 개선하고 싶어. 에러율이 높아.",
+    "should_trigger": false
+  },
+  {
+    "query": "경쟁사 분석 좀 해줘. 우리 에이전트 제품의 경쟁 우위가 뭔지 알고 싶어.",
+    "should_trigger": false
+  }
+]

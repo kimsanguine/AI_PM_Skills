@@ -1,0 +1,18 @@
+[
+  {
+    "query": "에이전트 제품의 North Star 메트릭을 정의해줘. KPI가 너무 많아서 팀이 뭘 집중해야 할지 모르겠어. 하나의 핵심 지표로 정렬하고 싶어.",
+    "should_trigger": true
+  },
+  {
+    "query": "We have 15 different metrics for our agent but no clarity on what matters most. Help me define a single North Star metric that connects operational performance to business value.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 PRD를 작성해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "의사결정 패턴을 적용해줘.",
+    "should_trigger": false
+  }
+]

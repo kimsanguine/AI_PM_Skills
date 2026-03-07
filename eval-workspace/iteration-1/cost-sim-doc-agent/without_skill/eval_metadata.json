@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "cost-sim-doc-agent",
+  "prompt": "We're building a document analysis agent that processes 200 legal contracts per day. Each contract is about 15 pages (~6000 tokens). The agent needs to extract key clauses and summarize them. Model: Claude Sonnet. Estimate the monthly API costs and suggest ways to reduce them.",
+  "expected_output": "Monthly cost estimate with token breakdown, cost per document, optimization strategies like caching or chunking",
+  "expectations": [
+    "Output contains monthly cost estimate with specific dollar amount",
+    "Output shows cost per document processed",
+    "Output includes token consumption calculation",
+    "Output provides at least 2 cost reduction strategies",
+    "Output considers both input and output token pricing"
+  ]
+}

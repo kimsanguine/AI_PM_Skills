@@ -1,4 +1,31 @@
+# PM-ENGINE personal data (each user's own tacit knowledge)
+PM-ENGINE-MEMORY.md
+**/PM-ENGINE-MEMORY.md
+
+# OS files
 .DS_Store
-**/.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if skills use npm)
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Environment
 .env
-*.log
+.env.local
+
+# Claude Code local state
+.claude/

@@ -1,0 +1,43 @@
+{
+  "eval_id": 7,
+  "eval_name": "premortem-support-agent",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output identifies at least 5 distinct failure modes",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output assigns severity and likelihood scores to each failure",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output calculates risk priority (RPN or equivalent)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output provides prevention/mitigation strategy for each failure",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output considers domain-specific risks (financial compliance)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output includes a prioritized action plan",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

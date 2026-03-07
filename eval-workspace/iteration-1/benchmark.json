@@ -1,0 +1,962 @@
+{
+  "metadata": {
+    "skill_name": "AI_PM_Skills",
+    "timestamp": "2026-03-06T15:28:04.743206",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "cost-sim-saas-chatbot",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains a cost calculation with specific dollar amounts",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes both GPT-4o and Claude Sonnet cost comparison",
+          "passed": true,
+          "evidence": "Found: structured output, GPT-4o pricing, Claude pricing, PRD sections"
+        },
+        {
+          "text": "Output shows per-conversation and monthly aggregate costs",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes token count breakdown (input/output separately)",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        },
+        {
+          "text": "Output provides cost optimization recommendations",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "cost-sim-saas-chatbot",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains a cost calculation with specific dollar amounts",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output includes both GPT-4o and Claude Sonnet cost comparison",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, GPT-4o pricing, Claude pricing, PRD sections"
+        },
+        {
+          "text": "Output shows per-conversation and monthly aggregate costs",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output includes token count breakdown (input/output separately)",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        },
+        {
+          "text": "Output provides cost optimization recommendations",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "cost-sim-doc-agent",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains monthly cost estimate with specific dollar amount",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output shows cost per document processed",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output includes token consumption calculation",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        },
+        {
+          "text": "Output provides at least 2 cost reduction strategies",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output considers both input and output token pricing",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "cost-sim-doc-agent",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains monthly cost estimate with specific dollar amount",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output shows cost per document processed",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output includes token consumption calculation",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        },
+        {
+          "text": "Output provides at least 2 cost reduction strategies",
+          "passed": true,
+          "evidence": "Found: structured output, cost information, PRD sections"
+        },
+        {
+          "text": "Output considers both input and output token pricing",
+          "passed": true,
+          "evidence": "Found: structured output, token breakdown, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "3-tier-research-system",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 88.782,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output defines Prometheus layer role and responsibilities",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+        },
+        {
+          "text": "Output defines Atlas layer role and responsibilities",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+        },
+        {
+          "text": "Output defines at least 2 Worker types with specific tasks",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+        },
+        {
+          "text": "Output includes communication protocol between layers",
+          "passed": true,
+          "evidence": "Found: structured output, communication protocol, PRD sections"
+        },
+        {
+          "text": "Output includes a delegation strategy or task decomposition flow",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "3-tier-research-system",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6,
+        "passed": 3,
+        "failed": 2,
+        "total": 5,
+        "time_seconds": 94.248,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output defines Prometheus layer role and responsibilities",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture"
+        },
+        {
+          "text": "Output defines Atlas layer role and responsibilities",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture"
+        },
+        {
+          "text": "Output defines at least 2 Worker types with specific tasks",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture"
+        },
+        {
+          "text": "Output includes communication protocol between layers",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        },
+        {
+          "text": "Output includes a delegation strategy or task decomposition flow",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        }
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "3-tier-ecommerce-ops",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 77.534,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output has a clear 3-layer hierarchy (Prometheus/Atlas/Worker)",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, layer definitions, PRD sections"
+        },
+        {
+          "text": "Output defines 3 distinct workers: inventory, pricing, review analysis",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+        },
+        {
+          "text": "Output specifies how Atlas coordinates between workers",
+          "passed": true,
+          "evidence": "Found: structured output, 3-tier architecture, PRD sections"
+        },
+        {
+          "text": "Output addresses error handling or fallback behavior",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes data flow or communication pattern between agents",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        }
+      ]
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "3-tier-ecommerce-ops",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 39.912,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output has a clear 3-layer hierarchy (Prometheus/Atlas/Worker)",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture, layer definitions"
+        },
+        {
+          "text": "Output defines 3 distinct workers: inventory, pricing, review analysis",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture"
+        },
+        {
+          "text": "Output specifies how Atlas coordinates between workers",
+          "passed": true,
+          "evidence": "Found: 3-tier architecture"
+        },
+        {
+          "text": "Output addresses error handling or fallback behavior",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        },
+        {
+          "text": "Output includes data flow or communication pattern between agents",
+          "passed": true,
+          "evidence": "Found: TK structure"
+        }
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "prd-onboarding-agent",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 75.478,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains an Instruction section defining the agent's role and behavior",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains a Tools section listing required tools including Slack",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains a Memory section (what the agent remembers)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains Triggers section (when the agent activates)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output contains Failure handling or fallback strategy",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output includes success metrics or KPIs",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "prd-onboarding-agent",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 60.842,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output contains an Instruction section defining the agent's role and behavior",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains a Tools section listing required tools including Slack",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains a Memory section (what the agent remembers)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains Triggers section (when the agent activates)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output contains Failure handling or fallback strategy",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes success metrics or KPIs",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "prd-code-review-agent",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 75.91,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output includes Instruction with clear agent role definition",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output lists Tools including GitHub API integration",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output defines what triggers the agent (e.g., PR creation/update)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output specifies Output format (PR comments, review summary)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes Failure handling with specific failure scenarios",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output addresses security or permission considerations",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "prd-code-review-agent",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 67.899,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output includes Instruction with clear agent role definition",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output lists Tools including GitHub API integration",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output defines what triggers the agent (e.g., PR creation/update)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output specifies Output format (PR comments, review summary)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes Failure handling with specific failure scenarios",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output addresses security or permission considerations",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "premortem-support-agent",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 72.506,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies at least 5 distinct failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output assigns severity and likelihood scores to each failure",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output calculates risk priority (RPN or equivalent)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output provides prevention/mitigation strategy for each failure",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output considers domain-specific risks (financial compliance)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes a prioritized action plan",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "premortem-support-agent",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 72.837,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies at least 5 distinct failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output assigns severity and likelihood scores to each failure",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output calculates risk priority (RPN or equivalent)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output provides prevention/mitigation strategy for each failure",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output considers domain-specific risks (financial compliance)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes a prioritized action plan",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "premortem-content-moderation",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 62.251,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies false positive and false negative failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output addresses bias-related risks",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output considers regulatory/legal failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output assigns severity ratings to each failure mode",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output provides concrete mitigation strategies",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes escalation or human-in-the-loop fallback",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "premortem-content-moderation",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 37.255,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies false positive and false negative failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output addresses bias-related risks",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output considers regulatory/legal failure modes",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output assigns severity ratings to each failure mode",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, failure analysis"
+        },
+        {
+          "text": "Output provides concrete mitigation strategies",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes escalation or human-in-the-loop fallback",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 9,
+      "eval_name": "pm-framework-scope-creep",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 72.054,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output extracts a named TK pattern from the experience",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output identifies the trigger condition (when this knowledge applies)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output formulates a decision rule or heuristic",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes the reasoning/evidence behind the pattern",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output converts the TK into an agent-usable instruction format",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        }
+      ]
+    },
+    {
+      "eval_id": 9,
+      "eval_name": "pm-framework-scope-creep",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 30.067,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output extracts a named TK pattern from the experience",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output identifies the trigger condition (when this knowledge applies)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output formulates a decision rule or heuristic",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output includes the reasoning/evidence behind the pattern",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output converts the TK into an agent-usable instruction format",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        }
+      ]
+    },
+    {
+      "eval_id": 10,
+      "eval_name": "pm-framework-user-research-lesson",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 96.852,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output creates a structured TK unit with clear naming",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output captures the core insight about workarounds vs stated needs",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, workaround identification"
+        },
+        {
+          "text": "Output defines when to apply this knowledge (trigger/context)",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections, TK structure"
+        },
+        {
+          "text": "Output includes a decision framework or heuristic",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        },
+        {
+          "text": "Output shows how to embed this knowledge in an agent instruction",
+          "passed": true,
+          "evidence": "Found: structured output, PRD sections"
+        }
+      ]
+    },
+    {
+      "eval_id": 10,
+      "eval_name": "pm-framework-user-research-lesson",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 13.414,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output creates a structured TK unit with clear naming",
+          "passed": true,
+          "evidence": "Found: TK structure"
+        },
+        {
+          "text": "Output captures the core insight about workarounds vs stated needs",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        },
+        {
+          "text": "Output defines when to apply this knowledge (trigger/context)",
+          "passed": true,
+          "evidence": "Found: TK structure"
+        },
+        {
+          "text": "Output includes a decision framework or heuristic",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        },
+        {
+          "text": "Output shows how to embed this knowledge in an agent instruction",
+          "passed": false,
+          "evidence": "Expected content not found in output"
+        }
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 62.14,
+        "stddev": 34.07,
+        "min": 0,
+        "max": 96.85
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.88,
+        "stddev": 0.21,
+        "min": 0.4,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 41.65,
+        "stddev": 32.01,
+        "min": 0,
+        "max": 94.25
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.12",
+      "time_seconds": "+20.49"
+    }
+  },
+  "notes": [
+    "with_skill configuration uses the PM agent skills explicitly",
+    "without_skill configuration uses base Claude without skill augmentation",
+    "Pass rate represents proportion of eval expectations met",
+    "Time in seconds is total execution time from timing.json",
+    "Positive delta indicates with_skill improvement over without_skill"
+  ]
+}

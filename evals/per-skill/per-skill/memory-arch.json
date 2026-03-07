@@ -1,0 +1,18 @@
+[
+  {
+    "query": "우리 상담 에이전트가 이전 대화를 기억하게 만들고 싶어. 단기 컨텍스트, 장기 저장, 검색 전략을 포함한 메모리 아키텍처를 설계해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "How should I design memory for a coding assistant agent that needs to remember project context, user preferences, and past debugging sessions across multiple conversations?",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 Instruction을 7개 요소로 설계해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "이 에이전트의 가정을 4축으로 분석해줘.",
+    "should_trigger": false
+  }
+]

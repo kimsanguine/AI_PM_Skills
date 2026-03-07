@@ -1,0 +1,18 @@
+[
+  {
+    "query": "PM-ENGINE-MEMORY에서 '스코프 크리프' 관련 TK를 검색해줘. 예전에 저장한 실패 패턴이 있을 거야.",
+    "should_trigger": true
+  },
+  {
+    "query": "I want to convert my tacit knowledge about stakeholder management into an agent instruction that can be embedded in a system prompt. Pull the relevant TK entries from my memory file.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 가정을 4축으로 분석해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 reliability를 리뷰해줘.",
+    "should_trigger": false
+  }
+]

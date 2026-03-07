@@ -1,0 +1,18 @@
+[
+  {
+    "query": "스코프를 줄일지 일정을 늘릴지 결정해야 하는데, 예전에 비슷한 상황에서 어떤 패턴으로 판단했는지 매칭해줘. 인지 편향 체크도.",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm stuck choosing between two feature directions — one is safer but incremental, the other is risky but could be a game-changer. Help me apply a structured decision framework from my PM experience.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트의 cost를 시뮬레이션해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 오케스트레이션 패턴을 골라줘.",
+    "should_trigger": false
+  }
+]

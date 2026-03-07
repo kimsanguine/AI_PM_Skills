@@ -1,0 +1,13 @@
+{
+  "eval_id": 3,
+  "eval_name": "3-tier-research-system",
+  "prompt": "리서치 자동화 시스템을 멀티에이전트로 설계하고 싶어. 유저가 리서치 주제를 입력하면, 여러 소스에서 정보를 수집하고, 분석해서, 최종 리포트를 만드는 시스템이야. Prometheus-Atlas-Worker 패턴으로 설계해줘.",
+  "expected_output": "3-tier architecture with Prometheus (strategy), Atlas (coordination), Workers (execution) clearly defined with communication protocols",
+  "expectations": [
+    "Output defines Prometheus layer role and responsibilities",
+    "Output defines Atlas layer role and responsibilities",
+    "Output defines at least 2 Worker types with specific tasks",
+    "Output includes communication protocol between layers",
+    "Output includes a delegation strategy or task decomposition flow"
+  ]
+}

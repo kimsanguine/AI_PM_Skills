@@ -1,0 +1,18 @@
+[
+  {
+    "query": "배포된 고객 서비스 에이전트의 OKR을 설계해줘. 비즈니스 임팩트(응답 시간 단축, CSAT 향상)와 운영 건강도(에러율, 비용 효율) 두 축으로.",
+    "should_trigger": true
+  },
+  {
+    "query": "We need quarterly OKRs for our AI agent portfolio. Help me define objectives and key results that balance business impact with operational reliability.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트의 pre-mortem 분석을 해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 메모리 아키텍처를 설계해줘.",
+    "should_trigger": false
+  }
+]

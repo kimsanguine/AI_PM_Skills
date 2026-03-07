@@ -1,0 +1,18 @@
+[
+  {
+    "query": "에이전트 System Prompt가 일관성 없는 결과를 내고 있어. CRISP 프레임워크로 다시 작성해줘. Context/Role/Instruction/Scope/Parameters 다 포함해서.",
+    "should_trigger": true
+  },
+  {
+    "query": "I wrote this agent instruction but it keeps hallucinating product features. Help me engineer a better prompt — I think the scope and constraints aren't clear enough.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트의 build-or-buy 결정을 내려야 해.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 주간 health check를 실행해줘.",
+    "should_trigger": false
+  }
+]

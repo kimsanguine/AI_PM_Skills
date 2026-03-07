@@ -1,0 +1,43 @@
+{
+  "eval_id": 6,
+  "eval_name": "prd-code-review-agent",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Output includes Instruction with clear agent role definition",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output lists Tools including GitHub API integration",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output defines what triggers the agent (e.g., PR creation/update)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output specifies Output format (PR comments, review summary)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output includes Failure handling with specific failure scenarios",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, failure analysis"
+    },
+    {
+      "text": "Output addresses security or permission considerations",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

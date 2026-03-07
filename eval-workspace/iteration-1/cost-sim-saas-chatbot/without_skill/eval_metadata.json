@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "cost-sim-saas-chatbot",
+  "prompt": "고객 상담 챗봇 에이전트를 GPT-4o로 구축하려고 해. 하루 평균 500건 상담, 건당 평균 5턴 대화, 입력 평균 200토큰 출력 평균 300토큰이야. 월 비용을 시뮬레이션해줘. 그리고 Claude Sonnet으로 바꿨을 때 비용 비교도.",
+  "expected_output": "GPT-4o와 Claude Sonnet 각각의 월간 토큰 비용 계산, 비교표, 비용 최적화 제안",
+  "expectations": [
+    "Output contains a cost calculation with specific dollar amounts",
+    "Output includes both GPT-4o and Claude Sonnet cost comparison",
+    "Output shows per-conversation and monthly aggregate costs",
+    "Output includes token count breakdown (input/output separately)",
+    "Output provides cost optimization recommendations"
+  ]
+}

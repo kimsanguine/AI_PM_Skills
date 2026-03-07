@@ -1,0 +1,239 @@
+================================================================================
+PRD SKILL EVALUATION — FINAL SUMMARY
+================================================================================
+
+PROJECT: 260306_AgentSkills
+SKILL: forge/skills/prd/SKILL.md
+DATE: 2026-03-06
+EVALUATIONS: EVAL 5 & EVAL 6
+
+================================================================================
+EVALUATION OVERVIEW
+================================================================================
+
+EVAL 5: prd-onboarding-agent
+  Prompt: 신규 입사자 온보딩 가이드 에이전트의 PRD를 작성해줘... (Korean)
+  
+EVAL 6: prd-code-review-agent
+  Prompt: Design an Agent PRD for an automated code review agent... (English)
+
+Each evaluation run with TWO variants:
+  1. WITH_SKILL: Full SKILL.md injected as context
+  2. WITHOUT_SKILL: Plain prompt without skill reference
+
+================================================================================
+DETAILED RESULTS
+================================================================================
+
+EVAL 5 — prd-onboarding-agent
+────────────────────────────────────────────────────────────────────────────
+
+WITH_SKILL:
+  Output size:      5,080 characters
+  Duration:         75,478 ms (75.48 seconds)
+  Input tokens:     3
+  Cache creation:   28,733 tokens
+  Output tokens:    4,186
+  Total tokens:     32,922
+  Cost:             $0.28424625
+  
+  Structure: 7-section Agent PRD (Overview, Instructions, Tools, Memory, Triggers, Output, Failure Handling)
+  Quality: High — agent-specific, explicit anti-goals, detailed failure scenarios
+
+WITHOUT_SKILL:
+  Output size:      4,808 characters
+  Duration:         60,842 ms (60.84 seconds)
+  Input tokens:     3
+  Output tokens:    3,543
+  Total tokens:     4,641 (NO CACHE)
+  Cost:             $0.10379325
+  
+  Structure: Traditional PRD (Overview, Users, Features, Checklists)
+  Quality: Good — practical but less agent-focused, fewer safety constraints
+
+Comparison:
+  Size ratio:       5,080 / 4,808 = 1.06x (with_skill 6% longer)
+  Duration change:  +24.1% (with_skill slower)
+  Cost multiplier:  2.74x (with_skill 174% more expensive)
+  Quality gain:     +Structure, +Agent-focus, +Anti-Goals, +Failure modes
+
+────────────────────────────────────────────────────────────────────────────
+
+EVAL 6 — prd-code-review-agent
+────────────────────────────────────────────────────────────────────────────
+
+WITH_SKILL:
+  Output size:      6,390 characters
+  Duration:         75,910 ms (75.91 seconds)
+  Input tokens:     3
+  Cache creation:   28,733 tokens
+  Output tokens:    5,483
+  Total tokens:     14,259
+  Cost:             $0.17821650
+  
+  Structure: 7-section Agent PRD with explicit failure mode table (8 scenarios)
+  Quality: High — structured, agent-centric, actionable failure responses
+
+WITHOUT_SKILL:
+  Output size:      10,526 characters
+  Duration:         67,899 ms (67.90 seconds)
+  Input tokens:     3
+  Output tokens:    3,661
+  Total tokens:     4,081 (NO CACHE)
+  Cost:             $0.09076825
+  
+  Structure: Traditional PRD (Overview, Problem, Features, UX flow, Metrics)
+  Quality: Good — comprehensive but verbose and less structured
+
+Comparison:
+  Size ratio:       6,390 / 10,526 = 0.61x (with_skill 39% SHORTER)
+  Duration change:  +11.8% (with_skill slower)
+  Cost multiplier:  1.96x (with_skill 96% more expensive)
+  Quality gain:     +Conciseness, +Tool clarity, +Failure detail, +Agent focus
+
+================================================================================
+CROSS-EVALUATION PATTERNS
+================================================================================
+
+Output Size Impact:
+  EVAL 5: Neutral (with_skill slightly longer)
+  EVAL 6: Favorable (with_skill much shorter)
+  Pattern: Skill encourages focused, structured output; without_skill tends verbose
+
+Duration Impact:
+  EVAL 5: +24.1% overhead with skill
+  EVAL 6: +11.8% overhead with skill
+  Average: +17.6% overhead (skill requires template parsing/following)
+
+Cost Impact:
+  EVAL 5: 2.74x multiplier (skill cache: 28,733 tokens)
+  EVAL 6: 1.96x multiplier (same cache: 28,733 tokens)
+  Pattern: Cache cost high but amortized in EVAL 6 due to larger output
+
+Structure Adoption:
+  EVAL 5 (Korean): Strong adoption of 7-section template
+  EVAL 6 (English): Strong adoption of 7-section template
+  Pattern: Language doesn't affect structure, both followed skill precisely
+
+================================================================================
+KEY METRICS SUMMARY TABLE
+================================================================================
+
+Run | Eval                   | Variant      | Duration | Tokens  | Cost      | Size
+────┼────────────────────────┼──────────────┼──────────┼─────────┼───────────┼────────
+  1 | prd-onboarding-agent   | with_skill   | 75.48s   | 32,922  | $0.2842   | 5,080
+  2 | prd-onboarding-agent   | without_skill| 60.84s   | 4,641   | $0.1038   | 4,808
+  3 | prd-code-review-agent  | with_skill   | 75.91s   | 14,259  | $0.1782   | 6,390
+  4 | prd-code-review-agent  | without_skill| 67.90s   | 4,081   | $0.0908   | 10,526
+────┴────────────────────────┴──────────────┴──────────┴─────────┴───────────┴────────
+
+TOTALS:
+  Total cost:            $0.6570 USD
+  Total duration:        280.13 seconds (4 min 40 sec)
+  Average per eval:      $0.1643 / 70.03 seconds
+  with_skill premium:    +$0.5674 (+333% total cost)
+  Avg with_skill cost:   $0.2312 (2.35x without_skill)
+
+================================================================================
+SKILL EFFECTIVENESS RATINGS
+================================================================================
+
+DIMENSION                              | RATING | NOTES
+───────────────────────────────────────┼────────┼──────────────────────────
+Structural Enforcement                 | ⭐⭐⭐⭐⭐ | Consistently applied 7-section framework
+Anti-Goals Clarity                     | ⭐⭐⭐⭐⭐ | Explicit and actionable (4-5 items)
+Failure Scenario Coverage              | ⭐⭐⭐⭐⭐ | 6-8 scenarios with detection + response
+Tool/Integration Detail                | ⭐⭐⭐⭐⭐ | Explicit table with constraints
+Agent-Specific Guidance                | ⭐⭐⭐⭐⭐ | Instructions, Memory, Triggers sections
+Memory Strategy Design                 | ⭐⭐⭐⭐⭐ | 3-layer memory planning
+───────────────────────────────────────┼────────┼──────────────────────────
+Cost Efficiency                        | ⭐⭐    | 2.35x base cost (cache penalty)
+Duration Efficiency                    | ⭐⭐⭐  | ~18% overhead vs. without
+Brevity                                | ⭐⭐⭐  | Mixed: EVAL 5 longer, EVAL 6 shorter
+───────────────────────────────────────┼────────┼──────────────────────────
+OVERALL RECOMMENDATION                 | ⭐⭐⭐⭐ | Use for structured, production PRDs;
+                                       |        | Skip for rapid prototyping/cost-sensitive
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+USE WITH_SKILL when:
+  ✓ Strict architectural structure required
+  ✓ Complex agents with multiple failure modes
+  ✓ Team/portfolio standardization needed
+  ✓ Quality > cost/speed (production PRDs)
+  ✓ Agent specifications for implementation
+  ✓ Documentation must include explicit anti-goals
+
+USE WITHOUT_SKILL when:
+  ✓ Rapid MVP/prototype PRDs
+  ✓ Cost-sensitive projects
+  ✓ Narrative/flowing prose preferred
+  ✓ Using cached results from prior requests
+  ✓ Non-standard agent architectures
+  ✓ Want more comprehensive user-facing docs
+
+OPTIMIZATION OPPORTUNITIES:
+  1. Test cache reuse across multiple PRD requests (same skill, different agents)
+  2. Explore hybrid: skill for structure, then prompt for customization
+  3. Measure long-term cache hits (multiple evals same skill)
+  4. Test skill effectiveness across non-English languages (Korean worked well)
+  5. Benchmark against other PRD frameworks
+
+================================================================================
+OUTPUT LOCATIONS
+================================================================================
+
+Base directory: /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/eval-workspace/iteration-1/
+
+prd-onboarding-agent/:
+  with_skill/
+    outputs/result.md          [5,080 chars]
+    outputs/timing.json
+    timing.json
+  without_skill/
+    outputs/result.md          [4,808 chars]
+    outputs/timing.json
+    timing.json
+
+prd-code-review-agent/:
+  with_skill/
+    outputs/result.md          [6,390 chars]
+    outputs/timing.json
+    timing.json
+  without_skill/
+    outputs/result.md          [10,526 chars]
+    outputs/timing.json
+    timing.json
+
+Reports:
+  PRD_EVAL_REPORT.md                [comprehensive analysis]
+  METRICS_SUMMARY.txt               [this file]
+
+================================================================================
+CONCLUSION
+================================================================================
+
+The PRD skill is HIGHLY EFFECTIVE for creating structured, agent-specific
+product requirements documents. It enforces a 7-section template that prevents
+deviation to traditional product PRD formats and ensures comprehensive coverage
+of agent-specific concerns:
+
+  ✓ Instructions (role, goals, anti-goals)
+  ✓ Tools & Integrations (with permission boundaries)
+  ✓ Memory Strategy (working, long-term, procedural)
+  ✓ Trigger & Execution (clear flow diagrams)
+  ✓ Output Specification (format + examples)
+  ✓ Failure Handling (scenarios with detection + response)
+
+COST: 2.35x premium over baseline (mostly from prompt caching)
+TIME: 17.6% overhead (template parsing/following)
+QUALITY: Significant improvement in structure and completeness
+
+VERDICT: Worth the cost premium for production agent specs; consider
+         without_skill for prototypes to save $0.10-0.15 per run.
+
+================================================================================
+END OF SUMMARY
+================================================================================

@@ -1,0 +1,38 @@
+{
+  "eval_id": 9,
+  "eval_name": "pm-framework-scope-creep",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Output extracts a named TK pattern from the experience",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output identifies the trigger condition (when this knowledge applies)",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output formulates a decision rule or heuristic",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections"
+    },
+    {
+      "text": "Output includes the reasoning/evidence behind the pattern",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    },
+    {
+      "text": "Output converts the TK into an agent-usable instruction format",
+      "passed": true,
+      "evidence": "Found: structured output, PRD sections, TK structure"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

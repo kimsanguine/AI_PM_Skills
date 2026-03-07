@@ -1,0 +1,43 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "AI_PM_Skills",
+  "version": "0.4.0",
+  "description": "32 agent-specific PM skills and 12 chained workflows across 5 plugins. For PMs who build, operate, and scale AI agents — from discovery to architecture, execution, monitoring, and knowledge capture.",
+  "owner": {
+    "name": "Sanguine Kim",
+    "email": "kimsanguine@gmail.com",
+    "url": "https://github.com/kimsanguine"
+  },
+  "plugins": [
+    {
+      "name": "oracle",
+      "description": "Discover which AI agent to build — map automation outcomes to solvable opportunities, validate assumptions, and estimate costs.",
+      "source": "./oracle",
+      "category": "product-management"
+    },
+    {
+      "name": "atlas",
+      "description": "Architect scalable AI agent systems — orchestration patterns, multi-agent design, memory architecture, and competitive moats.",
+      "source": "./atlas",
+      "category": "product-management"
+    },
+    {
+      "name": "forge",
+      "description": "Spec and ship AI agents — instruction design, agent PRD templates, prompt engineering, context budgets, and sprint planning.",
+      "source": "./forge",
+      "category": "product-management"
+    },
+    {
+      "name": "argus",
+      "description": "Measure and optimize AI agent performance — KPIs, reliability, failure analysis, cost tracking, and North Star metrics.",
+      "source": "./argus",
+      "category": "product-management"
+    },
+    {
+      "name": "muse",
+      "description": "Turn PM tacit knowledge into reusable agent assets — structured knowledge units, decision patterns, and memory management.",
+      "source": "./muse",
+      "category": "product-management"
+    }
+  ]
+}

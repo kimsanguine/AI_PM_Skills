@@ -1,0 +1,18 @@
+[
+  {
+    "query": "고객 문의를 자동 분류하는 에이전트를 만들려고 하는데, 이 아이디어의 핵심 가정들을 분석해줘. LLM이 우리 도메인 용어를 이해할 수 있을지, 고객이 자동 응답을 수용할지 확신이 없어.",
+    "should_trigger": true
+  },
+  {
+    "query": "We're planning to build an agent that auto-generates marketing copy. Before we invest, help me identify what assumptions we're making about quality, brand consistency, and user acceptance.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 아키텍처를 3-tier로 설계하고 싶어. Prometheus-Atlas-Worker 패턴 적용해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "이번 달 에이전트 토큰 비용 리뷰해줘. 예산 대비 초과된 것 같아.",
+    "should_trigger": false
+  }
+]

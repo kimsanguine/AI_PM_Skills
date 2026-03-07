@@ -1,0 +1,13 @@
+{
+  "eval_id": 4,
+  "eval_name": "3-tier-ecommerce-ops",
+  "prompt": "Build a multi-agent system for e-commerce operations: inventory monitoring, price optimization, and customer review analysis. Each function should be a separate worker. Design the 3-tier orchestration.",
+  "expected_output": "3-tier design with strategic planner, tactical coordinator, and 3 specialized workers",
+  "expectations": [
+    "Output has a clear 3-layer hierarchy (Prometheus/Atlas/Worker)",
+    "Output defines 3 distinct workers: inventory, pricing, review analysis",
+    "Output specifies how Atlas coordinates between workers",
+    "Output addresses error handling or fallback behavior",
+    "Output includes data flow or communication pattern between agents"
+  ]
+}

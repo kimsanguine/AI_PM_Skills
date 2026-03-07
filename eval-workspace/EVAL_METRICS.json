@@ -1,0 +1,91 @@
+{
+  "evaluation_session": "premortem_skill_evals_2026_03_06",
+  "skill": "argus/skills/premortem/SKILL.md",
+  "total_evals": 2,
+  "total_variants": 4,
+  "evals": [
+    {
+      "eval_id": 7,
+      "eval_name": "premortem-support-agent",
+      "domain": "AI Agent - Customer Support",
+      "prompt_language": "Korean",
+      "with_skill": {
+        "prompt_chars": 2148,
+        "result_bytes": 9979,
+        "wall_clock_seconds": 89,
+        "timeout_seconds": 90,
+        "status": "completed"
+      },
+      "without_skill": {
+        "prompt_chars": 193,
+        "result_bytes": 6350,
+        "wall_clock_seconds": 52,
+        "timeout_seconds": 90,
+        "status": "completed"
+      },
+      "comparison": {
+        "prompt_size_ratio": 11.12,
+        "result_size_ratio": 1.57,
+        "time_ratio": 1.71,
+        "skill_impact": "high"
+      }
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "premortem-content-moderation",
+      "domain": "AI Agent - Content Moderation",
+      "prompt_language": "English",
+      "with_skill": {
+        "prompt_chars": 2367,
+        "result_bytes": 9423,
+        "wall_clock_seconds": 58,
+        "timeout_seconds": 90,
+        "status": "completed"
+      },
+      "without_skill": {
+        "prompt_chars": 175,
+        "result_bytes": 5485,
+        "wall_clock_seconds": 41,
+        "timeout_seconds": 90,
+        "status": "completed"
+      },
+      "comparison": {
+        "prompt_size_ratio": 13.52,
+        "result_size_ratio": 1.72,
+        "time_ratio": 1.41,
+        "skill_impact": "high"
+      }
+    }
+  ],
+  "aggregate_metrics": {
+    "total_time_with_skill_seconds": 147,
+    "total_time_without_skill_seconds": 93,
+    "overall_time_ratio": 1.58,
+    "average_result_size_with_skill_bytes": 9701,
+    "average_result_size_without_skill_bytes": 5918,
+    "average_output_ratio": 1.64,
+    "all_completed": true,
+    "timeout_breaches": 0
+  },
+  "quality_indicators": {
+    "with_skill": {
+      "includes_premortem_brainstorm": true,
+      "includes_fmea_table": true,
+      "includes_rpn_scoring": true,
+      "includes_ai_specific_checklist": true,
+      "includes_prevention_strategy": true,
+      "includes_monitoring_alerts": true,
+      "includes_summary_metrics": true
+    },
+    "without_skill": {
+      "includes_premortem_brainstorm": false,
+      "includes_fmea_table": true,
+      "includes_rpn_scoring": false,
+      "includes_ai_specific_checklist": false,
+      "includes_prevention_strategy": false,
+      "includes_monitoring_alerts": false,
+      "includes_summary_metrics": false
+    }
+  },
+  "timestamp": "2026-03-06T08:00:00Z"
+}

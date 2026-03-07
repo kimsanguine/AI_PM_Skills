@@ -1,0 +1,18 @@
+[
+  {
+    "query": "다음 주에 에이전트를 프로덕션에 배포하는데, 실패할 수 있는 모든 시나리오를 사전에 분석해줘. FMEA 방법론으로.",
+    "should_trigger": true
+  },
+  {
+    "query": "Before we launch this agent to 10,000 users, I want to run a pre-mortem. What could go wrong? Help me identify failure modes, assess severity, and plan mitigations.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 토큰 비용을 추적하고 최적화해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 System Prompt를 CRISP로 리팩토링해줘.",
+    "should_trigger": false
+  }
+]

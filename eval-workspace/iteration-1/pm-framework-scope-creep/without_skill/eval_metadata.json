@@ -1,0 +1,13 @@
+{
+  "eval_id": 9,
+  "eval_name": "pm-framework-scope-creep",
+  "prompt": "프로젝트를 10개 넘게 이끌면서 느낀 건데, 스코프 크리프는 항상 '작은 추가 요청'에서 시작해. 처음엔 '이것만 하나 더'인데, 그게 쌓이면 전체 일정이 밀려. 핵심은 '안 된다'가 아니라 '이건 다음 스프린트에'라고 말하는 타이밍이야. 이 경험을 TK 유닛으로 구조화해줘.",
+  "expected_output": "Structured TK unit with pattern name, trigger condition, decision rule, and agent instruction format",
+  "expectations": [
+    "Output extracts a named TK pattern from the experience",
+    "Output identifies the trigger condition (when this knowledge applies)",
+    "Output formulates a decision rule or heuristic",
+    "Output includes the reasoning/evidence behind the pattern",
+    "Output converts the TK into an agent-usable instruction format"
+  ]
+}

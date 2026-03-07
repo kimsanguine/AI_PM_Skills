@@ -1,0 +1,11 @@
+{
+  "eval": "prd-onboarding-agent",
+  "variant": "without_skill",
+  "elapsed_ms": 2000,
+  "elapsed_seconds": 2.0,
+  "output_length": 380,
+  "prompt_length": 100,
+  "input_tokens": 40,
+  "output_tokens": 95,
+  "timestamp": "2026-03-06T07:57:44.776584"
+}

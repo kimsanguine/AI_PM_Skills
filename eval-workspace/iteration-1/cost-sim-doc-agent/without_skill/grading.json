@@ -1,0 +1,38 @@
+{
+  "eval_id": 2,
+  "eval_name": "cost-sim-doc-agent",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Output contains monthly cost estimate with specific dollar amount",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    },
+    {
+      "text": "Output shows cost per document processed",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    },
+    {
+      "text": "Output includes token consumption calculation",
+      "passed": true,
+      "evidence": "Found: structured output, token breakdown, PRD sections"
+    },
+    {
+      "text": "Output provides at least 2 cost reduction strategies",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    },
+    {
+      "text": "Output considers both input and output token pricing",
+      "passed": true,
+      "evidence": "Found: structured output, token breakdown, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

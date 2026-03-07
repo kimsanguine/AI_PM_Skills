@@ -1,0 +1,14 @@
+{
+  "name": "muse",
+  "version": "0.4.0",
+  "description": "Turn PM tacit knowledge into reusable agent assets — structured knowledge units, decision patterns, and memory management. Use when extracting lessons from PM experience, applying decision frameworks, converting tacit knowledge to agent instructions, or building a personal PM knowledge base.",
+  "author": {
+    "name": "Ethan Kim",
+    "url": "https://github.com/kimsanguine"
+  },
+  "repository": "https://github.com/kimsanguine/AI_PM_Skills",
+  "license": "MIT",
+  "keywords": ["agent", "tacit-knowledge", "decision-pattern", "pm-engine", "pm"],
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

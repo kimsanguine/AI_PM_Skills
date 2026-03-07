@@ -1,0 +1,18 @@
+[
+  {
+    "query": "에이전트 운영 비용이 예산을 초과하고 있어. 모델별, 태스크별, 사용자 세그먼트별로 토큰 비용을 분석하고 최적화 방안을 제시해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "Our agent's API costs went from $2k to $8k this month. Help me break down where the tokens are being spent and identify the biggest cost reduction opportunities.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 아키텍처를 3-tier로 설계해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "HITL 경계를 설계해줘. 어디서 사람이 개입할지.",
+    "should_trigger": false
+  }
+]

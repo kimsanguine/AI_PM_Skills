@@ -1,0 +1,170 @@
+{
+  "skill_name": "AI_PM_Skills",
+  "description": "Phase 3 eval — 5 representative skills (1 per plugin), 2 test prompts each",
+  "evals": [
+    {
+      "id": 1,
+      "skill": "cost-sim",
+      "plugin": "oracle",
+      "eval_name": "cost-sim-saas-chatbot",
+      "prompt": "고객 상담 챗봇 에이전트를 GPT-4o로 구축하려고 해. 하루 평균 500건 상담, 건당 평균 5턴 대화, 입력 평균 200토큰 출력 평균 300토큰이야. 월 비용을 시뮬레이션해줘. 그리고 Claude Sonnet으로 바꿨을 때 비용 비교도.",
+      "expected_output": "GPT-4o와 Claude Sonnet 각각의 월간 토큰 비용 계산, 비교표, 비용 최적화 제안",
+      "files": [],
+      "expectations": [
+        "Output contains a cost calculation with specific dollar amounts",
+        "Output includes both GPT-4o and Claude Sonnet cost comparison",
+        "Output shows per-conversation and monthly aggregate costs",
+        "Output includes token count breakdown (input/output separately)",
+        "Output provides cost optimization recommendations"
+      ]
+    },
+    {
+      "id": 2,
+      "skill": "cost-sim",
+      "plugin": "oracle",
+      "eval_name": "cost-sim-doc-agent",
+      "prompt": "We're building a document analysis agent that processes 200 legal contracts per day. Each contract is about 15 pages (~6000 tokens). The agent needs to extract key clauses and summarize them. Model: Claude Sonnet. Estimate the monthly API costs and suggest ways to reduce them.",
+      "expected_output": "Monthly cost estimate with token breakdown, cost per document, optimization strategies like caching or chunking",
+      "files": [],
+      "expectations": [
+        "Output contains monthly cost estimate with specific dollar amount",
+        "Output shows cost per document processed",
+        "Output includes token consumption calculation",
+        "Output provides at least 2 cost reduction strategies",
+        "Output considers both input and output token pricing"
+      ]
+    },
+    {
+      "id": 3,
+      "skill": "3-tier",
+      "plugin": "atlas",
+      "eval_name": "3-tier-research-system",
+      "prompt": "리서치 자동화 시스템을 멀티에이전트로 설계하고 싶어. 유저가 리서치 주제를 입력하면, 여러 소스에서 정보를 수집하고, 분석해서, 최종 리포트를 만드는 시스템이야. Prometheus-Atlas-Worker 패턴으로 설계해줘.",
+      "expected_output": "3-tier architecture with Prometheus (strategy), Atlas (coordination), Workers (execution) clearly defined with communication protocols",
+      "files": [],
+      "expectations": [
+        "Output defines Prometheus layer role and responsibilities",
+        "Output defines Atlas layer role and responsibilities",
+        "Output defines at least 2 Worker types with specific tasks",
+        "Output includes communication protocol between layers",
+        "Output includes a delegation strategy or task decomposition flow"
+      ]
+    },
+    {
+      "id": 4,
+      "skill": "3-tier",
+      "plugin": "atlas",
+      "eval_name": "3-tier-ecommerce-ops",
+      "prompt": "Build a multi-agent system for e-commerce operations: inventory monitoring, price optimization, and customer review analysis. Each function should be a separate worker. Design the 3-tier orchestration.",
+      "expected_output": "3-tier design with strategic planner, tactical coordinator, and 3 specialized workers",
+      "files": [],
+      "expectations": [
+        "Output has a clear 3-layer hierarchy (Prometheus/Atlas/Worker)",
+        "Output defines 3 distinct workers: inventory, pricing, review analysis",
+        "Output specifies how Atlas coordinates between workers",
+        "Output addresses error handling or fallback behavior",
+        "Output includes data flow or communication pattern between agents"
+      ]
+    },
+    {
+      "id": 5,
+      "skill": "prd",
+      "plugin": "forge",
+      "eval_name": "prd-onboarding-agent",
+      "prompt": "신규 입사자 온보딩 가이드 에이전트의 PRD를 작성해줘. 이 에이전트는 입사 첫 주에 필요한 정보를 안내하고, FAQ에 답하고, 관련 문서를 찾아주는 역할이야. Slack 연동 필수.",
+      "expected_output": "Agent-specific PRD with Instruction, Tools, Memory, Triggers, Output, and Failure handling sections",
+      "files": [],
+      "expectations": [
+        "Output contains an Instruction section defining the agent's role and behavior",
+        "Output contains a Tools section listing required tools including Slack",
+        "Output contains a Memory section (what the agent remembers)",
+        "Output contains Triggers section (when the agent activates)",
+        "Output contains Failure handling or fallback strategy",
+        "Output includes success metrics or KPIs"
+      ]
+    },
+    {
+      "id": 6,
+      "skill": "prd",
+      "plugin": "forge",
+      "eval_name": "prd-code-review-agent",
+      "prompt": "Design an Agent PRD for an automated code review agent. It should review PRs on GitHub, check for security vulnerabilities, code style, and performance issues. It should post comments directly on the PR. Include failure modes.",
+      "expected_output": "Complete agent PRD covering all standard sections with GitHub integration specifics",
+      "files": [],
+      "expectations": [
+        "Output includes Instruction with clear agent role definition",
+        "Output lists Tools including GitHub API integration",
+        "Output defines what triggers the agent (e.g., PR creation/update)",
+        "Output specifies Output format (PR comments, review summary)",
+        "Output includes Failure handling with specific failure scenarios",
+        "Output addresses security or permission considerations"
+      ]
+    },
+    {
+      "id": 7,
+      "skill": "premortem",
+      "plugin": "argus",
+      "eval_name": "premortem-support-agent",
+      "prompt": "다음 주에 고객 지원 에이전트를 프로덕션에 배포해. 하루 1000건 처리 예정이고, 금융 상품 관련 문의를 처리해. Pre-mortem 분석을 해줘. FMEA 방법론으로.",
+      "expected_output": "FMEA-based failure analysis with failure modes, severity/likelihood ratings, and prevention strategies",
+      "files": [],
+      "expectations": [
+        "Output identifies at least 5 distinct failure modes",
+        "Output assigns severity and likelihood scores to each failure",
+        "Output calculates risk priority (RPN or equivalent)",
+        "Output provides prevention/mitigation strategy for each failure",
+        "Output considers domain-specific risks (financial compliance)",
+        "Output includes a prioritized action plan"
+      ]
+    },
+    {
+      "id": 8,
+      "skill": "premortem",
+      "plugin": "argus",
+      "eval_name": "premortem-content-moderation",
+      "prompt": "We're about to launch a content moderation agent on a social platform with 50k daily posts. Run a pre-mortem — what could go wrong? Consider false positives/negatives, bias, edge cases, and regulatory risk.",
+      "expected_output": "Comprehensive failure mode analysis covering moderation-specific risks",
+      "files": [],
+      "expectations": [
+        "Output identifies false positive and false negative failure modes",
+        "Output addresses bias-related risks",
+        "Output considers regulatory/legal failure modes",
+        "Output assigns severity ratings to each failure mode",
+        "Output provides concrete mitigation strategies",
+        "Output includes escalation or human-in-the-loop fallback"
+      ]
+    },
+    {
+      "id": 9,
+      "skill": "pm-framework",
+      "plugin": "muse",
+      "eval_name": "pm-framework-scope-creep",
+      "prompt": "프로젝트를 10개 넘게 이끌면서 느낀 건데, 스코프 크리프는 항상 '작은 추가 요청'에서 시작해. 처음엔 '이것만 하나 더'인데, 그게 쌓이면 전체 일정이 밀려. 핵심은 '안 된다'가 아니라 '이건 다음 스프린트에'라고 말하는 타이밍이야. 이 경험을 TK 유닛으로 구조화해줘.",
+      "expected_output": "Structured TK unit with pattern name, trigger condition, decision rule, and agent instruction format",
+      "files": [],
+      "expectations": [
+        "Output extracts a named TK pattern from the experience",
+        "Output identifies the trigger condition (when this knowledge applies)",
+        "Output formulates a decision rule or heuristic",
+        "Output includes the reasoning/evidence behind the pattern",
+        "Output converts the TK into an agent-usable instruction format"
+      ]
+    },
+    {
+      "id": 10,
+      "skill": "pm-framework",
+      "plugin": "muse",
+      "eval_name": "pm-framework-user-research-lesson",
+      "prompt": "After 3 years of running user interviews, I've learned that the most valuable insights come not from what users say they want, but from the workarounds they've built. When a user shows me a spreadsheet hack or a manual process, that's where the real opportunity is. Capture this as a TK unit.",
+      "expected_output": "Structured TK unit capturing the interview insight pattern",
+      "files": [],
+      "expectations": [
+        "Output creates a structured TK unit with clear naming",
+        "Output captures the core insight about workarounds vs stated needs",
+        "Output defines when to apply this knowledge (trigger/context)",
+        "Output includes a decision framework or heuristic",
+        "Output shows how to embed this knowledge in an agent instruction"
+      ]
+    }
+  ]
+}

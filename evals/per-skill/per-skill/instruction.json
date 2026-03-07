@@ -1,0 +1,18 @@
+[
+  {
+    "query": "신규 에이전트의 System Prompt를 설계해줘. 역할, 목표, 제약조건, 도구, 메모리, 출력 형식, 폴백을 포함해서. 고객 온보딩 가이드 에이전트야.",
+    "should_trigger": true
+  },
+  {
+    "query": "My agent keeps going off-topic and producing inconsistent outputs. Help me redesign its instruction set from scratch — I need a clear role definition, constraints, and output format.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 비용을 시뮬레이션해줘. GPT-4o 기준으로.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트의 reliability를 체계적으로 리뷰해줘.",
+    "should_trigger": false
+  }
+]

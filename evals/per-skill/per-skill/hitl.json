@@ -1,0 +1,18 @@
+[
+  {
+    "query": "계약서 검토 에이전트를 만드는데, 어디까지 자동으로 하고 어디서 사람이 개입해야 할지 경계를 설계해줘. 법적 리스크가 있어서 완전 자동은 안 돼.",
+    "should_trigger": true
+  },
+  {
+    "query": "Our content moderation agent sometimes flags legitimate posts. Help me design the right level of human oversight — when should the agent auto-approve vs escalate to a human reviewer?",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 비즈니스 모델을 설계하고 싶어. 가격 전략이랑 수익 구조를 잡아줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "프롬프트 최적화 좀 해줘. CRISP 프레임워크로 다시 작성해봐.",
+    "should_trigger": false
+  }
+]

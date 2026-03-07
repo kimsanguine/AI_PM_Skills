@@ -1,0 +1,18 @@
+[
+  {
+    "query": "문서 요약 에이전트를 만들려는데, 직접 개발할지 Glean 같은 기존 솔루션을 쓸지 고민이야. 우리 팀은 엔지니어 2명이고 3개월 안에 런칭해야 해.",
+    "should_trigger": true
+  },
+  {
+    "query": "Should we build our own customer support agent or use Intercom's AI features? We handle about 500 tickets/day and need Korean language support.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 기회를 탐색하고 싶어. 우리 서비스에서 자동화할 수 있는 영역을 찾아줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 PRD 작성해줘. 이미 빌드하기로 결정했고 스펙이 필요해.",
+    "should_trigger": false
+  }
+]

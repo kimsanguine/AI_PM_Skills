@@ -1,0 +1,18 @@
+[
+  {
+    "query": "에이전트가 context window를 초과해서 자꾸 잘려. System prompt, 유저 입력, 도구 결과, 메모리 각각에 토큰을 얼마나 할당할지 예산을 짜줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "My agent loads 5 reference files plus conversation history and keeps hitting the 128k token limit. Help me plan which files to prioritize and how to budget the context window.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 North Star 메트릭을 정의해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "경쟁사 에이전트 제품의 해자를 분석해줘.",
+    "should_trigger": false
+  }
+]

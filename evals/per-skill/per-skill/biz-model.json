@@ -1,0 +1,18 @@
+[
+  {
+    "query": "AI 에이전트 기반 SaaS를 런칭하려는데, per-use로 과금할지 subscription으로 할지, 아니면 성과 기반으로 할지 비즈니스 모델을 설계해줘. 타겟은 중소기업이야.",
+    "should_trigger": true
+  },
+  {
+    "query": "We built an AI writing assistant agent. Help me design the pricing strategy — should we charge per generation, monthly subscription, or based on output quality? Our COGS is mainly API costs.",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 메모리 시스템을 설계하고 싶어. 대화 기록을 어떻게 저장할지.",
+    "should_trigger": false
+  },
+  {
+    "query": "에이전트 개발 스프린트를 계획해줘. 3일짜리 프로토타입.",
+    "should_trigger": false
+  }
+]

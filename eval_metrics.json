@@ -1,0 +1,65 @@
+{
+  "evaluation": "pm-framework skill (2 eval pairs)",
+  "date": "2026-03-06",
+  "evals": [
+    {
+      "id": "EVAL-9",
+      "name": "pm-framework-scope-creep",
+      "status": "SUCCESS",
+      "with_skill": {
+        "size_bytes": 6897,
+        "duration_ms": 246267,
+        "duration_api_ms": 147407,
+        "num_turns": 14,
+        "output": "TK-002 (complete structured form with CR, instruction, agent types)"
+      },
+      "without_skill": {
+        "size_bytes": 3965,
+        "duration_ms": 35706,
+        "output": "Generic guidance (7 sections, practical examples, no structure)"
+      },
+      "comparison": {
+        "size_ratio": 1.74,
+        "speed_ratio": 6.9,
+        "value": "with_skill produces agent-ready TK units (worth the latency)"
+      }
+    },
+    {
+      "id": "EVAL-10",
+      "name": "pm-framework-user-research-lesson",
+      "status": "PARTIAL",
+      "with_skill": {
+        "size_bytes": 0,
+        "duration_ms": null,
+        "status": "TIMEOUT (>300s, interactive loop)"
+      },
+      "without_skill": {
+        "size_bytes": 2017,
+        "duration_ms": 15614,
+        "output": "Clarifying question (recognized missing context)"
+      },
+      "comparison": {
+        "value": "with_skill too heavy for ambiguous prompts; without_skill correct approach"
+      }
+    }
+  ],
+  "key_findings": {
+    "with_skill_advantages": [
+      "Full TK-NNN format with CR fields",
+      "Agent-ready system prompt instructions",
+      "Identified reusable agent types",
+      "Explicit constraint documentation"
+    ],
+    "with_skill_disadvantages": [
+      "9.6x slower (246s vs 25.65s avg)",
+      "2.3x larger output",
+      "Interactive overhead (14 turns for EVAL 9)",
+      "Timeouts on ambiguous prompts (EVAL 10)"
+    ],
+    "recommended_workflow": [
+      "Phase 1: without_skill (15-30s) for initial exploration/clarification",
+      "Phase 2: with_skill (3-5min) for final TK extraction when ready",
+      "Result: Agent-ready TK units with user validation beforehand"
+    ]
+  }
+}

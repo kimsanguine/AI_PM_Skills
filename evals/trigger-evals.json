@@ -1,0 +1,218 @@
+[
+  {
+    "skill": "opp-tree",
+    "queries": [
+      {"query": "우리 CS팀에서 반복적으로 하는 업무가 많은데, 어떤 부분을 에이전트로 자동화하면 좋을지 기회를 체계적으로 분석해줘. 현재 티켓 분류, FAQ 응답, 에스컬레이션 판단을 수동으로 하고 있어.", "should_trigger": true},
+      {"query": "I'm a PM at an edtech startup and we want to explore where AI agents could add value in our tutoring platform. Students currently wait 2-3 hours for tutor responses. Help me map out the opportunity space.", "should_trigger": true},
+      {"query": "우리 팀 OKR 작성 좀 도와줘. 이번 분기 목표는 MAU 20% 성장이야.", "should_trigger": false},
+      {"query": "React로 대시보드 컴포넌트 만들어줘. 차트랑 필터 들어가야 해.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "assumptions",
+    "queries": [
+      {"query": "고객 문의를 자동 분류하는 에이전트를 만들려고 하는데, 이 아이디어의 핵심 가정들을 분석해줘. LLM이 우리 도메인 용어를 이해할 수 있을지, 고객이 자동 응답을 수용할지 확신이 없어.", "should_trigger": true},
+      {"query": "We're planning to build an agent that auto-generates marketing copy. Before we invest, help me identify what assumptions we're making about quality, brand consistency, and user acceptance.", "should_trigger": true},
+      {"query": "에이전트 아키텍처를 3-tier로 설계하고 싶어. Prometheus-Atlas-Worker 패턴 적용해줘.", "should_trigger": false},
+      {"query": "이번 달 에이전트 토큰 비용 리뷰해줘. 예산 대비 초과된 것 같아.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "build-or-buy",
+    "queries": [
+      {"query": "문서 요약 에이전트를 만들려는데, 직접 개발할지 Glean 같은 기존 솔루션을 쓸지 고민이야. 우리 팀은 엔지니어 2명이고 3개월 안에 런칭해야 해.", "should_trigger": true},
+      {"query": "Should we build our own customer support agent or use Intercom's AI features? We handle about 500 tickets/day and need Korean language support.", "should_trigger": true},
+      {"query": "에이전트 기회를 탐색하고 싶어. 우리 서비스에서 자동화할 수 있는 영역을 찾아줘.", "should_trigger": false},
+      {"query": "에이전트 PRD 작성해줘. 이미 빌드하기로 결정했고 스펙이 필요해.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "hitl",
+    "queries": [
+      {"query": "계약서 검토 에이전트를 만드는데, 어디까지 자동으로 하고 어디서 사람이 개입해야 할지 경계를 설계해줘. 법적 리스크가 있어서 완전 자동은 안 돼.", "should_trigger": true},
+      {"query": "Our content moderation agent sometimes flags legitimate posts. Help me design the right level of human oversight — when should the agent auto-approve vs escalate to a human reviewer?", "should_trigger": true},
+      {"query": "에이전트 비즈니스 모델을 설계하고 싶어. 가격 전략이랑 수익 구조를 잡아줘.", "should_trigger": false},
+      {"query": "프롬프트 최적화 좀 해줘. CRISP 프레임워크로 다시 작성해봐.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "cost-sim",
+    "queries": [
+      {"query": "고객 응대 에이전트를 GPT-4o로 만들려는데, 하루 1000건 처리 기준으로 월 비용이 얼마나 나올지 시뮬레이션해줘. 평균 대화 턴은 5회 정도야.", "should_trigger": true},
+      {"query": "We want to estimate the token costs for our document analysis agent before getting budget approval. Each doc is ~10 pages, we process 200/day, using Claude Sonnet.", "should_trigger": true},
+      {"query": "에이전트 reliability를 개선하고 싶어. 에러율이 높아.", "should_trigger": false},
+      {"query": "경쟁사 분석 좀 해줘. 우리 에이전트 제품의 경쟁 우위가 뭔지 알고 싶어.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "3-tier",
+    "queries": [
+      {"query": "복잡한 데이터 파이프라인을 관리하는 멀티에이전트 시스템을 설계하려는데, Prometheus-Atlas-Worker 패턴으로 역할을 나누고 싶어. 전략 계획, 조율, 실행 레이어를 어떻게 구성할지 도와줘.", "should_trigger": true},
+      {"query": "I need to design a multi-agent system where one agent plans research tasks, another coordinates data gathering across sources, and workers execute individual searches. How should I structure the hierarchy?", "should_trigger": true},
+      {"query": "에이전트 North Star 메트릭을 정의하고 싶어.", "should_trigger": false},
+      {"query": "PM 경험에서 배운 의사결정 패턴을 정리해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "orchestration",
+    "queries": [
+      {"query": "4개의 에이전트가 협업하는 시스템인데, Sequential로 할지 Parallel로 할지 Router 패턴을 쓸지 고민이야. 각 에이전트는 독립적으로 동작 가능하지만 결과를 합쳐야 해.", "should_trigger": true},
+      {"query": "How should I orchestrate agents that handle translation, summarization, and sentiment analysis? They can run independently but I need to combine results. What pattern fits best?", "should_trigger": true},
+      {"query": "에이전트 토큰 비용을 추적하고 예산을 관리하고 싶어.", "should_trigger": false},
+      {"query": "TK 엔트리를 에이전트 인스트럭션으로 변환해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "biz-model",
+    "queries": [
+      {"query": "AI 에이전트 기반 SaaS를 런칭하려는데, per-use로 과금할지 subscription으로 할지, 아니면 성과 기반으로 할지 비즈니스 모델을 설계해줘. 타겟은 중소기업이야.", "should_trigger": true},
+      {"query": "We built an AI writing assistant agent. Help me design the pricing strategy — should we charge per generation, monthly subscription, or based on output quality? Our COGS is mainly API costs.", "should_trigger": true},
+      {"query": "에이전트 메모리 시스템을 설계하고 싶어. 대화 기록을 어떻게 저장할지.", "should_trigger": false},
+      {"query": "에이전트 개발 스프린트를 계획해줘. 3일짜리 프로토타입.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "router",
+    "queries": [
+      {"query": "우리 에이전트가 간단한 질문은 Haiku로, 복잡한 분석은 Sonnet으로, 코딩은 Opus로 보내고 싶어. 태스크별 모델 라우팅 전략을 설계해줘.", "should_trigger": true},
+      {"query": "My agent handles both simple FAQ responses and complex reasoning tasks. How should I route between GPT-4o-mini and GPT-4o to optimize cost without sacrificing quality?", "should_trigger": true},
+      {"query": "에이전트의 KPI를 정의하고 모니터링 대시보드를 만들고 싶어.", "should_trigger": false},
+      {"query": "이번 에이전트 기회를 OST로 분석해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "memory-arch",
+    "queries": [
+      {"query": "우리 상담 에이전트가 이전 대화를 기억하게 만들고 싶어. 단기 컨텍스트, 장기 저장, 검색 전략을 포함한 메모리 아키텍처를 설계해줘.", "should_trigger": true},
+      {"query": "How should I design memory for a coding assistant agent that needs to remember project context, user preferences, and past debugging sessions across multiple conversations?", "should_trigger": true},
+      {"query": "에이전트 Instruction을 7개 요소로 설계해줘.", "should_trigger": false},
+      {"query": "이 에이전트의 가정을 4축으로 분석해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "moat",
+    "queries": [
+      {"query": "우리 AI 에이전트 제품이 경쟁사 대비 어떤 해자를 갖고 있는지 분석해줘. 데이터 플라이휠, 네트워크 효과, 전환 비용 관점에서 봐줘.", "should_trigger": true},
+      {"query": "We're worried competitors can easily replicate our AI agent. Help me analyze what competitive advantages we have and design strategies to build a sustainable moat.", "should_trigger": true},
+      {"query": "에이전트 PRD를 작성해줘.", "should_trigger": false},
+      {"query": "에이전트의 context window 토큰 예산을 계획해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "instruction",
+    "queries": [
+      {"query": "신규 에이전트의 System Prompt를 설계해줘. 역할, 목표, 제약조건, 도구, 메모리, 출력 형식, 폴백을 포함해서. 고객 온보딩 가이드 에이전트야.", "should_trigger": true},
+      {"query": "My agent keeps going off-topic and producing inconsistent outputs. Help me redesign its instruction set from scratch — I need a clear role definition, constraints, and output format.", "should_trigger": true},
+      {"query": "에이전트 비용을 시뮬레이션해줘. GPT-4o 기준으로.", "should_trigger": false},
+      {"query": "에이전트의 reliability를 체계적으로 리뷰해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "prd",
+    "queries": [
+      {"query": "데이터 분석 에이전트의 PRD를 작성해줘. Instruction, Tools, Memory, Trigger, Output, Failure handling 전부 포함해서. 기존 BI 대시보드와 연동해야 해.", "should_trigger": true},
+      {"query": "I need a formal spec document for our content generation agent before handing it off to engineering. Should cover the agent's capabilities, failure modes, and integration points.", "should_trigger": true},
+      {"query": "에이전트 오케스트레이션 패턴을 선택해줘.", "should_trigger": false},
+      {"query": "PM 암묵지를 추출하고 TK 유닛으로 구조화해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "prompt",
+    "queries": [
+      {"query": "에이전트 System Prompt가 일관성 없는 결과를 내고 있어. CRISP 프레임워크로 다시 작성해줘. Context/Role/Instruction/Scope/Parameters 다 포함해서.", "should_trigger": true},
+      {"query": "I wrote this agent instruction but it keeps hallucinating product features. Help me engineer a better prompt — I think the scope and constraints aren't clear enough.", "should_trigger": true},
+      {"query": "에이전트의 build-or-buy 결정을 내려야 해.", "should_trigger": false},
+      {"query": "에이전트 주간 health check를 실행해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "ctx-budget",
+    "queries": [
+      {"query": "에이전트가 context window를 초과해서 자꾸 잘려. System prompt, 유저 입력, 도구 결과, 메모리 각각에 토큰을 얼마나 할당할지 예산을 짜줘.", "should_trigger": true},
+      {"query": "My agent loads 5 reference files plus conversation history and keeps hitting the 128k token limit. Help me plan which files to prioritize and how to budget the context window.", "should_trigger": true},
+      {"query": "에이전트 North Star 메트릭을 정의해줘.", "should_trigger": false},
+      {"query": "경쟁사 에이전트 제품의 해자를 분석해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "okr",
+    "queries": [
+      {"query": "배포된 고객 서비스 에이전트의 OKR을 설계해줘. 비즈니스 임팩트(응답 시간 단축, CSAT 향상)와 운영 건강도(에러율, 비용 효율) 두 축으로.", "should_trigger": true},
+      {"query": "We need quarterly OKRs for our AI agent portfolio. Help me define objectives and key results that balance business impact with operational reliability.", "should_trigger": true},
+      {"query": "에이전트의 pre-mortem 분석을 해줘.", "should_trigger": false},
+      {"query": "에이전트 메모리 아키텍처를 설계해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "kpi",
+    "queries": [
+      {"query": "에이전트 모니터링 대시보드를 세팅하려는데, 어떤 KPI를 트래킹해야 할지 정의해줘. 운영 메트릭이랑 비즈니스 메트릭 둘 다.", "should_trigger": true},
+      {"query": "What metrics should I track for our deployed translation agent? I need both operational health indicators and business impact measurements.", "should_trigger": true},
+      {"query": "에이전트 Instruction을 설계해줘.", "should_trigger": false},
+      {"query": "에이전트 비즈니스 모델을 설계해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "reliability",
+    "queries": [
+      {"query": "에이전트가 간헐적으로 이상한 응답을 내고 있어. 체계적으로 reliability를 리뷰하고 개선 방안을 도출해줘. 에러 패턴 분석부터.", "should_trigger": true},
+      {"query": "Our agent's success rate dropped from 95% to 87% last week. Help me systematically assess what's failing and design safeguards to prevent similar regressions.", "should_trigger": true},
+      {"query": "에이전트 기회 발굴을 해줘. OST로 분석.", "should_trigger": false},
+      {"query": "에이전트 OKR을 설계해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "premortem",
+    "queries": [
+      {"query": "다음 주에 에이전트를 프로덕션에 배포하는데, 실패할 수 있는 모든 시나리오를 사전에 분석해줘. FMEA 방법론으로.", "should_trigger": true},
+      {"query": "Before we launch this agent to 10,000 users, I want to run a pre-mortem. What could go wrong? Help me identify failure modes, assess severity, and plan mitigations.", "should_trigger": true},
+      {"query": "에이전트 토큰 비용을 추적하고 최적화해줘.", "should_trigger": false},
+      {"query": "에이전트 System Prompt를 CRISP로 리팩토링해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "burn-rate",
+    "queries": [
+      {"query": "에이전트 운영 비용이 예산을 초과하고 있어. 모델별, 태스크별, 사용자 세그먼트별로 토큰 비용을 분석하고 최적화 방안을 제시해줘.", "should_trigger": true},
+      {"query": "Our agent's API costs went from $2k to $8k this month. Help me break down where the tokens are being spent and identify the biggest cost reduction opportunities.", "should_trigger": true},
+      {"query": "에이전트 아키텍처를 3-tier로 설계해줘.", "should_trigger": false},
+      {"query": "HITL 경계를 설계해줘. 어디서 사람이 개입할지.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "north-star",
+    "queries": [
+      {"query": "에이전트 제품의 North Star 메트릭을 정의해줘. KPI가 너무 많아서 팀이 뭘 집중해야 할지 모르겠어. 하나의 핵심 지표로 정렬하고 싶어.", "should_trigger": true},
+      {"query": "We have 15 different metrics for our agent but no clarity on what matters most. Help me define a single North Star metric that connects operational performance to business value.", "should_trigger": true},
+      {"query": "에이전트 PRD를 작성해줘.", "should_trigger": false},
+      {"query": "의사결정 패턴을 적용해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "pm-framework",
+    "queries": [
+      {"query": "오늘 미팅에서 중요한 인사이트가 나왔어. '유저는 기능이 아니라 결과를 산다'는 걸 다시 느꼈는데, 이걸 TK 유닛으로 구조화해서 PM-ENGINE에 저장해줘.", "should_trigger": true},
+      {"query": "I just realized that every time we skip user research before building, we end up rebuilding 3 months later. Help me capture this as a structured tacit knowledge unit for my PM knowledge base.", "should_trigger": true},
+      {"query": "에이전트 모델 라우팅 전략을 설계해줘.", "should_trigger": false},
+      {"query": "에이전트 개발 스프린트를 계획해줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "pm-decision",
+    "queries": [
+      {"query": "스코프를 줄일지 일정을 늘릴지 결정해야 하는데, 예전에 비슷한 상황에서 어떤 패턴으로 판단했는지 매칭해줘. 인지 편향 체크도.", "should_trigger": true},
+      {"query": "I'm stuck choosing between two feature directions — one is safer but incremental, the other is risky but could be a game-changer. Help me apply a structured decision framework from my PM experience.", "should_trigger": true},
+      {"query": "에이전트의 cost를 시뮬레이션해줘.", "should_trigger": false},
+      {"query": "에이전트 오케스트레이션 패턴을 골라줘.", "should_trigger": false}
+    ]
+  },
+  {
+    "skill": "pm-engine",
+    "queries": [
+      {"query": "PM-ENGINE-MEMORY에서 '스코프 크리프' 관련 TK를 검색해줘. 예전에 저장한 실패 패턴이 있을 거야.", "should_trigger": true},
+      {"query": "I want to convert my tacit knowledge about stakeholder management into an agent instruction that can be embedded in a system prompt. Pull the relevant TK entries from my memory file.", "should_trigger": true},
+      {"query": "에이전트 가정을 4축으로 분석해줘.", "should_trigger": false},
+      {"query": "에이전트 reliability를 리뷰해줘.", "should_trigger": false}
+    ]
+  }
+]

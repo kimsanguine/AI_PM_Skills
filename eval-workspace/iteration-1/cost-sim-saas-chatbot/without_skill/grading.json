@@ -1,0 +1,38 @@
+{
+  "eval_id": 1,
+  "eval_name": "cost-sim-saas-chatbot",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Output contains a cost calculation with specific dollar amounts",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    },
+    {
+      "text": "Output includes both GPT-4o and Claude Sonnet cost comparison",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, GPT-4o pricing, Claude pricing, PRD sections"
+    },
+    {
+      "text": "Output shows per-conversation and monthly aggregate costs",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    },
+    {
+      "text": "Output includes token count breakdown (input/output separately)",
+      "passed": true,
+      "evidence": "Found: structured output, token breakdown, PRD sections"
+    },
+    {
+      "text": "Output provides cost optimization recommendations",
+      "passed": true,
+      "evidence": "Found: structured output, cost information, PRD sections"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

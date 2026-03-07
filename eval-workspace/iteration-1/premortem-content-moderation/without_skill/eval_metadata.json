@@ -1,0 +1,14 @@
+{
+  "eval_id": 8,
+  "eval_name": "premortem-content-moderation",
+  "prompt": "We're about to launch a content moderation agent on a social platform with 50k daily posts. Run a pre-mortem — what could go wrong? Consider false positives/negatives, bias, edge cases, and regulatory risk.",
+  "expected_output": "Comprehensive failure mode analysis covering moderation-specific risks",
+  "expectations": [
+    "Output identifies false positive and false negative failure modes",
+    "Output addresses bias-related risks",
+    "Output considers regulatory/legal failure modes",
+    "Output assigns severity ratings to each failure mode",
+    "Output provides concrete mitigation strategies",
+    "Output includes escalation or human-in-the-loop fallback"
+  ]
+}

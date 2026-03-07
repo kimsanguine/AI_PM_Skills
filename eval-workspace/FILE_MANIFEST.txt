@@ -1,0 +1,256 @@
+PREMORTEM SKILL EVALUATION - FILE MANIFEST
+==========================================
+Generated: 2026-03-06
+Evaluation Date: 2026-03-06
+
+DIRECTORY STRUCTURE
+===================
+
+eval-workspace/iteration-1/
+├── premortem-support-agent/               [EVAL 7 - Korean prompt]
+│   ├── with_skill/
+│   │   ├── outputs/
+│   │   │   └── result.md                  [9,979 bytes]
+│   │   └── timing.json                    [275 bytes]
+│   └── without_skill/
+│       ├── outputs/
+│       │   └── result.md                  [6,350 bytes]
+│       └── timing.json                    [278 bytes]
+│
+├── premortem-content-moderation/          [EVAL 8 - English prompt]
+│   ├── with_skill/
+│   │   ├── outputs/
+│   │   │   └── result.md                  [9,423 bytes]
+│   │   └── timing.json                    [280 bytes]
+│   └── without_skill/
+│       ├── outputs/
+│       │   └── result.md                  [5,485 bytes]
+│       └── timing.json                    [283 bytes]
+│
+├── EVAL_REPORT.md                         [3.8 KB - Detailed findings]
+├── EVAL_METRICS.json                      [2.1 KB - Quantitative metrics]
+├── PREMORTEM_EVAL_SUMMARY.md              [5.2 KB - Executive summary]
+└── FILE_MANIFEST.txt                      [This file]
+
+
+FILE DESCRIPTIONS
+=================
+
+EVAL 7: premortem-support-agent (금융 고객 지원 에이전트)
+-------------------------------------------------------
+
+with_skill/outputs/result.md
+  - Topic: Customer support agent for financial products
+  - Scope: 1,000 requests/day, production deployment
+  - Language: Korean (한국어)
+  - Framework: 5-step structured analysis (pre-mortem → FMEA → checklist → prevention → alerts)
+  - Key Content:
+    * Pre-mortem brainstorm (5 failure scenarios)
+    * FMEA table (10 failure modes with RPN scoring)
+    * AI-specific checklist (Model, Data, Integration, Business)
+    * Prevention strategy with 4 sub-components
+    * Monitoring triggers (yellow/red alerts)
+  - Size: 9,979 bytes
+  - Execution Time: 89 seconds
+
+with_skill/timing.json
+  - Captures wall-clock timing and metrics for with_skill run
+  - Status: completed
+  - Result size: 9,979 bytes
+  - Prompt length: 2,148 characters (full SKILL.md prepended)
+
+without_skill/outputs/result.md
+  - Same topic and scope, plain prompt (no skill injection)
+  - Format: Narrative + table sections (Regulatory, Quality, Operations)
+  - 12 failure modes identified
+  - RPN scoring present but less prominent
+  - No explicit checklists or monitoring framework
+  - Size: 6,350 bytes
+  - Execution Time: 52 seconds
+
+without_skill/timing.json
+  - Captures timing for without_skill run
+  - Status: completed
+  - Result size: 6,350 bytes
+  - Prompt length: 193 characters (plain prompt only)
+
+
+EVAL 8: premortem-content-moderation (Social platform)
+-------------------------------------------------------
+
+with_skill/outputs/result.md
+  - Topic: Content moderation at scale (50k posts/day)
+  - Framework: 5-step structured FMEA analysis
+  - Language: English
+  - Key Content:
+    * Pre-mortem scenarios (5 specific failure cases)
+    * FMEA table (10 failure modes, RPN 210–504)
+    * Critical risks identified: Demographic bias (504), Prompt injection (480)
+    * AI-specific checklist (all 4 categories covered)
+    * Prevention & monitoring strategy
+  - Size: 9,423 bytes
+  - Execution Time: 58 seconds
+
+with_skill/timing.json
+  - Wall-clock timing for with_skill variant
+  - Status: completed
+  - Prompt length: 2,367 characters
+
+without_skill/outputs/result.md
+  - Same scope, plain prompt
+  - Format: Essay-style with 5 narrative sections
+  - Covers: False positives, negatives, bias, edge cases, regulatory risk
+  - No RPN quantification
+  - More business-narrative than technical
+  - Size: 5,485 bytes
+  - Execution Time: 41 seconds
+
+without_skill/timing.json
+  - Timing data for without_skill run
+  - Status: completed
+
+
+SUMMARY DOCUMENTS
+=================
+
+EVAL_REPORT.md
+  - Comprehensive technical report
+  - Sections:
+    * Executive summary
+    * Detailed results for both evals
+    * Output structure comparison
+    * Key observations (impact, speed, quality)
+    * File structure and timing details
+    * Production readiness assessment
+  - Audience: Technical stakeholders, skill developers
+  - Key Finding: Skill adds 1.5–1.7x time cost for 1.57–1.72x output gain
+
+EVAL_METRICS.json
+  - Machine-readable metrics summary
+  - Contains:
+    * Per-eval timing and size data
+    * Comparison ratios
+    * Aggregate statistics
+    * Quality indicators boolean matrix
+    * Timestamp
+  - Use Case: Automated reporting, dashboards, trend analysis
+
+PREMORTEM_EVAL_SUMMARY.md
+  - Executive summary with actionable recommendations
+  - Quick stats table
+  - Detailed eval-by-eval breakdown
+  - Output quality matrix
+  - Performance summary
+  - Skill effectiveness assessment
+  - Use/don't-use recommendations
+  - Overall assessment: Production-Ready
+
+
+EVALUATION METHODOLOGY
+======================
+
+Approach: A/B Comparison
+  - 2 diverse agent risk scenarios (Korean + English)
+  - Each scenario evaluated twice: with_skill, without_skill
+  - 90-second timeout per run
+  - Output captured to markdown files
+  - Timing captured to JSON
+
+Skill Injected: Full SKILL.md (argus/skills/premortem/SKILL.md) prepended to prompt
+
+Metrics Captured:
+  - Wall-clock execution time
+  - Input prompt length (characters)
+  - Output size (bytes)
+  - Completion status
+  - Timestamp
+
+
+QUANTITATIVE SUMMARY
+====================
+
+Evaluation Metrics:
+  Total Evals: 2
+  Total Runs: 4
+  Success Rate: 100% (4/4)
+  Timeout Breaches: 0/4
+  Total Time: 240 seconds
+  Average Output Size: 7.8 KB
+
+Performance Ratios (with_skill / without_skill):
+  EVAL 7 - Time: 1.71x | Size: 1.57x
+  EVAL 8 - Time: 1.41x | Size: 1.72x
+  Average: Time 1.56x | Size 1.65x
+
+With-Skill Output Quality (Features Detected):
+  ✓ Pre-mortem brainstorm (5 scenarios)
+  ✓ FMEA table (structured)
+  ✓ RPN scoring (quantified)
+  ✓ AI-specific checklist (4 categories)
+  ✓ Prevention strategy (4 components)
+  ✓ Monitoring alerts (yellow/red)
+  ✓ Summary metrics
+
+Without-Skill Output Quality (Features Detected):
+  ✓ Risk analysis (thorough)
+  ✓ FMEA table (sometimes)
+  ✗ RPN scoring (inconsistent)
+  ✗ AI-specific checklist
+  ✗ Structured prevention
+  ✗ Monitoring alerts
+  ✗ Summary metrics
+
+
+ASSESSMENT
+==========
+
+Production Readiness: YES - Recommended for use
+
+Strengths:
+  1. Systematic coverage of failure categories
+  2. Quantified prioritization (RPN)
+  3. Actionable prevention/detection/response structure
+  4. Reproducible framework
+  5. Compliance-audit-ready output
+
+Trade-offs:
+  1. ~1.5x time cost
+  2. ~11x input token increase for 1.5x output gain
+  3. Rigid 5-step format
+  4. Overkill for simple assessments
+
+Recommended Use Cases:
+  • Regulatory/compliance risk assessment
+  • Multi-stakeholder decision-making
+  • Mission-critical agent deployment
+  • Monitoring system design scope
+  • Formal risk documentation required
+
+Not Recommended For:
+  • Quick brainstorms
+  • Token-constrained environments
+  • Exploratory risk discussions
+  • Domain expertise primacy scenarios
+
+
+ABSOLUTE PATHS
+==============
+
+Project Root:
+  /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/
+
+Skill File:
+  /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/argus/skills/premortem/SKILL.md
+
+Evaluation Workspace:
+  /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/eval-workspace/
+
+Results (EVAL 7):
+  /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/eval-workspace/iteration-1/premortem-support-agent/
+
+Results (EVAL 8):
+  /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/eval-workspace/iteration-1/premortem-content-moderation/
+
+
+END OF MANIFEST
+===============

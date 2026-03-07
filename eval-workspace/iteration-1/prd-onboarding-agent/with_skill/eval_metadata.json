@@ -1,0 +1,14 @@
+{
+  "eval_id": 5,
+  "eval_name": "prd-onboarding-agent",
+  "prompt": "신규 입사자 온보딩 가이드 에이전트의 PRD를 작성해줘. 이 에이전트는 입사 첫 주에 필요한 정보를 안내하고, FAQ에 답하고, 관련 문서를 찾아주는 역할이야. Slack 연동 필수.",
+  "expected_output": "Agent-specific PRD with Instruction, Tools, Memory, Triggers, Output, and Failure handling sections",
+  "expectations": [
+    "Output contains an Instruction section defining the agent's role and behavior",
+    "Output contains a Tools section listing required tools including Slack",
+    "Output contains a Memory section (what the agent remembers)",
+    "Output contains Triggers section (when the agent activates)",
+    "Output contains Failure handling or fallback strategy",
+    "Output includes success metrics or KPIs"
+  ]
+}

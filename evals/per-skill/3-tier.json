@@ -1,0 +1,18 @@
+[
+  {
+    "query": "복잡한 데이터 파이프라인을 관리하는 멀티에이전트 시스템을 설계하려는데, Prometheus-Atlas-Worker 패턴으로 역할을 나누고 싶어. 전략 계획, 조율, 실행 레이어를 어떻게 구성할지 도와줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to design a multi-agent system where one agent plans research tasks, another coordinates data gathering across sources, and workers execute individual searches. How should I structure the hierarchy?",
+    "should_trigger": true
+  },
+  {
+    "query": "에이전트 North Star 메트릭을 정의하고 싶어.",
+    "should_trigger": false
+  },
+  {
+    "query": "PM 경험에서 배운 의사결정 패턴을 정리해줘.",
+    "should_trigger": false
+  }
+]

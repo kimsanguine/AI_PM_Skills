@@ -1,0 +1,14 @@
+{
+  "name": "atlas",
+  "version": "0.4.0",
+  "description": "Architect scalable, defensible AI agent systems — orchestration patterns, business models, and competitive moats. Use when designing agent architecture, choosing orchestration patterns, planning memory systems, or analyzing competitive positioning.",
+  "author": {
+    "name": "Ethan Kim",
+    "url": "https://github.com/kimsanguine"
+  },
+  "repository": "https://github.com/kimsanguine/AI_PM_Skills",
+  "license": "MIT",
+  "keywords": ["agent", "architecture", "orchestration", "strategy", "moat", "pm", "growth-loop", "flywheel"],
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

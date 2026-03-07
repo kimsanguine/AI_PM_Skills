@@ -1,0 +1,14 @@
+{
+  "eval_id": 7,
+  "eval_name": "premortem-support-agent",
+  "prompt": "다음 주에 고객 지원 에이전트를 프로덕션에 배포해. 하루 1000건 처리 예정이고, 금융 상품 관련 문의를 처리해. Pre-mortem 분석을 해줘. FMEA 방법론으로.",
+  "expected_output": "FMEA-based failure analysis with failure modes, severity/likelihood ratings, and prevention strategies",
+  "expectations": [
+    "Output identifies at least 5 distinct failure modes",
+    "Output assigns severity and likelihood scores to each failure",
+    "Output calculates risk priority (RPN or equivalent)",
+    "Output provides prevention/mitigation strategy for each failure",
+    "Output considers domain-specific risks (financial compliance)",
+    "Output includes a prioritized action plan"
+  ]
+}

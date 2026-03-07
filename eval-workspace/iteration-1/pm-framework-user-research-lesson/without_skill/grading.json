@@ -1,0 +1,38 @@
+{
+  "eval_id": 10,
+  "eval_name": "pm-framework-user-research-lesson",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Output creates a structured TK unit with clear naming",
+      "passed": true,
+      "evidence": "Found: TK structure"
+    },
+    {
+      "text": "Output captures the core insight about workarounds vs stated needs",
+      "passed": false,
+      "evidence": "Expected content not found in output"
+    },
+    {
+      "text": "Output defines when to apply this knowledge (trigger/context)",
+      "passed": true,
+      "evidence": "Found: TK structure"
+    },
+    {
+      "text": "Output includes a decision framework or heuristic",
+      "passed": false,
+      "evidence": "Expected content not found in output"
+    },
+    {
+      "text": "Output shows how to embed this knowledge in an agent instruction",
+      "passed": false,
+      "evidence": "Expected content not found in output"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 3,
+    "total": 5,
+    "pass_rate": 0.4
+  }
+}
