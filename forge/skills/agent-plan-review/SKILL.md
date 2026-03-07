@@ -2,6 +2,7 @@
 name: agent-plan-review
 description: "Review agent plans (PRD, architecture, instructions) before implementation — 4-axis verification: scope check, architecture, instruction quality, operational reliability. Use when validating an agent design before committing to build, reviewing PRDs, or checking architecture decisions."
 argument-hint: "[에이전트 이름 또는 PRD 파일 경로]"
+context: fork
 ---
 
 # Agent Plan Review — 에이전트 설계 구현 전 검증
