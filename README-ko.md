@@ -1,6 +1,6 @@
 # AI_PM_Skills
 
-> AI 에이전트를 기획하고, 만들고, 운영하는 PM을 위한 오픈소스 스킬셋
+> 에이전트 기획자를 위한 Skills: AI 에이전트를 기획하고, 만들고, 운영하는 PM을 위한 오픈소스 스킬셋
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-35-blue?style=flat-square)]()
