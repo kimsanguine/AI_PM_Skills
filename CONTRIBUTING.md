@@ -6,7 +6,7 @@ Thank you for your interest in contributing!
 
 ```
 AI_PM_Skills/
-├── oracle/                    # Discovery — what agent to build
+├── oracle/                    # Discovery — what agent to build (6 skills)
 │   ├── .claude-plugin/
 │   │   └── plugin.json        # Plugin manifest (required)
 │   ├── skills/
@@ -16,10 +16,10 @@ AI_PM_Skills/
 │   └── commands/
 │       ├── discover.md
 │       └── validate.md
-├── atlas/                     # Strategy — how to architect it
-├── forge/                     # Execution — spec and ship
-├── argus/                     # Metrics — measure and improve
-├── muse/                      # PM tacit knowledge management
+├── atlas/                     # Strategy — how to architect it (7 skills)
+├── forge/                     # Execution — spec and ship (11 skills)
+├── argus/                     # Metrics — measure and improve (8 skills)
+├── muse/                      # PM tacit knowledge management (3 skills)
 ├── evals/                     # Trigger eval queries + benchmark data
 │   ├── evals.json             # Quality eval definitions
 │   ├── trigger-evals.json     # Trigger accuracy queries (96 total)
@@ -27,6 +27,7 @@ AI_PM_Skills/
 ├── eval-workspace/            # Eval run outputs + benchmark results
 ├── README.md                  # English
 ├── README-ko.md               # Korean (한국어)
+├── CHANGELOG.md               # Version history
 ├── progress.md                # Phase-by-phase progress log
 └── CONTRIBUTING.md            # This file
 ```
@@ -38,25 +39,70 @@ AI_PM_Skills/
 ```markdown
 ---
 name: skill-name-in-kebab-case
-description: "One-line English description"
+description: "One-line English description with 'Use when...' trigger pattern (200+ chars recommended)"
+argument-hint: "What to provide — e.g., agent name, domain"
 ---
 
 # Skill Title
 
 > Korean one-line description (한국어 요약)
 
+## Core Goal
+1-2 sentence statement of the skill's purpose and primary output.
+
+## Trigger Gate
+
+**Use this skill when:**
+- Condition 1
+- Condition 2
+
+**Route to another skill when:**
+- `other-skill` — when X applies instead
+- `another-skill` — when Y applies instead
+
+**Boundary — what this skill does NOT do:**
+- Out-of-scope item 1
+- Out-of-scope item 2
+
 ## 개념 (Concept)
-Korean explanation of the core idea
+Korean explanation of the core idea.
+This section teaches the PM the underlying framework/methodology.
 
 ## Instructions
-English instructions with $ARGUMENTS variable
+English instructions with $ARGUMENTS variable.
+Step-by-step LLM execution logic goes here.
+
+## Failure Handling
+
+| Failure | Detection | Fallback |
+|---------|-----------|----------|
+| Missing input | How to detect | What to do |
+| Low-quality output | How to detect | What to do |
+
+## Quality Gate (self-check before delivery)
+
+- [ ] Check item 1
+- [ ] Check item 2
+- [ ] Check item 3
+
+## Examples
+
+**Good output signal:** Description of what a good result looks like.
+
+**Bad output signal:** Description of what indicates the skill underperformed.
 ```
 
 **Key rules:**
 - `name` in frontmatter = directory name (kebab-case)
-- `description` in English (for GitHub discoverability)
-- Concept section in Korean (for primary audience)
-- Instructions in English (for LLM execution quality)
+- `description` in English, 200+ chars recommended, with "Use when..." trigger phrases
+- `argument-hint` describes what input the user should provide
+- **Core Goal** — what this skill produces (1-2 sentences)
+- **Trigger Gate** — Use/Route/Boundary for accurate skill selection
+- **개념 (Concept)** in Korean for primary audience education
+- **Instructions** in English for LLM execution quality
+- **Failure Handling** — table of failure → detection → fallback
+- **Quality Gate** — self-check checklist before delivering output
+- **Examples** — good/bad output signals
 - Always include `$ARGUMENTS` as the user input variable
 - Keep skill names **short and intuitive** (e.g., `kpi`, `moat`, `prd`)
 

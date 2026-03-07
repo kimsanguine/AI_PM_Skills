@@ -5,7 +5,7 @@
 
 ---
 
-## 현재 상태: Phase 3 완료 → Phase 4 대기
+## 현재 상태: v1.0 완료 → Phase 4 (배포 준비) 진행 중
 
 | Phase | 상태 | 진행률 | 비고 |
 |-------|------|--------|------|
@@ -14,7 +14,8 @@
 | Phase 1: 구조 마이그레이션 | ✅ 완료 | 100% | plugin.json + frontmatter 정리 완료 |
 | Phase 2: Description 최적화 | ✅ 완료 | 100% | 97.9% trigger accuracy (94/96) |
 | Phase 3: 테스트 & Eval | ✅ 완료 | 100% | with_skill 100% vs without_skill 88% (+12%) |
-| Phase 4: 배포 준비 | ⬜ 미시작 | 0% | GitHub 배포 |
+| **v1.0: 구조 업그레이드** | **✅ 완료** | **100%** | **35 skills + v1.0 구조 전체 적용** |
+| Phase 4: 배포 준비 | 🔄 진행 중 | 50% | 문서 업데이트 완료, Git 배포 대기 |
 | Phase 5: 지속 개선 | ⬜ 미시작 | 0% | Post-Launch |
 
 ---
@@ -225,11 +226,50 @@ rm -f oracle/PLUGIN.md atlas/PLUGIN.md forge/PLUGIN.md argus/PLUGIN.md muse/PLUG
 
 ---
 
+## v1.0: 구조 업그레이드 ✅
+
+**완료일:** 2026-03-07
+
+### v1.0 구조 전환
+- ✅ 기존 32개 스킬 전체 v1.0 구조 적용 (Core Goal, Trigger Gate, Failure Handling, Quality Gate, Examples)
+- ✅ cost-sim을 v1.0 템플릿으로 선정 → 나머지 31개에 병렬 적용
+- ✅ 교육적 Concept/Instructions 콘텐츠 100% 보존 (하이브리드 구조)
+- ✅ 32/32 구조 검증 통과
+
+### 신규 스킬 3개 (forge 플러그인)
+| 스킬 | 출처 | 변경 사항 |
+|------|------|----------|
+| `infographic-gif-creator` | Vibe/Skills → 에이전트 PM 맥락으로 재작성 | HTML/CSS → GIF/MP4 인포그래픽 파이프라인 |
+| `pptx-ai-slide` | Vibe/Skills (Alan 의존성 제거) | 에이전트 프레젠테이션 덱 범용화 |
+| `agent-demo-video` | Vibe/Skills remotion → 에이전트 데모 영상으로 재구성 | Remotion 기반 5단계 스토리라인 |
+
+### 검증
+- ✅ validate_plugins.py: 5 plugins, 35 skills, 12 commands, 0 errors, 0 warnings
+- ✅ forge plugin.json 업데이트 (description + keywords)
+
+### 문서 업데이트
+- ✅ README.md / README-ko.md (뱃지, Status, forge 상세, File Structure, Skill Origin)
+- ✅ CONTRIBUTING.md (v1.0 SKILL.md 포맷 가이드)
+- ✅ GUIDE-ko.md (forge 11개, 전체 35개)
+- ✅ "What Makes This Different" 섹션 6 추가 (v1.0 구조적 엄밀함)
+- ✅ CHANGELOG.md 신규 작성
+- ✅ progress.md v1.0 Phase 기록
+
+---
+
 ## Phase 4: 배포 준비
 
-**상태:** ⬜ 미시작
+**상태:** 🔄 진행 중
 
-(Phase 3 완료 후 진행)
+### 완료
+- ✅ 문서 전체 업데이트
+
+### 남은 작업
+- [ ] 구 디렉토리 삭제 (pm-agent-*, pm-engine)
+- [ ] 내부 기획문서 제거 (PROJECT.md, REFERENCE-ANALYSIS.md)
+- [ ] `.git/index.lock` 해제 (로컬에서 수동)
+- [ ] 최종 커밋 & push
+- [ ] GitHub Release v1.0.0
 
 ---
 

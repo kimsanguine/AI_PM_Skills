@@ -3,7 +3,7 @@
 > An open-source skillset for PMs who design, build, and operate AI agents as products
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-32-blue?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-35-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-5-purple?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
@@ -74,6 +74,10 @@ Full compliance with Claude Code's official spec — marketplace JSON schema, pl
 
 When building agents, the question always comes up: "Should this be an MCP server or a skill?" This skillset guides the architectural decision of how to divide external API connections (MCP) and domain knowledge (Skills) at design time.
 
+### 6. v1.0 Structural Rigor
+
+Every skill follows a consistent v1.0 structure: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. The Trigger Gate (Use / Route / Boundary) ensures the right skill fires for the right task. The Failure Handling table covers detection and fallback for each failure mode. The Quality Gate is a self-check before delivery. This isn't formatting — it's the difference between a prompt and a production-grade skill.
+
 ---
 
 ## How It Works
@@ -142,7 +146,10 @@ AI_PM_Skills/
 │   │   ├── okr/SKILL.md              #   Agent OKR
 │   │   ├── stakeholder-map/SKILL.md  #   Stakeholder mapping
 │   │   ├── agent-plan-review/SKILL.md#   4-axis pre-impl review
-│   │   └── gemini-image-flow/SKILL.md#   Image generation pipeline
+│   │   ├── gemini-image-flow/SKILL.md#   Image generation pipeline
+│   │   ├── infographic-gif-creator/SKILL.md  # Animated infographic creation
+│   │   ├── pptx-ai-slide/SKILL.md     #   Agent presentation deck
+│   │   └── agent-demo-video/SKILL.md   #   Remotion-based demo video
 │   └── commands/
 │       ├── write-prd.md              #   /write-prd
 │       ├── set-okr.md                #   /set-okr
@@ -290,7 +297,7 @@ done
 </details>
 
 <details>
-<summary><strong>3. forge</strong> — How to spec and ship it? <code>(8 skills, 3 commands)</code></summary>
+<summary><strong>3. forge</strong> — How to spec and ship it? <code>(11 skills, 3 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -302,6 +309,9 @@ done
 | `stakeholder-map` | Stakeholder mapping | "Who's for it, who's against it?" |
 | `agent-plan-review` | 4-axis pre-implementation review + Mermaid | "Sanity check before coding" |
 | `gemini-image-flow` | Image generation pipeline | "How to build an image gen agent?" |
+| `infographic-gif-creator` | Animated infographic GIF/MP4 | "Visualize this architecture as an animation" |
+| `pptx-ai-slide` | Agent presentation deck | "Make a pitch deck for this agent" |
+| `agent-demo-video` | Remotion-based demo video | "Create a demo video for stakeholders" |
 
 **Commands:** `/write-prd` · `/set-okr` · `/sprint`
 
@@ -384,6 +394,8 @@ done
 
 Full data: [`eval-workspace/iteration-1/benchmark.json`](eval-workspace/iteration-1/benchmark.json)
 
+> **Note:** Benchmark was measured on 32 skills (v0.4). Re-measurement with 35 skills and v1.0 structure is planned for the next iteration.
+
 ---
 
 ## Skill Origin
@@ -392,24 +404,24 @@ Full data: [`eval-workspace/iteration-1/benchmark.json`](eval-workspace/iteratio
 |------|-------|-------------|
 | 🟢 Adapted | 3 | Classic PM frameworks (OST, FMEA), recontextualized for agents |
 | 🟡 Extended | 6 | Standard PM concepts, heavily extended with agent-specific dimensions |
-| 🔴 New | 23 | Agent-only domains — cost-sim, 3-tier, TK-NNN, moat, reliability, growth-loop, etc. |
+| 🔴 New | 26 | Agent-only domains — cost-sim, 3-tier, TK-NNN, moat, reliability, growth-loop, etc. |
 
-**72% is original work.**
+**74% is original work.**
 
 ---
 
 ## Status
 
-**v0.4** — All 5 plugins complete (32 skills, 12 commands)
+**v1.0** — All 5 plugins complete (35 skills, 12 commands) with v1.0 structural upgrade
 
 | Plugin | Skills | Commands | Trigger Accuracy | Status |
 |--------|--------|----------|-----------------|--------|
 | oracle | 6 | 2 | 18/20 (90%) | ✅ |
 | atlas | 7 | 2 | 24/24 (100%) | ✅ |
-| forge | 8 | 3 | 20/20 (100%) | ✅ |
+| forge | 11 | 3 | 20/20 (100%) | ✅ |
 | argus | 8 | 2 | 20/20 (100%) | ✅ |
 | muse | 3 | 3 | 12/12 (100%) | ✅ |
-| **Total** | **32** | **12** | **94/96 (97.9%)** | |
+| **Total** | **35** | **12** | **94/96 (97.9%)** | |
 
 ---
 

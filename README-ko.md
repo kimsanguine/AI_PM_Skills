@@ -3,7 +3,7 @@
 > AI 에이전트를 기획하고, 만들고, 운영하는 PM을 위한 오픈소스 스킬셋
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-32-blue?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-35-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-5-purple?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
@@ -74,6 +74,10 @@ plugin.json (×5)          ← 플러그인 매니페스트
 
 에이전트를 만들다 보면 "이건 MCP 서버로 만들어야 하나, 스킬로 만들어야 하나?"라는 질문이 생깁니다. 이 스킬셋은 설계 단계에서 외부 API 연결(MCP)과 도메인 지식(Skills)을 어떻게 나누고 조합할지를 가이드합니다.
 
+### 6. v1.0 구조적 엄밀함
+
+모든 스킬이 일관된 v1.0 구조를 따릅니다: **Core Goal → Trigger Gate → Failure Handling → Quality Gate → Examples**. Trigger Gate(Use / Route / Boundary)로 정확한 스킬이 정확한 상황에서 발동합니다. Failure Handling 테이블은 실패 모드별 감지 방법과 대안을 다룹니다. Quality Gate는 결과물 전달 전 셀프 점검입니다. 이건 포맷팅이 아니라, 프롬프트와 프로덕션급 스킬의 차이입니다.
+
 ---
 
 ## 어떻게 작동하나요?
@@ -142,7 +146,10 @@ AI_PM_Skills/
 │   │   ├── okr/SKILL.md              #   에이전트 OKR
 │   │   ├── stakeholder-map/SKILL.md  #   이해관계자 매핑
 │   │   ├── agent-plan-review/SKILL.md#   구현 전 4축 검증
-│   │   └── gemini-image-flow/SKILL.md#   이미지 생성 파이프라인
+│   │   ├── gemini-image-flow/SKILL.md#   이미지 생성 파이프라인
+│   │   ├── infographic-gif-creator/SKILL.md  # 인포그래픽 GIF/MP4
+│   │   ├── pptx-ai-slide/SKILL.md     #   에이전트 프레젠테이션
+│   │   └── agent-demo-video/SKILL.md   #   에이전트 데모 영상
 │   └── commands/
 │       ├── write-prd.md              #   /write-prd
 │       ├── set-okr.md                #   /set-okr
@@ -290,7 +297,7 @@ done
 </details>
 
 <details>
-<summary><strong>3. forge</strong> — 어떻게 명세하고 만들까? <code>(8 skills, 3 commands)</code></summary>
+<summary><strong>3. forge</strong> — 어떻게 명세하고 만들까? <code>(11 skills, 3 commands)</code></summary>
 
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
@@ -302,6 +309,9 @@ done
 | `stakeholder-map` | 이해관계자 매핑 | "누가 찬성하고 누가 막지?" |
 | `agent-plan-review` | 구현 전 4축 검증 + Mermaid | "이 설계 괜찮은지 구현 전에 봐줘" |
 | `gemini-image-flow` | 이미지 생성 파이프라인 | "이미지 생성 에이전트를 어떻게 만들지?" |
+| `infographic-gif-creator` | 인포그래픽 GIF/MP4 | "이 아키텍처를 애니메이션으로 만들어줘" |
+| `pptx-ai-slide` | 에이전트 프레젠테이션 | "이 에이전트 피치 덱 만들어줘" |
+| `agent-demo-video` | Remotion 데모 영상 | "이해관계자용 데모 영상 만들어줘" |
 
 **커맨드:** `/write-prd` · `/set-okr` · `/sprint`
 
@@ -384,6 +394,8 @@ done
 
 전체 데이터: [`eval-workspace/iteration-1/benchmark.json`](eval-workspace/iteration-1/benchmark.json)
 
+> **참고:** 벤치마크는 32개 스킬(v0.4) 기준입니다. 35개 스킬 + v1.0 구조 기준 재측정은 다음 iteration에서 진행 예정입니다.
+
 ---
 
 ## 스킬 출처
@@ -392,24 +404,24 @@ done
 |------|-----|------|
 | 🟢 적용 | 3 | 기존 PM 프레임워크(OST, FMEA)를 에이전트 맥락에 맞게 재구성 |
 | 🟡 확장 | 6 | 일반 PM 개념에 에이전트 전용 차원을 대폭 추가 |
-| 🔴 신규 | 23 | 에이전트 전용 영역 — 다른 PM 스킬셋에 없는 것들 |
+| 🔴 신규 | 26 | 에이전트 전용 영역 — 다른 PM 스킬셋에 없는 것들 |
 
-**72%가 오리지널 작업입니다.**
+**74%가 오리지널 작업입니다.**
 
 ---
 
 ## 현재 상태
 
-**v0.4** — 전체 5개 플러그인 완성 (32 스킬, 12 커맨드)
+**v1.0** — 전체 5개 플러그인 완성 (35 스킬, 12 커맨드) + v1.0 구조 업그레이드
 
 | 플러그인 | 스킬 | 커맨드 | 트리거 정확도 | 상태 |
 |---------|------|-------|-------------|------|
 | oracle | 6 | 2 | 18/20 (90%) | ✅ |
 | atlas | 7 | 2 | 24/24 (100%) | ✅ |
-| forge | 8 | 3 | 20/20 (100%) | ✅ |
+| forge | 11 | 3 | 20/20 (100%) | ✅ |
 | argus | 8 | 2 | 20/20 (100%) | ✅ |
 | muse | 3 | 3 | 12/12 (100%) | ✅ |
-| **전체** | **32** | **12** | **94/96 (97.9%)** | |
+| **전체** | **35** | **12** | **94/96 (97.9%)** | |
 
 ---
 
