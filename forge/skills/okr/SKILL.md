@@ -2,6 +2,8 @@
 name: okr
 description: "Design OKRs specifically for AI agents — defining measurable Key Results around accuracy, cost, reliability, and business impact. Use when setting performance goals for a deployed agent, reviewing agent effectiveness, or aligning agent metrics with business objectives."
 argument-hint: "[agent to set OKRs for]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Agent OKR

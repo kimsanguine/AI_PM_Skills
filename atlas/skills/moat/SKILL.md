@@ -2,6 +2,8 @@
 name: moat
 description: "Analyze and design competitive moats for AI agent products — data flywheel, workflow lock-in, network effects, and switching costs. Use when evaluating competitive positioning, planning long-term defensibility, or identifying what makes your agent product hard to replicate."
 argument-hint: "[agent product to analyze]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 # Agent Moat

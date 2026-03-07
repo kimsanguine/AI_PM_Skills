@@ -2,6 +2,8 @@
 name: prompt
 description: "Design prompts from a PM perspective — focusing on intent and outcome rather than syntax. Covers the CRISP framework, common prompt failure patterns, and how to encode PM judgment into agent instructions. Use when writing System Prompts, crafting agent instructions, or debugging underperforming prompts."
 argument-hint: "[prompt or instruction to optimize]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Prompt Engineering for PMs

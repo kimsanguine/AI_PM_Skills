@@ -2,6 +2,8 @@
 name: ctx-budget
 description: "Plan and optimize the context window usage for an agent. Define file loading priority, estimate token consumption per component, and design a strategy to stay within budget. Use when designing agents that load multiple files, or when diagnosing high token costs or context overflow errors."
 argument-hint: "[agent to budget tokens for]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Context Window Budget

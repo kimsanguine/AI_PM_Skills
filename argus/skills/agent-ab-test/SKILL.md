@@ -2,6 +2,9 @@
 name: agent-ab-test
 description: "Design and analyze A/B tests for AI agents — compare prompt versions, model choices, or architecture variants with statistical rigor. Use when optimizing agent performance, testing new instructions, evaluating model upgrades, or validating TK-based improvements."
 argument-hint: "[agent and variants to A/B test]"
+allowed-tools: ["Read", "Write"]
+context: fork
+model: sonnet
 ---
 
 # Agent A/B Test

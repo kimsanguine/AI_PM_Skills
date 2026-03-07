@@ -2,7 +2,13 @@
 name: agent-plan-review
 description: "Review agent plans (PRD, architecture, instructions) before implementation — 4-axis verification: scope check, architecture, instruction quality, operational reliability. Use when validating an agent design before committing to build, reviewing PRDs, or checking architecture decisions."
 argument-hint: "[에이전트 이름 또는 PRD 파일 경로]"
+allowed-tools: ["Read", "Write"]
 context: fork
+model: sonnet
+hooks:
+  Stop:
+    - type: command
+      command: "bash scripts/validate-review.sh agent-plan-review . 2>/dev/null || true"
 ---
 
 # Agent Plan Review — 에이전트 설계 구현 전 검증
@@ -143,6 +149,22 @@ context: fork
 - Anti-Goals 없음 → 무엇을 하지 말아야 하는지 명확하지 않음
 - "더 나은 프롬프트"는 의견이 아닌 지적 → 트레이드오프/옵션 없음
 ```
+
+---
+
+## Project Context (auto-injected)
+
+> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
+> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
+
+**프로젝트 메모리:**
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+
+**현재 이슈 (Linear/GitHub):**
+!`linear issue list --mine --status "In Progress" --limit 5 2>/dev/null || gh issue list --limit 5 --json number,title --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null || echo "이슈 트래커 연결 없음 — Linear CLI 또는 GitHub CLI 설치 시 자동 연동됩니다."`
+
+**최근 Git 변경 (설계 파일):**
+!`git log --oneline -5 -- "*.md" "agents/" "instructions/" 2>/dev/null || echo "Git 이력 없음 — Git 저장소에서 실행 시 최근 설계 변경 이력을 자동 참조합니다."`
 
 ---
 

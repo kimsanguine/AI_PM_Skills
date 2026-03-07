@@ -2,6 +2,8 @@
 name: instruction
 description: "Design a complete agent instruction set — System Prompt, tool list, memory strategy, trigger conditions, and output format. Use when building a new agent from scratch, refining an underperforming agent, or standardizing agent design across a portfolio. The PM equivalent of writing a job description for your AI employee."
 argument-hint: "[agent to design instructions for]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Agent Instruction Design
@@ -303,6 +305,19 @@ agent-prd-template.md  →  [공식 문서화]
 ### 사용 방법
 
 `/agent-instruction-design [에이전트 이름 또는 목적]`
+
+---
+
+## Project Context (auto-injected)
+
+> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
+> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
+
+**프로젝트 메모리:**
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+
+**기존 에이전트 인스트럭션:**
+!`ls -1 agents/*/INSTRUCTION.md 2>/dev/null || ls -1 instructions/*.md 2>/dev/null || echo "기존 인스트럭션 파일 없음 — agents/ 또는 instructions/ 디렉토리에 기존 설계가 있으면 자동 참조됩니다."`
 
 ---
 

@@ -2,6 +2,8 @@
 name: agent-demo-video
 description: "Create demo videos for AI agents using Remotion (React-based video framework). Compose screen recordings, architecture animations, narration, and subtitles into polished demo videos. Use when showcasing agent capabilities to stakeholders, investors, or users."
 argument-hint: "[agent to create demo video for]"
+allowed-tools: ["Read", "Write", "Edit", "Bash"]
+model: sonnet
 ---
 
 ## Core Goal

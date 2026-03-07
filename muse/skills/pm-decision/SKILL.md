@@ -2,6 +2,8 @@
 name: pm-decision
 description: "Access and apply a growing library of PM decision patterns derived from real experience. Each pattern describes a recurring decision scenario with context, judgment criteria, and known failure modes. Use when facing a recurring decision, onboarding a new agent to PM thinking, or reviewing whether a past decision followed established patterns."
 argument-hint: "[decision situation]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Core Goal

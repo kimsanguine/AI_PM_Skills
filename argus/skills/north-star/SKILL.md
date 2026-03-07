@@ -2,6 +2,8 @@
 name: north-star
 description: "Define the single North Star metric for an AI agent that aligns operational performance with business value. Use when launching a new agent product, realigning team focus, setting up metric hierarchies, or when multiple KPIs are creating conflicting priorities."
 argument-hint: "[agent or product]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Agent North Star

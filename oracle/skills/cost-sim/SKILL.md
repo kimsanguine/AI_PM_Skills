@@ -3,6 +3,11 @@ name: cost-sim
 description: "Simulate and forecast agent operating costs before building. Model token consumption, API call frequency, and monthly burn rate across different models and usage patterns. Use when evaluating agent feasibility, setting cost KPIs, or comparing build vs buy economics. Prevents the 'it's just API calls' cost surprise."
 argument-hint: "[agent to model costs for]"
 allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
+hooks:
+  Stop:
+    - type: command
+      command: "bash scripts/validate-cost-sim.sh . 2>/dev/null || true"
 ---
 
 ## Core Goal
@@ -169,6 +174,19 @@ API 소계: $C/월
 초과 시: 에이전트 일시 중지 + 알림
 → agent-okr의 비용 KR과 연결
 ```
+
+---
+
+## Project Context (auto-injected)
+
+> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
+> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
+
+**프로젝트 메모리:**
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+
+**최근 API 사용량 (참고용):**
+!`cat .claude/usage.json 2>/dev/null || cat logs/api-usage*.log 2>/dev/null | tail -20 || echo "사용량 데이터 없음 — .claude/usage.json 또는 logs/ 디렉토리에 사용량 로그가 있으면 자동 참조됩니다."`
 
 ---
 

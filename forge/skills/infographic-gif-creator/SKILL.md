@@ -2,6 +2,8 @@
 name: infographic-gif-creator
 description: "Create animated infographics (GIF/MP4) from HTML/CSS to visualize agent architectures, workflows, and data flows. Use when you need visual explanations for stakeholder communication, documentation, or demo materials. Routes to compose-video for multi-scene final rendering."
 argument-hint: "[infographic topic or data to visualize]"
+allowed-tools: ["Read", "Write", "Edit", "Bash"]
+model: sonnet
 ---
 
 ## Core Goal

@@ -2,6 +2,8 @@
 name: stakeholder-map
 description: "Map and manage stakeholders for AI agent adoption — identify decision-makers, blockers, and champions across engineering, legal, operations, and leadership. Use when introducing an agent to an organization, navigating internal resistance, or planning change management for AI adoption."
 argument-hint: "[agent initiative to map stakeholders for]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Agent Stakeholder Map
@@ -232,6 +234,19 @@ Go/No-Go Confidence: **HIGH** (Champion 강함 + CFO 지지 명확 + Technical R
 ## 개념
 
 에이전트 도입은 기술 문제가 아니라 조직 변화 문제다. "AI가 내 일을 빼앗는다"는 불안이 가장 큰 저항 요인이고, 법무팀의 AI 리스크 우려, 엔지니어링의 기술 부채 걱정이 뒤를 따른다. 이해관계자를 미리 매핑하지 않으면 기술적으로 성공한 에이전트가 조직적으로 실패한다.
+
+## Project Context (auto-injected)
+
+> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
+> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
+
+**프로젝트 메모리:**
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+
+**조직 정보 (참고용):**
+!`cat .claude/team.md 2>/dev/null || cat docs/team*.md 2>/dev/null || echo "조직 정보 파일 없음 — .claude/team.md에 팀 구성을 기록하면 자동 참조됩니다."`
+
+---
 
 ## Instructions
 

@@ -2,6 +2,13 @@
 name: reliability
 description: "Systematically review and improve AI agent reliability — identify failure patterns, assess error handling, design safeguards, and set reliability targets. Use when agents are producing inconsistent results, after incidents, or when preparing for production deployment."
 argument-hint: "[agent to assess]"
+allowed-tools: ["Read", "Write"]
+context: fork
+model: sonnet
+hooks:
+  Stop:
+    - type: command
+      command: "bash scripts/validate-review.sh reliability . 2>/dev/null || true"
 ---
 
 # Reliability Review
