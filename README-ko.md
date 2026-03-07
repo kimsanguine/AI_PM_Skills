@@ -14,10 +14,10 @@
 
 ```bash
 /discover 고객 상담 업무를 자동화하고 싶어
-/architecture 다국어 FAQ 자동응답 + 에스컬레이션 에이전트
-/write-prd 고객 상담 자동응답 에이전트
-/health-check 상담 에이전트 주간 점검
-/extract "고객이 긴급이라고 하면 80%는 진짜 긴급이 아니었다"
+/architecture 다국어 FAQ 자동응답 + 에스컬레이션 에이전트를 구성해줘.
+/write-prd 고객 문의 중에서 검토할 신규 우선 기능를 개발해보자.
+/health-check 상담 에이전트 주간 점검을 진행해줘
+/extract "고객이 긴급이라고 하면 80%는 진짜 긴급이 아니다"
 ```
 
 ---
