@@ -200,35 +200,27 @@ AI_PM_Skills is built on two independent layers.
 
 > To avoid confusion: "Skills 2.0" in this doc refers to Claude Code's **platform spec**. "Content structure" refers to AI_PM_Skills' **skill design pattern**.
 
-### Skills 1.0 vs Skills 2.0
+### Skills 1.0 vs Skills 2.0 — What AI_PM_Skills Uses
 
-Claude Code's skill platform evolved from Skills 1.0 (2025) to Skills 2.0 (2026). AI_PM_Skills runs on Skills 2.0.
+Claude Code's skill platform evolved from Skills 1.0 (2025) to Skills 2.0 (2026). AI_PM_Skills runs on Skills 2.0 and leverages the following features.
 
 | Feature | Skills 1.0 (2025) | Skills 2.0 (2026) | AI_PM_Skills Usage |
 |---------|-------------------|-------------------|-------------------|
-| **Skill location** | `.claude/commands/` | `.claude/skills/` + plugin directories | ✅ Plugin directory structure |
-| **Frontmatter** | None (plain markdown) | `name`, `description`, `argument-hint`, `allowed-tools`, `context`, `agent`, `hooks`, etc. | ✅ `name`, `description` (200+ chars), `argument-hint` |
+| **Skill location** | `.claude/commands/` | `.claude/skills/` + plugin directories | ✅ 5 plugin directory structure |
+| **Frontmatter** | None (plain markdown) | `name`, `description`, `argument-hint`, `allowed-tools`, `context`, etc. | ✅ `name`, `description` (200+ chars), `argument-hint`, `context`, `allowed-tools` |
 | **Auto-invocation** | ❌ Explicit `/` commands only | ✅ Auto-load via `description` matching | ✅ 97.9% accuracy on 96 queries |
 | **Command integration** | Commands and skills separate | Commands merged into skill system | ✅ 12 commands |
-| **Subagent execution** | ❌ | `context: fork` for isolated execution | ⬜ Not yet used |
-| **Tool restriction** | ❌ | `allowed-tools` limits available tools | ⬜ Not yet used |
-| **Dynamic injection** | ❌ | `` !`command` `` syntax to include other skills | ⬜ Not yet used |
-| **Variable substitution** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}`, etc. | ⬜ Not yet used |
-| **Model selection** | ❌ | `model: haiku` per-skill model override | ⬜ Not yet used |
-| **Hooks** | ❌ | `hooks: PreToolUse, PostToolUse` | ⬜ Not yet used |
+| **Variable substitution** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}`, etc. | ✅ `$ARGUMENTS` in all commands |
+| **Subagent execution** | ❌ | `context: fork` for isolated execution | ✅ `premortem`, `agent-plan-review` |
+| **Tool restriction** | ❌ | `allowed-tools` limits available tools | ✅ `cost-sim` (Read, Write, WebSearch, WebFetch) |
 | **Marketplace** | ❌ | `marketplace.json` schema | ✅ Marketplace registration |
 | **Eval system** | ❌ | `evals.json` schema | ✅ 10 tests, 54 assertions |
 
-### Unused Skills 2.0 Features — Future Roadmap
-
-Skills 2.0 features not yet utilized by AI_PM_Skills, with potential applications.
+### Future Roadmap — Skills 2.0 Features Not Yet Used
 
 | Feature | Scenario | Expected Impact |
 |---------|----------|----------------|
-| `context: fork` | `premortem` skill runs code scanning in an isolated subagent | Large-scale analysis without polluting main context |
-| `allowed-tools` | `cost-sim` restricted to calculator + web search only | Prevents unintended tool calls, reduces cost |
 | `` !`command` `` dynamic injection | `/write-prd` dynamically pulls GitHub issues into PRD | Real-time external data integration |
-| `$ARGUMENTS` variables | `/discover <topic>` passes topic as a variable | More flexible commands |
 | `model: haiku` | Simple classification skills (Trigger Gate decisions) run on Haiku | 40-60% cost reduction |
 | `hooks` | Pre-execution input validation, post-execution result logging | Production observability |
 

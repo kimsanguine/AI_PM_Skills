@@ -200,35 +200,27 @@ AI_PM_Skills는 두 개의 독립된 레이어로 구성됩니다.
 
 > 혼동 방지: 문서에서 "Skills 2.0"은 Claude Code의 **플랫폼 규격**을, "콘텐츠 구조"는 AI_PM_Skills의 **스킬 설계 패턴**을 지칭합니다.
 
-### Skills 1.0 vs Skills 2.0 비교
+### Skills 1.0 vs Skills 2.0 — AI_PM_Skills가 활용하는 것
 
-Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로 진화했습니다. AI_PM_Skills는 Skills 2.0 규격 위에서 동작합니다.
+Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로 진화했습니다. AI_PM_Skills는 Skills 2.0 규격 위에서 동작하며, 다음 기능을 활용합니다.
 
 | 기능 | Skills 1.0 (2025) | Skills 2.0 (2026) | AI_PM_Skills 활용 |
 |------|-------------------|-------------------|-------------------|
-| **스킬 위치** | `.claude/commands/` | `.claude/skills/` + 플러그인 디렉토리 | ✅ 플러그인 디렉토리 구조 |
-| **Frontmatter** | 없음 (단순 마크다운) | `name`, `description`, `argument-hint`, `allowed-tools`, `context`, `agent`, `hooks` 등 | ✅ `name`, `description` (200자+), `argument-hint` |
+| **스킬 위치** | `.claude/commands/` | `.claude/skills/` + 플러그인 디렉토리 | ✅ 5개 플러그인 디렉토리 구조 |
+| **Frontmatter** | 없음 (단순 마크다운) | `name`, `description`, `argument-hint`, `allowed-tools`, `context` 등 | ✅ `name`, `description` (200자+), `argument-hint`, `context`, `allowed-tools` |
 | **자동 호출** | ❌ 명시적 `/` 커맨드만 | ✅ `description` 매칭으로 자동 로드 | ✅ 96개 쿼리 97.9% 정확도 |
 | **커맨드 통합** | 커맨드와 스킬 분리 | 커맨드가 스킬 시스템에 통합 | ✅ 12개 커맨드 |
-| **서브에이전트** | ❌ | `context: fork`로 격리 실행 | ⬜ 미활용 |
-| **도구 제한** | ❌ | `allowed-tools`로 사용 도구 제한 | ⬜ 미활용 |
-| **동적 주입** | ❌ | `` !`command` `` 구문으로 다른 스킬 동적 포함 | ⬜ 미활용 |
-| **변수 치환** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}` 등 | ⬜ 미활용 |
-| **모델 지정** | ❌ | `model: haiku` 등 스킬별 모델 선택 | ⬜ 미활용 |
-| **Hooks** | ❌ | `hooks: PreToolUse, PostToolUse` | ⬜ 미활용 |
+| **변수 치환** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}` 등 | ✅ 모든 커맨드에서 `$ARGUMENTS` 사용 |
+| **서브에이전트** | ❌ | `context: fork`로 격리 실행 | ✅ `premortem`, `agent-plan-review` |
+| **도구 제한** | ❌ | `allowed-tools`로 사용 도구 제한 | ✅ `cost-sim` (Read, Write, WebSearch, WebFetch) |
 | **마켓플레이스** | ❌ | `marketplace.json` 스키마 | ✅ 마켓플레이스 등록 |
 | **Eval 시스템** | ❌ | `evals.json` 스키마 | ✅ 10 tests, 54 assertions |
 
-### 미활용 Skills 2.0 기능 — 향후 로드맵
-
-현재 AI_PM_Skills가 활용하지 않는 Skills 2.0 기능과, 적용 시 기대 효과입니다.
+### 향후 로드맵 — 아직 활용하지 않는 Skills 2.0 기능
 
 | 기능 | 적용 시나리오 | 기대 효과 |
 |------|-------------|----------|
-| `context: fork` | `premortem` 스킬이 별도 서브에이전트에서 코드 스캐닝 | 메인 컨텍스트 오염 없이 대규모 분석 |
-| `allowed-tools` | `cost-sim` 스킬이 계산기·웹 검색만 사용하도록 제한 | 의도치 않은 도구 호출 방지, 비용 절감 |
 | `` !`command` `` 동적 주입 | `/write-prd` 실행 시 GitHub 이슈를 동적으로 가져와 PRD에 반영 | 외부 데이터 실시간 연동 |
-| `$ARGUMENTS` 변수 | `/discover <topic>` 에서 토픽을 변수로 전달 | 커맨드 유연성 향상 |
 | `model: haiku` | 단순 분류 스킬(Trigger Gate 판단)은 Haiku로 실행 | 비용 40-60% 절감 |
 | `hooks` | 스킬 실행 전 입력 검증, 실행 후 결과 로깅 | 프로덕션 관찰 가능성 확보 |
 
