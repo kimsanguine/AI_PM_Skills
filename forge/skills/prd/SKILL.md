@@ -6,6 +6,245 @@ argument-hint: "[agent to spec]"
 
 ## Agent PRD Template
 
+## Core Goal
+
+- 에이전트의 모든 설계 요소(지시사항, 도구, 메모리, 트리거, 출력, 실패 처리)를 7개 섹션으로 체계화하여 구현팀이 일관성 있게 구축할 수 있는 정식 명세서 작성
+- 기술 스펙과 사업 가치를 동시에 명시하여 엔지니어링과 경영진 모두가 이해 가능한 공식 문서 제공
+- 사전 정의된 실패 시나리오와 성공 지표로 배포 후 운영 기준을 명확히 함
+
+---
+
+## Trigger Gate
+
+### Use This Skill When
+
+- 프로토타입 검증이 완료되고 본격 구현에 들어가기 전에 공식 문서화 필요
+- 에이전트 포트폴리오를 표준화하고 싶을 때
+- 다른 팀이나 외부 엔지니어에게 구현을 위임해야 할 때
+- 에이전트 배포 전 최종 리뷰 및 승인 필요
+
+### Route to Other Skills When
+
+- Instruction 7요소 설계 필요 → `forge/instruction` 스킬로 라우팅
+- OKR 성공 지표 정의 필요 → `forge/okr` 스킬로 라우팅
+- 메모리 아키텍처 상세화 필요 → `atlas/memory-arch` 스킬로 라우팅
+- 신뢰성/SLO 정의 필요 → `argus/reliability` 스킬로 라우팅
+
+### Boundary Checks
+
+- PRD는 "무엇을 하는가"를 명시하지만, "어떻게 기술적으로 구현하는가"는 별도 구현 문서 범위
+- 각 섹션은 "구현팀이 이것만으로도 구현 가능한가?"의 기준으로 검증
+- 실패 시나리오 테이블은 최소 4개 이상의 현실적 상황 포함
+
+---
+
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|----------|------|------|
+| PRD 작성 중 Instruction과 출력 포맷이 충돌 (예: 출력은 간결인데 instruction은 상세) | Section 2와 6을 읽어보니 일관성 없음 | 어느 것이 정답인지 재결정하고, 양쪽 모두 업데이트 |
+| Tools & Integrations 섹션에서 도구 목록만 있고 호출 제한이 없음 | Section 3을 리뷰했을 때 "사용 조건" 컬럼이 비어있거나 모호함 | forge/instruction 스킬로 라우팅하여 도구별 상세 조건 정의 |
+| Failure Handling 테이블이 추상적 (예: "데이터 오류 발생 시 처리") | 실제로 어떤 데이터 오류인지, 어떻게 대응하는지 구체적이지 않음 | 각 시나리오를 구체적 에러 상황으로 재정의 (예: "API 응답 없음 → 3회 재시도 → 실패 시 Fallback 값 반환") |
+| Success Metrics가 측정 불가능 (예: "정확도 높음") | 수치, 측정 방법, 기한이 없음 | OKR 스킬과 연계하여 "정확도 95% 이상 by 2026-06-30" 형태로 재정의 |
+| MVP PRD vs Full PRD 선택 기준이 모호 | 어떤 에이전트는 1page, 어떤 건 7page인지 일관성 없음 | 프로토타입 단계 = MVP, 본격 구현 = Full로 명시적 기준 제시 |
+
+---
+
+## Quality Gate
+
+- [ ] Section 1 완료: 에이전트 이름, 버전, 상태, 한 줄 정의 (Yes/No)
+- [ ] Section 2 완료: Role/Primary Goal/Secondary Goals/Anti-Goals (Yes/No)
+- [ ] Section 3 완료: Tools 목록 + 사용 조건 + 호출 제한 (Yes/No)
+- [ ] Section 4 완료: 3계층 메모리 (Working/Long-term/Procedural) 계획 (Yes/No)
+- [ ] Section 5 완료: 트리거 유형 + 실행 흐름 Step-by-Step (Yes/No)
+- [ ] Section 6 완료: 채널/형식/길이/언어/톤 + 출력 샘플 (Yes/No)
+- [ ] Section 7 완료: 실패 시나리오 테이블 (4개 이상) + 성공 지표 (Yes/No)
+- [ ] 전체 일관성 검증: 섹션 간 충돌/누락 없음 (Yes/No)
+
+---
+
+## Examples
+
+### Good Example
+
+```markdown
+# Agent PRD — cost-analyst
+
+## Section 1 — Overview
+
+에이전트 이름: cost-analyst
+버전: 1.0
+작성일: 2026-03-07
+작성자: PM (이든)
+상태: Ready for Implementation
+
+한 줄 정의:
+cost-analyst는 OpenClaw 시스템의 월간 API 비용을 자동 분석하고, 절감 기회를 식별하는 에이전트다.
+
+배경:
+OpenClaw 운영 중 Gemini/Claude API 비용이 예측 불가능하게 증가. 월별 비용 분석을 자동화하고, 상위 10% 비용 소비처를 식별해 최적화 전략을 제시할 필요.
+
+---
+
+## Section 2 — Instruction Design
+
+Role:
+cost-analyst는 데이터 분석 PM으로서, Google Cloud Billing과 Anthropic API 청구 데이터를 수집하고,
+이든에게 실행 가능한 비용 절감 권고를 제시한다.
+
+Primary Goal:
+월간 API 비용의 상위 10개 비용 소비처(에이전트/도구별)를 식별하고, 각각의 절감 기회를 수치화하여 보고.
+
+Secondary Goals:
+1. 전월 대비 비용 증감 추이 시각화
+2. 비용 이상 탐지 (예: 예상치의 200% 이상)
+3. 절감 우선순위별 권고 (ROI 높은 것부터)
+
+Anti-Goals:
+1. 추측 기반 권고 금지 — 모든 수치는 실제 청구 데이터 기반
+2. 비용 절감을 위해 기능 제거 권고 금지 — 최적화만 제시
+3. 일관되지 않은 계산 방식 — 매달 동일한 로직으로 분석
+
+---
+
+## Section 3 — Tools & Integrations
+
+| 도구 | 용도 | 사용 조건 | 호출 제한 |
+|------|------|----------|---------|
+| Google Cloud Billing API | 월간 GCP 비용 조회 | 매월 1회 | 1회/실행 |
+| Anthropic API | 월간 Claude 사용량 조회 | 매월 1회 | 1회/실행 |
+| read_file | OpenClaw 실행 로그 읽기 | 에이전트 사용 기록 분석 시 | 제한 없음 |
+| write_file | 분석 결과 저장 | 월말 분석 완료 후 | 1회/실행 |
+| message (Telegram) | 최종 리포트 전송 | 분석 완료 후 무조건 | 1회/실행 |
+
+최소 권한 원칙: 읽기 전용 (비용 데이터 열람만, 과금 정책 변경 불가)
+
+---
+
+## Section 4 — Memory Strategy
+
+Working Memory (컨텍스트):
+- 항상 로드: 지난 3개월 비용 요약 (CSV) (~2KB = 600 tokens)
+- 조건부 로드: 이상 탐지 규칙 SKILL.md (비용 200% 이상 증가 시만) (~1KB = 300 tokens)
+- 컨텍스트 예산: 총 10,000 tokens 중 1,000 tokens 사용 (10%)
+
+Long-term Memory (파일):
+- 읽기: monthly-cost-2026-01.json, 02.json, 03.json
+- 쓰기: monthly-analysis-2026-03.md (분석 결과)
+- 저장 트리거: 분석 완료 후 자동 저장
+
+Procedural Memory (Skills):
+- cost-analysis.md (비용 분석 프레임워크)
+- anomaly-detection.md (이상 탐지 규칙)
+
+---
+
+## Section 5 — Trigger & Execution
+
+트리거 유형:
+☑ Cron — 매월 1일 오전 10:00 UTC
+☐ Event-Driven
+☐ Manual
+☐ Pipeline
+
+실행 흐름:
+Step 1: Google Cloud Billing API 호출 → 지난 달 비용 데이터 수집
+Step 2: Anthropic API 호출 → Claude 사용량 데이터 수집
+Step 3: 데이터 통합 및 분석 (상위 10개 소비처 식별)
+Step 4: 절감 권고 생성 (각각의 예상 절감액 계산)
+Step 5: Telegram 리포트 전송
+
+예상 실행 시간: 2분
+타임아웃 설정: 5분
+
+---
+
+## Section 6 — Output Specification
+
+출력 채널: Telegram
+출력 형식: Markdown
+출력 길이: 최대 1000자 (기본) + CSV 파일 첨부
+언어: 한국어
+톤: 간결하고 실용적 (수치 우선)
+
+출력 예시:
+```
+📊 2026년 3월 API 비용 분석
+
+**월간 총 비용:** $48.50 (전월 대비 +12%)
+
+🏆 상위 5개 비용 소비처:
+1. pm-briefing (Gemini 이미지) — $15.30 (32%)
+   💡 제안: Flash → 배치 50% 할인 적용 시 -$7.65/월
+2. cost-analyst (Claude Sonnet) — $12.80 (26%)
+   💡 제안: 요약본 우선 전략으로 -$3.84/월
+...
+
+📈 전월 대비: 3월은 pm-briefing 이미지 생성이 40회 → 60회로 증가.
+   특정 스타일의 이미지 요청이 많아지면서 비용 상승.
+
+🎯 가장 효과적인 절감: Flash 배치 할인 적용 → 월 -$8 예상
+
+---
+자세한 분석은 첨부 CSV 참조.
+```
+
+---
+
+## Section 7 — Failure Handling & Success Metrics
+
+실패 시나리오:
+
+| 시나리오 | 감지 방법 | 대응 행동 |
+|---------|---------|---------|
+| API 응답 없음 (Google Cloud Billing) | 10초 타임아웃 | 3회 재시도 (30초 간격) → 실패 시 "지난달 데이터 없음" 알림 + 진행 중단 |
+| API 요금 데이터 불완전 (모든 트랜잭션 누락) | 예상 비용 대비 50% 미만 반환 | "데이터가 불완전합니다. 24시간 후 다시 시도하세요" 알림 |
+| 이상 탐지 트리거 (전월 대비 200% 이상 증가) | monthly-cost 비교 | 추가 분석 SKILL 활성화 → "비용 이상 알림" 강조 + 긴급 검토 권고 |
+| 계산 오류 (분석 결과 검증 실패) | 수수료 합계 ≠ 리포트 합계 | 로그 재검토 → 재분석 → 재전송 (알림: "재분석 결과") |
+
+Human-in-the-loop 트리거:
+비용 이상 감지(200% 이상) → 즉시 이든에게 알림 (긴급 검토 요청)
+
+성공 지표:
+- 정확도: API 청구 데이터 vs 리포트 비용 오차 < 1%
+- 비용: 에이전트 월 운영 비용 $5 이하
+- 레이턴시: 실행 시간 < 3분
+- 신뢰성: 월 28회 실행 중 27회 이상 성공 (99% uptime)
+```
+
+### Bad Example
+
+```markdown
+# PRD — agent-y
+
+에이전트: 데이터를 분석합니다.
+
+하는 일: 데이터 처리
+
+도구: API 여러 개
+
+메모리: 파일을 로드합니다.
+
+출력: 결과를 전송합니다.
+
+실패 시: 에러 메시지를 보냅니다.
+
+---
+
+문제점:
+- 한 줄 정의가 추상적 (누구를 위해? 왜?)
+- Instruction 섹션 불완전 (Anti-Goals 없음)
+- Tools 섹션이 구체적이지 않음 (도구 명시 X, 사용 조건 X)
+- Memory 계획이 없음 (어떤 파일? 언제 로드?)
+- Trigger가 명시되지 않음 (Cron? Event?)
+- Output 예시가 없음 (어떻게 생겼는지 몰라)
+- Failure Handling이 추상적 (구체적 대응 방법 없음)
+```
+
+---
+
+## Agent PRD Template
+
 일반 PRD와 에이전트 PRD는 구조가 다릅니다.
 
 | 일반 PRD | 에이전트 PRD |

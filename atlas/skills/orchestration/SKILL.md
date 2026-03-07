@@ -8,6 +8,33 @@ argument-hint: "[multi-agent scenario]"
 
 > 멀티 에이전트 오케스트레이션 패턴 선택 및 설계
 
+## Core Goal
+
+- 에이전트 간 협력 방식(순차, 병렬, 라우팅, 계층)을 요구사항에 맞게 선택하여 불필요한 복잡성 제거하고 성능 최적화
+- 각 패턴의 장단점을 명확히 이해하고 지연시간, 에러율, 비용을 예측하는 의사결정 프레임워크 제공
+- "가장 간단한 패턴부터 시작"하는 점진적 업그레이드 원칙 적용
+
+## Trigger Gate
+
+### Use This Skill When
+
+- 2개 이상의 에이전트가 협력해야 하는 시스템 설계 또는 평가
+- 기존 오케스트레이션이 성능 문제(지연, 비용)를 보이는 경우
+- 패턴 선택의 의사결정을 문서화하고 정당화해야 하는 경우
+
+### Route to Other Skills When
+
+- 선택한 패턴의 세부 구현 (3-tier 위계 구조) → 3-tier (통신 프로토콜 정의)
+- 입력 분류를 통한 agent 라우팅 로직 구현 → router (모델 선택 확장)
+- 멀티 에이전트 간 메모리 공유 → memory-arch (저장소 전략)
+- 패턴의 경제성 분석 → biz-model (비용 모델)
+
+### Boundary Checks
+
+- 단일 에이전트로 충분하면 → 오케스트레이션 패턴 불필요, 단일 prompt 또는 routing만 고려
+- 패턴이 너무 복잡하면 → "가장 간단한 패턴"으로 시작 원칙 위반, 재평가 필요
+- 에러 복구 전략이 없으면 → 선택한 패턴을 안전하게 구현 불가, 먼저 에러 처리 정의
+
 ## 개념
 
 에이전트 시스템의 복잡도와 요구사항에 따라 적절한 오케스트레이션 패턴을 선택한다. 잘못된 패턴 선택은 불필요한 복잡성이나 성능 병목을 만든다.
@@ -90,6 +117,106 @@ Before finalizing, ask:
 - What is the simplest pattern that meets requirements?
 
 **Rule**: Start with the simplest pattern. Upgrade only when proven necessary.
+
+---
+
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|---------|-----|-----|
+| 선택한 패턴이 실제 요구사항과 안 맞음 | 배포 후 지연시간 초과 또는 에러율 높음 | 요구사항 재분석, 패턴 전환 (예: 순차 → 병렬), 또는 하이브리드 패턴 도입 |
+| 병렬 패턴에서 느린 agent 병목 | Fan-in 이후 가장 느린 agent 대기 시간이 전체 지연의 80% | 느린 agent 분해, 타임아웃 설정, 또는 품질 저하하고 빨리 반환 |
+| 라우터 분류 오류: 입력이 잘못된 agent로 갈당 | 사용자 질문이 분류 기준과 애매해서 틀린 agent 호출 | 라우터 프롬프트 개선, 또는 라우터 재시도/폴백 전략 추가 |
+| 계층 오케스트레이션 오버헤드: 너무 복잡해짐 | 통신 레이어만 해도 전체 지연 50% | 계층 수 감소 (3-tier → 2-tier), 또는 간단한 패턴으로 롤백 |
+
+## Quality Gate
+
+- [ ] 요구사항 명확화: 작업 수, 의존성, 지연시간 허용치, 에러 허용치 문서화 (Yes/No)
+- [ ] 패턴 선택 정당화: 평가 행렬에 따라 선택한 패턴의 ranking 확인 (Yes/No)
+- [ ] Agent 역할 정의: 각 agent의 입력/출력 형식, 책임 범위 명시 (Yes/No)
+- [ ] 에러 처리: 각 agent 실패 시 대응 (재시도, 폴백, 중단) 전략 정의 (Yes/No)
+- [ ] 복잡도 검증: "이 패턴이 가장 간단한가?" 재확인 (Yes/No)
+
+## Examples
+
+### Good Example
+
+```
+시나리오: "고객 피드백 분석 시스템"
+- 사용자가 피드백 제출
+- 감정 분석, 카테고리 분류, 우선순위 평가 필요
+- 지연시간 <5초, 에러율 <1%
+
+[요구사항 분석]
+- 작업 수: 3개 (감정 분석, 분류, 우선순위)
+- 의존성: 없음 (동일 입력으로 모두 독립 실행)
+- 지연 요구: 낮음 (<5초 여유)
+- 에러 허용: 매우 낮음 (<1%)
+
+[패턴 평가]
+- Sequential: 불필요 (순서 의존성 없음)
+- Parallel Fan-out/Fan-in: 우수함 ✓
+  - 3개 agent 동시 실행
+  - 지연 = max(3개 agent) ≈ 1.5초 < 5초
+  - Aggregator에서 3개 결과 통합
+- Router: 부적절 (분류 이전의 문제)
+- Hierarchical: 오버엔지니어링
+
+[선택] Parallel Fan-out/Fan-in
+
+[설계]
+Input (피드백 텍스트)
+    ↓
+    ├→ Sentiment Agent (1초)
+    ├→ Category Agent (0.8초)
+    └→ Priority Agent (1.2초)
+         ↓
+Aggregator (0.3초)
+  - 3개 출력 통합
+  - 모순 검사 (예: high priority인데 negative?)
+  - JSON으로 정렬
+    ↓
+Output (json: {sentiment, category, priority})
+
+[에러 처리]
+- 단일 agent 실패: timeout 2초 설정 → 해당 항목 null로 반환
+- Aggregator 실패: 원본 3개 agent 출력만 반환 (부분 성공)
+- 전체 실패: 사용자에게 재시도 권유
+
+[결과]
+- 평균 지연: 1.8초 (목표 5초 vs 실제 <2초)
+- 에러율: 0.8% (목표 <1% 달성)
+- 비용: 3개 agent × $0.05 = $0.15/요청
+```
+
+### Bad Example
+
+```
+반사례 1: 불필요한 Sequential
+"우선 감정 분석을 한 후, 그 결과로 카테고리를 결정"
+- 실제로는 독립적
+- Sequential로 묶으니까 지연 = 3초 (병렬이면 1.5초)
+- 단순히 복잡하게 만든 것
+
+반사례 2: 계층 오버엔지니어링
+Sequential:
+  Agent A → Agent B → Orchestrator → Agent C → Agent D
+- 4개 agent 순차 실행
+- Orchestrator도 순차 흐름 관리
+- 지연 = 4초 + orchestration overhead = 5초 초과
+- 병렬이면 1.5초 가능
+
+반사례 3: 라우터 오류 처리 없음
+"사용자 질문을 봐서 영업용/기술용 agent로 라우팅"
+- 명확하지 않은 질문 → 라우터가 잘못 선택
+- 대체 agent나 재분류 로직 없음
+- "역시 AI는 이해 못하네" → 신뢰도 하락
+
+반사례 4: 복잡함 심화
+Hierarchical + Router + Sequential 결합
+- 비용과 관리 복잡도 증폭
+- "왜 이렇게 느려?" 원인 파악 어려움
+```
 
 ---
 

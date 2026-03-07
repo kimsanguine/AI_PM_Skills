@@ -4,6 +4,33 @@ description: "Simulate and forecast agent operating costs before building. Model
 argument-hint: "[agent to model costs for]"
 ---
 
+## Core Goal
+- 에이전트 운영 비용을 사전에 시뮬레이션하여 비용 폭탄을 방지한다.
+- 토큰/API/외부 서비스 비용을 통합 모델링한다.
+- 스케일 시나리오(1→10→100→1,000명)별 비용 곡선을 예측한다.
+
+---
+
+## Trigger Gate
+
+### Use This Skill When
+- 에이전트 타당성 평가 시 월간 비용을 추정해야 할 때
+- build-or-buy 판단의 비용 축 근거가 필요할 때
+- 에이전트 KPI에 비용 상한을 설정해야 할 때
+- "이거 비용 얼마 들어?" 류의 질문이 나올 때
+
+### Route to Other Skills When
+- 비용이 아닌 모델 성능/품질 기준이면 → `router` (모델 라우팅)
+- 비용 **추적/최적화**(이미 운영 중)면 → `burn-rate`
+- 비용이 과다해서 직접 구축 vs 외부 솔루션을 비교한다면 → `build-or-buy`
+
+### Boundary Checks
+- 이 스킬은 **사전 시뮬레이션** 전용이다. 실 비용 추적/모니터링은 `burn-rate` 범위.
+- 모델 가격은 2026-03 기준이며 빠르게 변동함을 항상 명시한다.
+- 추정치를 확정 수치로 표현하지 않는다 — 범위(range)로 제시.
+
+---
+
 ## Agent Cost Model
 
 에이전트 비용은 일반 SaaS와 완전히 다른 구조입니다.
@@ -144,13 +171,7 @@ API 소계: $C/월
 
 ---
 
-### 사용 방법
-
-`/agent-cost-model [에이전트 이름 또는 워크플로우]`
-
----
-
-### Instructions
+## Instructions
 
 You are helping simulate the operating cost for: **$ARGUMENTS**
 
@@ -188,11 +209,57 @@ You are helping simulate the operating cost for: **$ARGUMENTS**
 
 ---
 
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|---|---|---|
+| 사용자가 모델/트리거 빈도를 모름 | Step 1에서 필수 입력 누락 | 유형별 기본값 표 제시 후 선택 요청 |
+| 외부 API 가격 정보가 변동됨 | 단가 조회 불일치 | "2026-03 기준 추정치"로 명시 + 공식 링크 제공 |
+| 스케일 시나리오에서 비선형 비용 증가 | 100명 비용이 1명의 200배 이상 | Orchestrator 호출 폭증 가능성 경고 + 모델 라우팅/캐싱 전략 즉시 제안 |
+
+---
+
+## Quality Gate
+
+- [ ] 비용 시뮬레이션 템플릿이 빠짐없이 작성되었는가 (Yes/No)
+- [ ] 스케일 시나리오 3단계(1/10/100명)가 모두 포함되었는가 (3/3)
+- [ ] 최적화 전략이 최소 2개 이상 제안되었는가 (Yes/No)
+- [ ] 모든 단가에 기준일이 명시되었는가 (Yes/No)
+- [ ] 다음 단계 연결(okr/instruction/build-or-buy)이 제안되었는가 (Yes/No)
+
+---
+
+## Examples
+
+### Good Example
+**요청:** "고객 문의 자동 분류 에이전트 비용 시뮬레이션해줘. Haiku로 하루 200건 처리 예정."
+
+**왜 좋은 요청인가:**
+- 에이전트 목적 (고객 문의 분류), 모델 (Haiku), 호출 빈도 (200건/일)가 모두 명확
+- 바로 Step 2로 진입 가능
+
+**기대 결과:**
+- 토큰 비용: 200건 × 1,500 input tokens × $0.25/1M = ~$0.08/일 → $2.25/월
+- 10명 규모: $22.5/월, 100명 규모: $225/월
+- 최적화: 입력 요약으로 30% 추가 절감 가능
+
+### Bad Example
+**요청:** "에이전트 비용 얼마야?"
+
+**왜 나쁜 요청인가:**
+- 에이전트 유형, 모델, 트리거 빈도 전부 불명
+- Step 1에서 최소 3개 확인 질문 필요
+
+**올바른 라우팅:**
+- cost-sim에서 처리하되, Step 1 프로파일링 질문부터 시작
+
+---
+
 ### 참고
 - 설계자: Sanguine Kim (이든), 2026-03
 - 모델 가격: Anthropic / OpenAI 공식 가격 (2026-03 기준, 변동 가능)
 - 모델 라우팅 전략: GPT-5.4 Tool Search 47% 절감 사례에서 영감
-- 비용 상한 패턴: OpenClaw 크론잡 월간 비용 모니터링 경험 기반
+- 비용 상한 패턴: 크론잡 월간 비용 모니터링 경험 기반
 
 ---
 

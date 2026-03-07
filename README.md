@@ -43,7 +43,7 @@ This project turns those questions into skills.
 
 Where general PM skills cover "how to write a good PRD," this skillset covers "how to spec failure recovery, context window management, and tool permissions in an agent PRD." Every skill addresses the decisions agent-building PMs actually face — multi-agent orchestration, model routing, memory architecture, cost scaling.
 
-### 2. Pre-Validation Tools (Before You Write a Single Line)
+### 2. Validate Before Building, Reference While Building
 
 | Tool | What it does |
 |------|-------------|
@@ -51,6 +51,8 @@ Where general PM skills cover "how to write a good PRD," this skillset covers "h
 | **Reliability/Ethics 4-Axis Validation** | Validate reliability and ethics assumptions, not just value |
 | **Human-in-the-Loop Design** | Draw the boundary between agent autonomy and human intervention |
 | **Token Cost Simulation** | Project monthly costs at 10 → 100 → 1,000 user scale |
+| **4-Axis Pre-Impl Review** | Final checkpoint before coding — value, feasibility, reliability, ethics + Mermaid visualization |
+| **Image Gen Pipeline** | Reference architecture for building Gemini-based image generation agents |
 
 ### 3. Tacit Knowledge That Accumulates
 

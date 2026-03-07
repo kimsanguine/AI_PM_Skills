@@ -4,6 +4,33 @@ description: "Design a Go-To-Market strategy for AI agent products — identify 
 argument-hint: "[agent product to plan GTM for]"
 ---
 
+## Core Goal
+
+- 에이전트 제품의 첫 고객 세그먼트(비치헤드)를 객관적 점수(5개 기준, 총 25점)로 선정하여 초기 신뢰 구축을 성공시킴
+- Shadow → Co-pilot → Auto → Delegation의 4단계 신뢰 구축 시퀀스를 통해 사용자가 에이전트를 점진적으로 신뢰하도록 유도
+- Lighthouse → Wedge → Expand 3단계 출시 계획으로 성공 사례를 확보한 후 반복 가능한 세일즈 모션을 구축
+
+---
+
+## Trigger Gate
+
+### Use This Skill When
+- 내부에서 성공한 에이전트를 외부 고객에게 팔 준비가 되었을 때
+- 여러 고객 세그먼트 중 "누구를 먼저 타겟할지" 결정해야 할 때
+- 에이전트 제품의 신뢰 구축 로드맵(어떻게 사용자를 확신시킬 것인가)을 설계해야 할 때
+- 출시 후 처음 3개월의 구체적 KPI와 단계별 목표를 정의해야 할 때
+
+### Route to Other Skills When
+- Beachhead 선정 후 해당 세그먼트를 위한 에이전트 커스터마이징이 필요할 때 → `agent-instruction-design` (forge 플러그인)
+- 신뢰 구축 시퀀스를 에이전트 자체에 설계해야 할 때 → `hitl` (Oracle 플러그인) — Shadow Mode / Co-pilot Mode 구현
+- 가격 책정과 가치 제시 방식을 결정해야 할 때 → `cost-sim` (oracle 플러그인) — 예상 ROI 계산
+
+### Boundary Checks
+- **B2B 중심**: agent-gtm은 B2B SaaS 또는 엔터프라이즈 에이전트 출시 기준으로 설계됨 — B2C 에이전트(개인 사용자 대상)는 다른 GTM 프레임워크 필요
+- **신뢰 구축이 핵심**: 일반 SaaS GTM과 다르게, 에이전트는 "도구"가 아니라 "자율 동료"이므로 신뢰가 최우선 요소 — 가격이나 기능 스펙보다는 "이 에이전트가 정말 정확할까?"라는 의심 해결
+
+---
+
 # Agent GTM Strategy
 
 > 에이전트 제품의 시장 진입 전략 — 누구에게, 어떤 순서로, 어떻게 팔 것인가
@@ -109,6 +136,132 @@ First 90-Day Goals:
   - Agent accuracy: > [N]%
   - Reuse rate: > [N]%
 Positioning: [one-line statement]
+```
+
+---
+
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|---|---|---|
+| Beachhead 선정 후 고객이 "이건 우리 요구사항과 안 맞는다"고 판명 | Lighthouse 고객 오보딩 1주 후 이탈 신호 또는 명시적 거절 | 즉시 다음 순위 비치헤드로 전환 (점수 2번째 이상); 탈락한 세그먼트의 이유 기록 (향후 마케팅 메시지 개선에 활용) |
+| Shadow Mode 기간이 너무 길어져서(6주+) Lighthouse 고객이 지쳐 버림 | "일단 자동화해 줄래?" 고객 요청 또는 참여도 감소 | Stage 1 기간 단축 (2주 → 1주) 또는 신뢰도 임계값 재조정 (정확도 요구사항 낮추기); Co-pilot Mode로 진전 (사용자가 덜 답답해짐) |
+| Trust Sequence를 거쳤는데도 Wedge Phase에서 구매 의향 낮음 (NPS < 30) | Phase 2 10~30개 고객 목표 미달성 | Lighthouse 고객 피드백 재수집; GTM 메시지 또는 가격 재검토; 또는 Beachhead 세그먼트 재평가 (실제 Pain이 충분하지 않았나?) |
+| Lighthouse에서는 성공했는데 Wedge 고객들은 구축 난이도가 높다고 불평 | 반복되는 온보딩 이슈 또는 구현 기간 지연 | Lighthouse 고객이 "easy mode"였을 가능성 → Wedge 고객에 맞춘 온보딩 자동화/가이드 강화 필요; 또는 Lighthouse 레퍼런스의 환경이 특수했던 건 아닌지 재검토 |
+
+---
+
+## Quality Gate
+
+- Beachhead Segment가 5개 평가 기준(Pain Intensity, Trust AI, Data Availability, Budget Authority, Reference Potential)에 각각 점수(1~5)를 받았고, 총 20점 이상인가? (Yes/No)
+- Trust Building Sequence의 4단계(Shadow/Co-pilot/Auto/Delegation)가 각각 정의되었고, 각 단계의 기간과 성공 기준이 명시되어 있는가? (Yes/No)
+- Launch Sequence의 3개 Phase(Lighthouse/Wedge/Expand)가 정의되었고, 각 Phase의 고객 수, 목표, 전략, KPI가 구체적으로 명시되어 있는가? (Yes/No)
+- 첫 90일의 구체적 목표(Lighthouse 고객 수, 에이전트 정확도 목표, 재사용률 목표)가 정의되어 있는가? (Yes/No)
+- Positioning Statement가 작성되었고, Beachhead/Pain Point/Key Benefit/Differentiator가 명확히 드러나는가? (Yes/No)
+
+---
+
+## Examples
+
+### Good Example
+
+```
+Agent Product: "법무팀 계약서 자동 검토 에이전트"
+
+Step 1 — Beachhead Selection:
+
+| 기준 | 점수 | 근거 |
+|------|------|------|
+| Pain Intensity | 5 | 변호사가 검토에 주 20시간 이상 사용; 계약 지연 비용 연 $500k+ |
+| Willingness to Trust AI | 4 | "검토는 AI가, 최종 승인은 변호사가"라는 hybrid 모델에 동의 |
+| Data Availability | 5 | 과거 5년 계약서 + 검토 이력 모두 디지털화 완료 |
+| Budget Authority | 5 | 법무팀장이 구매 결정 단독 권한 보유 |
+| Reference Potential | 4 | 성공 시 다른 법무팀 추천 가능; 사례 발표 동의 |
+| **총점** | **23/25** | ✓ Beachhead 적합 |
+
+Step 2 — Trust Building Sequence:
+
+Stage 1 — Shadow Mode (2주)
+  - 에이전트가 검토만 하고, 변호사가 최종 판단 수행
+  - 성공 기준: 에이전트 평가 vs 변호사 최종 판단 90% 이상 일치
+
+Stage 2 — Co-pilot Mode (4주)
+  - 에이전트가 1차 검토 자동 수행 → 변호사가 2차 승인 후 고객 송부
+  - 성공 기준: 변호사가 "90% 이상 에이전트 판단에 동의" 피드백
+
+Stage 3 — Auto Mode (제한적)
+  - 저위험 계약(템플릿 기반) 자동 통과 → 변호사는 예외(고위험) 건만 검토
+  - 성공 기준: 월 계약 80% 이상이 자동 처리되고, 자동 처리 건의 법적 이의 0%
+
+Stage 4 — Full Delegation
+  - 변호사는 예외 처리만 담당; 에이전트 정기 모니터링
+
+Step 3 — Launch Sequence:
+
+Phase 1 — Lighthouse (1개 고객)
+  - 목표: 성공 사례 1개 확보 + Shadow Mode 검증
+  - 기간: 1개월
+  - 투자: 변호사 1명 24h + 온보딩 엔지니어 4주
+  - KPI: 정확도 > 90%, 변호사 만족도 (NPS) > 60
+  - 보상: 무료 또는 원가 ($2k)
+
+Phase 2 — Wedge (10~15개 고객)
+  - 목표: 반복 가능한 온보딩 프로세스 검증 + CAC < $50k
+  - 기간: 3개월
+  - 전략: Lighthouse 고객 레퍼런스 활용 + 세미나 2회 + 직영 영업
+  - KPI: CAC payback < 6개월, NPS > 40, 체인 전환율 > 30%
+
+Phase 3 — Expand (50+)
+  - 목표: 인접 세그먼트(부동산팀, 조달팀) 확장
+  - 전략: PLG (프리 트라이얼 2주) + 기존 고객 upsell (다국어, 맞춤 학습)
+  - KPI: NRR > 120%
+
+Step 4 — Pricing:
+
+Outcome-based: "$월정액 + 절감액의 15% 수익공유"
+  - 예: "월 $5k + (주 40시간 절감 × $150/시간 × 12개월의 15%) = $월 5k + $8,640"
+  - 근거: 변호사가 실제 ROI를 직접 체험하므로 신뢰도 ↑; 우리 성과와 이해관계 일치
+
+Positioning:
+"대형 계약을 자주 처리하는 법무팀을 위한 AI 검토 에이전트로,
+ 계약 심사 시간을 80% 단축하면서도 법률 리스크는 변호사가 최종 관장하는 하이브리드 솔루션"
+```
+
+### Bad Example
+
+```
+❌ Beachhead 점수가 불충분:
+[세그먼트] 소규모 스타트업 법무팀
+  - Pain Intensity: 2 (계약이 적음; 변호사 1명이 주 5시간만 사용)
+  - Trust AI: 1 ("AI는 믿을 수 없어")
+  - Data: 1 (과거 계약서 10개만 있음)
+  → 총 5/25 점수 → 비치헤드 부적합
+  → "우리가 이 세그먼트부터 시작한다" 결정은 위험
+
+❌ Trust Sequence가 너무 단순:
+"프로덕션 배포하고 사용자 피드백 받자"
+→ Shadow Mode, Co-pilot, Auto, Delegation의 4단계 구분 없음
+→ 사용자가 처음부터 전적으로 에이전트를 신뢰해야 함 (높은 이탈율)
+→ 단계별 신뢰 구축 필수: Shadow (1주) → Co-pilot (2주) → Auto (필요시)
+
+❌ Launch Phase 목표가 불명확:
+"여러 고객을 찾자"
+→ "몇 개?" "어느 정도 규모?" "언제까지?"
+→ 구체화 필수:
+  Lighthouse: "1개 고객, 1개월 내 NPS > 50 달성"
+  Wedge: "10개 고객, CAC payback < 6개월"
+  Expand: "50개 이상"
+
+❌ Positioning이 기술 중심:
+"AI를 사용한 지능형 계약 검토 시스템"
+→ 비즈니스 가치 부족
+→ 재작성: "변호사 검토 시간을 80% 줄이면서 법적 리스크는 변호사가 통제하는 하이브리드 솔루션"
+  (Pain, Solution, Benefit이 명확함)
+
+❌ KPI가 기술 중심:
+"정확도 95% 달성"
+→ 하지만 변호사가 "NPS 30"이면 아무 소용 없음
+→ 비즈니스 KPI 우선: "NPS > 60", "재사용률 > 80%", "변호사 만족도 > 4/5"
 ```
 
 ---

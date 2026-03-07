@@ -4,6 +4,33 @@ description: "Design where and how humans should intervene in agent workflows. D
 argument-hint: "[agent workflow to design]"
 ---
 
+## Core Goal
+
+- 에이전트의 각 작업마다 적절한 자동화 레벨(1~5)을 결정하고, 인간이 개입해야 할 트리거 조건을 명시하여 신뢰성과 안전성을 확보
+- 가역성(되돌릴 수 있는가)과 오류 영향도(피해 범위)의 2축 매트릭스를 통해 객관적으로 자동화 경계를 결정
+- Approval Gate, Confidence Threshold, Periodic Audit, Escalation Chain, Shadow Mode 등 5가지 HITL 패턴 중 업무 특성에 맞는 것을 선택
+
+---
+
+## Trigger Gate
+
+### Use This Skill When
+- 에이전트가 의사결정, 송금, 고객 대면, 데이터 삭제 등 "중요한 작업"을 할 때
+- "충분히 정확할까?"보다는 "100% 자율이어도 될까?"라는 고민이 있을 때
+- 에이전트의 오류가 고객 손실, 법적 책임, 평판 손상으로 이어질 수 있을 때
+- 초기 배포 또는 새로운 에이전트를 출시할 때 (사용자 신뢰 구축 전)
+
+### Route to Other Skills When
+- HITL 설계가 완료된 후 에이전트 프롬프트와 인스트럭션을 작성해야 할 때 → `agent-instruction-design` (forge 플러그인) — Failure Handling에 HITL 전략 반영
+- 에이전트의 신뢰도를 측정하고 Full Autonomous로 전환할지 판단해야 할 때 → `agent-ab-test` (argus 플러그인)
+- 에이전트 제품을 외부에 출시할 때 신뢰 구축 시퀀스를 설계해야 할 때 → `agent-gtm` (oracle 플러그인)
+
+### Boundary Checks
+- **설계 vs 운영**: HITL은 "어디에 인간이 개입할지를 설계"하는 것이지, 실제로 인간을 배치하거나 모니터링 대시보드를 만드는 것은 아님 — 구현은 팀이 담당
+- **모든 작업에 필수**: HITL은 선택이 아니라 필수 — 완전 자율 에이전트(Level 5)는 극히 제한적인 경우에만 정당화됨 (낮은 오류 영향도 + 높은 가역성)
+
+---
+
 ## Human-in-the-Loop Design
 
 에이전트의 가장 위험한 기본값: **"전부 자동화하자"**
@@ -152,6 +179,97 @@ You are helping design **Human-in-the-Loop controls** for: **$ARGUMENTS**
 **Step 7 — 다음 단계 연결**
 - `/agent-instruction-design`의 Failure Handling 섹션에 HITL 설계 반영
 - `/agent-prd-template`의 Section 7에 Human-in-the-loop 트리거 명시
+
+---
+
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|---|---|---|
+| HITL 설계 후에도 에이전트가 예상치 못한 오류 발생 | "이건 우리가 예상 못 한 상황이었어" 사용자 불평 발생 | Shadow Mode 기간 연장 또는 자동화 레벨 하향 (e.g., Level 3 → Level 2); 새로운 에러 시나리오를 HITL 매트릭스에 추가 |
+| Approval Gate를 설치했는데 승인자가 매번 자동으로 승인만 함 | "매번 승인하기만 하면 되네" 승인자 태도 → 실질적 HITL 작동 불함 | 승인 프로세스 재설계: 임계값 기반 필터링 추가 또는 주기적 감사로 전환; 또는 자동화 레벨 상향 고려 |
+| Escalation Chain이 너무 깊어져서(팀원 → 매니저 → 임원) 응답 지연 발생 | "에스컬레이션 완료까지 3일 걸린다" 타임아웃 초과 | 체인 단순화: 매니저까지만 (2단계) 또는 신뢰도 임계값으로 필터링해서 에스컬레이션 빈도 자체를 줄임 |
+| Shadow Mode 기간이 너무 길어져서 프로덕션 배포 미루어짐 | "어느 정도면 충분하지?" 팀이 계속 Shadow 모드에 머무름 | Shadow Mode 전환 기준을 명확히 정의: "90% 이상 일치 시 전환" 또는 "2주 후 자동 전환" (리스크 재평가 후) |
+
+---
+
+## Quality Gate
+
+- 모든 에이전트 작업이 목록화되어 있고, 각 작업에 자동화 레벨(1~5)이 할당되어 있는가? (Yes/No)
+- 2축 매트릭스(가역성 × 오류 영향도)를 사용하여 각 작업의 레벨이 객관적으로 결정되었는가? (Yes/No)
+- 각 작업의 HITL 패턴(Approval Gate/Confidence Threshold/Periodic Audit/Escalation Chain/Shadow Mode)이 선택되고, 선택 근거가 명시되어 있는가? (Yes/No)
+- 각 개입 지점의 구체적인 트리거 조건이 정의되어 있는가? (예: "신뢰도 < 80%", "에러 > 1개/일", "타임아웃 > 2시간") (Yes/No)
+- Shadow Mode 기간과 전환 기준이 명확히 정의되어 있는가? (예: "2주, 90% 일치도 달성 시") (Yes/No)
+
+---
+
+## Examples
+
+### Good Example
+
+```
+Agent: "자동 고객 이메일 응답 에이전트"
+
+작업 목록:
+
+1. 이메일 수신 및 분류
+   - 가역성: 높음 (분류 결과만 파일에 기록, 이메일은 건드리지 않음)
+   - 오류 영향도: 낮음 (잘못 분류해도 사용자가 수정 가능)
+   - 레벨: 4 (Act-and-Escalate)
+   - HITL 패턴: Periodic Audit (주 1회 분류 정확도 리뷰)
+
+2. 자동 응답 이메일 생성
+   - 가역성: 낮음 (생성된 이메일을 발송하지 않았더라도 콘텐츠가 한 번 만들어짐)
+   - 오류 영향도: 높음 (부정확한 응답 → 고객 신뢰 손실)
+   - 레벨: 2 (Suggest)
+   - HITL 패턴: Approval Gate
+   - 트리거: 에이전트가 응답 초안 생성 → 담당자 검토 → 승인/수정 후 발송
+
+3. 승인된 응답 자동 발송
+   - 가역성: 낮음 (발송 후 회수 어려움)
+   - 오류 영향도: 높음 (잘못된 내용이 고객에게 즉시 도달)
+   - 레벨: 2 (Suggest)
+   - HITL 패턴: Confidence Threshold + Approval Gate (자신도 80% 이상일 때만 초안 생성; 초안은 항상 승인 필수)
+
+Shadow Mode:
+- 기간: 2주
+- 전환 기준:
+  - 에이전트 분류 정확도 > 85%
+  - 생성된 응답을 사람이 수정 없이 승인하는 비율 > 80%
+  - 발송 후 고객 재문의율 < 5%
+```
+
+### Bad Example
+
+```
+❌ 모든 작업이 Level 5 (완전 자동):
+"에이전트가 모든 이메일을 자동으로 분류하고 응답 발송"
+→ 위험도 매우 높음; 할루시네이션으로 잘못된 응답 발송 시 고객 손실
+→ 최소한 Level 2~3 필요 (Approval Gate 또는 Confidence Threshold)
+
+❌ HITL 패턴이 명확하지 않음:
+"사람이 확인하도록 함"
+→ 구체성 부족
+→ "어떤 방식으로?" (알림? 대시보드? 이메일?)
+→ "승인 기준이 뭐지?" (신뢰도 임계값? 에러 카운트?)
+→ 패턴명 명시 필수: "Approval Gate" or "Confidence Threshold"
+
+❌ 트리거 조건이 없음:
+"오류 발생 시 에스컬레이션"
+→ "오류"의 정의가?
+→ "에스컬레이션" 경로가?
+→ 구체화 필수: "신뢰도 < 60% or 에러 카운트 > 3개/시간 → 팀리더 알림 → 2시간 응답 없으면 매니저"
+
+❌ Shadow Mode 전환 기준이 없음:
+"몇 주 동안 Shadow 모드로 감시"
+→ "몇 주?" "충분히 정확해지면?"
+→ 구체적 기준 명시: "2주 또는 1000개 이메일 처리 후, 90% 이상 일치도 달성 시 Level 4로 전환"
+
+❌ 초기 신뢰도 평가 없음:
+"프로덕션 배포 후 모니터링"
+→ But: Shadow Mode에서 미리 평가했다면 배포 리스크 사전 감지 가능
+→ 배포 전 Shadow Mode 필수
+```
 
 ---
 

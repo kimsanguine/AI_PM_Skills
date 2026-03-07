@@ -8,6 +8,33 @@ argument-hint: "[agent product to analyze]"
 
 > AI 에이전트 제품의 경쟁 우위(Moat) 분석 및 설계
 
+## Core Goal
+
+- 모델 성능이 commodity화되는 시장에서 데이터, 워크플로우, 네트워크 차원의 경쟁 우위를 설계하여 지속 가능한 방어선 구축
+- 6가지 moat 유형을 평가하여 제품에 가장 강한 1-2개 우위를 명확히 하고 장기 투자 전략 수립
+- 경쟁사가 모방 불가능하거나 시간이 많이 걸리는 구조를 설계하여 시장 진입 장벽 높임
+
+## Trigger Gate
+
+### Use This Skill When
+
+- 에이전트 제품의 장기 경쟁력을 평가하거나 설계하는 경우
+- 초기 시장 우위(빠른 성장)와 장기 방어(모방 방지)의 균형을 맞춰야 하는 상황
+- 투자자나 이해관계자에게 "왜 우리 제품이 어렵나?"를 설명해야 하는 경우
+
+### Route to Other Skills When
+
+- Data Flywheel moat를 구현하려면 → growth-loop (플라이휠 설계)
+- Workflow Lock-in을 위한 기술 설계 → 3-tier 또는 orchestration (아키텍처)
+- Moat 구축을 위한 비용 계산 → biz-model (단위 경제), burn-rate (투자 기간)
+- 현재 시장 포지셔닝 평가 → oracle의 competitor (경쟁사 분석)
+
+### Boundary Checks
+
+- 아직 제품-시장 적합도(PMF)가 없으면 → 먼저 growth-loop로 기본 가치 검증
+- "우리의 moat는 기술 우수성"이라고만 하면 → 안 됨, 기술은 모두 구현 가능
+- 초기 고객 소수일 때 network effect moat 추구 → 너무 성급함, 먼저 workflow lock-in부터
+
 ## 개념
 
 AI 에이전트 시장에서 모델 성능은 commodity화되고 있다. 지속 가능한 경쟁 우위는 모델 바깥에서 만들어진다 — 데이터, 워크플로우, 네트워크에서.
@@ -104,6 +131,105 @@ Current Strength: [1-5] / Target: [1-5]
 Key Investment: [what to build]
 Timeline: [when moat becomes defensible]
 Risk: [biggest threat to moat]
+```
+
+---
+
+## Failure Handling
+
+| 실패 상황 | 감지 | 대응 |
+|---------|-----|-----|
+| 의존 조건 부재: 예를 들어 "데이터 모아 moat"인데 사용자가 데이터 공유 거부 | Moat 평가 시 "Depends on" 항목이 실제로 부족 | 해당 moat 포기, 다른 moat 우선순위 상향 (예: workflow lock-in)  |
+| Moat 침식: 경쟁사가 빠르게 따라잡음 | 12개월 후에도 경쟁사와의 성능 격차 없음 | 근본 원인 분석 (데이터 부족? 느린 개선? 접근성 차이?), 투자 방향 재조정 |
+| Moat 구축 비용이 초과: 예상보다 훨씬 많은 데이터/비용 필요 | 6개월 후 수익으로 moat 비용 회수 불가 | 대체 moat 추구 (예: 빠른 UX로 초기 lock-in), 또는 timeline 재조정 |
+| Network Effect moat 실패: 사용자 증가해도 가치 증가 안 함 | 월 사용자 2배 증가했는데 retention rate 변화 없음 | 사실 Network Effect가 아님을 인정, 다른 moat로 전환 |
+
+## Quality Gate
+
+- [ ] Moat 유형 평가: 6가지 유형 각각 1-5점 매김 (전체 합 ___ / 30)
+- [ ] 주요 Moat 선정: 가장 강한 1-2개 명확히 선택 (Yes/No)
+- [ ] 취약점 분석: 각 주요 moat의 "Biggest Threat" 식별 및 대응 전략 (Yes/No)
+- [ ] 구축 타임라인: Phase 1-4 구체적 달성 목표 및 완료 기한 설정 (Yes/No)
+- [ ] False Moat 제거: "우리 UI가 더 좋다" 같은 허위 moat 제거 (Yes/No)
+
+## Examples
+
+### Good Example
+
+```
+제품: "법률 문서 검토 에이전트"
+
+[Moat 유형 평가]
+1. Data Flywheel: 4/5
+   - 각 검토건마다 법원 판례 데이터 수집
+   - 6개월 후: 일반 모델과 달리 한국 법조문 적중률 95% vs 60%
+   - 경쟁사가 같은 데이터 얻기: 불가능 (고객 데이터, 기밀)
+
+2. Workflow Lock-in: 3/5
+   - 변호사들의 워크플로우 깊이 중간
+   - 검토만 하고, 협상이나 체결은 여전히 사람이 함
+
+3. Network Effects: 1/5
+   - 법률 에이전트 시장에서 네트워크 효과 약함
+
+4. Switching Cost: 2/5
+   - 데이터 내보내기 가능하면 전환 비용 낮음
+
+5. Proprietary Knowledge: 4/5
+   - 한국 법조문 + 판례 조합 해석 → 전문성
+   - 경쟁사가 구축하려면 법률 전문가 팀 필요
+
+6. Speed/UX: 2/5
+   - UI는 경쟁사도 따라 만들 수 있음
+
+[주요 Moat 전략]
+Primary: Data Flywheel (1번)
+- 강점: 고객 데이터 독점, 시간이 지날수록 격차 증가
+- 시간: 12개월
+
+Secondary: Proprietary Knowledge (5번)
+- 강점: 법률 전문가 팀이 있어야 경쟁 가능
+- 시간: 6개월부터 효과 보임
+
+[현재 강도 → 목표]
+전체 moat 강도: 2.4/5 (약함) → 6개월 후 3.5/5 → 12개월 후 4.2/5
+
+[구축 로드맵]
+Phase 1 (0-3개월): Speed/UX로 초기 고객 확보 (검토 시간 50% 단축)
+Phase 2 (3-6개월): Proprietary Knowledge로 정확도 증가
+Phase 3 (6-12개월): Data Flywheel 강화 (고객 피드백 → 프롬프트 개선)
+Phase 4 (12+개월): 다른 법적 영역으로 확장, 데이터 복합도 증가
+
+[가장 큰 위협]
+- Threat: GPT-5 또는 Claude 4 출시로 기본 성능 급상승
+- Response: 우리의 한국법 전문지식으로 차별화 심화, 또는 수직 통합 (변호사 네트워크)
+```
+
+### Bad Example
+
+```
+반사례 1: Moat가 없는 제품
+"우리는 ChatGPT를 더 좋게 래핑했어요"
+- 기술: 경쟁사도 즉시 복제 가능
+- 데이터: 따로 없음
+- 워크플로우: 일반적인 챗 인터페이스
+- Moat 점수: 0.5/5 (거의 없음) → 돈 버리는 투자
+
+반사례 2: 거짓 Moat
+"우리 UI가 정말 예쁘다"
+- UI는 3개월이면 복제 가능
+- Moat가 아님
+
+반사례 3: 구축 불가능한 Moat
+"Network Effect가 우리 moat"
+- 그런데 고객은 경쟁사에 자유롭게 이동 가능
+- 네트워크가 sticky하지 않음 → 거짓 moat
+
+반사례 4: 순환 논리
+"우리 데이터 moat가 강하다" (근거 제시 안함)
+- 실제로는 데이터가 아직 축적 안 됨
+- 또는 고객이 데이터 공유 거부
+- "의도한 moat" vs "실제 moat" 차이 무시
 ```
 
 ---
