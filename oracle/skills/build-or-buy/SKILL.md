@@ -2,6 +2,8 @@
 name: build-or-buy
 description: "Decide whether to build a custom agent, buy/subscribe to an existing solution, or use a no-code/low-code platform. Use before committing to agent development — this decision affects cost, time-to-value, differentiation, and long-term maintenance burden. Prevents the 'build everything from scratch' default trap."
 argument-hint: "[agent concept to evaluate]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 ## Core Goal

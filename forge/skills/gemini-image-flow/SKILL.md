@@ -2,6 +2,8 @@
 name: gemini-image-flow
 description: "Design and build Gemini-based AI image generation pipelines — interactive CLI workflows that combine user intent collection, prompt template composition, and image generation with Google Gemini models. Use when planning an image generation agent, designing creative AI workflows, or building sketch-to-code pipelines."
 argument-hint: "[이미지 생성 에이전트 또는 크리에이티브 워크플로우 설명]"
+allowed-tools: ["Read", "Write", "Edit", "Bash"]
+model: sonnet
 ---
 
 # Gemini Image Flow — Gemini 이미지 생성 파이프라인 설계

@@ -2,6 +2,8 @@
 name: kpi
 description: "Define and track Key Performance Indicators for AI agents — operational metrics (latency, success rate, error rate) and business metrics (task completion, user satisfaction, cost per task). Use when setting up agent monitoring dashboards, defining SLAs, or establishing performance baselines."
 argument-hint: "[agent to define KPIs for]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Agent KPI

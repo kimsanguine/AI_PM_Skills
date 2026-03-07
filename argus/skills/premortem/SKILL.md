@@ -2,7 +2,13 @@
 name: premortem
 description: "Pre-mortem failure analysis for AI agents using FMEA methodology — identify how an agent can fail before it does, assess severity and likelihood, and design prevention strategies. Use before launching a new agent, after a near-miss incident, or when reviewing agent risk profiles."
 argument-hint: "[agent to analyze risks for]"
+allowed-tools: ["Read", "Write"]
 context: fork
+model: sonnet
+hooks:
+  Stop:
+    - type: command
+      command: "bash scripts/validate-review.sh premortem . 2>/dev/null || true"
 ---
 
 # Failure Mode Analysis

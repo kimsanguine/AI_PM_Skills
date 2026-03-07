@@ -2,6 +2,8 @@
 name: router
 description: "Design a model routing strategy that selects the right LLM for each task type. Balance cost, latency, and quality tradeoffs across models. Use when building agents that call multiple LLMs, optimizing token costs by routing simple tasks to cheaper models, or designing fallback chains."
 argument-hint: "[agent system for routing]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 # Model Router

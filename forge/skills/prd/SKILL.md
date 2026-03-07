@@ -2,6 +2,25 @@
 name: prd
 description: "Write a PRD specifically for an AI agent — covering Instruction, Tools, Memory, Triggers, Output, and Failure handling. Structurally different from a standard product PRD. Use when formally documenting an agent before implementation, or standardizing agent specs across a portfolio."
 argument-hint: "[agent to spec]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
+hooks:
+  Stop:
+    - type: command
+      command: "bash scripts/validate-prd.sh . 2>/dev/null || true"
+---
+
+## Project Context (auto-injected)
+
+> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
+> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
+
+**프로젝트 메모리:**
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+
+**현재 이슈 (Linear/GitHub):**
+!`linear issue list --mine --status "In Progress" --limit 5 2>/dev/null || gh issue list --limit 5 --json number,title --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null || echo "이슈 트래커 연결 없음 — Linear CLI 또는 GitHub CLI 설치 시 자동 연동됩니다."`
+
 ---
 
 ## Agent PRD Template

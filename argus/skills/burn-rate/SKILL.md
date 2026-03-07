@@ -2,6 +2,8 @@
 name: burn-rate
 description: "Track, analyze, and optimize token costs for AI agent operations. Break down costs by model, task type, and user segment. Use when reviewing monthly agent spending, planning cost reduction, comparing model economics, or setting token budgets for new agents."
 argument-hint: "[agent to track costs for]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 # Token Cost Tracking

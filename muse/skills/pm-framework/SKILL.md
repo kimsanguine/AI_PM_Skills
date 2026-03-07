@@ -2,6 +2,8 @@
 name: pm-framework
 description: "Extract, classify, and structure PM tacit knowledge into reusable TK (Tacit Knowledge) units. These TK units form the foundation of the pm-engine — the operator's unique IP that differentiates their agents from generic AI. Use when capturing lessons from experience, building the pm-engine library, or converting intuition into agent instructions."
 argument-hint: "[experience to extract TK from]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Core Goal

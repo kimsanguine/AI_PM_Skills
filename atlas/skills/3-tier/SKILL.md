@@ -2,6 +2,8 @@
 name: 3-tier
 description: "Design multi-agent systems using the Prometheus-Atlas-Worker 3-tier orchestration pattern. Use when building complex agent systems that need strategic planning, tactical coordination, and task execution layers. Covers role definition, communication protocols, and delegation strategies."
 argument-hint: "[system to design]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Prometheus-Atlas Pattern

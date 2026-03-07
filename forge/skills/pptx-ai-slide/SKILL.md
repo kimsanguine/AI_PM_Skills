@@ -2,6 +2,8 @@
 name: pptx-ai-slide
 description: "Create and edit presentation slides (PPTX) for AI agent projects — pitch decks, architecture overviews, stakeholder updates, and demo presentations. Use when translating agent designs into compelling visual narratives. Routes to agent-demo-video for video conversion."
 argument-hint: "[presentation topic or agent to present]"
+allowed-tools: ["Read", "Write", "Edit", "Bash"]
+model: sonnet
 ---
 
 ## Core Goal

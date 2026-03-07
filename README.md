@@ -211,20 +211,15 @@ Claude Code's skill platform evolved from Skills 1.0 (2025) to Skills 2.0 (2026)
 | **Auto-invocation** | ❌ Explicit `/` commands only | ✅ Auto-load via `description` matching | ✅ 97.9% accuracy on 96 queries |
 | **Command integration** | Commands and skills separate | Commands merged into skill system | ✅ 12 commands |
 | **Variable substitution** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}`, etc. | ✅ `$ARGUMENTS` in all commands |
-| **Subagent execution** | ❌ | `context: fork` for isolated execution | ✅ `premortem`, `agent-plan-review` |
-| **Tool restriction** | ❌ | `allowed-tools` limits available tools | ✅ `cost-sim` (Read, Write, WebSearch, WebFetch) |
+| **Subagent execution** | ❌ | `context: fork` for isolated execution | ✅ 5 review/analysis skills (`premortem`, `agent-plan-review`, `reliability`, `cohort`, `agent-ab-test`) |
+| **Tool restriction** | ❌ | `allowed-tools` limits available tools | ✅ All 35 skills — 3-tier classification (Read/Write · +WebSearch · +Edit/Bash) |
 | **Marketplace** | ❌ | `marketplace.json` schema | ✅ Marketplace registration |
 | **Eval system** | ❌ | `evals.json` schema | ✅ 10 tests, 54 assertions |
+| **Model selection** | ❌ | `model` field for execution model | ✅ All 35 skills default to `model: sonnet` (user-configurable) |
+| **Dynamic injection** | ❌ | `` !`command` `` injects external data at runtime | ✅ 5 core skills — project memory + PM tools (Linear/GitHub) auto-integration |
+| **Hooks** | ❌ | `hooks` for skill lifecycle events | ✅ 5 core skills — Quality Gate validation scripts on Stop |
 
-### Future Roadmap — Skills 2.0 Features Not Yet Used
-
-| Feature | Scenario | Expected Impact |
-|---------|----------|----------------|
-| `` !`command` `` dynamic injection | `/write-prd` dynamically pulls GitHub issues into PRD | Real-time external data integration |
-| `model: haiku` | Simple classification skills (Trigger Gate decisions) run on Haiku | 40-60% cost reduction |
-| `hooks` | Pre-execution input validation, post-execution result logging | Production observability |
-
-> PRs that adopt these features are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+> ⚠️ `hooks` inside plugin skills have a known issue where they may not trigger ([#17688](https://github.com/anthropics/claude-code/issues/17688)). Implementation follows the spec and will auto-activate when the issue is resolved.
 
 ---
 

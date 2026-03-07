@@ -2,6 +2,8 @@
 name: memory-arch
 description: "Design an agent memory system — working memory, episodic memory, semantic memory, and procedural memory. Use when building agents that need to remember context across sessions, learn from interactions, or maintain persistent knowledge. Covers storage strategy, retrieval patterns, and context management."
 argument-hint: "[agent requiring persistence]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Memory Architecture

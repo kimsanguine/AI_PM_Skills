@@ -2,6 +2,9 @@
 name: cohort
 description: "Track and analyze agent performance by deployment cohort — compare versions, measure retention, and identify degradation patterns over time. Use when monitoring agent releases, tracking version-over-version improvements, or diagnosing performance drift across user segments."
 argument-hint: "[agent to analyze cohorts for]"
+allowed-tools: ["Read", "Write"]
+context: fork
+model: sonnet
 ---
 
 # Agent Cohort Analysis

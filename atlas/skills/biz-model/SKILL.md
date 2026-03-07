@@ -2,6 +2,8 @@
 name: biz-model
 description: "Design a sustainable business model for AI agent products — pricing strategy (per-use, subscription, outcome-based), cost structure, unit economics, and value capture. Use when planning agent monetization, evaluating pricing models, or building a business case for agent development."
 argument-hint: "[agent product to model]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 # Agent Business Model

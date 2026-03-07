@@ -2,6 +2,8 @@
 name: assumptions
 description: "Identify and prioritize the riskiest assumptions in an agent idea across four axes: Value, Feasibility, Reliability, and Ethics. Use after defining an agent opportunity and before starting implementation. Prevents building agents that work technically but fail operationally or cause unintended harm."
 argument-hint: "[agent idea to analyze]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Core Goal

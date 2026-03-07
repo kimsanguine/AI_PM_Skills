@@ -2,6 +2,8 @@
 name: incident
 description: "Respond to and learn from AI agent incidents — triage severity, coordinate response, contain blast radius, and write postmortems. Use when an agent produces harmful outputs, costs spike unexpectedly, accuracy drops suddenly, or users report critical failures."
 argument-hint: "[incident description or agent name]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Agent Incident Response

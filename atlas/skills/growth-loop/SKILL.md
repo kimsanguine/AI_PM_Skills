@@ -2,6 +2,8 @@
 name: growth-loop
 description: "Design data flywheels and growth loops for AI agent products — model how agent usage generates data, data improves agent quality, and quality drives more usage. Use when designing agent retention mechanics, planning data moat strategies, or building compound growth into agent architecture."
 argument-hint: "[agent to design growth loop for]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 # Agent Growth Loop

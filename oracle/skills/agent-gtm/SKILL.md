@@ -2,6 +2,8 @@
 name: agent-gtm
 description: "Design a Go-To-Market strategy for AI agent products — identify beachhead segments, define launch sequence, and plan adoption motions. Use when preparing to launch an agent product, choosing first customers, or planning the transition from internal tool to external SaaS."
 argument-hint: "[agent product to plan GTM for]"
+allowed-tools: ["Read", "Write", "WebSearch", "WebFetch"]
+model: sonnet
 ---
 
 ## Core Goal

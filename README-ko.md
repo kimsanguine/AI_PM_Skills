@@ -211,20 +211,15 @@ Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로
 | **자동 호출** | ❌ 명시적 `/` 커맨드만 | ✅ `description` 매칭으로 자동 로드 | ✅ 96개 쿼리 97.9% 정확도 |
 | **커맨드 통합** | 커맨드와 스킬 분리 | 커맨드가 스킬 시스템에 통합 | ✅ 12개 커맨드 |
 | **변수 치환** | ❌ | `$ARGUMENTS`, `${CLAUDE_SKILL_DIR}` 등 | ✅ 모든 커맨드에서 `$ARGUMENTS` 사용 |
-| **서브에이전트** | ❌ | `context: fork`로 격리 실행 | ✅ `premortem`, `agent-plan-review` |
-| **도구 제한** | ❌ | `allowed-tools`로 사용 도구 제한 | ✅ `cost-sim` (Read, Write, WebSearch, WebFetch) |
+| **서브에이전트** | ❌ | `context: fork`로 격리 실행 | ✅ 5개 리뷰/분석 스킬 (`premortem`, `agent-plan-review`, `reliability`, `cohort`, `agent-ab-test`) |
+| **도구 제한** | ❌ | `allowed-tools`로 사용 도구 제한 | ✅ 35개 전체 스킬 — 3등급 분류 (Read/Write · +WebSearch · +Edit/Bash) |
 | **마켓플레이스** | ❌ | `marketplace.json` 스키마 | ✅ 마켓플레이스 등록 |
 | **Eval 시스템** | ❌ | `evals.json` 스키마 | ✅ 10 tests, 54 assertions |
+| **모델 지정** | ❌ | `model` 필드로 실행 모델 선택 | ✅ 35개 전체 스킬 `model: sonnet` 기본값 (사용자 변경 가능) |
+| **동적 주입** | ❌ | `` !`command` ``로 실행 시 외부 데이터 주입 | ✅ 5개 핵심 스킬 — 프로젝트 메모리 + PM 도구(Linear/GitHub) 자동 연동 |
+| **Hooks** | ❌ | `hooks`로 스킬 라이프사이클 이벤트 처리 | ✅ 5개 핵심 스킬 — Stop 시 Quality Gate 검증 스크립트 실행 |
 
-### 향후 로드맵 — 아직 활용하지 않는 Skills 2.0 기능
-
-| 기능 | 적용 시나리오 | 기대 효과 |
-|------|-------------|----------|
-| `` !`command` `` 동적 주입 | `/write-prd` 실행 시 GitHub 이슈를 동적으로 가져와 PRD에 반영 | 외부 데이터 실시간 연동 |
-| `model: haiku` | 단순 분류 스킬(Trigger Gate 판단)은 Haiku로 실행 | 비용 40-60% 절감 |
-| `hooks` | 스킬 실행 전 입력 검증, 실행 후 결과 로깅 | 프로덕션 관찰 가능성 확보 |
-
-> 기여자가 이 기능들을 활용하는 PR을 보내주시면 환영합니다. [CONTRIBUTING.md](CONTRIBUTING.md) 참고.
+> ⚠️ `hooks`는 플러그인 내 스킬에서 트리거되지 않는 알려진 이슈가 있습니다 ([#17688](https://github.com/anthropics/claude-code/issues/17688)). 스펙 준수 상태로 구현되어 있으며, 이슈 해결 시 자동 작동합니다.
 
 ---
 

@@ -2,6 +2,8 @@
 name: pm-engine
 description: "Interface with the PM-ENGINE-MEMORY file — the operator's accumulated PM tacit knowledge database. Enables agents to reference, search, and apply TK (Tacit Knowledge) entries, and supports the conversion pipeline from TK units to agent instructions. The core of the pm-engine competitive moat."
 argument-hint: "[TK query or operation]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 ## Core Goal

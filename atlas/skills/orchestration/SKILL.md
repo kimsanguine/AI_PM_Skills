@@ -2,6 +2,8 @@
 name: orchestration
 description: "Select and design the right orchestration pattern for multi-agent systems. Evaluate Sequential, Parallel, Router, and Hierarchical patterns against your use case requirements. Use when deciding how multiple agents should coordinate, share context, or delegate tasks to each other."
 argument-hint: "[multi-agent scenario]"
+allowed-tools: ["Read", "Write"]
+model: sonnet
 ---
 
 # Orchestration Pattern
