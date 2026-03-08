@@ -71,13 +71,13 @@ model: sonnet
 # Prompt — morning-briefing 뉴스 요약
 
 ## Context
-당신은 이든의 정보 수집 파트너입니다.
-매일 아침 8시에 자동 실행되어, 전 날 수집한 AI/에이전트 관련 뉴스를 이든에게 전달합니다.
-이든은 기술 수준이 높은 PM이므로, 표피적 요약보다 PM 관점의 인사이트를 중요시합니다.
+당신은 PM 담당자의 정보 수집 파트너입니다.
+매일 아침 8시에 자동 실행되어, 전 날 수집한 AI/에이전트 관련 뉴스를 전달합니다.
+PM 담당자는 기술 수준이 높으므로, 표피적 요약보다 PM 관점의 인사이트를 중요시합니다.
 
 ## Role
 당신은 뉴스 큐레이터(PM 관점)로서,
-단순 요약이 아닌 "이 뉴스가 이든의 에이전트 업무에 어떤 의미가 있는지"를 판단하고 전달합니다.
+단순 요약이 아닌 "이 뉴스가 PM 담당자의 에이전트 업무에 어떤 의미가 있는지"를 판단하고 전달합니다.
 
 ## Instruction
 다음 순서로 진행하세요:
@@ -119,7 +119,7 @@ model: sonnet
 
 1️⃣ Anthropic, Claude Opus 4.6 출시 — 프롬프트 캐싱 50% 비용 절감
 기술: 컨텍스트 윈도우 캐싱으로 장기 컨텍스트 비용 획기적 감소
-💡 PM 인사이트: OpenClaw의 morning-briefing 에이전트 비용 재계산 필요 (월 $50 → $25로 절감 가능 추정)
+💡 PM 인사이트: production agent workspace의 morning-briefing 에이전트 비용 재계산 필요 (월 $50 → $25로 절감 가능 추정)
 
 2️⃣ ...
 ```
@@ -139,7 +139,7 @@ model: sonnet
 |------|------|------|
 | 신뢰도 높음 (공식 보도, 다중 출처) | 그대로 요약 | 확인 필요 표시 X |
 | 신뢰도 낮음 (1개 출처, 확인 불가) | "❓ 확인 필요" 표시 | 오류 정보로 인한 의사결정 오류 방지 |
-| 뉴스이지만 무관함 (예: 주식 가격) | 제외 | 이든의 에이전트 업무와 무관 |
+| 뉴스이지만 무관함 (예: 주식 가격) | 제외 | PM 담당자의 에이전트 업무와 무관 |
 | 영어 뉴스 | 완전 번역 후 요약 | 정보 손실 방지 |
 
 ---
@@ -323,7 +323,7 @@ PM의 핵심 가치는 **판단 기준**을 명확히 하는 것입니다.
 
 ### Why-First 프롬프트 원칙
 
-이든의 PM 철학 — 기술이 아닌 의도를 먼저:
+PM 담당자의 철학 — 기술이 아닌 의도를 먼저:
 
 ```
 ❌ 기술 중심: "Chain-of-thought로 step-by-step 분석해줘"
@@ -373,12 +373,31 @@ Context / Role / Instruction / Scope / Parameters 순서로 작성
 ---
 
 ### 참고
-- CRISP 프레임워크: Sanguine Kim (이든) 설계, 2026-03
-- Why-First 원칙: PM-ENGINE 철학 (이든의 20년 PM 암묵지)
-- 7가지 실패 패턴: OpenClaw 크론잡 운영 및 디버깅 경험 기반
+- CRISP 프레임워크: AI PM Skills Contributors 설계, 2026-03
+- Why-First 원칙: PM-ENGINE 철학 (AI PM Skills Contributors의 PM 암묵지)
+- 7가지 실패 패턴: production cron job 운영 및 디버깅 경험 기반
 
 ---
 
 ## Further Reading
 - Anthropic Documentation — https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering
 - OpenAI Prompt Engineering Guide — https://platform.openai.com/docs/guides/prompt-engineering
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

@@ -283,7 +283,7 @@ relevant = memory_search("오늘 작업 관련 키워드")
 load(relevant[:3])  # 상위 3개만 로드
 ```
 
-OpenClaw `memory_search` 툴이 이 역할을 수행:
+memory retrieval tool이 이 역할을 수행:
 - 키워드 기반 의미론적 검색
 - 관련성 높은 섹션만 반환
 - 불필요한 전체 파일 로딩 방지
@@ -358,8 +358,8 @@ memory_search 활용 방법 + 로딩 조건 정의
 ---
 
 ### 참고
-- 임계값 기준: OpenClaw 하트비트 컨텍스트 모니터링 운영 경험 (이든, 2026-03)
-- 동적 로딩: OpenClaw memory_search + memory_get 툴 실사용 기반
+- 임계값 기준: agent heartbeat monitoring 컨텍스트 모니터링 운영 경험 (AI PM Skills Contributors, 2026-03)
+- 동적 로딩: memory retrieval tool 실사용 기반
 - Tool Search 절감: GPT-5.4 47% 토큰 절감 사례 (OpenAI, 2026-03)
 
 ---
@@ -367,3 +367,22 @@ memory_search 활용 방법 + 로딩 조건 정의
 ## Further Reading
 - Anthropic, "Long Context Window Tips" — Context window management
 - Token counting tools — https://docs.anthropic.com/en/docs/build-with-claude/token-counting
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

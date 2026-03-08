@@ -73,7 +73,7 @@ model: sonnet
 # Agent OKR — morning-briefing v2
 
 ## Objective
-morning-briefing이 이든의 정보 수집 시간을 완전히 제로화하고,
+morning-briefing이 PM 담당자의 정보 수집 시간을 완전히 제로화하고,
 매일 아침 8분 내에 핵심 정보를 신뢰 가능한 파트너로서 전달한다.
 
 ---
@@ -81,15 +81,15 @@ morning-briefing이 이든의 정보 수집 시간을 완전히 제로화하고,
 ## Business Impact KRs
 
 **KR1: 정보 수집 시간 절감**
-- 측정: 이든이 뉴스 수집에 쓰는 주간 시간 (현재: 주 5시간)
+- 측정: PM 담당자가 뉴스 수집에 쓰는 주간 시간 (현재: 주 5시간)
 - 목표: 0시간 (morning-briefing이 대체)
 - 목표값: 0시간 (브리핑 자동 수신)
 - 목표 기한: 2026-03-31
 
 **KR2: 정보 신뢰도 유지**
-- 측정: 이든 피드백 기반 "쓸모 있는 기사" 비율
+- 측정: PM 담당자 피드백 기반 "쓸모 있는 기사" 비율
 - 현재: 미측정 (데이터 수집 기간)
-- 목표: 80% 이상 (기사 5개 중 4개 이상이 이든이 읽을 가치 있음)
+- 목표: 80% 이상 (기사 5개 중 4개 이상이 읽을 가치 있음)
 - 목표 기한: 2026-03-31
 
 ---
@@ -114,8 +114,8 @@ morning-briefing이 이든의 정보 수집 시간을 완전히 제로화하고,
 
 | KR | 자동/수동 | 도구/방법 |
 |----|----------|---------|
-| KR1 (시간 절감) | 수동 | 이든의 주간 활동 로그 (매주 금요일 리뷰) |
-| KR2 (신뢰도) | 수동 | 이든의 월간 피드백 (Telegram 반응 점수) |
+| KR1 (시간 절감) | 수동 | PM 담당자의 주간 활동 로그 (매주 금요일 리뷰) |
+| KR2 (신뢰도) | 수동 | PM 담당자의 월간 피드백 (Telegram 반응 점수) |
 | KR3 (비용) | 자동 | Google Cloud + Anthropic 청구 API |
 | KR4 (신뢰성) | 자동 | Sentry / 에이전트 실행 로그 |
 
@@ -231,7 +231,7 @@ KR4 (Operational Health):
 ### 실제 예시 — morning-briefing 에이전트
 
 ```
-O: morning-briefing이 이든의 정보 수집 시간을 제로화하고
+O: morning-briefing이 PM 담당자의 정보 수집 시간을 제로화하고
    매일 아침 10분 내에 하루 핵심 정보를 제공한다.
 
 KR1: 브리핑 수신율 100% 유지 (현재: ~95%)
@@ -312,7 +312,7 @@ You are helping design OKRs for an agent: **$ARGUMENTS**
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 일반 OKR 프레임워크 기반 → 에이전트 특화 2축(운영 건강도 + 비즈니스 임팩트) 구조로 재편
 - Christina Wodtke, *Radical Focus* — OKR 원칙 참고
 
@@ -321,3 +321,22 @@ You are helping design OKRs for an agent: **$ARGUMENTS**
 ## Further Reading
 - Christina Wodtke, *Radical Focus* — OKR implementation guide
 - John Doerr, *Measure What Matters* — OKR origin and principles
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

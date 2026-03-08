@@ -263,8 +263,8 @@ TK 추출:
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
-- 에이전트 장애 유형 분류: AI Dubbing/Avatar 운영 장애 대응 경험 기반
+- 설계자: AI PM Skills Contributors, 2026-03
+- 에이전트 장애 유형 분류: production agent 운영 장애 대응 경험 기반
 - Silent Failure 패턴: 환각이 "그럴듯한 답"이라 유저가 장애를 인지 못 하는 케이스
 - premortem 스킬과 상호 보완 (사전 예방 vs 사후 대응)
 
@@ -273,3 +273,28 @@ TK 추출:
 ## Further Reading
 - Google SRE Book, "Managing Incidents" — Incident response process and postmortem culture
 - Anthropic, "Building Effective Agents" (2024) — Agent error handling and recovery patterns
+
+---
+
+## Test Cases
+
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+## Troubleshooting
+
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+---
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

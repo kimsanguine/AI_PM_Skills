@@ -236,7 +236,7 @@ Experiment (Value):
 
 ### 참고
 - 원본 프레임워크: Teresa Torres, *Continuous Discovery Habits* (OST)
-- 에이전트 특화 확장: Sanguine Kim (이든), 2026
+- 에이전트 특화 확장: AI PM Skills Contributors, 2026
 - Reliability / Ethics 축: Byeonghyeok Kwak의 엔터프라이즈 에이전트 거버넌스 논의에서 영감
 
 ---
@@ -244,3 +244,22 @@ Experiment (Value):
 ## Further Reading
 - Teresa Torres, *Continuous Discovery Habits* — Opportunity Solution Tree origin
 - Marty Cagan, *INSPIRED* — Continuous product discovery
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

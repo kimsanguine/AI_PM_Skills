@@ -45,7 +45,7 @@ model: sonnet
 
 PM 20년의 암묵지를 에이전트에 넣으면 무슨 일이 생기는가:
 - 제네릭 AI: "PRD를 작성하세요" → 일반적인 PRD 템플릿 출력
-- pm-engine이 있는 에이전트: 이든의 판단 기준을 알고 → 맥락에 맞는 PRD 작성
+- pm-engine이 있는 에이전트: PM의 판단 기준을 알고 → 맥락에 맞는 PRD 작성
 
 이것이 **Domain TK 해자**의 실체입니다.
 
@@ -209,15 +209,40 @@ You are helping extract and structure PM tacit knowledge from: **$ARGUMENTS**
 "당신은 왜 그런 판단을 내렸나요?" 반복 질문  
 명시되지 않은 전제와 기준 발굴
 
-**Step 3** — TK 유형 분류  
+**Step 3** — TK 유형 분류
 Decision/Failure/Heuristic/Anti-Pattern/Insight 중 선택
 
-**Step 4** — TK 구조화  
-TK-NNN 형식으로 작성  
+> **Type 2 vs Type 4 구분이 모호할 때** → `context/domain.md` Section 8-2의 리트머스 테스트 3개 질문 사용:
+> 1. "다시는 틀릴 일이 없는가?" → Yes면 Type 4 (Anti-Pattern)
+> 2. "어기는 경우가 정당화될 수 있는가?" → No면 Type 4
+> 3. "미래 변화로 역전될 가능성이 있는가?" → Yes면 Type 2 (Failure Pattern)
+
+**Step 4** — TK 구조화
+TK-NNN 형식으로 작성
 활성화/비활성화 조건 포함 (Contextual Retrieval 패턴)
 
-**Step 5** — 연관 TK 연결  
-기존 TK 중 연관된 것 파악하여 링크
+**TK 번호 생성 규칙**:
+```
+TK-[도메인접두사][시계열번호]
+예: TK-AGT045 (Agent 도메인, 45번째)
+    TK-PRI001 (Prioritization 도메인, 1번째)
+도메인접두사: AGT(Agent), PRI(Priority), SCO(Scope), QUA(Quality), COM(Communication)
+시계열번호: 001부터 시작, 생성 순서대로 증가
+```
+
+**CR 메타데이터 필수 필드** (모든 TK에 추가):
+```
+📊 CR 메타데이터:
+- 활성화 키워드: [임베딩 검색용 키워드 3-5개]
+- CR Score 임계값: 0.7 이상 시 자동 로드
+- 저장 위치: PM-ENGINE-MEMORY.md
+```
+
+**중복 검사**: 신규 TK 작성 전, 기존 TK의 활성화 키워드와 유사도 비교. 0.85 이상이면 기존 TK와 병합 검토.
+
+**Step 5** — 연관 TK 연결 & 품질 평가
+기존 TK 중 연관된 것 파악하여 양방향 링크
+품질 매트릭스 평가 (see `context/domain.md` Section 8-4): 일반성/검증도/실행가능성/연결성 각 1-5점
 
 **Step 6** — PM-ENGINE-MEMORY 저장  
 작성된 TK를 PM-ENGINE-MEMORY.md에 append  
@@ -242,8 +267,9 @@ TK-NNN 형식으로 작성
 
 - 추출한 TK가 개인의 선호도가 아니라, 실전에서 반복적으로 검증된 판단인가? (Yes/No/Hypothesis)
 - TK의 활성화 조건이 구체적이고 측정 가능한가? ("언제"를 에이전트가 판단할 수 있는가?) (Yes/No)
-- 이 TK가 기존 TK와 다른가? 중복이 아닌가? (Yes/No/Merged)
-- TK의 분류(Decision/Failure/Heuristic/Anti-Pattern/Insight)가 올바르게 되었는가? (Yes/No)
+- 이 TK가 기존 TK와 다른가? 중복 검사(유사도 0.85 미만) 통과? (Yes/No/Merged)
+- TK의 분류(Decision/Failure/Heuristic/Anti-Pattern/Insight)가 올바르게 되었는가? (Type 2 vs Type 4 모호 시 리트머스 테스트 적용) (Yes/No)
+- CR 메타데이터 포함? (활성화 키워드, CR Score 임계값, 저장 위치) (Yes/No)
 - TK를 Instruction으로 변환했을 때, 에이전트가 따를 수 있는 구체적인 행동으로 표현되는가? (Yes/No)
 
 ---
@@ -298,7 +324,7 @@ TK-NNN 형식으로 작성
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - Contextual Retrieval 패턴: PM-ENGINE-MEMORY CR 필드 도입 기반 (2026-03-01)
 - TK-001 최초 작성: PM-ENGINE 1-Day-1-Prompt 크론 운영 경험
 - Tacit Knowledge 개념: Michael Polanyi, *The Tacit Dimension* (1966)
@@ -308,3 +334,22 @@ TK-NNN 형식으로 작성
 ## Further Reading
 - Michael Polanyi, *The Tacit Dimension* — Tacit knowledge theory
 - Ikujiro Nonaka, "The Knowledge-Creating Company" — SECI model
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

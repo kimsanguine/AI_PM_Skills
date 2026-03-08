@@ -3,10 +3,10 @@
   "version": "0.4.0",
   "description": "Discover which AI agent to build — map automation outcomes to solvable opportunities, validate assumptions, and decide build vs buy. Use when exploring agent ideas, analyzing automation opportunities, running build-or-buy analysis, or estimating agent development costs.",
   "author": {
-    "name": "Ethan Kim",
-    "url": "https://github.com/kimsanguine"
+    "name": "AI PM Skills Contributors",
+    "url": "https://github.com/your-username"
   },
-  "repository": "https://github.com/kimsanguine/AI_PM_Skills",
+  "repository": "https://github.com/your-username/AI_PM_Skills",
   "license": "MIT",
   "keywords": ["agent", "discovery", "opportunity", "pm", "build-or-buy", "assumptions", "gtm", "go-to-market"],
   "skills": "./skills/",

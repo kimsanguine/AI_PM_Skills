@@ -234,7 +234,7 @@ v2.0    95%     95%     94%     94%     → 최고 성능 + 안정
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - TK 기반 코호트: TK-NNN 축적 수준별 성능 변화 추적
 - agent-ab-test 스킬과 상호 보완 (A/B 결과 → 코호트 추적)
 
@@ -243,3 +243,28 @@ v2.0    95%     95%     94%     94%     → 최고 성능 + 안정
 ## Further Reading
 - Amplitude, "Mastering Retention" — Cohort analysis and retention curve interpretation
 - Alistair Croll & Benjamin Yoskovitz, *Lean Analytics* — Cohort metrics for product growth
+
+---
+
+## Test Cases
+
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+## Troubleshooting
+
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+---
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

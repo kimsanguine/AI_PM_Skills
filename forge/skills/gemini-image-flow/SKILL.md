@@ -710,4 +710,23 @@ bun run src/index.ts --quick --tier pro
 - Google, Gemini API Image Generation Guide — https://ai.google.dev/gemini-api/docs/image-generation
 - Google, Gemini Developer API Pricing — https://ai.google.dev/gemini-api/docs/pricing
 - Anthropic, "Building Effective Agents" (2024) — Tool use and pipeline patterns
-- Ethan Kim, "TK-NNN: Never-ending Nuance Network" — 크리에이티브 선호도 패턴의 TK 축적
+- AI PM Skills Contributors, "TK-NNN: Never-ending Nuance Network" — 크리에이티브 선호도 패턴의 TK 축적
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

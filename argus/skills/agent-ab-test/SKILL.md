@@ -226,7 +226,7 @@ Variant (B):
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - LLM 비결정론 대응: 5회 반복 실행 + 시간대 동시 실행 패턴
 - TK 주입 효과 측정: TK-NNN 프레임워크와 연결
 
@@ -235,3 +235,24 @@ Variant (B):
 ## Further Reading
 - Ron Kohavi, *Trustworthy Online Controlled Experiments* — A/B test design and analysis
 - Anthropic, "Evaluating AI Models" — LLM evaluation best practices and metrics
+
+---
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

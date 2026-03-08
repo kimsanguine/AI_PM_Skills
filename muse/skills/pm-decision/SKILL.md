@@ -299,13 +299,32 @@ You are helping apply decision patterns to: **$ARGUMENTS**
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 패턴 원천: PM-ENGINE-MEMORY TK 시리즈 (누적 중)
 - "Taste at Speed": Boris Cherny (Anthropic), Aakash Gupta 분석 (2026-03-06)
-- Why-First 원칙: 이든의 20년 PM 핵심 철학
+- Why-First 원칙: AI PM Skills Contributors의 PM 핵심 철학
 
 ---
 
 ## Further Reading
 - Daniel Kahneman, *Thinking, Fast and Slow* — Decision biases
 - Annie Duke, *Thinking in Bets* — Decision quality frameworks
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

@@ -8,17 +8,27 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
+> ⭐ **If you're a PM building AI agents, star this repo** — it's the only skillset designed for agent product managers.
+
+**The Agent PM Journey in 5 Stages:**
+
+```
+발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
+   oracle            atlas            forge          argus          muse
+     ↑                                                               │
+     └──────────── Accumulated TK feeds back into next agent ────────┘
+```
+
+<p align="center">
+  <img src="docs/images/demo-terminal.svg" alt="AI_PM_Skills Demo — opp-tree skill auto-triggered" width="800"/>
+</p>
+
+<details>
+<summary>📐 Plugin Lifecycle Diagram</summary>
 <p align="center">
   <img src="docs/images/plugin-lifecycle.svg" alt="Agent Product Lifecycle" width="800"/>
 </p>
-
-```bash
-/discover customer support workflow to automate
-/architecture multi-language FAQ + escalation agent
-/write-prd customer support auto-response agent
-/health-check support agent weekly review
-/extract "80% of customers who say 'urgent' aren't actually urgent"
-```
+</details>
 
 ---
 
@@ -34,6 +44,18 @@ General PM skills teach you to **use AI as a tool** — write PRDs faster, gener
 - "How do I encode 3 months of operational judgment into the agent's instructions?"
 
 This project turns those questions into skills.
+
+## Quick Start (30 seconds)
+
+```bash
+# 1. Install the plugin
+/plugin marketplace add kimsanguine/AI_PM_Skills
+/plugin install oracle@kimsanguine-AI_PM_Skills
+
+# 2. Just describe your task — the right skill loads automatically
+"We handle 500 support tickets/day. Which parts should an agent handle?"
+# → opp-tree skill auto-loads → opportunity mapping starts
+```
 
 ---
 
@@ -149,6 +171,29 @@ All 35 skills follow the same content structure:
 
 The **Trigger Gate** is the key innovation. Use / Route / Boundary conditions determine whether this skill should fire, redirect to another, or declare out-of-scope — eliminating skill collisions.
 
+### Cross-Plugin Routing
+
+The Trigger Gate's "Route" field enables automatic routing between plugins. When a skill recognizes that the task belongs to a different plugin, it hands off explicitly:
+
+```
+User: "Token costs jumped 40% this week"
+→ argus/burn-rate triggers (cost analysis)
+→ Route: "원인 파악 후 모델 라우팅 변경 필요" → atlas/router
+→ Route: "변경 후 비용 재시뮬레이션" → oracle/cost-sim
+```
+
+This isn't implicit — each skill's `Route to Other Skills When` block defines exact handoff conditions:
+
+| From | Trigger Condition | Route To |
+|------|------------------|----------|
+| `opp-tree` | "Validate assumptions for top opportunity" | `assumptions` |
+| `burn-rate` | "Need model routing change" | `router` |
+| `prd` | "Need instruction design" | `instruction` |
+| `reliability` | "Need incident response plan" | `incident` |
+| `pm-framework` | "Convert TK to agent instruction" | `pm-engine` |
+
+> This routing is declarative, not automatic — it provides explicit next-step guidance rather than autonomous cross-plugin execution.
+
 ### Command Chaining
 
 Commands (`/write-prd`, `/discover`, etc.) chain multiple skills into sequential workflows.
@@ -217,9 +262,9 @@ Claude Code's skill platform evolved from Skills 1.0 (2025) to Skills 2.0 (2026)
 | **Eval system** | ❌ | `evals.json` schema | ✅ 10 tests, 54 assertions |
 | **Model selection** | ❌ | `model` field for execution model | ✅ All 35 skills default to `model: sonnet` (user-configurable) |
 | **Dynamic injection** | ❌ | `` !`command` `` injects external data at runtime | ✅ 5 core skills — project memory + PM tools (Linear/GitHub) auto-integration |
-| **Hooks** | ❌ | `hooks` for skill lifecycle events | ✅ 5 core skills — Quality Gate validation scripts on Stop |
+| **Hooks** | ❌ | `hooks` for skill lifecycle events | ⚠️ Spec-ready — 5 core skills have Quality Gate validation scripts on Stop |
 
-> ⚠️ `hooks` inside plugin skills have a known issue where they may not trigger ([#17688](https://github.com/anthropics/claude-code/issues/17688)). Implementation follows the spec and will auto-activate when the issue is resolved.
+> ⚠️ `hooks` inside plugin skills have a known issue where they may not trigger ([#17688](https://github.com/anthropics/claude-code/issues/17688)). Implementation follows the spec and will auto-activate when the issue is resolved. In the meantime, each skill includes fallback `validate_*.sh` scripts in its `references/` directory that can be run manually.
 
 ---
 
@@ -436,6 +481,9 @@ done
 <details>
 <summary><strong>3. forge</strong> — How to spec and ship it? <code>(11 skills, 3 commands)</code></summary>
 
+> **Core Spec (7):** instruction · prd · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review
+> **Communication (4):** gemini-image-flow · infographic-gif-creator · pptx-ai-slide · agent-demo-video
+
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
 | `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
@@ -570,7 +618,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. New skills, improvements,
 
 ## Author
 
-**Sanguine Kim** — 20-year PM, AI Agent Builder
+An experienced PM with 20 years in product management and AI agent systems
 
 References & inspiration:
 - Teresa Torres — *Continuous Discovery Habits*

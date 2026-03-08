@@ -1,0 +1,14 @@
+feat: adopt model, !command dynamic injection, and hooks Phase 1
+
+Skills 2.0 platform features now active across all 35 skills:
+- model: sonnet as default for all 35 skills (user-configurable)
+- !command dynamic injection on 5 core skills (prd, instruction,
+  cost-sim, agent-plan-review, stakeholder-map) with graceful
+  degradation for project memory + PM tool integration
+- hooks Phase 1: Stop hook on 5 key skills with Quality Gate
+  validation scripts (prd, cost-sim, premortem, reliability,
+  agent-plan-review)
+- README comparison tables updated: model/!command/hooks moved
+  from roadmap to active features
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>

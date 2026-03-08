@@ -3,10 +3,10 @@
   "version": "0.4.0",
   "description": "Measure, monitor, and optimize AI agent performance — KPIs, reliability, failure analysis, cost tracking, and North Star metrics. Use when setting up agent monitoring, running health checks, reviewing token costs, doing pre-mortems, or defining success metrics.",
   "author": {
-    "name": "Ethan Kim",
-    "url": "https://github.com/kimsanguine"
+    "name": "AI PM Skills Contributors",
+    "url": "https://github.com/your-username"
   },
-  "repository": "https://github.com/kimsanguine/AI_PM_Skills",
+  "repository": "https://github.com/your-username/AI_PM_Skills",
   "license": "MIT",
   "keywords": ["agent", "metrics", "kpi", "reliability", "cost", "monitoring", "pm", "ab-test", "cohort", "incident"],
   "skills": "./skills/",

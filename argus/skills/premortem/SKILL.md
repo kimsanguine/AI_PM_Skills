@@ -132,6 +132,36 @@ Design early warning alerts:
 - [cascading failure pattern] detected
 ```
 
+### Step 6 — Go/NoGo 기준 매핑
+
+RPN 점수와 모니터링 트리거를 배포 의사결정 기준으로 변환합니다.
+
+```
+📊 Go/NoGo Decision Matrix:
+
+RPN < 50 (저위험)
+└─ → GO (자동 배포 가능)
+   └─ 예: 모니터링으로 충분
+
+RPN 50-100 (중위험)
+└─ → CONDITIONAL GO (완화 조치 필수)
+   ├─ 요구사항: Yellow alert 설정 필수
+   ├─ 조건: Prevention 메커니즘 구현 및 검증
+   └─ 제약: 제한된 범위(1-10% 트래픽 또는 특정 사용자군)에서 시작
+
+RPN > 100 (고위험)
+└─ → NO-GO (재설계 필수)
+   ├─ 요구사항: Prevention 전략 완성 + Red alert 구현
+   ├─ 조건: 액션 아이템 100% 완료, 재premortem 통과
+   └─ 재검토: 최소 1주 모니터링 후 재평가
+```
+
+**매핑 템플릿:**
+
+| Failure Mode | RPN | 의사결정 | 모니터링 | 배포 조건 |
+|---|---|---|---|---|
+| [이름] | [점수] | GO/COND/NOGO | Yellow: [기준], Red: [기준] | [제약사항] |
+
 ### Output
 
 Failure Mode Summary:
@@ -167,6 +197,7 @@ Next Review: [date]
 - [ ] 모델, 데이터, 통합, 비즈니스 4가지 카테고리의 실패 모드가 모두 포함되었는가? (Yes/No)
 - [ ] RPN > 100인 고위험 모드 각각에 대해 Prevention/Detection/Response/Recovery 전략이 명시되었는가? (Yes/No)
 - [ ] 모니터링 트리거(Yellow alert, Red alert)가 실제 감지 가능하도록 설계되었는가? (Yes/No)
+- [ ] 모니터링 트리거가 Go/NoGo 의사결정 기준과 연결되어 있는가? (Yes/No)
 - [ ] 액션 아이템별로 Owner, Deadline, 완료 여부가 기록되었으며, 분기별 재premortem이 예정되었는가? (Yes/No)
 
 ---
@@ -226,3 +257,22 @@ Premortem: 멀티에이전트 오케스트레이터 배포 전
 - Anthropic, "Building Effective Agents" (2024) — Agent error handling & recovery patterns
 - Google, "People + AI Guidebook" — AI failure modes and human-AI interaction design
 - NIST AI Risk Management Framework (AI RMF 1.0) — https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

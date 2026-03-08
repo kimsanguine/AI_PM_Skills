@@ -8,17 +8,27 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
+> ⭐ **AI 에이전트를 만드는 PM이라면, 이 레포에 Star를 눌러주세요** — 에이전트 PM 전용으로 설계된 유일한 스킬셋입니다.
+
+**에이전트 PM의 5단계 여정:**
+
+```
+발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
+   oracle            atlas            forge          argus          muse
+     ↑                                                               │
+     └──────────── 축적된 TK가 다음 에이전트에 피드백 ─────────────────┘
+```
+
+<p align="center">
+  <img src="docs/images/demo-terminal.svg" alt="AI_PM_Skills 데모 — opp-tree 스킬 자동 트리거" width="800"/>
+</p>
+
+<details>
+<summary>📐 플러그인 라이프사이클 다이어그램</summary>
 <p align="center">
   <img src="docs/images/plugin-lifecycle.svg" alt="에이전트 프로덕트 라이프사이클" width="800"/>
 </p>
-
-```bash
-/discover 고객 상담 업무를 자동화하고 싶어
-/architecture 다국어 FAQ 자동응답 + 에스컬레이션 에이전트를 구성해줘.
-/write-prd 고객 문의 중에서 검토할 신규 우선 기능를 개발해보자.
-/health-check 상담 에이전트 주간 점검을 진행해줘
-/extract "고객이 긴급이라고 하면 80%는 진짜 긴급이 아니다"
-```
+</details>
 
 ---
 
@@ -34,6 +44,20 @@
 - "내가 3개월 운영하면서 배운 판단 기준을 어떻게 에이전트에 넣지?"
 
 이 프로젝트는 그 질문들에 대한 답을 스킬로 만들었습니다.
+
+---
+
+## 빠른 시작 (30초)
+
+```bash
+# 1. 플러그인 설치
+/plugin marketplace add kimsanguine/AI_PM_Skills
+/plugin install oracle@kimsanguine-AI_PM_Skills
+
+# 2. 할 일을 설명하면 맞는 스킬이 자동으로 로드됩니다
+"하루 500건 상담 티켓 중 어디를 에이전트로 자동화할지 분석해줘"
+# → opp-tree 스킬 자동 로드 → 기회 매핑 시작
+```
 
 ---
 
@@ -200,6 +224,29 @@ AI_PM_Skills는 두 개의 독립된 레이어로 구성됩니다.
 
 > 혼동 방지: 문서에서 "Skills 2.0"은 Claude Code의 **플랫폼 규격**을, "콘텐츠 구조"는 AI_PM_Skills의 **스킬 설계 패턴**을 지칭합니다.
 
+### 크로스-플러그인 라우팅
+
+Trigger Gate의 "Route" 필드를 통해 플러그인 간 자동 라우팅이 가능합니다. 스킬이 다른 플러그인의 영역이라고 판단하면 명시적으로 핸드오프합니다:
+
+```
+사용자: "이번 주 토큰 비용이 40% 급등했어"
+→ argus/burn-rate 트리거 (비용 분석)
+→ Route: "원인 파악 후 모델 라우팅 변경 필요" → atlas/router
+→ Route: "변경 후 비용 재시뮬레이션" → oracle/cost-sim
+```
+
+이 라우팅은 암묵적이 아닌 선언적입니다 — 각 스킬의 `Route to Other Skills When` 블록이 정확한 핸드오프 조건을 정의합니다:
+
+| From | 트리거 조건 | Route To |
+|------|-----------|----------|
+| `opp-tree` | "최우선 기회의 가정을 검증하고 싶을 때" | `assumptions` |
+| `burn-rate` | "모델 라우팅 변경이 필요할 때" | `router` |
+| `prd` | "인스트럭션 설계가 필요할 때" | `instruction` |
+| `reliability` | "인시던트 대응 계획이 필요할 때" | `incident` |
+| `pm-framework` | "TK를 에이전트 인스트럭션으로 변환할 때" | `pm-engine` |
+
+> 이 라우팅은 자동 실행이 아닌 명시적 가이드입니다 — 자율적 크로스-플러그인 실행이 아니라 다음 단계를 안내합니다.
+
 ### Skills 1.0 vs Skills 2.0 — AI_PM_Skills가 활용하는 것
 
 Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로 진화했습니다. AI_PM_Skills는 Skills 2.0 규격 위에서 동작하며, 다음 기능을 활용합니다.
@@ -217,7 +264,7 @@ Claude Code의 스킬 플랫폼은 Skills 1.0(2025)에서 Skills 2.0(2026)으로
 | **Eval 시스템** | ❌ | `evals.json` 스키마 | ✅ 10 tests, 54 assertions |
 | **모델 지정** | ❌ | `model` 필드로 실행 모델 선택 | ✅ 35개 전체 스킬 `model: sonnet` 기본값 (사용자 변경 가능) |
 | **동적 주입** | ❌ | `` !`command` ``로 실행 시 외부 데이터 주입 | ✅ 5개 핵심 스킬 — 프로젝트 메모리 + PM 도구(Linear/GitHub) 자동 연동 |
-| **Hooks** | ❌ | `hooks`로 스킬 라이프사이클 이벤트 처리 | ✅ 5개 핵심 스킬 — Stop 시 Quality Gate 검증 스크립트 실행 |
+| **Hooks** | ❌ | `hooks` 스킬 라이프사이클 이벤트 | ⚠️ Spec-ready — 5개 핵심 스킬에 Quality Gate 검증 스크립트 (Stop 시 실행). 그 동안 각 스킬의 references/ 디렉토리에 포함된 fallback validate_*.sh 스크립트를 수동으로 실행할 수 있습니다. |
 
 > ⚠️ `hooks`는 플러그인 내 스킬에서 트리거되지 않는 알려진 이슈가 있습니다 ([#17688](https://github.com/anthropics/claude-code/issues/17688)). 스펙 준수 상태로 구현되어 있으며, 이슈 해결 시 자동 작동합니다.
 
@@ -436,6 +483,9 @@ done
 <details>
 <summary><strong>3. forge</strong> — 어떻게 명세하고 만들까? <code>(11 skills, 3 commands)</code></summary>
 
+> **핵심 스펙 (7):** instruction · prd · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review
+> **커뮤니케이션 (4):** gemini-image-flow · infographic-gif-creator · pptx-ai-slide · agent-demo-video
+
 | 스킬 | 하는 일 | 이럴 때 쓰세요 |
 |------|--------|-------------|
 | `instruction` | Role/Context/Goal/Tools/Memory/Output/Failure 7요소 + 최소 권한 원칙 적용 | "에이전트 시스템 프롬프트에 뭘 넣고 뭘 빼야 하지?" |
@@ -570,7 +620,7 @@ done
 
 ## 만든 사람
 
-**Sanguine Kim (이든)** — PM 20년차, AI 에이전트 빌더
+AI 에이전트 설계 및 운영에 20년간 경험을 쌓은 PM
 
 참고한 사람과 자료:
 - Teresa Torres — *Continuous Discovery Habits*

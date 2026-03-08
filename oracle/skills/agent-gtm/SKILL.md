@@ -124,6 +124,22 @@ Unlike [alternative]
 Our agent [key differentiator — TK/data moat]
 ```
 
+### Step 6 — 배포 채널 전략
+
+에이전트 제품의 배포 방식을 선택합니다.
+
+**에이전트 배포 채널 선택:**
+
+| 채널 | 설명 | 장점 | 단점 |
+|------|------|------|------|
+| API 직접 제공 | REST/gRPC API로 고객이 자체 시스템에 통합 | 고객 자율성 높음; 개발 간단 | 고객 온보딩 복잡; 통합 난이도 높음 |
+| MCP (Model Context Protocol) | 표준 프로토콜 기반 도구 연동 (Anthropic, OpenAI 호환) | 구현 기간 단축; 유지보수 편함; 에코시스템 활용 | Anthropic Claude 에코시스템 의존 |
+| 마켓플레이스 (GPT Store, Vertex Agent Builder) | 플랫폼사 마켓플레이스에 등록 | 플랫폼 트래픽 활용; 신뢰도 높음 | 플랫폼 정책 종속; 수수료 발생 |
+| 파트너 통합 | SaaS 파트너(Slack, Zapier, Make 등)를 통한 간접 배포 | 고객 기존 워크플로우와 통합; 채택률 높음 | 파트너 의존성; 마진 감소 |
+| 화이트레이블 | 고객 브랜드로 배포 | 고객 로열티 높음; 엔터프라이즈 계약 확대 | 커스터마이징 비용 높음; 유지보수 부담 |
+
+💡 **MCP 등 플랫폼별 상세 전략은 !domain 참고**
+
 ### Output
 
 ```
@@ -160,6 +176,8 @@ Positioning: [one-line statement]
 - Launch Sequence의 3개 Phase(Lighthouse/Wedge/Expand)가 정의되었고, 각 Phase의 고객 수, 목표, 전략, KPI가 구체적으로 명시되어 있는가? (Yes/No)
 - 첫 90일의 구체적 목표(Lighthouse 고객 수, 에이전트 정확도 목표, 재사용률 목표)가 정의되어 있는가? (Yes/No)
 - Positioning Statement가 작성되었고, Beachhead/Pain Point/Key Benefit/Differentiator가 명확히 드러나는가? (Yes/No)
+- Lighthouse 고객 이탈 신호(정확도 목표 미달성, 참여도 급감, 명시적 거절 등)가 정의되어 있는가? (Yes/No)
+- 각 Phase 진입/이탈 기준(Lighthouse → Wedge 전환 조건, Wedge → Expand 기준)이 명확한가? (Yes/No)
 
 ---
 
@@ -269,12 +287,31 @@ Positioning:
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - Geoffrey Moore, *Crossing the Chasm* — 비치헤드 전략 원전
-- 에이전트 SaaS의 신뢰 구축 시퀀스: OpenClaw 고객 온보딩 경험 기반
+- 에이전트 SaaS의 신뢰 구축 시퀀스: agent product onboarding 경험 기반
 
 ---
 
 ## Further Reading
 - Geoffrey Moore, *Crossing the Chasm* — Technology adoption lifecycle and beachhead strategy
 - Anthropic, "Building Effective Agents" (2024) — Agent deployment patterns and trust building
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

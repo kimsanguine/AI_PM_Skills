@@ -166,6 +166,8 @@ You are helping design **Human-in-the-Loop controls** for: **$ARGUMENTS**
 - 반복 실행 → Periodic Audit
 - 다단계 복잡 작업 → Escalation Chain
 
+💡 **아키텍처 참고**: Supervisor → 조건부 분기 → HITL 패턴은 !domain에서 상세 설명합니다. 위험도별 차등 적용, SLA 설정, 자동 에스컬레이션 등의 실무 구현 사례를 확인하세요.
+
 **Step 4 — 개입 트리거 정의**
 각 개입 지점의 구체적 조건:
 - 신뢰도 임계값 (%)
@@ -276,9 +278,9 @@ Shadow Mode:
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 자동화 스펙트럼: SAE J3016 자율주행 레벨 분류에서 영감
-- Shadow Mode: OpenClaw 크론잡 배포 전 검증 프로세스 기반
+- Shadow Mode: production cron job 배포 전 검증 프로세스 기반
 - Confidence Threshold: 에이전트 오케스트레이션 운영 경험 (2026-02)
 
 ---
@@ -286,3 +288,22 @@ Shadow Mode:
 ## Further Reading
 - AI Agent Design Patterns — Human-in-the-loop escalation strategies
 - Anthropic, "Building Effective Agents" (2024) — Agent autonomy boundaries
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

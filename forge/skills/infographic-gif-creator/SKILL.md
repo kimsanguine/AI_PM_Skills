@@ -135,23 +135,88 @@ You are creating an animated infographic for: **$ARGUMENTS**
 
 **Step 1 — 장면 설계**
 - 전달할 핵심 메시지를 1문장으로 확정
-- 키프레임 수와 타이밍을 결정 (텍스트 최소 2초 노출)
+  - 예: "사용자 입력이 Orchestrator를 거쳐 3개 Sub-agent로 분기되고 결과가 통합된다"
+- 키프레임 수와 타이밍을 결정 (텍스트 최소 노출: `(글자 수 ÷ 12) + 1`초)
 - 루프/비루프 결정
 
 **Step 2 — HTML/CSS 구현**
-- 애니메이션 장면을 HTML/CSS로 구현
+- 애니메이션 장면을 HTML/CSS로 구현 (GPU 가속: `transform`과 `opacity` 속성 우선 사용)
 - 브라우저에서 정상 동작 확인
-- 폰트/이미지 리소스 누락 확인
+- 폰트/이미지 리소스 누락 확인 (모든 리소스 inline 또는 로컬 경로)
 
-**Step 3 — 캡처**
-- Puppeteer/Playwright 등으로 프레임 캡처
-- 프레임 누락/깜빡임 확인
+기본 HTML 템플릿:
+```html
+<div class="scene" style="width:1280px; height:720px; background:#1a1a2e; overflow:hidden;">
+  <div class="step" style="opacity:0; animation: fadeIn 0.5s forwards; animation-delay:0s;">Step 1</div>
+  <div class="step" style="opacity:0; animation: fadeIn 0.5s forwards; animation-delay:2s;">Step 2</div>
+</div>
+<style>
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+</style>
+```
+
+**Step 3 — 캡처** (우선순위 기반 방법 선택)
+
+> **CDP beginFrame이란?** Chrome DevTools Protocol의 프레임 제어 기능. 브라우저가 비동기로 렌더링하는 대신, 명시적으로 프레임 렌더를 트리거하여 결정적(deterministic) 타이밍을 보장한다.
+
+캡처 방법 의사결정:
+```
+Puppeteer ≥19.0?
+├── Yes → CDP beginFrame 사용 (권장, 결정적 타이밍 보장)
+│         → 프레임 드롭 없음, ±1프레임 오차
+└── No
+    ├── CSS animation-play-state 제어 가능?
+    │   └── Yes → paused→play 트리거 방식 (대안)
+    │             animation-play-state: paused → JS로 play() 트리거 후 캡처 시작
+    └── No → animationend 이벤트 기반 (최후 수단)
+              비결정적 타이밍, 프레임 오차 ±2-3프레임
+```
+
+Puppeteer CDP beginFrame 캡처 예시:
+```javascript
+const puppeteer = require('puppeteer');
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1280, height: 720 });
+  await page.goto('file:///path/to/scene.html');
+  const client = await page.target().createCDPSession();
+  const totalFrames = 96; // 8초 × 12fps
+  for (let i = 0; i < totalFrames; i++) {
+    await client.send('HeadlessExperimental.beginFrame');
+    await page.screenshot({ path: `frames/${String(i).padStart(4, '0')}.png` });
+  }
+  await browser.close();
+})();
+```
+
+- 선택한 방법으로 프레임 캡처 실행
+- 프레임 누락/깜빡임 확인 (예상 프레임 수 vs 실제 캡처 수, 오차 ±1프레임 이내)
 - 캡처 타임라인 기록
+- **프레임 드롭 진단**: 캡처된 프레임 수가 예상보다 적으면 (예: 96개 중 93개) → 캡처 방법 한 단계 하향 또는 해상도 축소
+
+> **Puppeteer/Playwright 모두 사용 가능**: CDP beginFrame은 Puppeteer에서 가장 안정적이나, Playwright에서도 `page.clock` API 또는 `animation.pause()/play()` 조합으로 동등한 결과 달성 가능. 프로젝트 기존 도구에 맞춰 선택.
 
 **Step 4 — 인코딩**
-- GIF: 2-pass palettegen/paletteuse 인코딩
-- MP4: H.264 + CRF 18
-- 용량/품질 기준 충족 확인
+
+GIF (2-pass):
+```bash
+ffmpeg -i frames/%04d.png -vf "fps=12,scale=1280:-1:flags=lanczos,palettegen=stats_mode=diff" palette.png
+ffmpeg -i frames/%04d.png -i palette.png -lavfi "fps=12,scale=1280:-1:flags=lanczos[v];[v][1:v]paletteuse=dither=sierra2" output.gif
+```
+
+MP4:
+```bash
+ffmpeg -i frames/%04d.png -c:v libx264 -preset medium -crf 22 -pix_fmt yuv420p -r 30 output.mp4
+```
+
+- 용량/품질 기준 충족 확인 (GIF ≤8MB, MP4 ≤50MB)
+- 초과 시 단계적 최적화:
+  1. fps 낮추기 (12→10→8)
+  2. 해상도 축소 (1280→1024→960)
+  3. 색상 수 제한 (256→128→64색, palettegen `max_colors` 옵션)
+  4. gifsicle lossy 후처리: `gifsicle --lossy=20 input.gif -o output.gif` (육안 차이 거의 없음, 15-30% 추가 감소)
+  5. 상세 옵션은 domain.md Section 8-f 참조
 
 **Step 5 — QA & 전달**
 - 루프 연결성 확인 (시작/끝 프레임 시각차 5% 이하)
@@ -165,9 +230,10 @@ You are creating an animated infographic for: **$ARGUMENTS**
 | 실패 상황 | 감지 | 대응 |
 |---|---|---|
 | 폰트 깨짐/누락 | 캡처 결과에서 텍스트 렌더링 이상 | 웹폰트 preload 후 1회 재캡처, 실패 시 시스템 폰트로 fallback |
-| GIF 용량 8MB 초과 | 인코딩 후 파일 크기 확인 | fps를 2단계 낮추고 색상 수 조정 후 재인코딩 |
+| GIF 용량 8MB 초과 | 인코딩 후 파일 크기 확인 | fps를 2단계 낮추고 색상 수 조정 후 재인코딩 (domain.md Section 8-f 참조) |
 | 프레임 드랍 발생 | 캡처 프레임 수 vs 예상 프레임 수 불일치 | 캡처 해상도 한 단계 하향, 안정 렌더 후 결과 분리 보고 |
 | 애니메이션 타이밍 불일치 | QA에서 텍스트 노출 2초 미달 | CSS animation-delay 재조정 후 재캡처 |
+| CSS-캡처 타이밍 동기화 실패 | 첫 프레임 공백 또는 중간 프레임 누락 | 캡처 방법 한 단계 하향 (CDP→paused/play→animationend), domain.md Section 8-a 참조 |
 
 ---
 
@@ -176,7 +242,8 @@ You are creating an animated infographic for: **$ARGUMENTS**
 - [ ] 전달 메시지가 1문장으로 확정되었는가 (Yes/No)
 - [ ] GIF fps 12 / MP4 fps 30 기준이 충족되는가 (Yes/No)
 - [ ] GIF 용량 8MB 이하인가 (Yes/No)
-- [ ] 텍스트 최소 노출 시간 2초가 확보되었는가 (Yes/No)
+- [ ] 텍스트 최소 노출 시간: `(글자 수 ÷ 12) + 1`초 이상 확보 (Yes/No)
+- [ ] 캡처 정확도: 예상 프레임 수 대비 오차 ±1프레임 이내 (Yes/No)
 - [ ] 캡처/인코딩 명령이 복붙 실행 가능한 형태로 제공되는가 (Yes/No)
 - [ ] 루프형일 경우 시작/끝 프레임 시각차 5% 이하인가 (Yes/No)
 
@@ -207,6 +274,25 @@ You are creating an animated infographic for: **$ARGUMENTS**
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - FFmpeg 인코딩: palettegen/paletteuse 2-pass는 GIF 품질 최적화 표준 기법
 - 캡처 도구: Puppeteer, Playwright, 또는 브라우저 내장 캡처
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
