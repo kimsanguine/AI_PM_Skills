@@ -178,3 +178,28 @@ Include: tier responsibilities, communication formats, error handling strategy
 ## Further Reading
 - Anthropic, "Building Effective Agents" (2024) — Multi-agent orchestration patterns
 - Steve Yegge, "Gas Town" — Parallel agent design principles
+
+---
+
+## Test Cases
+
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+## Troubleshooting
+
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
+
+---
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`

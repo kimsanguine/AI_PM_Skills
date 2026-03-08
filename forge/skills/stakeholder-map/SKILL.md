@@ -74,7 +74,7 @@ model: sonnet
 | 이해관계자 | 역할 | 관심사 | 에이전트 태도 |
 |-----------|------|--------|-----------------|
 | **CFO (경영진)** | 최종 승인자 | ROI, 규제 준수, 예산 | 비용 절감에 긍정적 |
-| **이든 (직접 사용자)** | 매월 비용 분석 담당자 | 작업 부하 감소, 의사결정 품질 향상 | 매우 긍정적 (주도자) |
+| **PM 담당자 (직접 사용자)** | 매월 비용 분석 담당자 | 작업 부하 감소, 의사결정 품질 향상 | 매우 긍정적 (주도자) |
 | **DevOps/Engineering** | 구축, 모니터링 | 기술 부채, 운영 복잡도 | 처음엔 의심적 |
 | **CFO 산하 Accounting** | 비용 데이터 제공 | 데이터 정확성, 감사 추적성 | 데이터 보안 우려 |
 | **Legal/Compliance** | 규제 검토 | AI 규제, 데이터 프라이버시 | 신중함 |
@@ -102,7 +102,7 @@ model: sonnet
 
 **Engage Actively (즉시 협력):**
 - CFO: Power 5, Interest 5 → 전략적 제휴 (월 1회 진행률 리뷰)
-- 이든: Power 4, Interest 5 → 매주 피드백 수렴
+- PM 담당자: Power 4, Interest 5 → 매주 피드백 수렴
 
 **Manage Closely (조건부 협력):**
 - Engineering: Power 4, Interest 3 → 구축은 필요하지만 우선순위 낮음 → 스프린트 단위로 예정 공유
@@ -126,7 +126,7 @@ model: sonnet
 
 ## Step 4: Champion Strategy
 
-**Champion: 이든 (사용자)**
+**Champion: PM 담당자 (사용자)**
 
 프로필:
 - 현재: 매월 비용 분석에 10시간/월 소요
@@ -139,7 +139,7 @@ model: sonnet
 - ROI: "첫 달 투자 회수, 2개월차부터 순이익"
 
 확산 경로:
-1. 이든이 CFO에게 "시간 절감 효과" 보고
+1. PM 담당자가 CFO에게 "시간 절감 효과" 보고
 2. CFO가 경영진 회의에서 "비용 절감 + 분석 정확도 향상" 공식화
 3. Accounting도 "월별 검증 작업 자동화 가능" 리스트 추가
 4. Engineering도 "작은 투자, 큰 효과" 사례로 제시
@@ -153,7 +153,7 @@ model: sonnet
 - 포맷: 1-page ROI 요약 + 위험 mitigation 계획
 - 주기: 월 1회 progress report
 
-**직접 사용자 (이든):**
+**직접 사용자 (PM 담당자):**
 - 메시지: "반복 작업에서 해방 — 전략 분석에 집중하세요"
 - 포맷: 주 1회 짧은 데모 + Q&A (도입 초기 4주)
 - 주기: 주 1회 (도입 후 월 1회로 축소)
@@ -180,7 +180,7 @@ model: sonnet
 Stakeholder Map: cost-analyst 에이전트 도입
 ────────────────────────────────────────
 Total Stakeholders: 6명/팀
-Champions: 이든 (user/driver)
+Champions: PM 담당자 (user/driver)
 Blockers: Legal/Compliance (CFO 지시 필요) — Mitigation: AI Risk Checklist 사전 제시
 Decision Maker: CFO — Engage via: 월 1회 ROI 리뷰
 Top Resistance: Trust Deficit (Accounting) — Counter: Shadow Mode 검증 → 99% 일치 증명
@@ -358,8 +358,8 @@ Go/No-Go Confidence: [Low/Medium/High]
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
-- AI 도입 저항 패턴: AI Dubbing/Avatar 조직 도입 경험 기반
+- 설계자: AI PM Skills Contributors, 2026-03
+- AI 도입 저항 패턴: production agent workspace 조직 도입 경험 기반
 - Trust Building Sequence: agent-gtm 스킬과 연결
 
 ---
@@ -367,3 +367,22 @@ Go/No-Go Confidence: [Low/Medium/High]
 ## Further Reading
 - John Kotter, *Leading Change* — 8-step change management framework
 - Anthropic, "Building Effective Agents" (2024) — Human-agent trust patterns
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

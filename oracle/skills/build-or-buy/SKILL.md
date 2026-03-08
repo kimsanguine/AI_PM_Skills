@@ -135,7 +135,7 @@ Make, Zapier, n8n, Notion AI, 노션 워크플로우 등 활용
 ```
 
 예시:
-- 에이전트 오케스트레이션: 직접 구축 (OpenClaw + Claude)
+- 에이전트 오케스트레이션: 직접 구축 (production agent workspace + Claude)
 - 이메일 발송: 외부 API (SendGrid 구독)
 - 캘린더 연동: No-Code (Zapier 커넥터)
 
@@ -290,12 +290,31 @@ Scenario: "고객 티켓 자동 분류 에이전트"
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 하이브리드 전략 원칙: MCP-Skills 레이어 설계에서 발전
-- 재검토 트리거: OpenClaw 운영 경험 기반 (크론잡 build-or-buy 반복 경험)
+- 재검토 트리거: production agent workspace 운영 경험 기반 (cron job build-or-buy 반복 경험)
 
 ---
 
 ## Further Reading
 - Marty Cagan, *INSPIRED* — Build vs Buy decision frameworks
 - Martin Fowler, "Build vs Buy" — Architecture decision trade-offs
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

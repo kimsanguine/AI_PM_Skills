@@ -325,14 +325,14 @@ Register the marketplace in Claude Code, then install individual plugins.
 
 ```bash
 # Step 1: Register marketplace
-/plugin marketplace add kimsanguine/AI_PM_Skills
+/plugin marketplace add your-username/AI_PM_Skills
 
 # Step 2: Install individual plugins
-/plugin install oracle@kimsanguine-AI_PM_Skills
-/plugin install atlas@kimsanguine-AI_PM_Skills
-/plugin install forge@kimsanguine-AI_PM_Skills
-/plugin install argus@kimsanguine-AI_PM_Skills
-/plugin install muse@kimsanguine-AI_PM_Skills
+/plugin install oracle@your-username-AI_PM_Skills
+/plugin install atlas@your-username-AI_PM_Skills
+/plugin install forge@your-username-AI_PM_Skills
+/plugin install argus@your-username-AI_PM_Skills
+/plugin install muse@your-username-AI_PM_Skills
 ```
 
 > Restart Claude Code after installation to load the skills.
@@ -343,7 +343,7 @@ Clone from GitHub and load directly with `--plugin-dir`.
 
 ```bash
 # Clone the repo
-git clone https://github.com/kimsanguine/AI_PM_Skills.git
+git clone https://github.com/your-username/AI_PM_Skills.git
 
 # Load individual plugins (pick what you need)
 claude --plugin-dir ./AI_PM_Skills/oracle
@@ -570,7 +570,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. New skills, improvements,
 
 ## Author
 
-**Sanguine Kim** — 20-year PM, AI Agent Builder
+An experienced PM with 20 years in product management and AI agent systems
 
 References & inspiration:
 - Teresa Torres — *Continuous Discovery Habits*
@@ -585,8 +585,8 @@ References & inspiration:
 
 | Repo | What | Link |
 |------|------|------|
-| **AI_PM** | Claude Code guide for PMs — learn the why and how | [github.com/kimsanguine/AI_PM](https://github.com/kimsanguine/AI_PM) |
-| **AI_PM_Skills** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/kimsanguine/AI_PM_Skills](https://github.com/kimsanguine/AI_PM_Skills) |
+| **AI_PM** | Claude Code guide for PMs — learn the why and how | [github.com/your-username/AI_PM](https://github.com/your-username/AI_PM) |
+| **AI_PM_Skills** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/your-username/AI_PM_Skills](https://github.com/your-username/AI_PM_Skills) |
 
 > **AI_PM** teaches the thinking. **AI_PM_Skills** gives you the tools.
 

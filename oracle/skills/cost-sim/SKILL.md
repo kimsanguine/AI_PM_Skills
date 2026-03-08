@@ -275,13 +275,32 @@ You are helping simulate the operating cost for: **$ARGUMENTS**
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 모델 가격: Anthropic / OpenAI 공식 가격 (2026-03 기준, 변동 가능)
 - 모델 라우팅 전략: GPT-5.4 Tool Search 47% 절감 사례에서 영감
-- 비용 상한 패턴: 크론잡 월간 비용 모니터링 경험 기반
+- 비용 상한 패턴: production cron job 월간 비용 모니터링 경험 기반
 
 ---
 
 ## Further Reading
 - Anthropic API Pricing — https://docs.anthropic.com/en/docs/about-claude/models
 - OpenAI API Pricing — https://openai.com/api/pricing/
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

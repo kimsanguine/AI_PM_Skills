@@ -31,14 +31,14 @@
 
 ```bash
 # 한 줄로 5개 플러그인 전부 설치
-claude plugin marketplace add kimsanguine/AI_PM_Skills
+claude plugin marketplace add your-username/AI_PM_Skills
 ```
 
 ### 방법 2: 개별 플러그인 설치
 
 ```bash
 # 레포 클론 후 원하는 플러그인만 설치
-git clone https://github.com/kimsanguine/AI_PM_Skills.git
+git clone https://github.com/your-username/AI_PM_Skills.git
 cd AI_PM_Skills
 
 claude plugin add oracle/    # 발견

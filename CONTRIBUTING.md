@@ -190,4 +190,4 @@ The `muse` plugin provides frameworks for managing PM tacit knowledge. **Framewo
 
 ## Questions?
 
-Open an issue or reach out to [@sanguinekim](https://github.com/sanguinekim).
+Open an issue or reach out to [@your-github-username](https://github.com/your-github-username).

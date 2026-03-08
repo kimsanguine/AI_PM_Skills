@@ -223,7 +223,7 @@ Moat Depth at 6 months: [competitive advantage description]
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - Type D (TK Accumulation Loop): TK-NNN 프레임워크와 연결
 - moat 스킬의 해자 분석과 상호 보완
 
@@ -232,3 +232,22 @@ Moat Depth at 6 months: [competitive advantage description]
 ## Further Reading
 - Andrew Chen, *The Cold Start Problem* — Network effects and growth loops
 - Casey Winters, "Growth Loops" — Reforge framework for sustainable growth mechanics
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

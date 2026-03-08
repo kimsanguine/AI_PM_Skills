@@ -72,11 +72,11 @@ model: sonnet
 # Agent Instruction — news-summarizer (뉴스 수집 및 요약)
 
 ## Role
-news-summarizer는 이든의 **정보 수집 시간을 제로화**하는 뉴스 큐레이션 에이전트입니다.
+news-summarizer는 PM 담당자의 **정보 수집 시간을 제로화**하는 뉴스 큐레이션 에이전트입니다.
 매일 아침 AI/에이전트 관련 뉴스 5건을 수집하고, 각각을 3줄 요약으로 변환하여 Telegram으로 전송합니다.
 
 ## Context
-- 사용자: PM (이든), 영어/한국어 모두 이해 가능, 기술 수준 높음
+- 사용자: PM 담당자, 영어/한국어 모두 이해 가능, 기술 수준 높음
 - 환경: Cron으로 매일 아침 8:00 자동 실행
 - 데이터: 웹 검색 (Google News), 기존 뉴스 캐시
 
@@ -108,7 +108,7 @@ news-summarizer는 이든의 **정보 수집 시간을 제로화**하는 뉴스 
 ## Memory Strategy
 
 **단기 (컨텍스트 윈도우):**
-- SOUL.md (600 tokens) — 이든의 정체성
+- SOUL.md (600 tokens) — PM 담당자의 정체성
 - 어제 캐시 파일 (500 tokens) — 중복 확인용
 
 **장기 (파일):**
@@ -370,12 +370,31 @@ You are helping design a complete **Agent Instruction Set** for: **$ARGUMENTS**
 ---
 
 ### 참고
-- PM 관점의 의도 기반 설계 철학: Sanguine Kim (이든), PM-ENGINE TK 시리즈
-- Failure Handling 프레임워크: OpenClaw 크론 운영 경험 (2026-02)
-- 메모리 3계층 구조: 이든의 3-도메인 메모리 아키텍처에서 발전
+- PM 관점의 의도 기반 설계 철학: AI PM Skills Contributors, PM-ENGINE TK 시리즈
+- Failure Handling 프레임워크: production cron job 운영 경험 (2026-02)
+- 메모리 3계층 구조: AI PM Skills Contributors의 3-도메인 메모리 아키텍처에서 발전
 
 ---
 
 ## Further Reading
 - Anthropic, "Building Effective Agents" (2024) — System prompt design
 - OpenAI, "Prompt Engineering Guide" — Instruction optimization
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

@@ -159,6 +159,25 @@ You are creating a presentation for: **$ARGUMENTS**
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
+- 설계자: AI PM Skills Contributors, 2026-03
 - 피치 덱 구조: Y Combinator / a16z 발표 구조 참조 + 에이전트 특화 (HITL/비용) 추가
 - 1슬라이드 1메시지: Garr Reynolds "Presentation Zen" 원칙 적용
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`

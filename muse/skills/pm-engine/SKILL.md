@@ -435,8 +435,8 @@ Step 5 — 기존 Instruction과의 충돌 여부 검토
 ---
 
 ### 참고
-- 설계자: Sanguine Kim (이든), 2026-03
-- PM-ENGINE-MEMORY.md: OpenClaw 워크스페이스 실제 운영 파일
+- 설계자: AI PM Skills Contributors, 2026-03
+- PM-ENGINE-MEMORY.md: production agent workspace 실제 운영 파일
 - one-day-one-prompt 크론 (20:00): TK 자동 추출 파이프라인
 - weekly-memory-distill 크론: CR 필드 자동 채움 (2026-03-01 도입)
 - Contextual Retrieval: PM-ENGINE-MEMORY CR 패턴 (2026-03-01)
@@ -445,4 +445,23 @@ Step 5 — 기존 Instruction과의 충돌 여부 검토
 
 ## Further Reading
 - Ikujiro Nonaka, "The Knowledge-Creating Company" — Knowledge management
-- Ethan Kim, "TK-NNN: Never-ending Nuance Network" — Agent-native tacit knowledge system (TK-001→TK-999)
+- AI PM Skills Contributors, "TK-NNN: Never-ending Nuance Network" — Agent-native tacit knowledge system (TK-001→TK-999)
+
+## Contextual Knowledge (auto-loaded)
+
+> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
+
+### Good Example
+!`cat examples/good-01.md 2>/dev/null || echo ""`
+
+### Bad Example
+!`cat examples/bad-01.md 2>/dev/null || echo ""`
+
+### Domain Context
+!`cat context/domain.md 2>/dev/null || echo ""`
+
+### Test Cases
+!`cat references/test-cases.md 2>/dev/null || echo ""`
+
+### Troubleshooting
+!`cat references/troubleshooting.md 2>/dev/null || echo ""`
