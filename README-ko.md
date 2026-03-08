@@ -620,11 +620,11 @@ done
 
 ## 만든 사람
 
-AI 에이전트 설계 및 운영에 20년간 경험을 쌓은 PM
+AI 에이전트 빌더, 김생근 (kimsanguine@gmail.com)
 
 참고한 사람과 자료:
-- Teresa Torres — *Continuous Discovery Habits*
 - Anthropic — "Building Effective Agents"
+- Teresa Torres — *Continuous Discovery Habits*
 - Steve Yegge — Gas Town 병렬 에이전트 설계
 - Byeonghyeok Kwak — MCP-Skills 계층 설계
 - Michael Polanyi — *The Tacit Dimension*
