@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520" viewBox="0 0 800 520">
+  <style>
+    @keyframes typing1 { 0%,10%{width:0} 15%,100%{width:520px} }
+    @keyframes typing2 { 0%,25%{width:0} 30%,100%{width:480px} }
+    @keyframes typing3 { 0%,42%{width:0} 47%,100%{width:580px} }
+    @keyframes fade1 { 0%,17%{opacity:0} 20%,100%{opacity:1} }
+    @keyframes fade2 { 0%,34%{opacity:0} 37%,100%{opacity:1} }
+    @keyframes fade3 { 0%,50%{opacity:0} 53%,100%{opacity:1} }
+    @keyframes fade4 { 0%,60%{opacity:0} 63%,100%{opacity:1} }
+    @keyframes fade5 { 0%,70%{opacity:0} 73%,100%{opacity:1} }
+    @keyframes cursor { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    .term-bg { fill: #1e1e2e; rx: 12; }
+    .title-bar { fill: #313244; }
+    .dot-red { fill: #f38ba8; }
+    .dot-yellow { fill: #f9e2af; }
+    .dot-green { fill: #a6e3a1; }
+    .prompt { fill: #89b4fa; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; }
+    .cmd { fill: #cdd6f4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; }
+    .output { fill: #a6adc8; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .highlight { fill: #a6e3a1; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .skill-tag { fill: #cba6f7; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .arrow { fill: #f9e2af; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .dim { fill: #6c7086; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; }
+  </style>
+
+  <!-- Terminal background -->
+  <rect class="term-bg" width="800" height="520"/>
+
+  <!-- Title bar -->
+  <rect class="title-bar" width="800" height="36" rx="12"/>
+  <rect class="title-bar" x="0" y="24" width="800" height="12"/>
+  <circle class="dot-red" cx="20" cy="18" r="6"/>
+  <circle class="dot-yellow" cx="40" cy="18" r="6"/>
+  <circle class="dot-green" cx="60" cy="18" r="6"/>
+  <text x="400" y="22" fill="#cdd6f4" font-family="'SF Mono', monospace" font-size="12" text-anchor="middle">AI_PM_Skills — Agent PM Workflow Demo</text>
+
+  <!-- Line 1: Install -->
+  <g style="animation: typing1 8s infinite">
+    <text class="prompt" x="20" y="68">❯</text>
+    <text class="cmd" x="40" y="68">/plugin install oracle@kimsanguine-AI_PM_Skills</text>
+  </g>
+
+  <!-- Line 2: Output -->
+  <g style="animation: fade1 8s infinite">
+    <text class="highlight" x="40" y="92">✓ oracle installed (7 skills loaded)</text>
+  </g>
+
+  <!-- Line 3: User query -->
+  <g style="animation: typing2 8s infinite">
+    <text class="prompt" x="20" y="132">❯</text>
+    <text class="cmd" x="40" y="132">"CS팀 반복 업무 자동화 기회를 분석해줘"</text>
+  </g>
+
+  <!-- Line 4: Skill detection -->
+  <g style="animation: fade2 8s infinite">
+    <text class="arrow" x="40" y="160">→</text>
+    <text class="skill-tag" x="60" y="160">opp-tree</text>
+    <text class="output" x="145" y="160">skill auto-triggered</text>
+  </g>
+
+  <!-- Line 5-9: Output tree -->
+  <g style="animation: fade3 8s infinite">
+    <text class="output" x="40" y="192">Agent Opportunity Tree</text>
+    <text class="dim" x="40" y="212">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</text>
+    <text class="output" x="40" y="234">Desired Outcome: CS 응답 시간 50% 단축</text>
+    <text class="output" x="40" y="256">├── Problem: 티켓 분류 수동 (40분/일)</text>
+    <text class="highlight" x="40" y="278">│   └── Agent: 자동 분류 에이전트 ★ 1순위</text>
+    <text class="output" x="40" y="300">│       Score: 반복성 9 · 자동화 8 · 가치 9</text>
+    <text class="output" x="40" y="322">├── Problem: FAQ 반복 답변 (2시간/일)</text>
+    <text class="output" x="40" y="344">│   └── Agent: FAQ 자동응답 에이전트</text>
+    <text class="output" x="40" y="366">└── Problem: 에스컬레이션 판단 지연</text>
+    <text class="output" x="40" y="388">    └── Agent: 긴급도 분류 에이전트</text>
+  </g>
+
+  <!-- Line 10: Route suggestion -->
+  <g style="animation: fade4 8s infinite">
+    <text class="dim" x="40" y="416">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</text>
+    <text class="arrow" x="40" y="438">→</text>
+    <text class="output" x="60" y="438">Next:</text>
+    <text class="skill-tag" x="105" y="438">assumptions</text>
+    <text class="output" x="200" y="438">로 1순위 에이전트 가정 검증</text>
+  </g>
+
+  <!-- Line 11: TK reference -->
+  <g style="animation: fade5 8s infinite">
+    <text class="arrow" x="40" y="462">→</text>
+    <text class="output" x="60" y="462">TK-003 참조:</text>
+    <text class="dim" x="165" y="462">"에이전트 운영 비용은 초기 예상의 10배"</text>
+  </g>
+
+  <!-- Footer -->
+  <g style="animation: fade5 8s infinite">
+    <text class="dim" x="40" y="498">Discover → Architect → Ship → Operate → Learn</text>
+    <text class="dim" x="600" y="498">AI_PM_Skills v0.2</text>
+  </g>
+</svg>
