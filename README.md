@@ -1,9 +1,9 @@
 # AI_PM_Skills
 
-> 35 skills for PMs who build AI agents as products — not just use AI as a tool
+> 36 skills for PMs who build AI agents as products — not just use AI as a tool
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-35-blue?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-36-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-5-purple?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
@@ -27,7 +27,7 @@ General PM skills teach you to **use AI as a tool** — write PRDs faster, gener
 - "How do I orchestrate multiple agents together?"
 - "How do I encode 3 months of operational judgment into the agent's instructions?"
 
-This project turns those questions into **35 production-grade skills** across the full agent lifecycle.
+This project turns those questions into **36 production-grade skills** across the full agent lifecycle.
 
 ---
 
@@ -52,7 +52,7 @@ This isn't a random collection of skills. It's a **complete lifecycle** — the 
 ```
 발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
    oracle            atlas            forge          argus          muse
-  6 skills          7 skills        11 skills       8 skills       3 skills
+  6 skills          7 skills        12 skills       8 skills       3 skills
      ↑                                                               │
      └──────────── Accumulated TK feeds back into next agent ────────┘
 ```
@@ -61,7 +61,7 @@ This isn't a random collection of skills. It's a **complete lifecycle** — the 
 |-------|--------|-------------|------------|
 | **Discover** | `oracle` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **Architect** | `atlas` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **Ship** | `forge` | "How to spec and ship it?" | prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
+| **Ship** | `forge` | "How to spec and ship it?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
 | **Operate** | `argus` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
 | **Learn** | `muse` ⭐ | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
 
@@ -73,7 +73,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ① Complete Agent Lifecycle, Not Random Tools
 
-35 skills map to 5 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
+36 skills map to 5 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
@@ -153,13 +153,15 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 </details>
 
 <details>
-<summary><strong>3. forge</strong> — How to spec and ship it? <code>(11 skills, 3 commands)</code></summary>
+<summary><strong>3. forge</strong> — How to spec and ship it? <code>(12 skills, 3 commands)</code></summary>
 
+> **Onboarding (1):** claude-md
 > **Core Spec (7):** instruction · prd · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review
 > **Communication (4):** gemini-image-flow · infographic-gif-creator · pptx-ai-slide · agent-demo-video
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
+| `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching AI_PM_Skills plugins | "New project — set up Claude Code context and find the right skills" |
 | `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
 | `prd` | 7-section agent spec: Instruction/Tools/Memory/Triggers/Output/Failure with dual narrative (tech + biz) | "I need a PRD that covers hallucination recovery and tool permissions" |
 | `prompt` | CRISP framework (Context/Role/Instruction/Scope/Parameters) + Why-First principle + 7 failure pattern avoidance | "Longer prompts make my agent behave worse" |
@@ -226,6 +228,7 @@ git clone https://github.com/kimsanguine/AI_PM_Skills.git
 claude --plugin-dir ./AI_PM_Skills/oracle   # pick what you need
 ```
 
+**First time with Claude Code?** → Start with `forge/claude-md` — it scans your project and recommends the right skills.
 Not sure which agent to build yet? → Start with `oracle`.
 Already know what to build? → Start with `forge`.
 
@@ -287,7 +290,7 @@ The Trigger Gate's "Route" field enables routing between plugins:
 AI_PM_Skills/
 ├── oracle/           # Discovery (6 skills, 2 commands)
 ├── atlas/            # Architecture (7 skills, 2 commands)
-├── forge/            # Execution (11 skills, 3 commands)
+├── forge/            # Execution (12 skills, 3 commands)
 ├── argus/            # Monitoring (8 skills, 2 commands)
 ├── muse/             # Knowledge (3 skills, 3 commands)
 ├── evals/            # Quality + trigger evals
@@ -327,7 +330,7 @@ oracle/skills/opp-tree/           ← example skill
 | `examples/bad-01.md` | Explicit anti-patterns with explanations | Prevents common failures |
 | `references/test-cases.md` | Edge cases + assertions | Powers eval system (54 assertions) |
 
-This pattern repeats across all 35 skills — **125+ supporting files** that make each skill measurable, testable, and improvable.
+This pattern repeats across all 36 skills — **130+ supporting files** that make each skill measurable, testable, and improvable.
 
 </details>
 
