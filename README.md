@@ -14,6 +14,8 @@
   <img src="docs/images/demo-terminal.svg" alt="AI_PM_Skills Demo — opp-tree skill auto-triggered" width="800"/>
 </p>
 
+> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md) scans your project, auto-generates CLAUDE.md, and recommends the right AI_PM_Skills plugins. The fastest way to onboard.
+
 ---
 
 ## The Problem
