@@ -14,8 +14,7 @@
   <img src="docs/images/demo-terminal.svg" alt="AI_PM_Skills 데모 — opp-tree 스킬 자동 트리거" width="800"/>
 </p>
 
-> 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 AI_PM_Skills 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다.
-
+> 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 AI_PM_Skills 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다. 
 ---
 
 ## 왜 이 프로젝트를 만들었나
