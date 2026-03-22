@@ -218,6 +218,30 @@ Leading 지표:
 
 ---
 
+
+---
+
+## Implementation Reference
+
+KPI를 정의한 다음 단계 — **실제로 측정하는 코드**:
+
+```bash
+# ScoreCard 구현체 로드 (참고)
+cat references/scorecard-python.md
+```
+
+| 클래스 | 역할 |
+|-------|------|
+| `EvalResult` | 평가 입력 데이터 (accuracy, latency, cost, impact) |
+| `ScoreCard` | 5차원 점수 + overall 가중 계산 + tier 자동 산정 |
+| `MultiDimScorer` | EvalResult → ScoreCard 변환, 차원별 비교 |
+| `EvalReporter` | ScoreCard 목록 → Markdown 랭킹 테이블 |
+
+> `overall = accuracy×0.35 + reliability×0.25 + speed×0.20 + cost×0.10 + impact×0.10`  
+> 점수 75+ → L2+ | 90+ → L3
+
+전체 코드 및 사용 예시: [`references/scorecard-python.md`](references/scorecard-python.md)
+
 ## Contextual Knowledge (auto-loaded)
 
 > 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
@@ -236,3 +260,6 @@ Leading 지표:
 
 ### Domain Context
 !`cat context/domain.md 2>/dev/null || echo ""`
+
+### ScoreCard Implementation
+!`cat references/scorecard-python.md 2>/dev/null || echo ""`
