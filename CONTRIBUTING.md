@@ -5,7 +5,18 @@ Thank you for your interest in contributing!
 ## Project Structure
 
 ```
-hplan/
+hplan/                         # repo root
+├── hplan/                     # Gate ⭐ — should we build this? (7 skills, 6 commands)
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   ├── skills/                # evidence-rubric, interview-synthesis, exclusions,
+│   │   └── ...                # cogs-sentinel, ost, decision-log, handoff
+│   ├── commands/              # hplan-evidence, -product, -build, -cogs, -exclude, -handoff
+│   ├── scripts/               # 9 deterministic Python modules
+│   ├── hplan_mcp/             # MCP server for Cursor/Windsurf/Kiro/Codex/Goose
+│   ├── hooks/                 # PreToolUse gate_guard.py
+│   ├── agents/                # 4 role-locked reviewer agents
+│   └── references/            # 14 playbooks + provider_pricing.json
 ├── oracle/                    # Discovery — what agent to build (6 skills)
 │   ├── .claude-plugin/
 │   │   └── plugin.json        # Plugin manifest (required)
@@ -17,14 +28,14 @@ hplan/
 │       ├── discover.md
 │       └── validate.md
 ├── atlas/                     # Strategy — how to architect it (7 skills)
-├── forge/                     # Execution — spec and ship (11 skills)
+├── forge/                     # Execution — spec and ship (12 skills)
 ├── argus/                     # Metrics — measure and improve (8 skills)
 ├── muse/                      # PM tacit knowledge management (3 skills)
 ├── evals/                     # Trigger eval queries + benchmark data
 │   ├── evals.json             # Quality eval definitions
 │   ├── trigger-evals.json     # Trigger accuracy queries (96 total)
-│   └── per-skill/             # Per-skill eval files
-├── eval-workspace/            # Eval run outputs + benchmark results
+│   ├── per-skill/             # Per-skill eval files
+│   └── workspace/             # Eval run outputs + benchmark results
 ├── README.md                  # English
 ├── README-ko.md               # Korean (한국어)
 ├── CHANGELOG.md               # Version history
@@ -171,7 +182,7 @@ Good examples: `prd`, `moat`, `cost-sim`, `premortem`, `hitl`
 
 ### Adding a New Skill
 
-1. Choose the right plugin (oracle / atlas / forge / argus / muse)
+1. Choose the right plugin (hplan / oracle / atlas / forge / argus / muse)
 2. Create directory: `[plugin]/skills/[skill-name]/SKILL.md`
 3. Follow the SKILL.md format above
 4. Add a trigger eval query to `evals/per-skill/[skill-name].json` (2 positive + 2 negative)
