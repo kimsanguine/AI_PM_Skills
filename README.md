@@ -53,7 +53,7 @@ The pattern: **you don't have to remember to invoke hplan.** Once installed, it 
   <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
 </p>
 
-> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
+> 🆕 **New to Claude Code?** → [`deliver/claude-md`](deliver/skills/claude-md/SKILL.md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
 
 ## Under the Hood
 
@@ -106,11 +106,11 @@ This project turns those questions into **43 production-grade skills** across th
 **Already past the gate?** Install one of the 5 lifecycle plugins:
 
 ```bash
-/plugin install oracle@kimsanguine-hplan   # Discover — opportunity trees, assumptions, cost sim
-/plugin install atlas@kimsanguine-hplan    # Architect — orchestration, memory, moat
-/plugin install forge@kimsanguine-hplan    # Ship — agent PRD, instructions, prompts
-/plugin install argus@kimsanguine-hplan    # Operate — KPI, burn rate, reliability
-/plugin install muse@kimsanguine-hplan     # Learn — PM tacit knowledge, decision patterns
+/plugin install discover@kimsanguine-hplan   # Discover — opportunity trees, assumptions, cost sim
+/plugin install architect@kimsanguine-hplan    # Architect — orchestration, memory, moat
+/plugin install deliver@kimsanguine-hplan    # Ship — agent PRD, instructions, prompts
+/plugin install measure@kimsanguine-hplan    # Operate — KPI, burn rate, reliability
+/plugin install learn@kimsanguine-hplan     # Learn — PM tacit knowledge, decision patterns
 ```
 
 ---
@@ -121,7 +121,7 @@ This isn't a random collection of skills. It's a **complete lifecycle** — the 
 
 ```
    Gate    →   Discover   →   Architect   →   Ship   →   Operate   →   Learn
-   hplan         oracle          atlas         forge       argus        muse
+   hplan         discover          architect         deliver       measure        learn
   7 skills      6 skills        7 skills      12 skills   8 skills    3 skills
      ↑                                                                    │
      └──────── Accumulated TK feeds back into next agent ─────────────────┘
@@ -130,18 +130,18 @@ This isn't a random collection of skills. It's a **complete lifecycle** — the 
 | Stage | Plugin | The Question | Key Skills |
 |-------|--------|-------------|------------|
 | **Gate** ⭐ | `hplan` | "Should we build this at all?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
-| **Discover** | `oracle` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
-| **Architect** | `atlas` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **Ship** | `forge` | "How to spec and ship it?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
-| **Operate** | `argus` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
-| **Learn** | `muse` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
+| **Discover** | `discover` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
+| **Architect** | `architect` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
+| **Ship** | `deliver` | "How to spec and ship it?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
+| **Operate** | `measure` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
+| **Learn** | `learn` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
 
 ### What makes hplan different from the other 5
 
 Other plugins are **prompt-driven thinking** — LLM ponders, you decide.
-`hplan` adds **deterministic measurement** — Python scripts calculate p50/p90 COGS margins, append-only registries persist exclusions and decisions across runs, an MCP server lets Cursor/Windsurf/Kiro/Codex call hplan primitives, and a PreToolUse hook blocks PRD/spec writes until the human approves the gate. It is paired with oracle/atlas/forge/argus/muse, not a replacement.
+`hplan` adds **deterministic measurement** — Python scripts calculate p50/p90 COGS margins, append-only registries persist exclusions and decisions across runs, an MCP server lets Cursor/Windsurf/Kiro/Codex call hplan primitives, and a PreToolUse hook blocks PRD/spec writes until the human approves the gate. It is paired with discover/architect/deliver/measure/learn, not a replacement.
 
-Each skill **auto-loads from natural language** — describe your task and the right skill fires. Skills also **route across plugins**: burn-rate (argus) detects a cost spike → suggests router (atlas) for model change → triggers cost-sim (oracle) for re-simulation.
+Each skill **auto-loads from natural language** — describe your task and the right skill fires. Skills also **route across plugins**: burn-rate (measure) detects a cost spike → suggests router (architect) for model change → triggers cost-sim (discover) for re-simulation.
 
 ---
 
@@ -166,7 +166,7 @@ We separate **how Claude finds skills** (Platform Layer — Skills 2.0 spec) fro
 
 ### ③ Data Flywheel — PM Tacit Knowledge That Accumulates
 
-muse is the moat. It structures your operational judgment into **TK (Tacit Knowledge) units**, then injects them into agent instructions. The more you use it, the smarter your agents get — and that knowledge **stays yours**.
+learn is the moat. It structures your operational judgment into **TK (Tacit Knowledge) units**, then injects them into agent instructions. The more you use it, the smarter your agents get — and that knowledge **stays yours**.
 
 ```
 PM judgment notes → /extract → TK-NNN structured units → PM-ENGINE-MEMORY.md
@@ -191,7 +191,7 @@ Every skill includes `examples/good-01.md` and `examples/bad-01.md` — concrete
 
 ### ⑥ Skills 2.0 Full Spec + Instant Onboarding
 
-Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `allowed-tools`, `model` field, dynamic `!command` injection, marketplace, and eval system. New users start with the [PM-ENGINE-MEMORY Starter Kit](muse/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md) — 5 seed TK entries so the value is **immediate**, not "someday when I accumulate enough data."
+Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `allowed-tools`, `model` field, dynamic `!command` injection, marketplace, and eval system. New users start with the [PM-ENGINE-MEMORY Starter Kit](learn/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md) — 5 seed TK entries so the value is **immediate**, not "someday when I accumulate enough data."
 
 ---
 
@@ -218,7 +218,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 </details>
 
 <details>
-<summary><strong>2. oracle</strong> — What agent to build? <code>(6 skills, 2 commands)</code></summary>
+<summary><strong>2. discover</strong> — What agent to build? <code>(6 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -233,7 +233,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 </details>
 
 <details>
-<summary><strong>3. atlas</strong> — How to architect it? <code>(7 skills, 2 commands)</code></summary>
+<summary><strong>3. architect</strong> — How to architect it? <code>(7 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -249,7 +249,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 </details>
 
 <details>
-<summary><strong>4. forge</strong> — How to spec and ship it? <code>(12 skills, 3 commands)</code></summary>
+<summary><strong>4. deliver</strong> — How to spec and ship it? <code>(12 skills, 3 commands)</code></summary>
 
 > **Onboarding (1):** claude-md
 > **Core Spec (7):** instruction · prd · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review
@@ -274,7 +274,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 </details>
 
 <details>
-<summary><strong>5. argus</strong> — How to measure and improve? <code>(8 skills, 2 commands)</code></summary>
+<summary><strong>5. measure</strong> — How to measure and improve? <code>(8 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -291,7 +291,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 </details>
 
 <details>
-<summary><strong>6. muse</strong> — Turn PM tacit knowledge into agent assets <code>(3 skills, 3 commands)</code></summary>
+<summary><strong>6. learn</strong> — Turn PM tacit knowledge into agent assets <code>(3 skills, 3 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -301,7 +301,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 
 **Commands:** `/extract` · `/decide` · `/tk-to-instruction`
 
-> Start with the [PM-ENGINE-MEMORY Starter Kit](muse/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md) — 5 seed TK entries to get going immediately.
+> Start with the [PM-ENGINE-MEMORY Starter Kit](learn/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md) — 5 seed TK entries to get going immediately.
 
 > The framework is open-source; your data (PM-ENGINE-MEMORY.md) is your own asset.
 </details>
@@ -314,19 +314,19 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 
 ```bash
 /plugin marketplace add kimsanguine/hplan
-/plugin install hplan@kimsanguine-hplan    # or oracle, atlas, forge, argus, muse
+/plugin install hplan@kimsanguine-hplan    # or discover, architect, deliver, measure, learn
 ```
 
 ### Option 2: Clone Locally
 
 ```bash
 git clone https://github.com/kimsanguine/hplan.git
-claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, oracle, atlas, forge, argus, muse)
+claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, architect, deliver, measure, learn)
 ```
 
 **Not sure which AI product to commit to?** → Start with `hplan` — evidence gate first.
-**First time with Claude Code?** → Run `forge/claude-md` — it scans your project and recommends the right plugins.
-**Already past the gate?** → Pick by lifecycle stage (oracle → atlas → forge → argus → muse).
+**First time with Claude Code?** → Run `deliver/claude-md` — it scans your project and recommends the right plugins.
+**Already past the gate?** → Pick by lifecycle stage (discover → architect → deliver → measure → learn).
 
 ### Other AI Tools
 
@@ -361,11 +361,11 @@ The Trigger Gate's "Route" field enables routing between plugins:
 
 | Command | Chained Skills | Plugin |
 |---------|---------------|--------|
-| `/discover` | opp-tree → assumptions → build-or-buy | oracle |
-| `/architecture` | orchestration → 3-tier → memory-arch | atlas |
-| `/write-prd` | prd → instruction → ctx-budget | forge |
-| `/health-check` | kpi → reliability → burn-rate | argus |
-| `/tk-to-instruction` | pm-engine → instruction | muse+forge |
+| `/discover` | opp-tree → assumptions → build-or-buy | discover |
+| `/architecture` | orchestration → 3-tier → memory-arch | architect |
+| `/write-prd` | prd → instruction → ctx-budget | deliver |
+| `/health-check` | kpi → reliability → burn-rate | measure |
+| `/tk-to-instruction` | pm-engine → instruction | learn+deliver |
 
 ### Skills 1.0 vs Skills 2.0
 
@@ -385,11 +385,11 @@ The Trigger Gate's "Route" field enables routing between plugins:
 ```
 hplan/                # repo root
 ├── hplan/            # Gate ⭐ (7 skills, 6 commands) — Product Build Gate
-├── oracle/           # Discovery (6 skills, 2 commands)
-├── atlas/            # Architecture (7 skills, 2 commands)
-├── forge/            # Execution (12 skills, 3 commands)
-├── argus/            # Monitoring (8 skills, 2 commands)
-├── muse/             # Knowledge (3 skills, 3 commands)
+├── discover/           # Discovery (6 skills, 2 commands)
+├── architect/            # Architecture (7 skills, 2 commands)
+├── deliver/            # Execution (12 skills, 3 commands)
+├── measure/            # Monitoring (8 skills, 2 commands)
+├── learn/             # Knowledge (3 skills, 3 commands)
 ├── evals/            # Quality + trigger evals
 ├── docs/images/      # Diagrams
 ├── validate_plugins.py
@@ -401,7 +401,7 @@ hplan/                # repo root
 Every skill follows a consistent internal structure. This isn't just Skills 2.0 spec compliance — it's a **content architecture** designed for measurable quality and continuous improvement:
 
 ```
-oracle/skills/opp-tree/           ← example skill
+discover/skills/opp-tree/           ← example skill
 ├── SKILL.md                      ← Core: frontmatter (name, description,
 │                                    argument-hint, allowed-tools) +
 │                                    Trigger Gate (Use/Route/Boundary) +

@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "hplan",
-  "version": "0.5.0",
-  "description": "43 skills and 18 commands across 6 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through discovery, architecture, execution, monitoring, and knowledge capture.",
+  "version": "0.6.0",
+  "description": "43 skills and 18 commands across 6 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through PM lifecycle (discover → architect → deliver → measure → learn).",
   "owner": {
     "name": "AI PM Skills Contributors",
     "email": "your-email@example.com",
@@ -16,33 +16,33 @@
       "category": "product-management"
     },
     {
-      "name": "oracle",
+      "name": "discover",
       "description": "Discover which AI agent to build — map automation outcomes to solvable opportunities, validate assumptions, and estimate costs.",
-      "source": "./oracle",
+      "source": "./discover",
       "category": "product-management"
     },
     {
-      "name": "atlas",
-      "description": "Architect scalable AI agent systems — orchestration patterns, multi-agent design, memory architecture, and competitive moats.",
-      "source": "./atlas",
+      "name": "architect",
+      "description": "Architect scalable AI agent systems — orchestration patterns, multi-agent design, memory architecture, business models, and competitive moats.",
+      "source": "./architect",
       "category": "product-management"
     },
     {
-      "name": "forge",
-      "description": "Spec and ship AI agents — instruction design, agent PRD templates, prompt engineering, context budgets, and sprint planning.",
-      "source": "./forge",
+      "name": "deliver",
+      "description": "Deliver AI agents — instruction design, agent PRD templates, prompt engineering, context budgets, and sprint planning.",
+      "source": "./deliver",
       "category": "product-management"
     },
     {
-      "name": "argus",
+      "name": "measure",
       "description": "Measure and optimize AI agent performance — KPIs, reliability, failure analysis, cost tracking, and North Star metrics.",
-      "source": "./argus",
+      "source": "./measure",
       "category": "product-management"
     },
     {
-      "name": "muse",
+      "name": "learn",
       "description": "Turn PM tacit knowledge into reusable agent assets — structured knowledge units, decision patterns, and memory management.",
-      "source": "./muse",
+      "source": "./learn",
       "category": "product-management"
     }
   ]

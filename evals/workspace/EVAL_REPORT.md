@@ -1,7 +1,7 @@
 # Premortem Skill Evaluation Report
 
 **Date**: 2026-03-06  
-**Skill**: `argus/skills/premortem/SKILL.md`  
+**Skill**: `measure/skills/premortem/SKILL.md`  
 **Project**: 260306_AgentSkills  
 **Location**: `/eval-workspace/iteration-1/`
 

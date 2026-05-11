@@ -217,5 +217,5 @@ The 3-tier skill is **highly effective** at:
 ---
 
 **Evaluation Date**: 2026-03-06
-**Skill File**: `atlas/skills/3-tier/SKILL.md`
+**Skill File**: `architect/skills/3-tier/SKILL.md`
 **Evaluations**: EVAL 3 (research) + EVAL 4 (e-commerce)

@@ -2,14 +2,14 @@
 
 > Evidence + COGS + Decision gate that runs **BEFORE** you build.
 
-While [`oracle`](../oracle/), [`atlas`](../atlas/), [`forge`](../forge/), [`argus`](../argus/), and [`muse`](../muse/) help you build, ship, and operate AI agents — **hplan decides whether the thing deserves to be built at all**.
+While [`discover`](../discover/), [`architect`](../architect/), [`deliver`](../deliver/), [`measure`](../measure/), and [`learn`](../learn/) help you build, ship, and operate AI agents — **hplan decides whether the thing deserves to be built at all**.
 
 The wedge: mandatory competitor research, user interview evidence, **executable** COGS sentinel, append-only Do-Not-Build exclusions registry, self-eval decision log, and multi-target handoff. None of which other spec-driven coding agents (Spec-Kit, Kiro, GStack, Superpowers) enforce.
 
 ## Lifecycle Position
 
 ```text
-hplan  →  oracle  →  atlas  →  forge  →  argus  →  muse
+hplan  →  discover  →  architect  →  deliver  →  measure  →  learn
 (Gate)    (Discover)  (Architect)  (Build)  (Measure)  (Knowledge)
 ```
 
@@ -52,13 +52,13 @@ hplan is **Stage 0**. The other 5 plugins inherit decisions from hplan's gates.
 
 | Other skill | hplan partner | Relationship |
 |---|---|---|
-| `oracle/cost-sim` (LLM scenario) | `hplan/cogs-sentinel` (deterministic) | cost-sim thinks → cogs-sentinel calculates |
-| `oracle/opp-tree` (exploration) | `hplan/ost` (persistence) | opp-tree explores → ost validates + persists + Mermaid |
-| `oracle/hitl` (agent runtime) | `hplan/hooks/gate_guard` (build time) | Different time horizons — runtime vs build-time HITL |
-| `oracle/assumptions` (V/F/R/E) | `hplan/evidence-rubric` (100-pt) | Same intent, different axes — complement |
-| `oracle/build-or-buy` (vendor) | `hplan/exclusions` (do-not-build) | Vendor decision vs permanent exclusion memory |
-| `forge/prd` (agent PRD shape) | `hplan/handoff` (multi-target export) | forge canonicalizes shape, hplan exports across 4 ecosystems |
-| `argus/burn-rate` (post-deploy) | `hplan/cogs-sentinel` (pre-deploy) | Sequential — predict → track |
+| `discover/cost-sim` (LLM scenario) | `hplan/cogs-sentinel` (deterministic) | cost-sim thinks → cogs-sentinel calculates |
+| `discover/opp-tree` (exploration) | `hplan/ost` (persistence) | opp-tree explores → ost validates + persists + Mermaid |
+| `discover/hitl` (agent runtime) | `hplan/hooks/gate_guard` (build time) | Different time horizons — runtime vs build-time HITL |
+| `discover/assumptions` (V/F/R/E) | `hplan/evidence-rubric` (100-pt) | Same intent, different axes — complement |
+| `discover/build-or-buy` (vendor) | `hplan/exclusions` (do-not-build) | Vendor decision vs permanent exclusion memory |
+| `deliver/prd` (agent PRD shape) | `hplan/handoff` (multi-target export) | deliver canonicalizes shape, hplan exports across 4 ecosystems |
+| `measure/burn-rate` (post-deploy) | `hplan/cogs-sentinel` (pre-deploy) | Sequential — predict → track |
 
 ## Install
 

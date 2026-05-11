@@ -205,13 +205,13 @@ eval-workspace/iteration-1/
 ## Related Files
 
 **Skill Being Evaluated**:
-- `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/oracle/skills/cost-sim/SKILL.md`
+- `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/discover/skills/cost-sim/SKILL.md`
 
 **Related Skills** (from same project):
-- `oracle/skills/context-window-budget/SKILL.md`
-- `oracle/skills/agent-okr/SKILL.md`
-- `oracle/skills/agent-instruction-design/SKILL.md`
-- `oracle/skills/build-or-buy/SKILL.md`
+- `discover/skills/context-window-budget/SKILL.md`
+- `discover/skills/agent-okr/SKILL.md`
+- `discover/skills/agent-instruction-design/SKILL.md`
+- `discover/skills/build-or-buy/SKILL.md`
 
 **Project Files**:
 - Project root: `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/`

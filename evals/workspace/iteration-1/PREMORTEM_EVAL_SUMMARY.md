@@ -1,7 +1,7 @@
 # Premortem Skill Evaluation Summary
 
 **Run Date:** 2026-03-06  
-**Skill:** `argus/skills/premortem/SKILL.md`  
+**Skill:** `measure/skills/premortem/SKILL.md`  
 **Methodology:** FMEA (Failure Mode and Effects Analysis)
 
 ---

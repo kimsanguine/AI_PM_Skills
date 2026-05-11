@@ -2,7 +2,7 @@
 
 **Execution Date**: 2026-03-06  
 **Project**: 260306_AgentSkills  
-**Skill Tested**: `argus/skills/premortem/SKILL.md`  
+**Skill Tested**: `measure/skills/premortem/SKILL.md`  
 
 ---
 

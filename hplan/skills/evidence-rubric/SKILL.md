@@ -32,11 +32,11 @@ hooks:
 - 점수가 낮고 인터뷰 자체가 부족할 때 → `interview-synthesis` (hplan plugin)
 - 이미 점유된 영역으로 보일 때 → `exclusions` (hplan plugin) check
 - 점수는 충분한데 비용 구조가 불확실할 때 → `cogs-sentinel` (hplan plugin)
-- 아이디어 발굴 단계로 돌아가야 할 때 → `opp-tree` (oracle plugin)
+- 아이디어 발굴 단계로 돌아가야 할 때 → `opp-tree` (discover plugin)
 
 ### Boundary Checks
 
-- ❌ 이 skill은 *아이디어 발굴*이 아니다 (그건 `oracle/opp-tree`). 이미 아이디어가 있을 때만 호출.
+- ❌ 이 skill은 *아이디어 발굴*이 아니다 (그건 `discover/opp-tree`). 이미 아이디어가 있을 때만 호출.
 - ❌ 이 skill은 PRD 작성을 *허락하지 않는다*. 점수가 충분해도 Product Gate + Build Gate를 거쳐야 한다.
 - ❌ 점수만 높고 인터뷰가 0건이면 `interview` 결정이 강제된다.
 

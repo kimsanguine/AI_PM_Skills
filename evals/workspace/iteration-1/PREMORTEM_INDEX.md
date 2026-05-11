@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-06  
 **Project:** 260306_AgentSkills  
-**Skill Evaluated:** `argus/skills/premortem/SKILL.md`  
+**Skill Evaluated:** `measure/skills/premortem/SKILL.md`  
 **Framework:** FMEA (Failure Mode and Effects Analysis)
 
 ---
@@ -271,6 +271,6 @@ eval-workspace/iteration-1/
 ---
 
 **Report Generated:** 2026-03-06  
-**Skill Version:** argus/skills/premortem/SKILL.md  
+**Skill Version:** measure/skills/premortem/SKILL.md  
 **Status:** All 4 evaluations completed successfully
 

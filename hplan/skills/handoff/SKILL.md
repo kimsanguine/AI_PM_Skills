@@ -27,7 +27,7 @@ model: sonnet
 
 - Build Gate 미통과 → 거꾸로 가서 `cogs-sentinel`, `decision-log` 확인
 - Export 후 spec-kit/kiro 안에서의 개별 task 분해 → 각 생태계 native tool
-- Export 후 PRD shape 정교화 → `forge/prd`
+- Export 후 PRD shape 정교화 → `deliver/prd`
 
 ### Boundary Checks
 
