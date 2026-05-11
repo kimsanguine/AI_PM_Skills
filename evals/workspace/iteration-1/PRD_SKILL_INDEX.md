@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-06
 **Project:** 260306_AgentSkills
-**Skill:** forge/skills/prd/SKILL.md
+**Skill:** deliver/skills/prd/SKILL.md
 
 ---
 

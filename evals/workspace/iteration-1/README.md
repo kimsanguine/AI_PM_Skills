@@ -97,7 +97,7 @@ To replicate these evals:
 cd /sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills
 
 # WITH_SKILL version
-SKILL=$(cat oracle/skills/cost-sim/SKILL.md)
+SKILL=$(cat discover/skills/cost-sim/SKILL.md)
 claude --print --output-format json -p "You have access to the following skill...
 --- SKILL ---
 $SKILL
@@ -119,7 +119,7 @@ Extract timing and save to `timing.json` with format:
 
 ## Reference Files
 
-- **Skill Source**: `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/oracle/skills/cost-sim/SKILL.md`
+- **Skill Source**: `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/discover/skills/cost-sim/SKILL.md`
 - **Full Report**: `EVAL_REPORT.md`
 - **Metrics Summary**: `METRICS_SUMMARY.txt`
 

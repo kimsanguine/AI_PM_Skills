@@ -1,7 +1,7 @@
 # Premortem Skill Evaluation Results
 
 **Project**: 260306_AgentSkills  
-**Skill**: `argus/skills/premortem/SKILL.md`  
+**Skill**: `measure/skills/premortem/SKILL.md`  
 **Execution Date**: 2026-03-06  
 **Status**: All evaluations completed successfully ✓
 
@@ -146,7 +146,7 @@ eval-workspace/
 
 **Skill File:**
 ```
-/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/argus/skills/premortem/SKILL.md
+/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/measure/skills/premortem/SKILL.md
 ```
 
 **Evaluation Results:**
@@ -174,7 +174,7 @@ Baseline is in `without_skill/` results — calculate deltas for skill impact an
 
 ## Questions?
 
-- **Skill Documentation**: See `argus/skills/premortem/SKILL.md` in project root
+- **Skill Documentation**: See `measure/skills/premortem/SKILL.md` in project root
 - **Evaluation Methodology**: See "EVALUATION METHODOLOGY" in [FILE_MANIFEST.txt](./FILE_MANIFEST.txt)
 - **Metrics Details**: See [EVAL_METRICS.json](./EVAL_METRICS.json)
 

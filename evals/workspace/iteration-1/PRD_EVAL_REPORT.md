@@ -1,7 +1,7 @@
 # PRD Skill Evaluation Report — EVAL 5 & 6
 
 **Date:** 2026-03-06
-**Skill:** forge/skills/prd/SKILL.md
+**Skill:** deliver/skills/prd/SKILL.md
 **Project:** 260306_AgentSkills
 
 ---

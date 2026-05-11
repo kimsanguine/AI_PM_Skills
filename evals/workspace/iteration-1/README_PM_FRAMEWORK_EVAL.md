@@ -314,7 +314,7 @@ Type: Insight (Type 5)
 ---
 
 **Report Generated:** 2026-03-06  
-**Skill Evaluated:** muse/skills/pm-framework/SKILL.md  
+**Skill Evaluated:** learn/skills/pm-framework/SKILL.md  
 **Evaluation Framework:** with_skill vs without_skill paired testing  
 **Results Archived:** /eval-workspace/iteration-1/
 

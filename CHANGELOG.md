@@ -4,6 +4,50 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.6.0] — 2026-05-11
+
+### Breaking — 5 plugins renamed to PM standard vocabulary
+
+The original Greek-mythology names (oracle / atlas / forge / argus / muse) were chosen for memorability in v0.3 but caused two problems:
+- New users had to learn what each mythology name meant
+- They didn't match the vocabulary PMs actually use (Double Diamond, Lean Startup, Teresa Torres CDH)
+
+v0.6 renames each plugin to a PM lifecycle word everyone recognizes:
+
+| Old | New | Why |
+|---|---|---|
+| `oracle` | `discover` | Continuous discovery / Double Diamond's first D |
+| `atlas` | `architect` | System architecture, not UI design (avoids "design = UI" confusion) |
+| `forge` | `deliver` | Double Diamond's Deliver phase |
+| `argus` | `measure` | Lean Startup's Build–Measure–Learn |
+| `muse` | `learn` | Lean Startup's Build–Measure–Learn |
+
+`hplan` (Gate) is unchanged — it's an English brand acronym for **H**arness **Plan**ning and intentionally distinct from the lifecycle stage names.
+
+New lifecycle: `hplan → discover → architect → deliver → measure → learn`
+
+### Changed
+
+- Plugin directories renamed (5 × `git mv`)
+- All 6 `plugin.json` `name` fields updated; version bumped to 0.6.0
+- `.claude-plugin/marketplace.json` plugin entries renamed + descriptions refreshed
+- README.md / README-ko.md / GUIDE-ko.md / CONTRIBUTING.md — every reference to the old plugin names updated
+- Plugin lifecycle SVG (`docs/images/plugin-lifecycle.svg`) — box labels + lifecycle phase labels (Execution → Delivery, Monitoring → Measurement, Knowledge → Learning)
+- How-it-works SVG (`docs/images/how-it-works.svg`) — plugin pills relabeled
+- All SKILL.md "Route to Other Skills When" cross-references updated
+- `validate_plugins.py` PLUGINS list updated
+
+### Migration for existing users
+
+Old install commands like `/plugin install oracle@kimsanguine-hplan` now become `/plugin install discover@kimsanguine-hplan`. GitHub auto-redirect handles old paths; users with installed plugins should re-install under the new name.
+
+### Preserved (intentional)
+
+- The Greek tier-name **`Atlas`** inside `architect/skills/3-tier/SKILL.md` — refers to the Prometheus → Atlas → Worker pattern, which is the *content* of the skill, not the plugin name. Mythology tier name remains.
+- All historical CHANGELOG entries and `.archive/` work logs.
+
+---
+
 ## [0.5.0] — 2026-05-11
 
 ### Added — `hplan` plugin (6th plugin, lifecycle Stage 0)
@@ -39,7 +83,7 @@ A new plugin that runs BEFORE oracle's discovery — the **Evidence + COGS + Dec
 - Lifecycle reordered: `hplan → oracle → atlas → forge → argus → muse`
 - Marketplace version 0.4.0 → 0.5.0
 - "36 skills, 5 plugins" → "43 skills, 6 plugins"
-- Added `Route to hplan when ...` lines to 7 existing skills: `oracle/cost-sim`, `oracle/opp-tree`, `oracle/hitl`, `oracle/assumptions`, `oracle/build-or-buy`, `forge/prd`, `argus/burn-rate`
+- Added `Route to hplan when ...` lines to 7 existing skills: `discover/cost-sim`, `discover/opp-tree`, `discover/hitl`, `discover/assumptions`, `discover/build-or-buy`, `deliver/prd`, `measure/burn-rate`
 - README.md + README-ko.md top sections updated with hplan callout + 6-stage lifecycle table
 
 ### Fixed

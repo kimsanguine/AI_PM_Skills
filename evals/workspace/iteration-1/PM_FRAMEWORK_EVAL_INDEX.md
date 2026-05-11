@@ -1,6 +1,6 @@
 # PM-Framework Skill Evaluation Index
 **Date:** 2026-03-06  
-**Skill Tested:** `muse/skills/pm-framework/SKILL.md`  
+**Skill Tested:** `learn/skills/pm-framework/SKILL.md`  
 **Project:** 260306_AgentSkills  
 **Total Evaluations:** 2 (EVAL 9, EVAL 10) × 2 versions (with/without skill) = 4 runs
 
@@ -257,7 +257,7 @@ If all 10 evals use same skill in a 5-minute window:
 
 - **Full Report:** `PM_FRAMEWORK_EVAL_REPORT.md`
 - **Summary:** Final section of this index
-- **Skill Source:** `muse/skills/pm-framework/SKILL.md`
+- **Skill Source:** `learn/skills/pm-framework/SKILL.md`
 - **Project Root:** `260306_AgentSkills/`
 
 ---

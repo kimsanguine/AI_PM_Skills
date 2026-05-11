@@ -18,15 +18,15 @@
       <text x="217.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">hplan ⭐</text>
       <!-- oracle -->
       <rect x="260" y="48" width="75" height="32" rx="6" fill="#334155"/>
-      <text x="297.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">oracle</text>
+      <text x="297.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">discover</text>
       
       <!-- forge -->
       <rect x="360" y="48" width="75" height="32" rx="6" fill="#334155"/>
-      <text x="397.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">forge</text>
+      <text x="397.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">deliver</text>
       
       <!-- muse -->
       <rect x="460" y="48" width="75" height="32" rx="6" fill="#334155"/>
-      <text x="497.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">muse</text>
+      <text x="497.5" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">learn</text>
     </g>
     
     <!-- Right annotation -->

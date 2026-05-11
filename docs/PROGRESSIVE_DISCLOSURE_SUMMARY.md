@@ -1,14 +1,14 @@
 # Progressive Disclosure Supplementary Files — Complete Summary
 
 **Generated**: 2026-03-07
-**Project**: 260306_AgentSkills / argus plugin skills
-**Base Path**: `/argus/skills/[skill-name]/`
+**Project**: 260306_AgentSkills / measure plugin skills
+**Base Path**: `/measure/skills/[skill-name]/`
 
 ---
 
 ## Overview
 
-Progressive Disclosure supplementary files have been generated for all 8 argus skills following the tier classification system:
+Progressive Disclosure supplementary files have been generated for all 8 measure skills following the tier classification system:
 
 - **Tier 1 (Full)**: 5 files — premortem, reliability
 - **Tier 2 (Standard)**: 3 files — cohort, incident
@@ -73,7 +73,7 @@ Progressive Disclosure supplementary files have been generated for all 8 argus s
 ## File Structure
 
 ```
-argus/skills/
+measure/skills/
 ├── premortem/
 │   ├── SKILL.md (existing)
 │   ├── context/

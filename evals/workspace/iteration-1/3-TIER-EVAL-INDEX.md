@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-06  
 **Project:** 260306_AgentSkills  
-**Skill:** `atlas/skills/3-tier/SKILL.md`
+**Skill:** `architect/skills/3-tier/SKILL.md`
 
 ---
 
@@ -241,5 +241,5 @@ The Prometheus-Atlas-Worker 3-tier skill is **highly effective** at producing co
 ---
 
 **Generated:** 2026-03-06  
-**Skill File:** `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/atlas/skills/3-tier/SKILL.md`  
+**Skill File:** `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/architect/skills/3-tier/SKILL.md`  
 **Evaluations:** EVAL 3 (Research) + EVAL 4 (E-Commerce)

@@ -17,7 +17,7 @@ hplan/                         # repo root
 │   ├── hooks/                 # PreToolUse gate_guard.py
 │   ├── agents/                # 4 role-locked reviewer agents
 │   └── references/            # 14 playbooks + provider_pricing.json
-├── oracle/                    # Discovery — what agent to build (6 skills)
+├── discover/                    # Discovery — what agent to build (6 skills)
 │   ├── .claude-plugin/
 │   │   └── plugin.json        # Plugin manifest (required)
 │   ├── skills/
@@ -27,10 +27,10 @@ hplan/                         # repo root
 │   └── commands/
 │       ├── discover.md
 │       └── validate.md
-├── atlas/                     # Strategy — how to architect it (7 skills)
-├── forge/                     # Execution — spec and ship (12 skills)
-├── argus/                     # Metrics — measure and improve (8 skills)
-├── muse/                      # PM tacit knowledge management (3 skills)
+├── architect/                     # Strategy — how to architect it (7 skills)
+├── deliver/                     # Execution — spec and ship (12 skills)
+├── measure/                     # Metrics — measure and improve (8 skills)
+├── learn/                      # PM tacit knowledge management (3 skills)
 ├── evals/                     # Trigger eval queries + benchmark data
 │   ├── evals.json             # Quality eval definitions
 │   ├── trigger-evals.json     # Trigger accuracy queries (96 total)
@@ -164,11 +164,11 @@ Each plugin is named after a Greek mythological figure whose archetype maps to a
 
 | Plugin | Archetype | Phase | Why |
 |--------|-----------|-------|-----|
-| **oracle** | Oracle of Delphi (the seer) | Discovery | Reveals which agent to build |
-| **atlas** | Atlas (the titan) | Architecture | Bears the structural weight of design |
-| **forge** | Hephaestus's Forge | Execution | Crafts raw ideas into specs |
-| **argus** | Argus Panoptes (100-eyed) | Monitoring | Watches every metric and failure |
-| **muse** | The Muses | Knowledge | Transforms experience into wisdom |
+| **discover** | Oracle of Delphi (the seer) | Discovery | Reveals which agent to build |
+| **architect** | Atlas (the titan) | Architecture | Bears the structural weight of design |
+| **deliver** | Hephaestus's Forge | Execution | Crafts raw ideas into specs |
+| **measure** | Argus Panoptes (100-eyed) | Monitoring | Watches every metric and failure |
+| **learn** | The Muses | Knowledge | Transforms experience into wisdom |
 
 Rules for new plugin names: (1) the metaphor must be instantly intuitive, (2) must work as a single-word CLI namespace.
 
@@ -182,7 +182,7 @@ Good examples: `prd`, `moat`, `cost-sim`, `premortem`, `hitl`
 
 ### Adding a New Skill
 
-1. Choose the right plugin (hplan / oracle / atlas / forge / argus / muse)
+1. Choose the right plugin (hplan / discover / architect / deliver / measure / learn)
 2. Create directory: `[plugin]/skills/[skill-name]/SKILL.md`
 3. Follow the SKILL.md format above
 4. Add a trigger eval query to `evals/per-skill/[skill-name].json` (2 positive + 2 negative)
@@ -197,7 +197,7 @@ Good examples: `prd`, `moat`, `cost-sim`, `premortem`, `hitl`
 
 ## PM-Framework Note
 
-The `muse` plugin provides frameworks for managing PM tacit knowledge. **Frameworks** (TK structure, decision patterns) are open source. **Data** (your personal TK entries in `PM-ENGINE-MEMORY.md`) is yours and should never be committed.
+The `learn` plugin provides frameworks for managing PM tacit knowledge. **Frameworks** (TK structure, decision patterns) are open source. **Data** (your personal TK entries in `PM-ENGINE-MEMORY.md`) is yours and should never be committed.
 
 ## Questions?
 

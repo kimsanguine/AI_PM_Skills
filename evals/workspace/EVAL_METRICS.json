@@ -1,6 +1,6 @@
 {
   "evaluation_session": "premortem_skill_evals_2026_03_06",
-  "skill": "argus/skills/premortem/SKILL.md",
+  "skill": "measure/skills/premortem/SKILL.md",
   "total_evals": 2,
   "total_variants": 4,
   "evals": [

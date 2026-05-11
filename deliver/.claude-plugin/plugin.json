@@ -1,0 +1,34 @@
+{
+  "name": "deliver",
+  "version": "0.6.0",
+  "description": "Spec and ship AI agents — instruction design, PRD templates, prompt engineering, sprint planning, demo videos, and visual assets. Use when writing agent PRDs, designing agent instructions, planning context window budgets, setting agent OKRs, creating demo videos, building infographics, or preparing presentation decks.",
+  "author": {
+    "name": "AI PM Skills Contributors",
+    "url": "https://github.com/your-username"
+  },
+  "repository": "https://github.com/kimsanguine/hplan",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "prd",
+    "instruction",
+    "prompt",
+    "okr",
+    "sprint",
+    "pm",
+    "stakeholder",
+    "change-management",
+    "plan-review",
+    "gemini",
+    "image-generation",
+    "pipeline",
+    "infographic",
+    "gif",
+    "pptx",
+    "presentation",
+    "demo-video",
+    "remotion"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

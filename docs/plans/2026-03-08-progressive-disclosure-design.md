@@ -112,51 +112,51 @@
 
 | Plugin | Skill | 핵심 사유 |
 |--------|-------|-----------|
-| forge | prd | command 체이닝, instruction 경계 충돌 |
-| forge | instruction | prd 경계 충돌, 에이전트 설계 핵심 |
-| forge | prompt | instruction과 범위 혼동 |
-| forge | agent-plan-review | premortem 역할 구분 |
-| forge | stakeholder-map | 도메인 컨텍스트 의존도 높음 |
-| forge | pptx-ai-slide | 목적별 정보-디자인 밸런스, 딥리서치 스펙, 템플릿 체계 |
-| oracle | assumptions | build-or-buy 겹침 |
-| oracle | cost-sim | burn-rate 경계 충돌 |
-| oracle | build-or-buy | assumptions 겹침, 6축 평가 |
-| argus | premortem | agent-plan-review 역할 구분 |
-| argus | reliability | premortem 경계 충돌 |
-| muse | pm-engine | TK 추출 워크플로우 |
+| deliver | prd | command 체이닝, instruction 경계 충돌 |
+| deliver | instruction | prd 경계 충돌, 에이전트 설계 핵심 |
+| deliver | prompt | instruction과 범위 혼동 |
+| deliver | agent-plan-review | premortem 역할 구분 |
+| deliver | stakeholder-map | 도메인 컨텍스트 의존도 높음 |
+| deliver | pptx-ai-slide | 목적별 정보-디자인 밸런스, 딥리서치 스펙, 템플릿 체계 |
+| discover | assumptions | build-or-buy 겹침 |
+| discover | cost-sim | burn-rate 경계 충돌 |
+| discover | build-or-buy | assumptions 겹침, 6축 평가 |
+| measure | premortem | agent-plan-review 역할 구분 |
+| measure | reliability | premortem 경계 충돌 |
+| learn | pm-engine | TK 추출 워크플로우 |
 
 ### Tier 2 — Standard (19개): examples + context
 
 | Plugin | Skill | 핵심 사유 |
 |--------|-------|-----------|
-| oracle | opp-tree | /discover 체이닝 |
-| oracle | hitl | 도메인 의존 |
-| oracle | agent-gtm | GTM 전략 맥락 |
-| forge | okr | /set-okr 체이닝 |
-| forge | ctx-budget | 토큰 관리 도메인 |
-| forge | gemini-image-flow | 파이프라인 아키텍처 |
-| forge | agent-demo-video | 필수 정보/금지사항 도메인 규칙 |
-| forge | infographic-gif-creator | 채널별 사이즈/배치/텍스트 규칙 |
-| atlas | orchestration | 멀티에이전트 도메인 |
-| atlas | memory-arch | 메모리 설계 도메인 |
-| atlas | router | 라우팅 패턴 도메인 |
-| atlas | growth-loop | 그로스 전략 도메인 |
-| atlas | moat | 경쟁우위 분석 도메인 |
-| atlas | 3-tier | 레이어 설계 도메인 컨텍스트 |
-| atlas | biz-model | AI SaaS 비즈니스 모델 맥락 |
-| argus | cohort | 데이터 분석 맥락 |
-| argus | incident | 운영 도메인 |
-| muse | pm-decision | 의사결정 프레임워크 맥락 |
-| muse | pm-framework | 프레임워크 맥락별 선택 기준 |
+| discover | opp-tree | /discover 체이닝 |
+| discover | hitl | 도메인 의존 |
+| discover | agent-gtm | GTM 전략 맥락 |
+| deliver | okr | /set-okr 체이닝 |
+| deliver | ctx-budget | 토큰 관리 도메인 |
+| deliver | gemini-image-flow | 파이프라인 아키텍처 |
+| deliver | agent-demo-video | 필수 정보/금지사항 도메인 규칙 |
+| deliver | infographic-gif-creator | 채널별 사이즈/배치/텍스트 규칙 |
+| architect | orchestration | 멀티에이전트 도메인 |
+| architect | memory-arch | 메모리 설계 도메인 |
+| architect | router | 라우팅 패턴 도메인 |
+| architect | growth-loop | 그로스 전략 도메인 |
+| architect | moat | 경쟁우위 분석 도메인 |
+| architect | 3-tier | 레이어 설계 도메인 컨텍스트 |
+| architect | biz-model | AI SaaS 비즈니스 모델 맥락 |
+| measure | cohort | 데이터 분석 맥락 |
+| measure | incident | 운영 도메인 |
+| learn | pm-decision | 의사결정 프레임워크 맥락 |
+| learn | pm-framework | 프레임워크 맥락별 선택 기준 |
 
 ### Tier 3 — Lite (4개): examples만
 
 | Plugin | Skill | 사유 |
 |--------|-------|------|
-| argus | kpi | 지표 정의, 입력→출력 정형화 |
-| argus | north-star | 단일 메트릭 도출, 경계 명확 |
-| argus | burn-rate | 수치 계산 중심, 도메인 맥락 최소 |
-| argus | agent-ab-test | 실험 설계 패턴 정형화 |
+| measure | kpi | 지표 정의, 입력→출력 정형화 |
+| measure | north-star | 단일 메트릭 도출, 경계 명확 |
+| measure | burn-rate | 수치 계산 중심, 도메인 맥락 최소 |
+| measure | agent-ab-test | 실험 설계 패턴 정형화 |
 
 ### 파일 수 요약
 
@@ -237,8 +237,8 @@ Good Example + Bad Example (2종)
 |--------|------|---------|-----------|------|
 | S1 | 파일럿 Tier 1 핵심 3개 | 3 | 15 | prd, instruction, cost-sim |
 | S2 | Tier 1 나머지 | 9 | 45 | prompt ~ pm-engine |
-| S3 | Tier 2 forge + oracle | 10 | 30 | 콘텐츠 스킬 포함 |
-| S4 | Tier 2 atlas + argus + muse | 9 | 27 | 아키텍처 + 운영 |
+| S3 | Tier 2 deliver + discover | 10 | 30 | 콘텐츠 스킬 포함 |
+| S4 | Tier 2 architect + measure + learn | 9 | 27 | 아키텍처 + 운영 |
 | S5 | Tier 3 + 전체 검증 | 4 | 8 | Lite + eval 회귀 |
 
 ---

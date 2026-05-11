@@ -1,6 +1,6 @@
 {
   "name": "hplan",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Evidence + COGS + Decision gate that runs BEFORE you commit to building. Mandatory competitor and interview evidence, executable COGS sentinel (p50/p90 margin with abuse blend), append-only Do-Not-Build exclusions registry, self-eval decision log, and multi-target handoff to Spec-Kit / Kiro / GStack / Claude Code. Use when an idea reaches PRD or implementation pressure before evidence is credible.",
   "author": {
     "name": "AI PM Skills Contributors",
@@ -9,9 +9,20 @@
   "repository": "https://github.com/kimsanguine/hplan",
   "license": "MIT",
   "keywords": [
-    "agent", "pm", "evidence", "cogs", "unit-economics", "discovery",
-    "interview", "exclusions", "decision-log", "spec-kit", "kiro", "gstack",
-    "product-build-gate", "human-in-the-loop"
+    "agent",
+    "pm",
+    "evidence",
+    "cogs",
+    "unit-economics",
+    "discovery",
+    "interview",
+    "exclusions",
+    "decision-log",
+    "spec-kit",
+    "kiro",
+    "gstack",
+    "product-build-gate",
+    "human-in-the-loop"
   ],
   "skills": "./skills/",
   "commands": "./commands/"

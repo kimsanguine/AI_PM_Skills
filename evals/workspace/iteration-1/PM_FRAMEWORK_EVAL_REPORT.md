@@ -1,7 +1,7 @@
 # PM-Framework Skill Evaluation Report
 **Date:** 2026-03-06  
 **Evaluations:** EVAL 9 (pm-framework-scope-creep) + EVAL 10 (pm-framework-user-research-lesson)  
-**Skill:** `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/muse/skills/pm-framework/SKILL.md`
+**Skill:** `/sessions/compassionate-zen-babbage/mnt/Documents/3_Code/Vibe/Project/260306_AgentSkills/learn/skills/pm-framework/SKILL.md`
 
 ---
 

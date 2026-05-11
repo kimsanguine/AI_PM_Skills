@@ -25,10 +25,10 @@ model: sonnet
 
 ### Route to Other Skills When
 
-- 탐색 자체가 부족할 때 → `oracle/opp-tree` (exploration mode)
-- OST 완성 후 PRD shape 정의 → `forge/prd`
-- 가설 깊이 검증 → `oracle/assumptions` (V/F/R/E 4축)
-- 운영 메트릭 정의 → `argus/north-star`
+- 탐색 자체가 부족할 때 → `discover/opp-tree` (exploration mode)
+- OST 완성 후 PRD shape 정의 → `deliver/prd`
+- 가설 깊이 검증 → `discover/assumptions` (V/F/R/E 4축)
+- 운영 메트릭 정의 → `measure/north-star`
 
 ### Boundary Checks
 

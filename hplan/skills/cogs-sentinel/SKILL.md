@@ -1,6 +1,6 @@
 ---
 name: cogs-sentinel
-description: "Executable COGS gate for AI products. Runs a deterministic Python sampler (lognormal token-cost distribution) to compute p50/p90 per-paid-user monthly COGS, gross margin scenarios, and free-user abuse blend. Returns GREEN / CONDITIONAL_GO / RED before any paid AI product is greenlit. Use when promising a paid AI feature, comparing providers (Anthropic/OpenAI/Google), or when oracle/cost-sim has produced a usage hypothesis and you need real numbers."
+description: "Executable COGS gate for AI products. Runs a deterministic Python sampler (lognormal token-cost distribution) to compute p50/p90 per-paid-user monthly COGS, gross margin scenarios, and free-user abuse blend. Returns GREEN / CONDITIONAL_GO / RED before any paid AI product is greenlit. Use when promising a paid AI feature, comparing providers (Anthropic/OpenAI/Google), or when discover/cost-sim has produced a usage hypothesis and you need real numbers."
 argument-hint: "[provider, model, usage params or path to JSON]"
 allowed-tools: ["Read", "Write", "Bash"]
 model: sonnet
@@ -23,16 +23,16 @@ hooks:
 ### Use This Skill When
 
 - 사용자가 유료 가격을 책정하려 할 때 (`$X/mo`, `per-call`, etc.)
-- `oracle/cost-sim`이 시나리오를 도출한 후 결정론적 수치가 필요할 때
+- `discover/cost-sim`이 시나리오를 도출한 후 결정론적 수치가 필요할 때
 - Provider 교체(Anthropic ↔ OpenAI ↔ Google)의 영향 측정
 - 무료 tier 도입 시 abuse가 마진을 깨지 않는지 사전 검증
 - Build Gate 진입 *전*
 
 ### Route to Other Skills When
 
-- 비용 시나리오 자체가 아직 명확하지 않을 때 → `oracle/cost-sim` 먼저
-- 배포 후 실제 추적 → `argus/burn-rate`
-- 가격 모델 자체를 다시 짤 때 → `atlas/biz-model`
+- 비용 시나리오 자체가 아직 명확하지 않을 때 → `discover/cost-sim` 먼저
+- 배포 후 실제 추적 → `measure/burn-rate`
+- 가격 모델 자체를 다시 짤 때 → `architect/biz-model`
 - COGS RED 결정이 났을 때 → `decision-log` (hold/pivot) 기록 후 routing
 
 ### Boundary Checks
@@ -67,7 +67,7 @@ python3 hplan/scripts/cogs_sentinel.py \
 ## Steps
 
 1. Confirm provider + model exists in `references/provider_pricing.json` (or pass `--pricing path`).
-2. Estimate usage params from oracle/cost-sim output or user input.
+2. Estimate usage params from discover/cost-sim output or user input.
 3. Run `python3 hplan/scripts/cogs_sentinel.py ...`.
 4. Read the markdown report at `harness/build-gate/cogs_report.md`.
 5. If decision is `GREEN`, proceed to `decision-log` → `handoff`.
@@ -90,6 +90,6 @@ python3 hplan/scripts/cogs_sentinel.py \
 
 ## Why This Exists
 
-`oracle/cost-sim`은 LLM이 시나리오를 *생각하는* 단계 — 의미 있지만 LLM은 lognormal 분포를 머릿속에서 정확히 계산하지 못한다. cogs-sentinel은 그 시나리오를 받아 **결정론적으로 측정**한다. 둘은 paired skill이다.
+`discover/cost-sim`은 LLM이 시나리오를 *생각하는* 단계 — 의미 있지만 LLM은 lognormal 분포를 머릿속에서 정확히 계산하지 못한다. cogs-sentinel은 그 시나리오를 받아 **결정론적으로 측정**한다. 둘은 paired skill이다.
 
 Replit이 ARR $2M→$144M 동안 gross margin이 single digit으로 떨어진 사례 — 가격 4번 변경으로 회복. 그 사고를 사전에 잡는 것이 이 skill의 존재 이유다.
