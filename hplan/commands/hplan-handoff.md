@@ -1,51 +1,32 @@
 ---
-description: "Export the Build Gate brief to your downstream coding ecosystem — Spec-Kit, Kiro, GStack, Claude Code, or all four at once."
+description: "Export the Build Gate brief to your downstream coding ecosystem — Spec-Kit, Kiro, GStack, Claude Code, or all four at once. Use when Build Gate is approved and you need to export the brief to a downstream coding ecosystem (Spec-Kit, Kiro, GStack, Claude Code)."
 argument-hint: "[brief.json] [--target spec-kit|kiro|gstack|claude|all]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---
 
 # /hplan-handoff
 
-Export an approved Build Gate brief to one or more downstream coding ecosystems.
 
-## Prerequisites
+## Instructions
 
-- `/hplan-build` returned `build` or `CONDITIONAL_GO`
-- `harness/build-gate/checkpoint.json` has `status: "approved"` (if PreToolUse hook active)
-- Brief JSON with at minimum: `product_name`, `problem`, `icp`, `jtbd`, `cogs_ceiling`, `decision`
+You run the **hplan multi-target handoff** for: **$ARGUMENTS**
 
-## Run
+### Step 1 — Verify Build Gate
+Confirm `harness/decisions.jsonl` has a recent `decision: "build"` (or `CONDITIONAL_GO`) for this project AND `harness/build-gate/checkpoint.json` has `status: "approved"`.
 
-```bash
-python3 hplan/scripts/export_handoff.py brief.json --target all
-```
+### Step 2 — Locate the brief JSON
+The brief must include at minimum: product_name, problem, icp, jtbd, cogs_ceiling, decision. Other fields fill gaps in generated artifacts.
 
-Or per-ecosystem:
+### Step 3 — Execute
+`python3 hplan/scripts/export_handoff.py <brief.json> --target <spec-kit|kiro|gstack|claude|all> --root .`
 
-```bash
-python3 hplan/scripts/export_handoff.py brief.json --target spec-kit
-python3 hplan/scripts/export_handoff.py brief.json --target kiro
-python3 hplan/scripts/export_handoff.py brief.json --target gstack
-python3 hplan/scripts/export_handoff.py brief.json --target claude
-```
+### Step 4 — Place outputs
+Help the user move generated files from `harness/exports/<target>/` to their actual project location (spec-kit `specs/` at repo root, kiro `.kiro/` at repo root, gstack /office-hours direct paste, claude AGENTS.md+CLAUDE.md at repo root).
 
-## Output paths
+## Output Format
 
-| Target | Path | Format |
-|---|---|---|
-| spec-kit | `harness/exports/spec-kit/specs/NNN-slug/` | GitHub Spec-Kit `{spec, plan, tasks}.md` |
-| kiro | `harness/exports/kiro/.kiro/specs/<slug>/` | Kiro `{requirements, design, tasks}.md` |
-| gstack | `harness/exports/gstack/office-hours-brief.md` | GStack `/office-hours` first-message brief |
-| claude | `harness/exports/claude/AGENTS.md` + `CLAUDE.md` | Codex + Claude Code project memory |
+Return:
 
-## After handoff
-
-- Copy or symlink generated files into the actual project directory
-- For spec-kit: `cp -r harness/exports/spec-kit/specs <repo-root>/specs`
-- For kiro: `cp -r harness/exports/kiro/.kiro <repo-root>/`
-- For gstack: paste the brief into `/office-hours` directly
-- For claude: place AGENTS.md + CLAUDE.md at repo root
-
-## Boundary
-
-Handoff is the **last step** in the hplan lifecycle. Do not skip Evidence + Product + Build Gates to reach handoff faster — the brief will be hollow.
+1. **Targets exported** — list of files written per ecosystem
+2. **NNN prefix used** — for spec-kit auto-increment
+3. **Next manual step** — where to copy the generated files to make the downstream agent see them

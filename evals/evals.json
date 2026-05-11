@@ -1,5 +1,5 @@
 {
-  "skill_name": "AI_PM_Skills",
+  "skill_name": "hplan",
   "description": "Phase 3 eval — 5 representative skills (1 per plugin), 2 test prompts each",
   "evals": [
     {

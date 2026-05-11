@@ -1,49 +1,39 @@
 ---
-description: "Manage the append-only Do-Not-Build exclusions registry — add an exclusion with reopen_trigger, or check whether a new idea collides with prior exclusions."
+description: "Manage the append-only Do-Not-Build exclusions registry — add an exclusion with reopen_trigger, or check whether a new idea collides with prior exclusions. Use when adding a Do-Not-Build entry to permanent memory, or when checking whether a new idea collides with prior exclusions."
 argument-hint: "[add|check|list] <idea or phrase>"
 allowed-tools: ["Read", "Write", "Bash"]
 ---
 
 # /hplan-exclude
 
-Manage the **append-only exclusions registry** at `harness/exclusions.jsonl`.
 
-## Sub-commands
+## Instructions
 
-### `add` — record a Do-Not-Build with reason + reopen trigger
+You manage the **hplan exclusions registry** for: **$ARGUMENTS**
 
-```bash
-python3 hplan/scripts/exclusions_registry.py add "범용 PRD 생성기" \
-  --why "GitHub Spec-Kit이 30개 agent + 93K stars로 점유" \
-  --reopen "Spec-Kit이 evidence gate를 추가하거나 enterprise compliance 인터뷰 3건+" \
-  --competitor "GitHub Spec-Kit" --competitor "Kiro"
-```
+### Decide sub-command
+- If user is recording a Do-Not-Build → `add`
+- If user is checking a new idea → `check`
+- If listing → `list`
 
-### `check` — collision detect for a new idea
+### add
+`python3 hplan/scripts/exclusions_registry.py add "<idea>" --why "<reason>" --reopen "<trigger>" --competitor "<name>" [--competitor "<name>"]`. Require `--reopen` to be an action-shaped condition (e.g., "enterprise compliance interviews 3+"), not vague.
 
-```bash
-python3 hplan/scripts/exclusions_registry.py check "범용 PRD 자동 생성 도구"
-```
+### check
+`python3 hplan/scripts/exclusions_registry.py check "<idea>"`. Threshold 0.40 by default. If COLLISION, confirm reopen_trigger met before proceeding with other gates.
 
-Returns `COLLISION` if Jaccard (token or char-bigram) ≥ 0.40, with `guidance` to confirm `reopen_trigger` or pivot.
+### list
+`python3 hplan/scripts/exclusions_registry.py list` — dump JSONL.
 
-### `list` — dump all exclusions
+## Output Format
 
-```bash
-python3 hplan/scripts/exclusions_registry.py list
-```
+For `add`:
 
-## When to use
+1. **id** — `ex-YYYY-MM-DD-XXXXX`
+2. **exclusion text**, **why**, **reopen_trigger**, **competitors**
 
-- **`add`** — after every `pivot` or `hold` decision in `/hplan-build`
-- **`check`** — at the very start of `/hplan-evidence`, before scoring
-- **`list`** — onboarding a new PM or quarterly review
+For `check`:
 
-## Routing
-
-- After `add` → consider `decision-log log --decision hold/pivot`
-- After `check` returns COLLISION → if `reopen_trigger` unmet, exit Evidence Gate
-
-## Boundary
-
-Exclusions are append-only. Wrong entries are not deleted — instead, write a new entry that supersedes the old one (`why: "supersedes ex-..."`).
+1. **verdict** — COLLISION or CLEAR
+2. **matches** — array of prior exclusions with overlap score
+3. **guidance** — next action

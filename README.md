@@ -33,7 +33,7 @@ General PM skills teach you to **use AI as a tool** — write PRDs faster, gener
 - "How do I orchestrate multiple agents together?"
 - "How do I encode 3 months of operational judgment into the agent's instructions?"
 
-This project turns those questions into **36 production-grade skills** across the full agent lifecycle.
+This project turns those questions into **43 production-grade skills** across the full agent lifecycle.
 
 ---
 
@@ -85,7 +85,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ① Complete Agent Lifecycle, Not Random Tools
 
-36 skills map to 5 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
+43 skills map to 6 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
@@ -173,7 +173,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching AI_PM_Skills plugins | "New project — set up Claude Code context and find the right skills" |
+| `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching hplan plugins | "New project — set up Claude Code context and find the right skills" |
 | `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
 | `prd` | 7-section agent spec: Instruction/Tools/Memory/Triggers/Output/Failure with dual narrative (tech + biz) | "I need a PRD that covers hallucination recovery and tool permissions" |
 | `prompt` | CRISP framework (Context/Role/Instruction/Scope/Parameters) + Why-First principle + 7 failure pattern avoidance | "Longer prompts make my agent behave worse" |
@@ -285,7 +285,7 @@ The Trigger Gate's "Route" field enables routing between plugins:
 
 ### Skills 1.0 vs Skills 2.0
 
-| Feature | 1.0 (2025) | 2.0 (2026) | AI_PM_Skills |
+| Feature | 1.0 (2025) | 2.0 (2026) | hplan |
 |---------|-----------|-----------|-------------|
 | Auto-invocation | ❌ | ✅ | ✅ 97.9% |
 | Subagent (`context: fork`) | ❌ | ✅ | ✅ 5 skills |
@@ -380,7 +380,7 @@ If you're using this project for corporate training or educational content, I'd 
 | Repo | What | Link |
 |------|------|------|
 | **AI_PM** | Claude Code guide for PMs — learn the why and how | [github.com/kimsanguine/AI_PM](https://github.com/kimsanguine/AI_PM) |
-| **AI_PM_Skills** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/kimsanguine/hplan](https://github.com/kimsanguine/hplan) |
+| **hplan** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/kimsanguine/hplan](https://github.com/kimsanguine/hplan) |
 
 > **AI_PM** teaches the thinking. **hplan** gives you the tools.
 

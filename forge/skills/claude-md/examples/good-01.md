@@ -7,7 +7,7 @@
 ## 승인 이유
 
 - 프로젝트에 CLAUDE.md가 없어 Claude Code가 매번 프로젝트 맥락을 파악해야 함
-- 에이전트 관련 코드가 있어 AI_PM_Skills 추천이 유의미
+- 에이전트 관련 코드가 있어 hplan plugin 추천이 유의미
 
 ## 예상 처리
 
@@ -19,5 +19,5 @@
 ## 최종 결과물
 
 - 프로젝트 특화 CLAUDE.md (7개 섹션, ~2,200 tokens)
-- AI_PM_Skills 추천 3개 (시그널 기반, 설치 명령어 포함)
+- hplan plugin 추천 3개 (시그널 기반, 설치 명령어 포함)
 - 다음 액션: "forge/instruction으로 에이전트 Instruction을 설계하세요"

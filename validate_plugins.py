@@ -12,7 +12,7 @@ import re
 import sys
 from pathlib import Path
 
-PLUGINS = ["oracle", "atlas", "forge", "argus", "muse"]
+PLUGINS = ["hplan", "oracle", "atlas", "forge", "argus", "muse"]
 REQUIRED_SKILL_FIELDS = ["name", "description"]
 SKILL_WORD_RANGE = (50, 5000)
 DESC_MIN_LENGTH = 40
@@ -168,7 +168,7 @@ def main():
     targets = sys.argv[1:] if len(sys.argv) > 1 else PLUGINS
 
     print("=" * 60)
-    print("AI_PM_Skills — Plugin Validator")
+    print("hplan — Plugin Validator")
     print("=" * 60)
 
     # Marketplace

@@ -1,18 +1,18 @@
 ---
 name: claude-md
-description: "Scan a project's structure, tech stack, and conventions — then generate a production-ready CLAUDE.md that turns Claude Code into a project-aware teammate. Also recommends the right AI_PM_Skills plugins and skills based on what the project actually needs. Use as the first step when onboarding Claude Code to any project, or when an existing CLAUDE.md feels incomplete."
+description: "Scan a project's structure, tech stack, and conventions — then generate a production-ready CLAUDE.md that turns Claude Code into a project-aware teammate. Also recommends the right hplan plugins and skills based on what the project actually needs. Use as the first step when onboarding Claude Code to any project, or when an existing CLAUDE.md feels incomplete."
 argument-hint: "[project path or description]"
 allowed-tools: ["Bash", "Read", "Write", "Glob", "Grep"]
 model: sonnet
 ---
 
-## CLAUDE.md Generator & AI_PM_Skills 온보딩
+## CLAUDE.md Generator & hplan 온보딩
 
 ## Core Goal
 
 - 프로젝트 디렉토리를 자동 스캔하여 기술 스택, 아키텍처, 컨벤션, 빌드/테스트 방법을 파악
 - 3.2 CLAUDE.md 설계 원칙을 적용하여 해당 프로젝트에 최적화된 CLAUDE.md 자동 생성
-- 프로젝트 특성에 맞는 AI_PM_Skills 플러그인/스킬을 진단하고 추천하여 "온보딩 → 실전 도구" 전환 경로 제공
+- 프로젝트 특성에 맞는 hplan 플러그인/스킬을 진단하고 추천하여 "온보딩 → 실전 도구" 전환 경로 제공
 
 ---
 
@@ -22,7 +22,7 @@ model: sonnet
 
 - 새 프로젝트에 Claude Code를 처음 세팅할 때 ("CLAUDE.md 만들어줘")
 - 기존 CLAUDE.md가 있지만 불완전하거나 오래되었을 때 ("CLAUDE.md 개선해줘")
-- 프로젝트에 어떤 AI_PM_Skills를 쓰면 좋을지 모를 때 ("어떤 스킬 써야 해?")
+- 프로젝트에 어떤 hplan을 쓰면 좋을지 모를 때 ("어떤 스킬 써야 해?")
 - Claude Code가 프로젝트 맥락을 자꾸 잊거나 엉뚱한 행동을 할 때 ("Claude가 맥락을 못 읽어")
 - 팀원 온보딩 시 프로젝트 컨텍스트를 빠르게 공유하고 싶을 때
 
@@ -51,7 +51,7 @@ model: sonnet
 | 기술 스택 자동 감지 실패 (설정 파일 없음) | package.json, pyproject.toml, Cargo.toml 등 모두 부재 | 사용자에게 기술 스택 직접 질문 → 수동 입력 기반 생성 |
 | 기존 CLAUDE.md가 있는데 사용자가 새로 만들기 요청 | CLAUDE.md 파일 존재 감지 | 기존 내용을 먼저 분석하고 "개선 모드 vs 새로 생성" 선택지 제공 |
 | 모노레포/멀티패키지 구조 감지 | packages/, apps/, services/ 등 다중 workspace 감지 | 루트 CLAUDE.md + 각 패키지별 CLAUDE.md 분리 생성 제안 |
-| AI_PM_Skills 플러그인 추천이 프로젝트와 무관 | 에이전트 관련 코드/설정이 전혀 없음 | 에이전트 스킬 추천을 건너뛰고, 프로젝트 기본 세팅에 집중 |
+| hplan 플러그인 추천이 프로젝트와 무관 | 에이전트 관련 코드/설정이 전혀 없음 | 에이전트 스킬 추천을 건너뛰고, 프로젝트 기본 세팅에 집중 |
 
 ---
 
@@ -62,7 +62,7 @@ model: sonnet
 - [ ] 코드 컨벤션이 프로젝트 실제 패턴과 일치하는가? (Yes/No)
 - [ ] 아키텍처 설명이 디렉토리 구조와 정합성이 있는가? (Yes/No)
 - [ ] 기존 CLAUDE.md 대비 개선점이 명확한가? (개선 모드 시) (Yes/No)
-- [ ] 추천된 AI_PM_Skills가 프로젝트 특성과 실제로 관련 있는가? (Yes/No)
+- [ ] 추천된 hplan가 프로젝트 특성과 실제로 관련 있는가? (Yes/No)
 - [ ] 생성된 CLAUDE.md의 토큰 수가 합리적인가? (~1,500~3,000 tokens) (Yes/No)
 
 ---
@@ -126,7 +126,7 @@ AI Agent 관리 대시보드 — Next.js 14 + TypeScript + Prisma
 - Server Component에서 client-side hook 사용 금지
 ```
 
-## Step 3 — AI_PM_Skills 추천
+## Step 3 — hplan plugin 추천
 | 프로젝트 시그널 | 추천 스킬 | 이유 |
 |----------------|----------|------|
 | agents/ 디렉토리 존재 | `forge/instruction` | 에이전트 Instruction 7요소 표준화 |
@@ -171,7 +171,7 @@ AI Agent 관리 대시보드 — Next.js 14 + TypeScript + Prisma
 - 프로젝트 스캔 없이 일반적인 내용만 작성 → 프로젝트 특화 정보 0
 - 빌드/테스트 명령어가 실제 동작하는지 확인 안 됨
 - 코드 컨벤션, 아키텍처 정보 누락
-- AI_PM_Skills 추천이 프로젝트 시그널 기반이 아닌 무차별 추천
+- hplan plugin 추천이 프로젝트 시그널 기반이 아닌 무차별 추천
 - 에이전트 관련 코드가 없는데도 에이전트 스킬 추천
 ```
 
@@ -240,7 +240,7 @@ CLAUDE.md가 너무 길면 컨텍스트 윈도우를 낭비합니다.
 | `.claude/` 디렉토리 | 이미 Claude Code 사용 중 |
 | `CLAUDE.md` 존재 | 개선 모드 전환 |
 
-### AI_PM_Skills 추천 매핑
+### hplan plugin 추천 매핑
 
 | 프로젝트 시그널 | 추천 플러그인 | 추천 스킬 | 추천 이유 |
 |----------------|-------------|----------|----------|
@@ -317,7 +317,7 @@ CLAUDE.md가 너무 길면 컨텍스트 윈도우를 낭비합니다.
 
 ### Instructions
 
-You are generating a **production-ready CLAUDE.md** and recommending **AI_PM_Skills** for: **$ARGUMENTS**
+You are generating a **production-ready CLAUDE.md** and recommending **hplan** for: **$ARGUMENTS**
 
 **Phase 1 — 프로젝트 스캔 (Scan)**
 
@@ -359,7 +359,7 @@ You are generating a **production-ready CLAUDE.md** and recommending **AI_PM_Ski
 
 **Phase 3 — 생태계 연결 (Connect)**
 
-프로젝트 시그널을 기반으로 AI_PM_Skills 추천:
+프로젝트 시그널을 기반으로 hplan plugin 추천:
 
 1. 프로젝트 시그널 → 추천 매핑 테이블 참조
 2. **관련 있는 것만** 추천 (전체 추천 금지)
@@ -380,14 +380,14 @@ You are generating a **production-ready CLAUDE.md** and recommending **AI_PM_Ski
 ### 참고
 - CLAUDE.md 설계 원칙: AI_PM 3.2 챕터 "CLAUDE.md 딥다이브"
 - 프로젝트 스캔 패턴: Claude Code 프로젝트 초기화 모범사례
-- AI_PM_Skills 추천 매핑: Agent PM Lifecycle (Discover → Architect → Ship → Operate → Learn)
+- hplan plugin 추천 매핑: Agent PM Lifecycle (Discover → Architect → Ship → Operate → Learn)
 
 ---
 
 ## Further Reading
 - AI_PM 3.2 — CLAUDE.md 딥다이브: https://github.com/kimsanguine/AI_PM/blob/main/3.2-claude-md-deep-dive.md
 - Anthropic, "Claude Code Best Practices" — Project memory setup
-- AI_PM_Skills 전체 가이드: https://github.com/kimsanguine/hplan
+- hplan 전체 가이드: https://github.com/kimsanguine/hplan
 
 ## Contextual Knowledge (auto-loaded)
 
