@@ -188,7 +188,7 @@ Day 50-60   매출·성과 구조
 이 프로젝트의 43개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **6단계 여정** — v0.5부터 **`hplan`이 0단계 게이트** — 만들지 말지부터 결정합니다.
 
 ```
-게이트(Gate) → 발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
+게이트(Gate) → 발견(Discover) → 설계(Architect) → 딜리버리(Deliver) → 측정(Measure) → 학습(Learn)
    hplan          discover            architect            deliver          measure          learn
   7 skills       6 skills          7 skills        12 skills       8 skills       3 skills
      ↑                                                                              │
