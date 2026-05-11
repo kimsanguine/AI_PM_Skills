@@ -117,11 +117,11 @@ This project turns those questions into **43 production-grade skills** across th
 This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all.
 
 ```
-게이트(Gate) → 발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
-   hplan          oracle            atlas            forge          argus          muse
-  7 skills       6 skills          7 skills        12 skills       8 skills       3 skills
-     ↑                                                                              │
-     └────────────────── Accumulated TK feeds back into next agent ─────────────────┘
+   Gate    →   Discover   →   Architect   →   Ship   →   Operate   →   Learn
+   hplan         oracle          atlas         forge       argus        muse
+  7 skills      6 skills        7 skills      12 skills   8 skills    3 skills
+     ↑                                                                    │
+     └──────── Accumulated TK feeds back into next agent ─────────────────┘
 ```
 
 | Stage | Plugin | The Question | Key Skills |
@@ -166,8 +166,8 @@ We separate **how Claude finds skills** (Platform Layer — Skills 2.0 spec) fro
 muse is the moat. It structures your operational judgment into **TK (Tacit Knowledge) units**, then injects them into agent instructions. The more you use it, the smarter your agents get — and that knowledge **stays yours**.
 
 ```
-PM 판단 기록 → /extract → TK-NNN 구조화 → PM-ENGINE-MEMORY.md 축적
-  → /tk-to-instruction → 에이전트 시스템 프롬프트 업데이트 → 반복
+PM judgment notes → /extract → TK-NNN structured units → PM-ENGINE-MEMORY.md
+  → /tk-to-instruction → agent system prompt updated → repeat
 ```
 
 This creates **switching cost**: competitors can copy the framework, but they can't copy your accumulated TK.
@@ -195,7 +195,27 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 ## Plugins — Full Skill List
 
 <details>
-<summary><strong>1. oracle</strong> — What agent to build? <code>(6 skills, 2 commands)</code></summary>
+<summary><strong>1. hplan ⭐</strong> — Should we build this at all? <code>(7 skills, 6 commands)</code></summary>
+
+The gate that runs *before* discovery. Deterministic measurement (Python scripts, not LLM estimates), append-only memory (exclusions + decisions across runs), and a hook that blocks PRD/spec writes until a human approves.
+
+| Skill | What it does | When to use |
+|-------|-------------|-------------|
+| `evidence-rubric` | Score idea against 100-point evidence rubric — ICP, recent painful event, workaround, repetition, economic pain, switching trigger, MVP narrowness, acquisition path | "Should we even start interviews on this idea?" |
+| `interview-synthesis` | Import AI synthesis output (BuildBetter / Perspective / similar tools), force human strength + Push/Pull/Habit/Anxiety axes tagging, audit 5-of-3 strong-Push rule | "We have 5 customer call transcripts — is the pattern strong enough?" |
+| `exclusions` | Append-only Do-Not-Build registry with reopen_trigger and Korean-aware fuzzy-match collision detection | "Same idea as last quarter? Was it killed?" |
+| `cogs-sentinel` | Executable COGS gate — p50/p90 monthly margin via lognormal sampler, free-user abuse blend, GREEN/CONDITIONAL_GO/RED decision | "Will $19/mo actually make money at p90?" |
+| `ost` | Generate Teresa Torres-style Opportunity Solution Tree as `docs/OPPORTUNITY_TREE.md` with Mermaid diagram | "Lock the opportunity → solution → experiment tree before any PRD" |
+| `decision-log` | Append-only build/interview/pivot/hold log + 3–6 month self-eval audit (hit_rate, false_holds, missed_builds) | "Were my product decisions 6 months ago actually right?" |
+| `handoff` | Multi-target Build Gate brief → Spec-Kit / Kiro / GStack / Claude Code in one command | "Ready to start building — export the spec to my coding agent" |
+
+**Commands:** `/hplan-evidence` · `/hplan-product` · `/hplan-build` · `/hplan-cogs` · `/hplan-exclude` · `/hplan-handoff`
+
+**Cross-cutting assets:** MCP server (`hplan_mcp/`) for Cursor / Windsurf / Kiro / Codex / Goose · PreToolUse hook (`hooks/gate_guard.py`) · 4 role-locked reviewer agents (`agents/`)
+</details>
+
+<details>
+<summary><strong>2. oracle</strong> — What agent to build? <code>(6 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -210,7 +230,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 </details>
 
 <details>
-<summary><strong>2. atlas</strong> — How to architect it? <code>(7 skills, 2 commands)</code></summary>
+<summary><strong>3. atlas</strong> — How to architect it? <code>(7 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -226,7 +246,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 </details>
 
 <details>
-<summary><strong>3. forge</strong> — How to spec and ship it? <code>(12 skills, 3 commands)</code></summary>
+<summary><strong>4. forge</strong> — How to spec and ship it? <code>(12 skills, 3 commands)</code></summary>
 
 > **Onboarding (1):** claude-md
 > **Core Spec (7):** instruction · prd · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review
@@ -251,7 +271,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 </details>
 
 <details>
-<summary><strong>4. argus</strong> — How to measure and improve? <code>(8 skills, 2 commands)</code></summary>
+<summary><strong>5. argus</strong> — How to measure and improve? <code>(8 skills, 2 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -268,7 +288,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 </details>
 
 <details>
-<summary><strong>5. muse ⭐</strong> — Turn PM tacit knowledge into agent assets <code>(3 skills, 3 commands)</code></summary>
+<summary><strong>6. muse</strong> — Turn PM tacit knowledge into agent assets <code>(3 skills, 3 commands)</code></summary>
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
@@ -291,19 +311,19 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 
 ```bash
 /plugin marketplace add kimsanguine/hplan
-/plugin install oracle@kimsanguine-hplan   # or atlas, forge, argus, muse
+/plugin install hplan@kimsanguine-hplan    # or oracle, atlas, forge, argus, muse
 ```
 
 ### Option 2: Clone Locally
 
 ```bash
 git clone https://github.com/kimsanguine/hplan.git
-claude --plugin-dir ./hplan-repo/oracle   # pick what you need
+claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, oracle, atlas, forge, argus, muse)
 ```
 
-**First time with Claude Code?** → Start with `forge/claude-md` — it scans your project and recommends the right skills.
-Not sure which agent to build yet? → Start with `oracle`.
-Already know what to build? → Start with `forge`.
+**Not sure which AI product to commit to?** → Start with `hplan` — evidence gate first.
+**First time with Claude Code?** → Run `forge/claude-md` — it scans your project and recommends the right plugins.
+**Already past the gate?** → Pick by lifecycle stage (oracle → atlas → forge → argus → muse).
 
 ### Other AI Tools
 
@@ -360,7 +380,8 @@ The Trigger Gate's "Route" field enables routing between plugins:
 ### File Structure
 
 ```
-hplan/
+hplan/                # repo root
+├── hplan/            # Gate ⭐ (7 skills, 6 commands) — Product Build Gate
 ├── oracle/           # Discovery (6 skills, 2 commands)
 ├── atlas/            # Architecture (7 skills, 2 commands)
 ├── forge/            # Execution (12 skills, 3 commands)
@@ -403,7 +424,7 @@ oracle/skills/opp-tree/           ← example skill
 | `examples/bad-01.md` | Explicit anti-patterns with explanations | Prevents common failures |
 | `references/test-cases.md` | Edge cases + assertions | Powers eval system (54 assertions) |
 
-This pattern repeats across all 36 skills — **130+ supporting files** that make each skill measurable, testable, and improvable.
+This pattern repeats across all 43 skills — **180+ supporting files** that make each skill measurable, testable, and improvable.
 
 </details>
 
