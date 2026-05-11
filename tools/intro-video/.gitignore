@@ -1,0 +1,10 @@
+node_modules/
+out/
+.cache/
+*.log
+.DS_Store
+public/audio/narration/*.wav
+public/audio/narration/*.mp3
+public/audio/bgm.mp3
+.env
+.env.local
