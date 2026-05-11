@@ -2,7 +2,7 @@
 
 > **문제는 코딩이 아니라 — 시장조사와 문제정의입니다.**
 >
-> 1.8억 LINE Wallet, 카카오·네이버, 삼성카드·CJ·이스트소프트를 PM으로 거친 사람이 만든, AI 시대 1인 메이커를 위한 Product Build Gate.
+>  AI 시대 1인 메이커를 위한 Product Build Gate.
 
 > 🐎 **이름의 뜻 — `hplan` = Harness Planning.**
 > 말의 고삐(harness)처럼, Claude Code · Cursor · Lovable 같은 AI 코딩 도구의 거친 동력에 **방향을 부여하는 사전 계획**입니다. 코드를 만드는 도구는 이미 충분히 강합니다. 부족한 건 *"어디로 향할지"*. hplan은 코드를 쓰기 전 7일 동안 시장조사·문제정의·COGS를 강제로 묻습니다.
@@ -46,16 +46,11 @@
 
 ## 누가 만들었나
 
-저는 **이산김(Ethan)**입니다.
-
-- **LINE Wallet** PM (1.8억 사용자)
-- **카카오** PM
-- **네이버** PM
-- **삼성카드 · CJ · 이스트소프트** PM 경험
+저는 **김생근(Ethan)**입니다.
 
 20년간 PM 일을 하면서 본 패턴 하나: **시장조사·문제정의가 풀리지 않은 채 빌딩에 들어가는 게 1인 메이커가 6개월을 잃는 가장 비싼 사고**입니다.
 
-대기업 PM이 누리는 "다음 PRD 쓰기 전 5명 인터뷰" 디스시플린이 1인 메이커에게는 없습니다. 그래서 hplan은 그 디스시플린을 *결정론적 도구*로 강제합니다 — Python 스크립트, MCP 서버, Claude Code hook, append-only registry 형태로.
+대기업 PM이 누리는 "다음 PRD 쓰기 전 5명 인터뷰" 디스시플린이 1인 메이커에게는 없습니다. 그래서 hplan은 그 하네스을 *결정론적 도구*로 강제합니다 — Python 스크립트, MCP 서버, Claude Code hook, append-only registry 형태로.
 
 ---
 
