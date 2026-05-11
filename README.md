@@ -1,6 +1,6 @@
 # hplan — The Product Build Gate for AI Agents
 
-> Stop AI products from getting built before they should. Mandatory evidence, executable COGS, and a decision log that audits itself.
+> **The 30-minute check that stops you from spending 6 months building the wrong AI product.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -8,22 +8,57 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **What makes this different from every other PM toolkit:**
->
-> - 🧪 **Executable COGS sentinel** — p50/p90 monthly margin computed by a lognormal sampler, not a vibe. Catches Replit-style margin collapse before any code.
-> - 📚 **Append-only exclusions registry** — every "Do Not Build" you decide survives across runs. Future ideas auto-checked against it (Korean-aware fuzzy match).
-> - 📊 **Self-evaluating decision log** — 3–6 months later, audits its own hit_rate, false_holds, missed_builds. The only PM gate that measures its own accuracy.
-> - 🔌 **MCP server** — the same gate works in Cursor / Windsurf / Kiro / Codex / Goose, not just Claude Code.
-> - 🛑 **PreToolUse hook** — blocks PRD/spec writes at the filesystem level until a human approves the gate.
-> - 🚚 **Multi-target handoff** — one brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours`, Claude Code `AGENTS.md` + `CLAUDE.md`.
->
-> *Renamed from `AI_PM_Skills` in v0.5. The new flagship plugin (`hplan`) sits at Stage 0 of a 6-stage marketplace. Old URLs auto-redirect.*
+## The Problem hplan Solves
+
+You have an AI product idea. Cursor can prototype it in a weekend. Spec-Kit can spec it in an hour. Claude Code can ship a first version overnight.
+
+**But should you build it?**
+
+Every AI tool today is great at making things *fast*. None of them ask whether the thing should exist at all. So PMs and founders end up:
+
+- 🪦 Building products customers don't actually want (waitlists and "I would use this" aren't evidence)
+- 💸 Promising "unlimited AI" pricing that quietly loses money at scale (Replit went from $2M ARR to single-digit margins this way)
+- 🔁 Re-pitching the same idea their team killed 3 months ago — and nobody remembers why
+- 📋 Confidently shipping clones of Granola, Notion, or Spec-Kit without realizing it
+- 🤷 Making "build" or "hold" decisions and never finding out which ones were actually right
+
+**hplan is the gate that runs *before* all of that.** It's the discipline of saying "let me check first" — encoded as deterministic tools, not just good intentions.
+
+## What You Can Do With hplan
+
+| Instead of... | hplan lets you... |
+|---|---|
+| Gut-guessing whether an idea is worth building | **Score it against 8 evidence axes in 5 minutes** — if compliments and waitlists are your only signal, you'll know |
+| Promising a paid AI feature and hoping the math works | **Calculate p90 monthly margin** with real provider pricing and free-user abuse scenarios — *before* the launch announcement |
+| Forgetting which territory is already taken | **Park "Do Not Build" decisions permanently** with the reason and what would re-open them. Next quarter's idea auto-checks against the list |
+| Saying "hold" or "build" and moving on | **Audit your own decisions 3–6 months later** — hit_rate, false_holds, missed_builds, all measured |
+| Writing PRDs in isolation per tool (Spec-Kit, Kiro, GStack, Claude Code) | **One brief, four exports** — auto-generated specs for each downstream coding agent |
+
+## Who This Is For
+
+- **Solo founders** deciding what to spend the next 6 months building
+- **Product managers** who keep getting asked "can we build this with AI?" and want a structured way to answer
+- **Teams using Spec-Kit / Cursor / Kiro / Claude Code** who want a *pre-spec filter* — not a replacement
+- **Anyone** who has shipped something that looked good on paper and died in production, and wants the next idea to go differently
 
 <p align="center">
   <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
 </p>
 
 > 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
+
+## Under the Hood
+
+For the technically curious, here's what makes hplan different from every other PM toolkit:
+
+- 🧪 **Executable COGS sentinel** — p50 / p90 monthly margin is computed by a real Python sampler with provider pricing snapshots, not estimated by an LLM. Free-user abuse is modeled, not hand-waved.
+- 📚 **Append-only exclusions registry** — every "Do Not Build" gets a JSONL entry with a `reopen_trigger`. New ideas auto-collision-check with Korean-aware fuzzy match.
+- 📊 **Self-evaluating decision log** — every gate decision is logged with reasons; outcomes are back-filled later; an `audit` command surfaces hit rate, false holds, and missed builds. The only PM gate that measures its own accuracy.
+- 🔌 **MCP server** — the same gate primitives are exposed as MCP tools, so Cursor / Windsurf / Kiro / Codex / Goose can call them, not just Claude Code.
+- 🛑 **Claude Code PreToolUse hook** — blocks writes to `PRD.md` / `specs/*` / `.kiro/specs/*` until `harness/build-gate/checkpoint.json` shows `status: "approved"`. Gate enforcement at the filesystem level, not just in prompts.
+- 🚚 **Multi-target handoff** — one brief JSON exports simultaneously to Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours` brief, and Claude Code `AGENTS.md` + `CLAUDE.md`.
+
+*Renamed from `AI_PM_Skills` in v0.5. The new flagship plugin (`hplan`) sits at Stage 0 of a 6-stage marketplace. Old URLs auto-redirect.*
 
 ---
 
