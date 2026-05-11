@@ -6,9 +6,18 @@
     "name": "AI PM Skills Contributors",
     "url": "https://github.com/your-username"
   },
-  "repository": "https://github.com/your-username/AI_PM_Skills",
+  "repository": "https://github.com/kimsanguine/hplan",
   "license": "MIT",
-  "keywords": ["agent", "discovery", "opportunity", "pm", "build-or-buy", "assumptions", "gtm", "go-to-market"],
+  "keywords": [
+    "agent",
+    "discovery",
+    "opportunity",
+    "pm",
+    "build-or-buy",
+    "assumptions",
+    "gtm",
+    "go-to-market"
+  ],
   "skills": "./skills/",
   "commands": "./commands/"
 }

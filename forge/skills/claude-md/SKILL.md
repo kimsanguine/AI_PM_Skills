@@ -136,9 +136,9 @@ AI Agent 관리 대시보드 — Next.js 14 + TypeScript + Prisma
 
 ```bash
 # 추천 설치
-/plugin install forge@kimsanguine-AI_PM_Skills
-/plugin install atlas@kimsanguine-AI_PM_Skills
-/plugin install argus@kimsanguine-AI_PM_Skills
+/plugin install forge@kimsanguine-hplan
+/plugin install atlas@kimsanguine-hplan
+/plugin install argus@kimsanguine-hplan
 ```
 ```
 
@@ -387,7 +387,7 @@ You are generating a **production-ready CLAUDE.md** and recommending **AI_PM_Ski
 ## Further Reading
 - AI_PM 3.2 — CLAUDE.md 딥다이브: https://github.com/kimsanguine/AI_PM/blob/main/3.2-claude-md-deep-dive.md
 - Anthropic, "Claude Code Best Practices" — Project memory setup
-- AI_PM_Skills 전체 가이드: https://github.com/kimsanguine/AI_PM_Skills
+- AI_PM_Skills 전체 가이드: https://github.com/kimsanguine/hplan
 
 ## Contextual Knowledge (auto-loaded)
 

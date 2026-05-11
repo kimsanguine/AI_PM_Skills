@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "AI_PM_Skills",
+  "name": "hplan",
   "version": "0.5.0",
   "description": "43 skills and 18 commands across 6 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through discovery, architecture, execution, monitoring, and knowledge capture.",
   "owner": {

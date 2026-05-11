@@ -31,15 +31,15 @@
 
 ```bash
 # 한 줄로 5개 플러그인 전부 설치
-claude plugin marketplace add your-username/AI_PM_Skills
+claude plugin marketplace add kimsanguine/hplan
 ```
 
 ### 방법 2: 개별 플러그인 설치
 
 ```bash
 # 레포 클론 후 원하는 플러그인만 설치
-git clone https://github.com/your-username/AI_PM_Skills.git
-cd AI_PM_Skills
+git clone https://github.com/your-username/hplan.git
+cd hplan
 
 claude plugin add oracle/    # 발견
 claude plugin add atlas/     # 설계
