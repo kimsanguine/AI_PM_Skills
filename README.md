@@ -2,6 +2,9 @@
 
 > **The 30-minute check that stops you from spending 6 months building the wrong AI product.**
 
+> 🐎 **What `hplan` means — Harness Planning.**
+> Like a horse's harness, hplan gives direction to the raw power of AI coding tools (Claude Code, Cursor, Lovable, etc.). The tools that *make* code are already strong enough. What's missing is *where to point them*. hplan is the 7-day discipline that forces you to answer market research, problem definition, and COGS *before* a single PRD line is written.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-6-purple?style=flat-square)]()
