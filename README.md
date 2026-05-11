@@ -108,8 +108,8 @@ This project turns those questions into **43 production-grade skills** across th
 ```bash
 /plugin install discover@kimsanguine-hplan   # Discover — opportunity trees, assumptions, cost sim
 /plugin install architect@kimsanguine-hplan    # Architect — orchestration, memory, moat
-/plugin install deliver@kimsanguine-hplan    # Ship — agent PRD, instructions, prompts
-/plugin install measure@kimsanguine-hplan    # Operate — KPI, burn rate, reliability
+/plugin install deliver@kimsanguine-hplan    # Deliver — agent PRD, instructions, prompts
+/plugin install measure@kimsanguine-hplan    # Measure — KPI, burn rate, reliability
 /plugin install learn@kimsanguine-hplan     # Learn — PM tacit knowledge, decision patterns
 ```
 
@@ -120,7 +120,7 @@ This project turns those questions into **43 production-grade skills** across th
 This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all.
 
 ```
-   Gate    →   Discover   →   Architect   →   Ship   →   Operate   →   Learn
+   Gate    →   Discover   →   Architect   →   Deliver   →   Measure   →   Learn
    hplan         discover          architect         deliver       measure        learn
   7 skills      6 skills        7 skills      12 skills   8 skills    3 skills
      ↑                                                                    │
