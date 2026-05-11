@@ -1,6 +1,11 @@
-# hplan — AI 에이전트 Product Build Gate
+# hplan — Claude Code로 만들었는데, 안 팔리나요?
 
-> **잘못된 AI 제품에 6개월을 쏟기 전, 30분 안에 멈출 수 있게 해주는 게이트.**
+> **문제는 코딩이 아니라 — 시장조사와 문제정의입니다.**
+>
+> 1.8억 LINE Wallet, 카카오·네이버, 삼성카드·CJ·이스트소프트를 PM으로 거친 사람이 만든, AI 시대 1인 메이커를 위한 Product Build Gate.
+
+> 🐎 **이름의 뜻 — `hplan` = Harness Planning.**
+> 말의 고삐(harness)처럼, Claude Code · Cursor · Lovable 같은 AI 코딩 도구의 거친 동력에 **방향을 부여하는 사전 계획**입니다. 코드를 만드는 도구는 이미 충분히 강합니다. 부족한 건 *"어디로 향할지"*. hplan은 코드를 쓰기 전 7일 동안 시장조사·문제정의·COGS를 강제로 묻습니다.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -8,53 +13,117 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-## hplan이 해결하는 문제
+## 만약 당신이...
 
-AI 제품 아이디어가 떠올랐습니다. Cursor가 주말 안에 프로토타입을 만들어 주고, Spec-Kit이 한 시간 안에 스펙을 짜주고, Claude Code가 하룻밤이면 1차 버전을 출시할 수 있죠.
+- ✋ Claude Code · Cursor · Lovable로 진입했는데 **6개월째 pivot 반복**하고 있다면
+- ✋ "이게 진짜 페인일까" 직감으로만 판단하고 **곧장 PRD부터 쓰고** 있다면
+- ✋ "AI 무제한" 가격 약속했는데 **스케일에서 마진이 어떻게 잡힐지 계산을 못 했다면**
+- ✋ 3개월 전 팀이 죽인 아이디어를 다시 들고 와도 **왜 죽였는지 기억 안 난다면**
+- ✋ 빠른 도구는 다 있는데 **무엇을 만들지·왜 만들지가 모호하다면**
 
-**그런데 정말 만들어야 할까요?**
+**hplan은 그 모든 미끄러짐을 PRD 전에 멈춥니다.**
 
-요즘 AI 도구들은 *빨리* 만드는 데는 천재인데, **그게 만들어져야 하는 것인지**는 아무도 안 물어봅니다. 그래서 PM과 창업자들이 이런 실수를 반복합니다:
+---
 
-- 🪦 **고객이 원하지도 않는 제품을 만듭니다** (대기자 명단과 "쓸 거예요"는 evidence가 아님)
-- 💸 **"무제한 AI" 가격을 약속해놓고 스케일에서 손해 봅니다** (Replit이 ARR $2M에서 한 자리수 마진까지 떨어진 이유)
-- 🔁 **3개월 전 팀이 죽인 아이디어를 다시 들고 옵니다** — 그때 왜 죽였는지 아무도 기억 못 함
-- 📋 **이미 점유된 영역의 클론**을 자신만만하게 출시하다 점유됐다는 걸 뒤늦게 발견
-- 🤷 **"만들자"와 "보류" 결정**을 내리고 정작 어느 결정이 맞았는지 확인 안 함
+## 왜 만들었나 — AI 시대의 진짜 병목
 
-**hplan은 그 모든 일이 일어나기 *전에* 돌아가는 게이트**입니다. "일단 확인해보자"는 PM의 절제력 — 결정론적 도구로 강제되는 형태로.
+2026년 시장에는 **바이브코딩·풀스택 빌딩 강의가 넘쳐납니다**. Claude Code · Cursor · Replit · Lovable · Bolt 같은 도구 사용법, Next.js + Supabase + Vercel + Stripe 풀스택 빌딩, AI Wrapper SaaS 빌딩, LangGraph 멀티에이전트 — 다 있죠.
+
+그런데 모두 **"코딩 자동화의 사용법"** 입니다. Anthropic이 직접 *"90% 코드를 Claude Code가 쓴다"* (O'Reilly 2026.04)고 선언한 영역. AI가 곧 더 잘하게 될 영역.
+
+**비개발자·1인 메이커가 이 도구들로 빌딩에 뛰어들면서 진짜 부족해진 4가지 능력**:
+
+1. **"무엇을 만들 것인가"** — Discovery, ICP/JTBD 정의
+2. **"왜 이게 진짜 페인인가"** — 인터뷰·검증·가설 사고
+3. **"내가 만든 게 진짜 가치 있나"** — PMF 측정·Eval·메트릭 사고
+4. **"첫 사용자를 어떻게 찾고 늘리나"** — Acquisition·Build in Public 사고
+
+= 이 4가지가 모두 **"PM 사고"의 영역**입니다.
+
+시장에 코딩 자동화 강의는 넘치고, **PM 사고 빌딩 도구는 거의 0**. hplan은 그 빈자리를 채웁니다.
+
+---
+
+## 누가 만들었나
+
+저는 **이산김(Ethan)**입니다.
+
+- **LINE Wallet** PM (1.8억 사용자)
+- **카카오** PM
+- **네이버** PM
+- **삼성카드 · CJ · 이스트소프트** PM 경험
+
+20년간 PM 일을 하면서 본 패턴 하나: **시장조사·문제정의가 풀리지 않은 채 빌딩에 들어가는 게 1인 메이커가 6개월을 잃는 가장 비싼 사고**입니다.
+
+대기업 PM이 누리는 "다음 PRD 쓰기 전 5명 인터뷰" 디스시플린이 1인 메이커에게는 없습니다. 그래서 hplan은 그 디스시플린을 *결정론적 도구*로 강제합니다 — Python 스크립트, MCP 서버, Claude Code hook, append-only registry 형태로.
+
+---
+
+## 어떤 사람을 위한 도구인가
+
+**한 줄 정의**: *"쉽고 제품을 만들고 싶은데, 시장조사·문제정의가 풀리지 않아 못 나아가는 사람"*
+
+| # | 페르소나 | 진짜 페인 | hplan으로 풀고 싶은 것 |
+|---|---|---|---|
+| **A** | 비개발자 1인 메이커 | Claude Code 진입 후 PMF 못 찾음 | 시장조사·문제정의 풀고 PMF 도달 |
+| **B** | 주니어-미들 PM (사이드 프로젝트) | 회사 일이 아니니 ICP 정의가 어려움 | AI Native PM 전환 + 본인 SaaS Live |
+| **C** | 직장인 사이드 빌더 | 퇴근 후 SaaS 만들고 싶은데 어디서 시작할지 모름 | 60일 빌딩 일지 + 첫 5명 paying user |
+| **D** | 비개발자 솔로 founder | 공동창업자·외주 없이 직접 빌딩 — Spec·Eval 모름 | Claude Code + Spec-Kit 풀 셋업 + 첫 5명 |
+| **E** | 기업 PM (사이드만) | 본업과 별개로 본인 제품 만들고 싶음 | 본인 SaaS Live + 기업 경험 압축한 분야별 비법노트 |
+
+---
+
+<p align="center">
+  <img src="docs/images/demo-terminal.svg" alt="hplan demo — 1인 메이커가 PRD 쓰기 전 evidence 게이트가 자동으로 막아주는 시나리오" width="800"/>
+</p>
 
 ## 하루 동안 hplan은 이렇게 끼어듭니다
 
-hplan을 설치한 뒤에도 Claude와 평소대로 대화하면 됩니다. 단, **PM이 가장 자주 미끄러지는 순간**에 hplan이 멈춰줍니다:
+hplan을 설치한 뒤에도 Claude와 평소대로 대화하면 됩니다. 단, **1인 메이커가 가장 자주 미끄러지는 순간**에 hplan이 멈춰줍니다:
 
 | 당신이 Claude에게 하는 말 | hplan이 하는 일 |
 |---|---|
-| **"우리 고객용 AI 어시스턴트 만들자"** | hplan이 evidence부터 묻습니다. *"이 일에 주 30분 이상 쓰는 사용자가 누구인가요? 실제 고객 발화 3건을 보여주세요."* 못 보여주면 PRD 작성을 멈춥니다. |
-| **"이 AI 기능 월 $19에 팔자"** | hplan이 실제 provider 단가 + 예상 사용량 + 무료 abuse 시나리오로 COGS 계산. *"p50 마진 78%, p90 41%, free abuse 포함 −12%"*. 무엇을 바꿔야 하는지 정확한 숫자로 보여줍니다. |
-| **"이거 지난 분기 Alex가 했던 아이디어랑 비슷한데?"** | hplan이 decision-log 조회. *"네 — 2026-02-03에 hold됐습니다. 이유: [...]. 재검토 조건은 '엔터프라이즈 고객이 명시적으로 요청'. 그 조건이 지금 충족됐나요?"* |
-| **"마케터들 카피 쓰는 AI 도구 만들자"** | hplan이 exclusions registry 먼저 검사. *"이전 exclusion ex-2026-04-17과 겹칩니다: 기존 incumbent들이 이미 영역 점유. 재오픈 조건은 '규제 산업 카피 요건 있는 vertical 타깃'. 해당되나요?"* |
-| **"spec 짜서 바로 개발 시작하자"** | hplan이 3개 게이트가 모두 GREEN인지 확인 후에야 spec 파일 생성. Evidence가 "interview", COGS가 "RED"이면 **파일 자체가 생성 안 됨**. 친절한 경고가 아니라 filesystem 레벨 차단. |
-| **"내 제품 결정이 정말 맞았나?"** | hplan이 최근 6-12개월 결정을 자동 audit. *"hold 8건 중 6건은 실제로 죽은 게 맞고 (correct), 2건은 다른 사람이 성공시켰음 (false_hold). 이 2건의 공통점은 [...]"* |
+| **"고객용 AI 어시스턴트 만들자"** | evidence부터 묻습니다. *"이 일에 주 30분 이상 쓰는 사용자가 누구인가요? 실제 고객 발화 3건 보여주세요."* 못 보여주면 PRD 작성을 멈춥니다. |
+| **"이 AI 기능 월 ₩19,000에 팔자"** | 실제 provider 단가 + 예상 사용량 + 무료 abuse 시나리오로 COGS 계산. *"p50 마진 78%, p90 41%, free abuse 포함 −12%"*. 무엇을 바꿔야 하는지 정확한 숫자로 보여줍니다. |
+| **"이거 지난 분기 Alex가 제안했던 거랑 비슷한데?"** | decision-log 조회. *"네 — 2026-02-03에 hold됐습니다. 이유는 [...]. 재검토 조건은 '엔터프라이즈 고객이 명시적으로 요청'. 그 조건이 충족됐나요?"* |
+| **"마케팅 자동화 AI 만들자"** | exclusions registry 검사. *"이전 exclusion ex-2026-04-17과 겹칩니다. 기존 incumbent가 이미 점유. 재오픈 조건은 [...]. 해당되나요?"* |
+| **"spec 짜서 바로 개발 시작하자"** | 3개 게이트가 모두 GREEN인지 확인 후에야 spec 파일 생성. Evidence "interview", COGS "RED"이면 **파일 자체가 생성 안 됨**. filesystem 레벨 차단. |
+| **"내 제품 결정이 정말 맞았나?"** | 최근 6-12개월 결정을 자동 audit. *"hold 8건 중 6건은 실제로 죽은 게 맞고 (correct), 2건은 다른 사람이 성공시켰음 (false_hold). 이 2건의 공통점은 [...]"* |
 
 핵심: **hplan을 일부러 부르지 않아도 됩니다.** "만들자", "팔자", "출시하자", "spec 짜자" 같은 말이 나오는 순간 자동 발동.
 
-## 누가 쓰면 좋은가
-
-- **솔로 창업자** — 다음 6개월을 어디에 쓸지 결정해야 하는 사람
-- **PM** — "AI로 이거 만들 수 있나?" 질문을 자주 받고, 답하는 방식을 체계화하고 싶은 사람
-- **Spec-Kit / Cursor / Kiro / Claude Code 사용 팀** — 현재 도구를 *대체*하지 않고, 그 *앞 단계 필터*가 필요한 팀
-- **누구든**, 한 번이라도 종이 위에서는 완벽해 보이던 제품이 프로덕션에서 죽는 걸 본 적이 있는 사람
-
-<p align="center">
-  <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
-</p>
-
 > 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 hplan 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다.
+
+---
+
+## 60일 후 결과를 어떻게 측정하나
+
+hplan을 PM 사고 도구로 깔고, 60일에 SaaS 1개를 Live하는 흐름:
+
+```
+Day 0-21    PM Discovery (Evidence Gate)
+            └─ 인터뷰 5건 → ICP/JTBD 확정 → exclusions 정리
+            ★ 첫 5명 베타 paying user
+
+Day 22-49   빌더 작업 (Product + Build Gate)
+            └─ Claude Code + Spec-Kit → 핵심 feature 3종
+            └─ COGS sentinel GREEN → 가격 출시
+            ★ 첫 10명 paying user
+
+Day 50-60   매출·성과 구조
+            └─ Eval suite + 5층 메트릭 + Build in Public
+            ★ 30명 paying user (= ₩570,000 MRR)
+```
+
+**이 흐름이 패스트캠퍼스 25차시 강의의 백본이기도 합니다.** 강의에서는 Ethan이 PMFlow (PM의 1일 통합 AI Agent, ₩19,000/월)를 라이브 빌딩하면서 모든 결정에 "PM은 이렇게 한다"를 보여주고, 수강생은 본인 SaaS를 본인 분야로 만듭니다.
+
+> 강의 정보 (D-day 2026년 6월 말 OT 촬영): [패스트캠퍼스 — 추후 업데이트]
+
+---
 
 ## 기술적으로는 — Under the Hood
 
-다른 PM toolkit과 hplan이 *어떻게* 다른지 궁금한 분께:
+다른 PM toolkit과 hplan이 *어떻게* 다른지 궁금한 분께. 컨셉은 같지만 **결정론적 측정** + **영구 메모리** + **filesystem 레벨 강제**가 차별점:
 
 - 🧪 **실행 가능한 COGS sentinel** — LLM 추정이 아니라 실제 Python sampler가 provider 단가 스냅샷으로 p50/p90 월간 마진 계산. 무료 사용자 abuse도 모델링.
 - 📚 **Append-only exclusions registry** — 모든 "Do Not Build" 결정이 JSONL에 `reopen_trigger`와 함께 저장. 새 아이디어는 한국어 fuzzy match로 자동 collision check.
