@@ -69,8 +69,12 @@
 ---
 
 <p align="center">
-  <img src="docs/images/demo-terminal.svg" alt="hplan demo — 1인 메이커가 PRD 쓰기 전 evidence 게이트가 자동으로 막아주는 시나리오" width="800"/>
+  <video src="https://github.com/kimsanguine/hplan/releases/download/v0.6.0-video-preview/intro-16x9.mp4" autoplay loop muted playsinline width="800">
+    <img src="docs/images/demo-terminal.svg" alt="hplan demo — 1인 메이커가 PRD 쓰기 전 evidence 게이트가 자동으로 막아주는 시나리오" width="800"/>
+  </video>
 </p>
+
+> 🎬 **70초 인트로 영상** — 영상이 재생되지 않으면 [여기서 시청](https://github.com/kimsanguine/hplan/releases/tag/v0.6.0-video-preview).
 
 ## 하루 동안 hplan은 이렇게 끼어듭니다
 
