@@ -20,7 +20,7 @@ hplan is **Stage 0**. The other 5 plugins inherit decisions from hplan's gates.
 | Skill | Purpose | Gate |
 |---|---|---|
 | [`evidence-rubric`](./skills/evidence-rubric/) | Score an idea against the 100-point evidence rubric (ICP / Recent painful event / Workaround / Repetition / Economic pain / Switching trigger / MVP narrowness / Acquisition path) | Evidence |
-| [`interview-synthesis`](./skills/interview-synthesis/) | Import AI synthesis output (BuildBetter / Perspective AI / Granola), force human strength + Push/Pull/Habit/Anxiety axes tagging, audit the 5-vs-3 repeated Push rule | Evidence |
+| [`interview-synthesis`](./skills/interview-synthesis/) | Import AI synthesis output (BuildBetter / Perspective AI / similar tools), force human strength + Push/Pull/Habit/Anxiety axes tagging, audit the 5-vs-3 repeated Push rule | Evidence |
 | [`exclusions`](./skills/exclusions/) | Append-only "Do Not Build" registry with collision detector (Korean-aware char-bigram match). Each exclusion carries a reopen_trigger | cross-cutting |
 | [`cogs-sentinel`](./skills/cogs-sentinel/) | Executable COGS gate — p50/p90 margin from lognormal token-cost sampling, free-user abuse blend, GREEN / CONDITIONAL_GO / RED decision | Build (blocker) |
 | [`ost`](./skills/ost/) | Generate Teresa Torres-style Opportunity Solution Tree with Mermaid + outcome → opportunity → solution → experiment + decision_rule | Product |

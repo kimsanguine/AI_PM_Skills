@@ -41,11 +41,11 @@
   </g>
   <g class="row2">
     <text class="prompt" x="20" y="128">❯</text>
-    <text class="cmd" x="40" y="128">/hplan-evidence "AI meeting transcription tool"</text>
+    <text class="cmd" x="40" y="128">/hplan-evidence "AI marketing copy generator"</text>
     <text class="arrow" x="40" y="152">→</text>
     <text class="skill-tag" x="60" y="152">exclusions</text>
     <text class="output" x="155" y="152">check ... COLLISION (overlap 0.42)</text>
-    <text class="dim" x="40" y="170">  prior exclusion: "AI meeting notes" — Granola/Otter own this</text>
+    <text class="dim" x="40" y="170">  prior exclusion: "AI copy generator" — established incumbents own this</text>
     <text class="dim" x="40" y="186">  reopen_trigger: "enterprise compliance interviews 3+" — UNMET</text>
   </g>
   <g class="row3">

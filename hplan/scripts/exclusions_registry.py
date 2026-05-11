@@ -13,15 +13,15 @@ Schema (one JSON object per line in `harness/exclusions.jsonl`):
   {
     "id": "ex-2026-05-11-abc12",
     "ts": "2026-05-11T...",
-    "exclusion": "AI 미팅 노트 받아쓰기",
-    "why": "Granola/Otter/Fireflies가 점유",
-    "reopen_trigger": "엔터프라이즈 컴플라이언스 인터뷰 3건+",
-    "owned_by_competitor": ["Granola", "Otter"],
+    "exclusion": "AI marketing copy generator",
+    "why": "Established incumbents already cover this",
+    "reopen_trigger": "3+ enterprise compliance customers explicitly request it",
+    "owned_by_competitor": ["Incumbent A", "Incumbent B"],
     "source": "hplan run 001"
   }
 
 CLI:
-  python3 exclusions_registry.py add "AI 미팅 받아쓰기" --why "Granola 점유" --reopen "엔터 컴플라이언스 3건+" --competitor Granola --competitor Otter
+  python3 exclusions_registry.py add "AI marketing copy generator" --why "Established incumbents cover this" --reopen "3+ enterprise compliance customers ask" --competitor "Incumbent A" --competitor "Incumbent B"
   python3 exclusions_registry.py check "AI meeting note transcription"
   python3 exclusions_registry.py list
 """

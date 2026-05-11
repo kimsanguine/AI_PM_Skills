@@ -14,7 +14,7 @@
 - Second run with `--force` → overwrites
 
 ## TC-005 — Korean product name slug
-- `"MeetFlow v2"` → slug `meetflow-v2` (hyphenated lowercase)
+- `"SocialDraft"` → slug `socialdraft-v2` (hyphenated lowercase)
 - 한국어 ICP/problem text는 그대로 유지
 
 ## TC-006 — Single target works

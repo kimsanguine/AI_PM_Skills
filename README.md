@@ -19,20 +19,25 @@ Every AI tool today is great at making things *fast*. None of them ask whether t
 - 🪦 Building products customers don't actually want (waitlists and "I would use this" aren't evidence)
 - 💸 Promising "unlimited AI" pricing that quietly loses money at scale (Replit went from $2M ARR to single-digit margins this way)
 - 🔁 Re-pitching the same idea their team killed 3 months ago — and nobody remembers why
-- 📋 Confidently shipping clones of Granola, Notion, or Spec-Kit without realizing it
+- 📋 Confidently shipping clones of established incumbents without realizing the territory is taken
 - 🤷 Making "build" or "hold" decisions and never finding out which ones were actually right
 
 **hplan is the gate that runs *before* all of that.** It's the discipline of saying "let me check first" — encoded as deterministic tools, not just good intentions.
 
-## What You Can Do With hplan
+## How hplan Shows Up in Your Day
 
-| Instead of... | hplan lets you... |
+This is what changes once hplan is installed. You keep talking to Claude the way you already do — hplan steps in at the moments you most often slip up:
+
+| You say to Claude | What hplan does |
 |---|---|
-| Gut-guessing whether an idea is worth building | **Score it against 8 evidence axes in 5 minutes** — if compliments and waitlists are your only signal, you'll know |
-| Promising a paid AI feature and hoping the math works | **Calculate p90 monthly margin** with real provider pricing and free-user abuse scenarios — *before* the launch announcement |
-| Forgetting which territory is already taken | **Park "Do Not Build" decisions permanently** with the reason and what would re-open them. Next quarter's idea auto-checks against the list |
-| Saying "hold" or "build" and moving on | **Audit your own decisions 3–6 months later** — hit_rate, false_holds, missed_builds, all measured |
-| Writing PRDs in isolation per tool (Spec-Kit, Kiro, GStack, Claude Code) | **One brief, four exports** — auto-generated specs for each downstream coding agent |
+| **"Let's build an AI assistant for our customers"** | hplan pauses and asks for the evidence. *"Which users currently spend 30+ min/week on this? Show me 3 real customer quotes."* If you can't, it stops you before any PRD work. |
+| **"We'll charge $19/month for this AI feature"** | hplan runs the COGS calculation with real provider pricing, your expected usage, and a free-tier abuse scenario. Returns *p50 margin: 78%, p90: 41%, with free abuse: −12%*. Tells you exactly what needs to change. |
+| **"This is similar to the idea Alex pitched last quarter"** | hplan checks the decision log. *"Yes — that idea was held on 2026-02-03 because [reasons]. The condition to revisit was 'enterprise customers explicitly ask'. Is that condition met now?"* |
+| **"It's an AI tool that helps marketers write copy"** | hplan checks the exclusions registry first. *"This overlaps with prior exclusion ex-2026-04-17: established incumbents already cover this. Reopen trigger was 'serve a vertical with regulatory copy requirements'. Do you?"* |
+| **"Spec it out so we can start building"** | hplan blocks the write until all three gates are green. If Evidence Gate said "interview" and COGS said "RED", the spec file simply does not get created. Filesystem-level block, not a polite warning. |
+| **"Were my product decisions actually right?"** | hplan audits the last 6–12 months automatically. *"You held 8 ideas. 6 turned out to be correctly killed (validated). 2 someone else shipped successfully — those are 'false holds'. Here's what those 2 had in common."* |
+
+The pattern: **you don't have to remember to invoke hplan.** Once installed, it triggers when you say things like "let's build", "we'll charge", "ship it", "spec it out".
 
 ## Who This Is For
 
@@ -85,8 +90,8 @@ This project turns those questions into **43 production-grade skills** across th
 /plugin install hplan@kimsanguine-hplan
 
 # 2. Run the Evidence Gate on any idea — collision check + 100-point rubric
-/hplan-evidence "AI meeting transcription tool"
-# → exclusions check ... COLLISION (Granola/Otter own this)
+/hplan-evidence "AI marketing copy generator"
+# → exclusions check ... COLLISION (established incumbents already cover this)
 # → reopen_trigger UNMET → decision: hold
 
 # 3. Or test pricing economics deterministically before committing

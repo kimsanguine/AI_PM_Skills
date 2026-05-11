@@ -1,6 +1,6 @@
 ---
 name: exclusions
-description: "Append-only Do-Not-Build registry. Each exclusion carries a reason, an owning competitor, and a reopen_trigger that says what evidence would unblock it. Future runs auto-check new ideas against the registry with Korean-aware char-bigram fuzzy match. Use when an idea overlaps with an established competitor (Spec-Kit, Granola, Notion, etc.), when a previous pivot was killed, or when you want a project's institutional memory to survive across PMs."
+description: "Append-only Do-Not-Build registry. Each exclusion carries a reason, an owning competitor, and a reopen_trigger that says what evidence would unblock it. Future runs auto-check new ideas against the registry with Korean-aware char-bigram fuzzy match. Use when an idea overlaps with an established competitor (any established competitor in your space), when a previous pivot was killed, or when you want a project's institutional memory to survive across PMs."
 argument-hint: "[add|check|list] <idea or phrase>"
 allowed-tools: ["Read", "Write", "Bash"]
 model: sonnet
@@ -39,13 +39,13 @@ model: sonnet
 
 ```bash
 # Add
-python3 hplan/scripts/exclusions_registry.py add "AI 미팅 받아쓰기" \
-  --why "Granola/Otter 점유" \
+python3 hplan/scripts/exclusions_registry.py add "AI marketing copy generator" \
+  --why "the existing incumbents 점유" \
   --reopen "엔터프라이즈 컴플라이언스 인터뷰 3건+" \
-  --competitor Granola --competitor Otter
+  --competitor "Incumbent A" --competitor "Incumbent B"
 
 # Check
-python3 hplan/scripts/exclusions_registry.py check "AI meeting notes tool"
+python3 hplan/scripts/exclusions_registry.py check "generic AI marketing copy tool"
 
 # List
 python3 hplan/scripts/exclusions_registry.py list

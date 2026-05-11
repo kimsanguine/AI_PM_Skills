@@ -13,7 +13,7 @@ cat > /tmp/ai_export.json <<EOF
     {"person": "PM_B", "date": "2026-05-09", "quotes": [
       {"text": "매주 같은 미팅 다시 정리", "theme": "repeated workflow"}]},
     {"person": "PM_C", "date": "2026-05-10", "quotes": [
-      {"text": "Granola 쓰는데 결과물이 부족", "theme": "current workaround"}]},
+      {"text": "일반 AI 챗봇 쓰는데 톤이 매번 달라요", "theme": "current workaround"}]},
     {"person": "PM_D", "date": "2026-05-10", "quotes": [
       {"text": "고객 답신 못 보내면 deal 깨져요", "theme": "economic pain"}]},
     {"person": "PM_E", "date": "2026-05-11", "quotes": [

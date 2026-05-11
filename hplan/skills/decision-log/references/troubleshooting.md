@@ -12,7 +12,7 @@
 ## "ID 찾기 귀찮다"
 
 - `decision_log.py audit` 출력의 false_holds/missed_builds 에 id가 있음.
-- 또는 `cat harness/decisions.jsonl | jq 'select(.project=="matae")'`.
+- 또는 `cat harness/decisions.jsonl | jq 'select(.project=="alpha-app")'`.
 
 ## "잘못 기록했다"
 
