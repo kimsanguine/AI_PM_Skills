@@ -4,6 +4,58 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.5.0] — 2026-05-11
+
+### Added — `hplan` plugin (6th plugin, lifecycle Stage 0)
+
+A new plugin that runs BEFORE oracle's discovery — the **Evidence + COGS + Decision gate** that decides whether the product deserves to be built at all.
+
+**New skills (7) under `hplan/skills/`:**
+
+| Skill | What it does |
+|---|---|
+| `evidence-rubric` | Score idea against 100-point evidence rubric (ICP / recent painful event / workaround / repetition / economic pain / switching trigger / MVP narrowness / acquisition path) |
+| `interview-synthesis` | Import AI-clustered interview output (BuildBetter / Perspective / Granola / Otter), force human strength + Push/Pull/Habit/Anxiety axes tagging, audit 5/3 strong-Push rule |
+| `exclusions` | Append-only Do-Not-Build registry with Korean-aware char-bigram fuzzy match + reopen_trigger |
+| `cogs-sentinel` | Executable COGS gate — p50/p90 monthly margin via lognormal sampling, free-user abuse blend, GREEN/CONDITIONAL_GO/RED decision |
+| `ost` | Generate Teresa Torres-style Opportunity Solution Tree with Mermaid + `docs/OPPORTUNITY_TREE.md` |
+| `decision-log` | Append-only build/interview/pivot/hold log + 3-6 month self-eval audit (hit_rate, false_holds, missed_builds) |
+| `handoff` | Multi-target Build Gate brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours`, Claude Code `AGENTS.md` + `CLAUDE.md` |
+
+**New commands (6):**
+
+- `/hplan-evidence`, `/hplan-product`, `/hplan-build`, `/hplan-cogs`, `/hplan-exclude`, `/hplan-handoff`
+
+**Cross-cutting infrastructure:**
+
+- `hplan/hplan_mcp/server.py` — MCP server exposing 6 hplan tools to Cursor / Windsurf / Kiro / Codex / Goose
+- `hplan/hooks/gate_guard.py` — Claude Code PreToolUse hook blocking writes to PRD.md / spec.md / `specs/` / `.kiro/specs/` until `harness/build-gate/checkpoint.json` has `status: "approved"`
+- `hplan/agents/` — 4 role-locked reviewer agents (evidence / product / economics / build)
+- `hplan/references/` — 14 playbooks + `provider_pricing.json` (2026-05-11 snapshot)
+- `hplan/scripts/` — 9 deterministic Python scripts
+
+### Changed
+
+- Lifecycle reordered: `hplan → oracle → atlas → forge → argus → muse`
+- Marketplace version 0.4.0 → 0.5.0
+- "36 skills, 5 plugins" → "43 skills, 6 plugins"
+- Added `Route to hplan when ...` lines to 7 existing skills: `oracle/cost-sim`, `oracle/opp-tree`, `oracle/hitl`, `oracle/assumptions`, `oracle/build-or-buy`, `forge/prd`, `argus/burn-rate`
+- README.md + README-ko.md top sections updated with hplan callout + 6-stage lifecycle table
+
+### Fixed
+
+- Removed accidentally committed `.git_broken/` directory (hundreds of git internals)
+- Removed stale `EVAL_QUICK_REFERENCE.txt` (2026-03 internal note)
+
+### Moved
+
+- `todolist.md` → `.archive/2026-03-todolist.md`
+- `progress.md` → `.archive/2026-03-progress.md`
+- `eval_metrics.json` → `evals/pm-framework-baseline.json`
+- `eval-workspace/` → `evals/workspace/`
+
+---
+
 ## [1.0.0] — 2026-03-07
 
 ### v1.0 Structural Upgrade

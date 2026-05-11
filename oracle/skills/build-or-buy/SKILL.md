@@ -26,6 +26,7 @@ model: sonnet
 - Build 선택 후 에이전트의 아키텍처와 프롬프트를 설계해야 할 때 → `agent-instruction-design` (forge 플러그인)
 - Buy 선택 후 외부 솔루션을 우리 워크플로우에 통합해야 할 때 → 통합 가이드 문서 (별도)
 - 하이브리드 전략의 오케스트레이션 레이어를 설계할 때 → `agent-gtm` (launch/integration 단계)
+- Do-Not-Build 결정을 영구 메모리로 기록하고 collision detect가 필요할 때 → `exclusions` (hplan plugin)
 
 ### Boundary Checks
 - **에이전트 단위 평가**: Build-or-Buy는 전체 제품이 아니라 개별 에이전트(또는 에이전트 모듈)에 대해 결정하는 것 — 같은 제품도 일부는 Build, 일부는 Buy일 수 있음

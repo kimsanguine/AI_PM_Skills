@@ -48,6 +48,7 @@ hooks:
 - OKR 성공 지표 정의 필요 → `forge/okr` 스킬로 라우팅
 - 메모리 아키텍처 상세화 필요 → `atlas/memory-arch` 스킬로 라우팅
 - 신뢰성/SLO 정의 필요 → `argus/reliability` 스킬로 라우팅
+- PRD를 Spec-Kit / Kiro / GStack / Claude Code 다중 ecosystem으로 동시 export할 때 → `handoff` (hplan plugin)
 
 ### Boundary Checks
 

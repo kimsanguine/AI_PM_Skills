@@ -26,6 +26,7 @@ model: sonnet
 - 검증 실험 설계 후 실제로 프롬프트/API를 테스트해야 할 때 → `hitl` 스킬 (Human-in-the-Loop으로 초기 신뢰도 측정) 또는 `build-or-buy` 스킬
 - 가정 검증 결과 위험도가 매우 높으면 → `hitl` 스킬로 에스컬레이션 전략 설계
 - 검증 통과 후 에이전트 설계 및 프롬프트/인스트럭션을 작성해야 할 때 → `agent-instruction-design` (forge 플러그인)
+- 8축 100점 evidence 루브릭으로 정량 채점이 필요할 때 → `evidence-rubric` (hplan plugin). V/F/R/E 4축과 상보적.
 
 ### Boundary Checks
 - **검증의 범위**: Assumptions는 가정을 "정의"하고 "우선순위"를 정하는 것이지, 실제로 검증 실험을 끝까지 실행하지는 않음 — 실험 실행은 팀이 직접 담당

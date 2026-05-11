@@ -26,6 +26,7 @@ model: sonnet
 - HITL 설계가 완료된 후 에이전트 프롬프트와 인스트럭션을 작성해야 할 때 → `agent-instruction-design` (forge 플러그인) — Failure Handling에 HITL 전략 반영
 - 에이전트의 신뢰도를 측정하고 Full Autonomous로 전환할지 판단해야 할 때 → `agent-ab-test` (argus 플러그인)
 - 에이전트 제품을 외부에 출시할 때 신뢰 구축 시퀀스를 설계해야 할 때 → `agent-gtm` (oracle 플러그인)
+- *빌드 시점* PreToolUse 차단 (PRD/spec 파일 작성을 게이트 미통과 시 막기) → `hooks/gate_guard.py` (hplan plugin). 이 skill의 hitl은 *agent 런타임* — 시점이 다름.
 
 ### Boundary Checks
 - **설계 vs 운영**: HITL은 "어디에 인간이 개입할지를 설계"하는 것이지, 실제로 인간을 배치하거나 모니터링 대시보드를 만드는 것은 아님 — 구현은 팀이 담당

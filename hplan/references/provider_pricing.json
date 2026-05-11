@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "snapshot_date": "2026-05-11",
+    "currency": "USD",
+    "unit": "per million tokens",
+    "note": "Snapshot is reference-only. Verify against current provider docs before publishing margins."
+  },
+  "anthropic": {
+    "claude-opus-4-7": {"input_per_mtok": 15.0, "output_per_mtok": 75.0},
+    "claude-sonnet-4-6": {"input_per_mtok": 3.0, "output_per_mtok": 15.0},
+    "claude-haiku-4-5": {"input_per_mtok": 0.80, "output_per_mtok": 4.0}
+  },
+  "openai": {
+    "gpt-5": {"input_per_mtok": 5.0, "output_per_mtok": 20.0},
+    "gpt-5-mini": {"input_per_mtok": 0.25, "output_per_mtok": 1.5}
+  },
+  "google": {
+    "gemini-2.5-pro": {"input_per_mtok": 1.25, "output_per_mtok": 10.0},
+    "gemini-2.5-flash": {"input_per_mtok": 0.10, "output_per_mtok": 0.40}
+  }
+}

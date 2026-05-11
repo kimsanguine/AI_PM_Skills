@@ -33,6 +33,7 @@ model: sonnet
 - **kpi** → 비용 효율(Cost per Execution)을 KPI 대시보드에 통합하는 경우
 - **incident** → 일일 비용이 갑자기 2배 이상 폭등했을 때 (즉시 긴급 대응)
 - **north-star** → 비용 효율을 North Star 지표 분해의 일부로 포함하는 경우
+- 배포 *전* COGS 예측이 필요할 때 → `cogs-sentinel` (hplan plugin). 이 skill의 burn-rate는 배포 *후* 추적.
 
 ### Boundary Checks
 

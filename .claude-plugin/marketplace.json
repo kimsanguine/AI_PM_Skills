@@ -1,14 +1,20 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "AI_PM_Skills",
-  "version": "0.4.0",
-  "description": "32 agent-specific PM skills and 12 chained workflows across 5 plugins. For PMs who build, operate, and scale AI agents — from discovery to architecture, execution, monitoring, and knowledge capture.",
+  "version": "0.5.0",
+  "description": "43 skills and 18 commands across 6 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through discovery, architecture, execution, monitoring, and knowledge capture.",
   "owner": {
     "name": "AI PM Skills Contributors",
     "email": "your-email@example.com",
-    "url": "https://github.com/your-username"
+    "url": "https://github.com/kimsanguine"
   },
   "plugins": [
+    {
+      "name": "hplan",
+      "description": "Evidence + COGS + Decision gate that runs BEFORE you commit to building. Mandatory interview evidence, executable COGS sentinel (p50/p90 margin with abuse blend), append-only Do-Not-Build exclusions registry, self-eval decision log, and multi-target handoff to Spec-Kit / Kiro / GStack / Claude Code.",
+      "source": "./hplan",
+      "category": "product-management"
+    },
     {
       "name": "oracle",
       "description": "Discover which AI agent to build — map automation outcomes to solvable opportunities, validate assumptions, and estimate costs.",
