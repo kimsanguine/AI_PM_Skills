@@ -1,8 +1,6 @@
-# hplan — AI 에이전트 PM 스킬 마켓플레이스
+# hplan — AI 에이전트 Product Build Gate
 
-> '만들지 말지'부터 '어떻게 만들지'까지 결정하는 PM을 위한 43개 스킬 — **evidence gate**가 모든 것의 첫 단계
->
-> *이전 이름 `AI_PM_Skills`. v0.5에서 flagship Stage 0 게이트인 `hplan`으로 리네임. 마켓플레이스 안에는 여전히 6개 plugin이 들어있고, repo 이름만 변경됐습니다. 옛 GitHub URL은 자동 redirect.*
+> AI 제품이 만들어지기 *전에* 멈추는 게이트. 인터뷰 evidence, 실행 가능한 COGS, 스스로를 채점하는 decision log.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -10,15 +8,23 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> 🆕 **v0.5 — [`hplan` 플러그인](./hplan/) 추가**: 빌드 결정 *전에* 돌리는 evidence + COGS + decision 게이트. 인터뷰 evidence 강제, 실행 가능한 COGS sentinel, append-only Do-Not-Build registry, self-eval decision log, Spec-Kit / Kiro / GStack / Claude Code 다중 핸드오프.
-
-> ⭐ **AI 에이전트를 만드는 PM이라면, 이 레포에 Star를 눌러주세요** — 에이전트 제품의 전체 라이프사이클을 다루는 유일한 스킬셋입니다.
+> **다른 PM toolkit이 안 하는 6가지:**
+>
+> - 🧪 **실행 가능한 COGS sentinel** — Python lognormal sampler가 p50/p90 마진을 계산. "느낌"이 아니라 숫자. Replit-style 마진 붕괴를 PRD 전에 잡음.
+> - 📚 **Append-only exclusions registry** — 한 번 "안 만든다"고 결정한 영역이 영구 저장. 다음 아이디어는 자동 collision check (한국어 char-bigram fuzzy match 포함).
+> - 📊 **Self-evaluating decision log** — 3-6개월 뒤 hit_rate, false_holds, missed_builds 자동 audit. 자기 정확도를 측정하는 유일한 PM gate.
+> - 🔌 **MCP 서버** — Claude Code뿐 아니라 Cursor / Windsurf / Kiro / Codex / Goose에서도 같은 gate 호출 가능.
+> - 🛑 **PreToolUse hook** — 사람 승인 전까지 PRD/spec 파일 작성을 파일 시스템 레벨에서 차단.
+> - 🚚 **Multi-target handoff** — 단일 brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours`, Claude Code `AGENTS.md` + `CLAUDE.md`.
+>
+> *이전 이름 `AI_PM_Skills` — v0.5에서 새 flagship plugin인 `hplan`이 라이프사이클 Stage 0에 들어가면서 리네임. 옛 URL은 자동 redirect.*
 
 <p align="center">
-  <img src="docs/images/demo-terminal.svg" alt="hplan 데모 — opp-tree 스킬 자동 트리거" width="800"/>
+  <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
 </p>
 
-> 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 hplan 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다. 
+> 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 hplan 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다.
+
 ---
 
 ## 왜 이 프로젝트를 만들었나
@@ -36,19 +42,35 @@
 
 ---
 
-## 빠른 시작 (30초)
+## 빠른 시작 (60초)
 
 ```bash
-# 1. 플러그인 설치
+# 1. 마켓플레이스 등록
 /plugin marketplace add kimsanguine/hplan
-/plugin install oracle@kimsanguine-hplan
+/plugin install hplan@kimsanguine-hplan
 
-# 2. 자연어로 작업을 설명하면 — 적합한 스킬이 자동으로 로드됩니다
-"우리 CS팀이 하루 500건의 티켓을 처리하는데, 어떤 부분을 에이전트가 맡아야 할까?"
-# → opp-tree 스킬 자동 로드 → 기회 매핑 시작
+# 2. 아이디어를 Evidence Gate로 검증 — collision check + 100점 루브릭
+/hplan-evidence "AI 미팅 받아쓰기 도구"
+# → exclusions check ... COLLISION (Granola/Otter 이미 점유)
+# → reopen_trigger UNMET → decision: hold
+
+# 3. 또는 paid AI 가격 모델의 마진을 결정론적으로 검증
+/hplan-cogs --provider anthropic --model claude-sonnet-4-6 \
+            --tokens-in 3000 --calls 40 --arpu 29
+# → p50 마진 95%, p90 90%, blended 49% → GREEN
 ```
 
-스킬 이름을 외울 필요가 없습니다. 평소처럼 자연어로 질문하면, Claude가 43개 스킬 중 가장 적합한 것을 자동으로 찾아서 로드합니다. 96개 테스트 쿼리 기준 **97.9% 정확도**로 올바른 스킬이 발동됩니다.
+**Gate 통과 후** — 5개 lifecycle plugin 중 필요한 것 설치:
+
+```bash
+/plugin install oracle@kimsanguine-hplan   # 발견 — opportunity tree, assumptions, cost sim
+/plugin install atlas@kimsanguine-hplan    # 설계 — orchestration, memory, moat
+/plugin install forge@kimsanguine-hplan    # 실행 — agent PRD, instruction, prompt
+/plugin install argus@kimsanguine-hplan    # 운영 — KPI, burn rate, reliability
+/plugin install muse@kimsanguine-hplan     # 학습 — PM 암묵지, 결정 패턴
+```
+
+스킬 이름을 외울 필요는 없습니다. 자연어로 질문하면 43개 스킬 중 맞는 게 auto-load 됩니다 (96 test query 기준 97.9% 정확도).
 
 ---
 
