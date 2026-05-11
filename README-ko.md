@@ -1,6 +1,6 @@
 # hplan — AI 에이전트 Product Build Gate
 
-> AI 제품이 만들어지기 *전에* 멈추는 게이트. 인터뷰 evidence, 실행 가능한 COGS, 스스로를 채점하는 decision log.
+> **잘못된 AI 제품에 6개월을 쏟기 전, 30분 안에 멈출 수 있게 해주는 게이트.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -8,22 +8,57 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **다른 PM toolkit이 안 하는 6가지:**
->
-> - 🧪 **실행 가능한 COGS sentinel** — Python lognormal sampler가 p50/p90 마진을 계산. "느낌"이 아니라 숫자. Replit-style 마진 붕괴를 PRD 전에 잡음.
-> - 📚 **Append-only exclusions registry** — 한 번 "안 만든다"고 결정한 영역이 영구 저장. 다음 아이디어는 자동 collision check (한국어 char-bigram fuzzy match 포함).
-> - 📊 **Self-evaluating decision log** — 3-6개월 뒤 hit_rate, false_holds, missed_builds 자동 audit. 자기 정확도를 측정하는 유일한 PM gate.
-> - 🔌 **MCP 서버** — Claude Code뿐 아니라 Cursor / Windsurf / Kiro / Codex / Goose에서도 같은 gate 호출 가능.
-> - 🛑 **PreToolUse hook** — 사람 승인 전까지 PRD/spec 파일 작성을 파일 시스템 레벨에서 차단.
-> - 🚚 **Multi-target handoff** — 단일 brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours`, Claude Code `AGENTS.md` + `CLAUDE.md`.
->
-> *이전 이름 `AI_PM_Skills` — v0.5에서 새 flagship plugin인 `hplan`이 라이프사이클 Stage 0에 들어가면서 리네임. 옛 URL은 자동 redirect.*
+## hplan이 해결하는 문제
+
+AI 제품 아이디어가 떠올랐습니다. Cursor가 주말 안에 프로토타입을 만들어 주고, Spec-Kit이 한 시간 안에 스펙을 짜주고, Claude Code가 하룻밤이면 1차 버전을 출시할 수 있죠.
+
+**그런데 정말 만들어야 할까요?**
+
+요즘 AI 도구들은 *빨리* 만드는 데는 천재인데, **그게 만들어져야 하는 것인지**는 아무도 안 물어봅니다. 그래서 PM과 창업자들이 이런 실수를 반복합니다:
+
+- 🪦 **고객이 원하지도 않는 제품을 만듭니다** (대기자 명단과 "쓸 거예요"는 evidence가 아님)
+- 💸 **"무제한 AI" 가격을 약속해놓고 스케일에서 손해 봅니다** (Replit이 ARR $2M에서 한 자리수 마진까지 떨어진 이유)
+- 🔁 **3개월 전 팀이 죽인 아이디어를 다시 들고 옵니다** — 그때 왜 죽였는지 아무도 기억 못 함
+- 📋 **Granola, Notion, Spec-Kit의 클론**을 자신만만하게 출시하다 점유됐다는 걸 뒤늦게 발견
+- 🤷 **"만들자"와 "보류" 결정**을 내리고 정작 어느 결정이 맞았는지 확인 안 함
+
+**hplan은 그 모든 일이 일어나기 *전에* 돌아가는 게이트**입니다. "일단 확인해보자"는 PM의 절제력 — 결정론적 도구로 강제되는 형태로.
+
+## hplan으로 할 수 있는 일
+
+| 지금까지 이렇게 했다면... | hplan으로는 이렇게 할 수 있습니다 |
+|---|---|
+| 아이디어가 살아남을 만한지 직감으로 판단 | **8개 evidence 축 기준 5분 안에 점수화** — 칭찬과 대기자 명단이 유일한 신호라면 즉시 드러남 |
+| 유료 AI 기능 약속하고 수치는 나중에 | **출시 *전*에 p90 월간 마진 계산** — 실제 provider 단가와 무료 사용자 abuse 시나리오 포함 |
+| 어느 영역이 이미 점유됐는지 까먹음 | **"안 만든다" 결정을 영구 저장** — 이유와 reopen 조건까지. 다음 분기 아이디어는 자동으로 이 리스트와 대조 |
+| "보류"나 "만들자" 결정하고 끝 | **3-6개월 뒤 자기 결정을 audit** — hit_rate, false_holds, missed_builds 모두 측정 |
+| Spec-Kit, Kiro, GStack, Claude Code마다 따로 PRD 작성 | **단일 brief, 4개 export** — 다운스트림 코딩 에이전트별 spec 자동 생성 |
+
+## 누가 쓰면 좋은가
+
+- **솔로 창업자** — 다음 6개월을 어디에 쓸지 결정해야 하는 사람
+- **PM** — "AI로 이거 만들 수 있나?" 질문을 자주 받고, 답하는 방식을 체계화하고 싶은 사람
+- **Spec-Kit / Cursor / Kiro / Claude Code 사용 팀** — 현재 도구를 *대체*하지 않고, 그 *앞 단계 필터*가 필요한 팀
+- **누구든**, 한 번이라도 종이 위에서는 완벽해 보이던 제품이 프로덕션에서 죽는 걸 본 적이 있는 사람
 
 <p align="center">
   <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
 </p>
 
 > 🆕 **Claude Code가 처음이라면?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md)가 프로젝트를 스캔하고, CLAUDE.md를 자동 생성하고, 맞는 hplan 플러그인을 추천해줍니다. 가장 빠른 온보딩 방법입니다.
+
+## 기술적으로는 — Under the Hood
+
+다른 PM toolkit과 hplan이 *어떻게* 다른지 궁금한 분께:
+
+- 🧪 **실행 가능한 COGS sentinel** — LLM 추정이 아니라 실제 Python sampler가 provider 단가 스냅샷으로 p50/p90 월간 마진 계산. 무료 사용자 abuse도 모델링.
+- 📚 **Append-only exclusions registry** — 모든 "Do Not Build" 결정이 JSONL에 `reopen_trigger`와 함께 저장. 새 아이디어는 한국어 fuzzy match로 자동 collision check.
+- 📊 **Self-evaluating decision log** — 모든 gate 결정이 이유와 함께 기록되고, outcome은 나중에 back-fill, `audit` 명령이 hit rate / false holds / missed builds 산출. 자기 정확도를 측정하는 유일한 PM gate.
+- 🔌 **MCP server** — 같은 gate primitive가 MCP tool로도 노출되어 Cursor / Windsurf / Kiro / Codex / Goose에서도 호출 가능.
+- 🛑 **Claude Code PreToolUse hook** — `harness/build-gate/checkpoint.json`이 `status: "approved"`가 되기 전까지 PRD.md / specs/* / .kiro/specs/* 작성을 파일 시스템 레벨에서 차단. 프롬프트 룰이 아닌 강제력 있는 게이트.
+- 🚚 **Multi-target handoff** — 단일 brief JSON이 Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours` brief, Claude Code `AGENTS.md` + `CLAUDE.md`로 동시 export.
+
+*이전 이름 `AI_PM_Skills` — v0.5에서 새 flagship plugin인 `hplan`이 라이프사이클 Stage 0에 들어가면서 리네임. 옛 URL은 자동 redirect.*
 
 ---
 
