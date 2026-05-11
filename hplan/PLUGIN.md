@@ -62,13 +62,13 @@ hplan is **Stage 0**. The other 5 plugins inherit decisions from hplan's gates.
 
 ## Install
 
-This plugin is part of the [AI_PM_Skills marketplace](../README.md). Install the marketplace and `hplan` is included.
+This plugin is part of the [hplan marketplace](../README.md) (previously `AI_PM_Skills`). Install the marketplace and `hplan` is included.
 
 For standalone Claude Code skill install:
 
 ```bash
-git clone https://github.com/kimsanguine/AI_PM_Skills.git ~/.claude/skills/AI_PM_Skills
-# hplan plugin is at ~/.claude/skills/AI_PM_Skills/hplan/
+git clone https://github.com/kimsanguine/hplan.git ~/.claude/skills/hplan-marketplace
+# hplan plugin is at ~/.claude/skills/hplan-marketplace/hplan/
 ```
 
 For MCP usage (Cursor / Windsurf / Kiro / Codex):

@@ -1,33 +1,36 @@
 ---
-description: "Run the hplan Product Gate — generate Opportunity Solution Tree, confirm user journey, sitemap, and design pointers before any implementation brief."
+description: "Run the hplan Product Gate — generate Opportunity Solution Tree, confirm user journey, sitemap, and design pointers before any implementation brief. Use when Evidence Gate has been approved and you need to confirm the wedge translates into a real Opportunity Tree, journey, sitemap, and design direction."
 argument-hint: "[outcome statement or path to ost.json]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---
 
 # /hplan-product
 
-Run the **Product Gate** after Evidence Gate has been approved.
 
-## Prerequisites
+## Instructions
 
-- `/hplan-evidence` returned `build` or `CONDITIONAL_GO`
-- `interview-synthesis audit` shows `PROCEED_TO_PRODUCT_GATE`
+You are running the **hplan Product Gate** for: **$ARGUMENTS**
 
-## Steps
+### Phase 1 — Outcome
+Confirm a measurable, time-bounded outcome (not "make money"). Example: "Solo PM closed-won rate +25% within 90 days".
 
-1. **Outcome** — confirm a measurable, time-bounded outcome (not "make money").
-2. **Opportunity Solution Tree** — invoke `ost` skill to generate `docs/OPPORTUNITY_TREE.md` with Mermaid.
-3. **User Journey Map + Sitemap** — reference `hplan/references/product-planning.md` and confirm the journey covers Discover → Start → Core → Review → Pay/Continue with empty/loading/failed/blocked/paid/review states.
-4. **Design pointer** — reference `hplan/references/design-gate.md`. Don't make screens, but confirm the project has a `DESIGN.md` direction.
-5. **Hypothesis Tree** — every solution in OST has an experiment + decision_rule.
+### Phase 2 — Opportunity Solution Tree
+Invoke `ost` skill. Generate `docs/OPPORTUNITY_TREE.md` with Mermaid. Verify each opportunity has evidence_count ≥ 3 strong-Push interviews from `interview-synthesis audit`.
 
-## Routing
+### Phase 3 — User Journey + Sitemap
+Reference `hplan/references/product-planning.md`. Confirm the journey covers Discover → Start → Core → Review → Pay with empty / loading / failed / blocked / paid / review states.
 
-- After Product Gate passes → `/hplan-build`
-- If wedge breaks → `/hplan-exclude` to record what doesn't work, then re-enter `/hplan-evidence`
+### Phase 4 — Design pointer
+Reference `hplan/references/design-gate.md`. Confirm `DESIGN.md` direction exists (mood, hierarchy, component rules, state rules, mobile checklist).
 
-## Output
+### Phase 5 — Hypothesis Tree
+Every solution in OST has an experiment + decision_rule.
 
-- `docs/OPPORTUNITY_TREE.md` with Mermaid diagram
-- Confirmation that journey/sitemap/design pointers exist
-- Next gate: `/hplan-build` or pivot
+## Output Format
+
+Return:
+
+1. **OST status** — `docs/OPPORTUNITY_TREE.md` generated with N opportunities and M solutions
+2. **Journey + sitemap** — confirmed present (yes/no with gaps)
+3. **Design pointer** — confirmed present (yes/no)
+4. **Next gate** — `/hplan-build` or back to evidence/pivot

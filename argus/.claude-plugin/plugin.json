@@ -6,9 +6,20 @@
     "name": "AI PM Skills Contributors",
     "url": "https://github.com/your-username"
   },
-  "repository": "https://github.com/your-username/AI_PM_Skills",
+  "repository": "https://github.com/kimsanguine/hplan",
   "license": "MIT",
-  "keywords": ["agent", "metrics", "kpi", "reliability", "cost", "monitoring", "pm", "ab-test", "cohort", "incident"],
+  "keywords": [
+    "agent",
+    "metrics",
+    "kpi",
+    "reliability",
+    "cost",
+    "monitoring",
+    "pm",
+    "ab-test",
+    "cohort",
+    "incident"
+  ],
   "skills": "./skills/",
   "commands": "./commands/"
 }

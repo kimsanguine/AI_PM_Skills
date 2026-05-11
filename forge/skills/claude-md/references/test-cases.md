@@ -13,7 +13,7 @@
 3. "Claude Code가 자꾸 프로젝트 맥락을 잊어. 어떻게 해야 돼?"
    - 이유: CLAUDE.md 부재/부실로 인한 문제 → CLAUDE.md 생성으로 해결
 
-4. "AI_PM_Skills 중에 이 프로젝트에 맞는 게 뭐야?"
+4. "hplan plugin 중에 이 프로젝트에 맞는 게 뭐야?"
    - 이유: 프로젝트 시그널 기반 스킬 추천 요청
 
 5. "새 팀원이 들어오는데 프로젝트 세팅 문서 만들어줘"
@@ -50,7 +50,7 @@
 
 **Then:**
 - CLAUDE.md 생성 (6개 섹션: 개요, 기술스택, 빌드, 컨벤션, 아키텍처, 주의사항)
-- AI_PM_Skills 추천: 없음 또는 최소 (에이전트 시그널 없으므로)
+- hplan plugin 추천: 없음 또는 최소 (에이전트 시그널 없으므로)
 - 토큰: ~1,500
 
 ---
@@ -68,7 +68,7 @@
 - 개선 모드 진입 (기존 CLAUDE.md 분석)
 - 에이전트 구조 섹션 추가
 - 빌드 명령어 업데이트
-- AI_PM_Skills 추천: forge/instruction, atlas/orchestration, argus/kpi
+- hplan plugin 추천: forge/instruction, atlas/orchestration, argus/kpi
 - 변경점 diff 형태로 설명
 
 ---
@@ -148,12 +148,12 @@
 - 사용자가 CLAUDE.md를 직접 작성 (무엇을 넣어야 할지 모름)
 - 빌드 명령어를 빠뜨리거나 잘못 기록
 - Claude Code가 프로젝트 컨벤션을 모르고 코드 작성
-- AI_PM_Skills 35개 중 어디서 시작해야 할지 막막
+- hplan 마켓플레이스 43개 중 어디서 시작해야 할지 막막
 
 **With claude-md Skill:**
 - 30초~2분 자동 스캔으로 프로젝트 파악 완료
 - 실제 동작하는 명령어만 기록
 - Claude Code가 프로젝트 맥락을 이해하고 일관된 코드 작성
-- 프로젝트에 맞는 AI_PM_Skills 2~3개만 추천 → 바로 시작
+- 프로젝트에 맞는 hplan 2~3개만 추천 → 바로 시작
 
 **결과: "CLAUDE.md = AI 팀원의 첫날"이 자동으로 완성**

@@ -1,11 +1,11 @@
-# Contributing to AI_PM_Skills
+# Contributing to hplan
 
 Thank you for your interest in contributing!
 
 ## Project Structure
 
 ```
-AI_PM_Skills/
+hplan/
 ├── oracle/                    # Discovery — what agent to build (6 skills)
 │   ├── .claude-plugin/
 │   │   └── plugin.json        # Plugin manifest (required)

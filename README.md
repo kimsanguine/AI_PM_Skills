@@ -1,6 +1,8 @@
-# AI_PM_Skills
+# hplan — AI Agent PM Skill Marketplace
 
 > 43 skills for PMs who decide what, why, and how to build AI agents — starting from the **evidence gate** that runs before everything
+>
+> *Previously named `AI_PM_Skills`. Renamed to `hplan` in v0.5 to reflect the flagship Stage 0 gate. The marketplace still contains 6 plugins; only the repo name changed. Old GitHub URLs auto-redirect.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -13,10 +15,10 @@
 > ⭐ **If you're a PM building AI agents, star this repo** — it's the only skillset designed for the full agent product lifecycle.
 
 <p align="center">
-  <img src="docs/images/demo-terminal.svg" alt="AI_PM_Skills Demo — opp-tree skill auto-triggered" width="800"/>
+  <img src="docs/images/demo-terminal.svg" alt="hplan Demo — opp-tree skill auto-triggered" width="800"/>
 </p>
 
-> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md) scans your project, auto-generates CLAUDE.md, and recommends the right AI_PM_Skills plugins. The fastest way to onboard.
+> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
 
 ---
 
@@ -31,7 +33,7 @@ General PM skills teach you to **use AI as a tool** — write PRDs faster, gener
 - "How do I orchestrate multiple agents together?"
 - "How do I encode 3 months of operational judgment into the agent's instructions?"
 
-This project turns those questions into **36 production-grade skills** across the full agent lifecycle.
+This project turns those questions into **43 production-grade skills** across the full agent lifecycle.
 
 ---
 
@@ -39,8 +41,8 @@ This project turns those questions into **36 production-grade skills** across th
 
 ```bash
 # 1. Install the plugin
-/plugin marketplace add kimsanguine/AI_PM_Skills
-/plugin install oracle@kimsanguine-AI_PM_Skills
+/plugin marketplace add kimsanguine/hplan
+/plugin install oracle@kimsanguine-hplan
 
 # 2. Just describe your task — the right skill loads automatically
 "We handle 500 support tickets/day. Which parts should an agent handle?"
@@ -83,7 +85,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ① Complete Agent Lifecycle, Not Random Tools
 
-36 skills map to 5 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
+43 skills map to 6 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
@@ -92,7 +94,7 @@ We separate **how Claude finds skills** (Platform Layer — Skills 2.0 spec) fro
 ```
 ┌─ Platform Layer ──── Skills 2.0 Spec ──────────────────────┐
 │  frontmatter · auto-invocation · subagent · hooks · evals   │
-├─ Content Layer ──── AI_PM_Skills Pattern ──────────────────┤
+├─ Content Layer ──── hplan Pattern ──────────────────┤
 │  Core Goal → Trigger Gate → Failure Handling                │
 │  → Quality Gate → Examples · context/domain.md              │
 └─────────────────────────────────────────────────────────────┘
@@ -171,7 +173,7 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 
 | Skill | What it does | When to use |
 |-------|-------------|-------------|
-| `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching AI_PM_Skills plugins | "New project — set up Claude Code context and find the right skills" |
+| `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching hplan plugins | "New project — set up Claude Code context and find the right skills" |
 | `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
 | `prd` | 7-section agent spec: Instruction/Tools/Memory/Triggers/Output/Failure with dual narrative (tech + biz) | "I need a PRD that covers hallucination recovery and tool permissions" |
 | `prompt` | CRISP framework (Context/Role/Instruction/Scope/Parameters) + Why-First principle + 7 failure pattern avoidance | "Longer prompts make my agent behave worse" |
@@ -227,15 +229,15 @@ Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `
 ### Option 1: GitHub Marketplace (Recommended)
 
 ```bash
-/plugin marketplace add kimsanguine/AI_PM_Skills
-/plugin install oracle@kimsanguine-AI_PM_Skills   # or atlas, forge, argus, muse
+/plugin marketplace add kimsanguine/hplan
+/plugin install oracle@kimsanguine-hplan   # or atlas, forge, argus, muse
 ```
 
 ### Option 2: Clone Locally
 
 ```bash
-git clone https://github.com/kimsanguine/AI_PM_Skills.git
-claude --plugin-dir ./AI_PM_Skills/oracle   # pick what you need
+git clone https://github.com/kimsanguine/hplan.git
+claude --plugin-dir ./hplan-repo/oracle   # pick what you need
 ```
 
 **First time with Claude Code?** → Start with `forge/claude-md` — it scans your project and recommends the right skills.
@@ -283,7 +285,7 @@ The Trigger Gate's "Route" field enables routing between plugins:
 
 ### Skills 1.0 vs Skills 2.0
 
-| Feature | 1.0 (2025) | 2.0 (2026) | AI_PM_Skills |
+| Feature | 1.0 (2025) | 2.0 (2026) | hplan |
 |---------|-----------|-----------|-------------|
 | Auto-invocation | ❌ | ✅ | ✅ 97.9% |
 | Subagent (`context: fork`) | ❌ | ✅ | ✅ 5 skills |
@@ -297,7 +299,7 @@ The Trigger Gate's "Route" field enables routing between plugins:
 ### File Structure
 
 ```
-AI_PM_Skills/
+hplan/
 ├── oracle/           # Discovery (6 skills, 2 commands)
 ├── atlas/            # Architecture (7 skills, 2 commands)
 ├── forge/            # Execution (12 skills, 3 commands)
@@ -378,9 +380,9 @@ If you're using this project for corporate training or educational content, I'd 
 | Repo | What | Link |
 |------|------|------|
 | **AI_PM** | Claude Code guide for PMs — learn the why and how | [github.com/kimsanguine/AI_PM](https://github.com/kimsanguine/AI_PM) |
-| **AI_PM_Skills** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/kimsanguine/AI_PM_Skills](https://github.com/kimsanguine/AI_PM_Skills) |
+| **hplan** | Ready-to-use agent skillset — the tools *(this repo)* | [github.com/kimsanguine/hplan](https://github.com/kimsanguine/hplan) |
 
-> **AI_PM** teaches the thinking. **AI_PM_Skills** gives you the tools.
+> **AI_PM** teaches the thinking. **hplan** gives you the tools.
 
 ---
 

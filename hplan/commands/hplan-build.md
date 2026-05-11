@@ -1,35 +1,34 @@
 ---
-description: "Run the hplan Build Gate — execute COGS sentinel, record the decision in decision-log, and produce a handoff to your downstream coding ecosystem."
+description: "Run the hplan Build Gate — execute COGS sentinel, record the decision in decision-log, and produce a handoff to your downstream coding ecosystem. Use when Evidence + Product gates are approved and you need to lock the economic model + final decision + downstream handoff."
 argument-hint: "[brief.json or inline parameters]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---
 
 # /hplan-build
 
-Run the **Build Gate** after Evidence + Product Gates have been approved.
 
-## Prerequisites
+## Instructions
 
-- `/hplan-evidence` returned `build`
-- `/hplan-product` produced `docs/OPPORTUNITY_TREE.md`
-- COGS scenario hypothesis (provider, model, tokens, calls/user, ARPU)
+You are running the **hplan Build Gate** for: **$ARGUMENTS**
 
-## Steps
+### Phase 1 — COGS sentinel
+Invoke `cogs-sentinel` skill. Collect: provider, model, tokens_in, tokens_out, calls_per_user_month, ARPU, paid_conversion, free_abuse_multiplier. Run `scripts/cogs_sentinel.py`. Must return GREEN or CONDITIONAL_GO with named mitigations.
 
-1. **COGS sentinel** — invoke `cogs-sentinel` skill. Must return GREEN or CONDITIONAL_GO with explicit mitigations.
-2. **Decision log** — invoke `decision-log` skill to record the gate decision (`build`, `CONDITIONAL_GO`, `pivot`, `hold`).
-3. **If decision is `build` or `CONDITIONAL_GO`** — invoke `handoff` skill to export to your chosen downstream target (`/hplan-handoff` may be used directly).
-4. **If `pivot` or `hold`** — invoke `exclusions` to record the wedge that didn't work + the `reopen_trigger`.
+### Phase 2 — Decision log
+Invoke `decision-log` skill to record the gate decision. Call `scripts/decision_log.py log` with project, gate=build, decision, and 2+ reasons.
 
-## Mandatory Gate Output
+### Phase 3 — Checkpoint approval
+For `build` or `CONDITIONAL_GO`, write `harness/build-gate/checkpoint.json` with `status: "approved"` so the PreToolUse hook (`hooks/gate_guard.py`) unblocks downstream PRD/spec edits.
 
-Build Gate must include:
-- COGS sentinel result (GREEN / CONDITIONAL_GO / RED) with p90 margin number
-- Decision recorded in `harness/decisions.jsonl`
-- For `build`: `harness/build-gate/checkpoint.json` with `status: "approved"` (this unblocks the PreToolUse hook)
+### Phase 4 — Handoff (or rollback)
+- `build` / `CONDITIONAL_GO` → invoke `handoff` skill or instruct user to call `/hplan-handoff <target>`
+- `pivot` / `hold` → invoke `exclusions` to record the wedge that didn't work + `reopen_trigger`
 
-## Output
+## Output Format
 
-- `harness/build-gate/cogs_report.md`
-- New entry in `harness/decisions.jsonl`
-- Next step: `/hplan-handoff <target>` to export
+Return:
+
+1. **COGS result** — GREEN / CONDITIONAL_GO / RED with p90 margin number
+2. **Logged decision id** — `dec-YYYY-MM-DD-XXXXX`
+3. **Checkpoint status** — written / pending
+4. **Next step** — `/hplan-handoff <target>` or back to evidence/product
