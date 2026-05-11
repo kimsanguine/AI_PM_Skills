@@ -1,9 +1,9 @@
-# Good Example — MeetFlow brief → all 4 targets
+# Good Example — SocialDraft brief → all 4 targets
 
 ## Run
 
 ```bash
-python3 hplan/scripts/export_handoff.py meetflow_brief.json --target all --root .
+python3 hplan/scripts/export_handoff.py socialdraft_brief.json --target all --root .
 ```
 
 ## Output (실측)
@@ -11,12 +11,12 @@ python3 hplan/scripts/export_handoff.py meetflow_brief.json --target all --root 
 ```json
 {
   "written": [
-    "harness/exports/spec-kit/specs/001-meetflow-v2/spec.md",
-    "harness/exports/spec-kit/specs/001-meetflow-v2/plan.md",
-    "harness/exports/spec-kit/specs/001-meetflow-v2/tasks.md",
-    "harness/exports/kiro/.kiro/specs/meetflow-v2/requirements.md",
-    "harness/exports/kiro/.kiro/specs/meetflow-v2/design.md",
-    "harness/exports/kiro/.kiro/specs/meetflow-v2/tasks.md",
+    "harness/exports/spec-kit/specs/001-socialdraft-v2/spec.md",
+    "harness/exports/spec-kit/specs/001-socialdraft-v2/plan.md",
+    "harness/exports/spec-kit/specs/001-socialdraft-v2/tasks.md",
+    "harness/exports/kiro/.kiro/specs/socialdraft-v2/requirements.md",
+    "harness/exports/kiro/.kiro/specs/socialdraft-v2/design.md",
+    "harness/exports/kiro/.kiro/specs/socialdraft-v2/tasks.md",
     "harness/exports/gstack/office-hours-brief.md",
     "harness/exports/claude/AGENTS.md",
     "harness/exports/claude/CLAUDE.md"
@@ -27,13 +27,13 @@ python3 hplan/scripts/export_handoff.py meetflow_brief.json --target all --root 
 ## GStack brief 미리보기 (excerpt)
 
 ```markdown
-# /office-hours Input — MeetFlow v2
+# /office-hours Input — SocialDraft
 
 ## Problem
 솔로 PM이 미팅 직후 60초 안에 결과물을 못 만든다
 
 ## Counter Position
-Granola는 buffer, MeetFlow는 결과물
+범용 AI 챗봇은 단발성 답변, SocialDraft는 브랜드 톤 학습 + 5개 동시 생성
 
 ## What We Will Not Build
 - 일반 음성 받아쓰기

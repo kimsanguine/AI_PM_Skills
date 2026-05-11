@@ -3,15 +3,15 @@
 ## 3 decisions logged
 
 ```bash
-# matae app — build
+# alpha-app — build
 python3 hplan/scripts/decision_log.py log \
-  --project matae --gate build --decision build --score 78 \
+  --project alpha-app --gate build --decision build --score 78 \
   --reason "5/5 강한 신호 (한국 냉장고 관리)" --reason "COGS GREEN with Haiku routing"
 
-# meetflow — hold
+# socialdraft — hold
 python3 hplan/scripts/decision_log.py log \
-  --project meetflow --gate build --decision hold --score 32 \
-  --reason "Granola/Otter 점유" --reason "enterprise compliance 신호 없음"
+  --project socialdraft --gate build --decision hold --score 32 \
+  --reason "the existing incumbents 점유" --reason "enterprise compliance 신호 없음"
 
 # foobar (가상의 사례) — hold
 python3 hplan/scripts/decision_log.py log \
@@ -22,8 +22,8 @@ python3 hplan/scripts/decision_log.py log \
 ## 3-6 months later, backfill
 
 ```bash
-decision_log.py update --id dec-...-matae   --outcome shipped
-decision_log.py update --id dec-...-meetflow --outcome killed
+decision_log.py update --id dec-...-alpha   --outcome shipped
+decision_log.py update --id dec-...-socialdraft --outcome killed
 decision_log.py update --id dec-...-foobar   --outcome external_success
 ```
 

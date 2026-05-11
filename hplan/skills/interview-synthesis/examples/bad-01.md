@@ -30,7 +30,7 @@ python3 hplan/scripts/interview_synthesis.py audit
 
 ## Common mistake
 
-"AI가 다 정리해줬으니 됐다" — Granola/Otter/BuildBetter 모두 sentiment를 표시하지만 **sentiment ≠ evidence strength**. 인간 판단이 필요한 이유:
+"AI가 다 정리해줬으니 됐다" — the existing incumbents/BuildBetter 모두 sentiment를 표시하지만 **sentiment ≠ evidence strength**. 인간 판단이 필요한 이유:
 
 | AI sentiment | Human evidence strength |
 |---|---|

@@ -39,7 +39,7 @@ model: sonnet
 ```bash
 # Log a decision
 python3 hplan/scripts/decision_log.py log \
-  --project matae --gate build --decision build --score 78 \
+  --project alpha-app --gate build --decision build --score 78 \
   --reason "5/5 강한 신호" --reason "COGS GREEN"
 
 # Backfill outcome (3-6 months later)

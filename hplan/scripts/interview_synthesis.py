@@ -3,7 +3,7 @@
 
 Why:
 - 2026 reality: 78% of PM teams use AI for interview synthesis (BuildBetter,
-  Perspective AI, Granola, Otter). Forbidding AI synthesis is anti-modern.
+  Perspective AI, and similar tools). Forbidding AI synthesis is anti-modern.
 - hplan's rule still stands: evidence strength tagging is a human act. AI
   extracts quotes; humans assign weak/medium/strong + Push/Pull/Habit/Anxiety.
 

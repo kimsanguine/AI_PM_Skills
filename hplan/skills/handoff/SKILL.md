@@ -42,15 +42,15 @@ python3 hplan/scripts/export_handoff.py brief.json --target all --root .
 
 ```json
 {
-  "product_name": "MeetFlow v2",
-  "problem": "솔로 PM이 미팅 직후 60초 안에 결과물을 못 만든다",
-  "icp": "주 5회 외부 미팅 + Granola buffer 사용",
+  "product_name": "SocialDraft",
+  "problem": "1인 마케터가 SNS 게시글당 30-45분을 쓰는데 캠페인 데드라인을 자주 놓친다",
+  "icp": "주 10건+ SNS 콘텐츠 직접 작성하는 1인 마케터 (현재 범용 AI 챗봇 수동 사용)",
   "jtbd": "When 미팅 끝나자마자, I want 액션 + 메일, so I can 같은 날 답신",
   "functional_requirements": [...],
   "acceptance_criteria": [...],
   "cogs_ceiling": "$2.70/paid user/month",
   "latency_budget": "p95 < 90초",
-  "counter_position": "Granola는 buffer, MeetFlow는 결과물",
+  "counter_position": "범용 AI 챗봇은 단발성 답변, SocialDraft는 브랜드 톤 학습 + 5개 동시 생성",
   "not_build": ["일반 음성 받아쓰기", "CRM first-class"],
   "mvp_slice": "Zoom 종료 → 1분 안에 액션 + 메일",
   "decision": "build"

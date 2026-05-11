@@ -1,6 +1,6 @@
 ---
 name: interview-synthesis
-description: "Import AI synthesis output (BuildBetter MCP, Perspective AI, Granola, Otter) into hplan, then force a human to tag each quote with strength (strong/medium/weak) and Push/Pull/Habit/Anxiety/workaround/trigger axes. AI extracts quotes; humans assign evidence strength. Audits the SKILL.md rule: 5 interviews with 3 distinct strong-Push signals → proceed to Product Gate."
+description: "Import AI synthesis output (BuildBetter MCP, Perspective AI, and similar AI synthesis tools) into hplan, then force a human to tag each quote with strength (strong/medium/weak) and Push/Pull/Habit/Anxiety/workaround/trigger axes. AI extracts quotes; humans assign evidence strength. Audits the SKILL.md rule: 5 interviews with 3 distinct strong-Push signals → proceed to Product Gate."
 argument-hint: "[import|tag|audit|list] <path or id>"
 allowed-tools: ["Read", "Write", "Bash"]
 model: sonnet
@@ -18,7 +18,7 @@ model: sonnet
 
 ### Use This Skill When
 
-- BuildBetter / Perspective / Granola / Otter export JSON이 손에 있을 때
+- BuildBetter / Perspective / similar synthesis tools export JSON이 손에 있을 때
 - 인터뷰 5건 이상 — 수동 정리는 비용 비효율적
 - `evidence-rubric` 점수에서 `interview_notes` 보강이 필요할 때
 - 신규 PM이 인터뷰 evidence를 어떻게 태깅해야 하는지 학습할 때

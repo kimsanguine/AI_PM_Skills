@@ -11,7 +11,7 @@ Schema (one JSON object per line in `harness/decisions.jsonl`):
   {
     "id": "dec-2026-05-11-...",
     "ts": "2026-05-11T...",
-    "project": "matae",
+    "project": "alpha-app",
     "gate": "evidence" | "product" | "build",
     "decision": "build" | "interview" | "pivot" | "hold" | "CONDITIONAL_GO",
     "score": 78,
