@@ -1,0 +1,3 @@
+display_name: hplan
+short_description: Product build gate
+default_prompt: Use hplan to run this product idea through human-in-the-loop market research, interviews, planning, design, COGS, metrics, and only then a build brief or gated project scaffold.

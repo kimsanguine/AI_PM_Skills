@@ -1,12 +1,14 @@
 # AI_PM_Skills
 
-> 36 skills for PMs who build AI agents as products — not just use AI as a tool
+> 43 skills for PMs who decide what, why, and how to build AI agents — starting from the **evidence gate** that runs before everything
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-36-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-5-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-6-purple?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
+
+> 🆕 **v0.5 — [`hplan` plugin](./hplan/) added**: the evidence + COGS + decision gate that runs *before* you commit to building. Mandatory interview evidence, executable COGS sentinel, append-only Do-Not-Build registry, self-eval decision log, and multi-target handoff to Spec-Kit / Kiro / GStack / Claude Code.
 
 > ⭐ **If you're a PM building AI agents, star this repo** — it's the only skillset designed for the full agent product lifecycle.
 
@@ -47,25 +49,31 @@ This project turns those questions into **36 production-grade skills** across th
 
 ---
 
-## The Agent PM Journey — 5 Stages
+## The Agent PM Journey — 6 Stages
 
-This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks.
+This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all.
 
 ```
-발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
-   oracle            atlas            forge          argus          muse
-  6 skills          7 skills        12 skills       8 skills       3 skills
-     ↑                                                               │
-     └──────────── Accumulated TK feeds back into next agent ────────┘
+게이트(Gate) → 발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
+   hplan          oracle            atlas            forge          argus          muse
+  7 skills       6 skills          7 skills        12 skills       8 skills       3 skills
+     ↑                                                                              │
+     └────────────────── Accumulated TK feeds back into next agent ─────────────────┘
 ```
 
 | Stage | Plugin | The Question | Key Skills |
 |-------|--------|-------------|------------|
+| **Gate** ⭐ | `hplan` | "Should we build this at all?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
 | **Discover** | `oracle` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **Architect** | `atlas` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
 | **Ship** | `forge` | "How to spec and ship it?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
 | **Operate** | `argus` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
-| **Learn** | `muse` ⭐ | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
+| **Learn** | `muse` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
+
+### What makes hplan different from the other 5
+
+Other plugins are **prompt-driven thinking** — LLM ponders, you decide.
+`hplan` adds **deterministic measurement** — Python scripts calculate p50/p90 COGS margins, append-only registries persist exclusions and decisions across runs, an MCP server lets Cursor/Windsurf/Kiro/Codex call hplan primitives, and a PreToolUse hook blocks PRD/spec writes until the human approves the gate. It is paired with oracle/atlas/forge/argus/muse, not a replacement.
 
 Each skill **auto-loads from natural language** — describe your task and the right skill fires. Skills also **route across plugins**: burn-rate (argus) detects a cost spike → suggests router (atlas) for model change → triggers cost-sim (oracle) for re-simulation.
 

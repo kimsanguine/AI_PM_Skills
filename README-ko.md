@@ -1,12 +1,14 @@
 # AI_PM_Skills
 
-> AI 에이전트를 '제품'으로 만드는 PM을 위한 36개 스킬 — AI를 '도구'로 쓰는 것과는 다릅니다
+> '만들지 말지'부터 '어떻게 만들지'까지 결정하는 PM을 위한 43개 스킬 — **evidence gate**가 모든 것의 첫 단계
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-36-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-5-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-6-purple?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
+
+> 🆕 **v0.5 — [`hplan` 플러그인](./hplan/) 추가**: 빌드 결정 *전에* 돌리는 evidence + COGS + decision 게이트. 인터뷰 evidence 강제, 실행 가능한 COGS sentinel, append-only Do-Not-Build registry, self-eval decision log, Spec-Kit / Kiro / GStack / Claude Code 다중 핸드오프.
 
 > ⭐ **AI 에이전트를 만드는 PM이라면, 이 레포에 Star를 눌러주세요** — 에이전트 제품의 전체 라이프사이클을 다루는 유일한 스킬셋입니다.
 
@@ -48,25 +50,31 @@
 
 ---
 
-## 에이전트 PM 여정 — 5단계
+## 에이전트 PM 여정 — 6단계
 
-이 프로젝트의 36개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **5단계 여정**에 맞춰 설계되었습니다.
+이 프로젝트의 43개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **6단계 여정** — v0.5부터 **`hplan`이 0단계 게이트** — 만들지 말지부터 결정합니다.
 
 ```
-발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
-   oracle            atlas            forge          argus          muse
-  6 skills          7 skills        12 skills       8 skills       3 skills
-     ↑                                                               │
-     └──────────── 축적된 TK가 다음 에이전트에 피드백 ─────────────────┘
+게이트(Gate) → 발견(Discover) → 설계(Architect) → 실행(Ship) → 운영(Operate) → 학습(Learn)
+   hplan          oracle            atlas            forge          argus          muse
+  7 skills       6 skills          7 skills        12 skills       8 skills       3 skills
+     ↑                                                                              │
+     └────────────────── 축적된 TK가 다음 에이전트에 피드백 ─────────────────────────┘
 ```
 
 | 단계 | 플러그인 | 이 단계에서 부딪히는 질문 | 주요 스킬 |
 |------|---------|------------------------|----------|
+| **게이트** ⭐ | `hplan` | "정말 만들 가치가 있을까?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
 | **발견** | `oracle` | "어떤 에이전트를 만들어야 할까?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **설계** | `atlas` | "어떻게 구조를 잡을까?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
 | **실행** | `forge` | "어떻게 스펙을 쓰고 출시할까?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 커뮤니케이션 4종 |
 | **운영** | `argus` | "어떻게 측정하고 개선할까?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
-| **학습** | `muse` ⭐ | "에이전트가 시간이 갈수록 똑똑해지려면?" | pm-framework · pm-decision · pm-engine |
+| **학습** | `muse` | "에이전트가 시간이 갈수록 똑똑해지려면?" | pm-framework · pm-decision · pm-engine |
+
+### hplan이 나머지 5개와 다른 점
+
+다른 plugin들은 **prompt-driven thinking** — LLM이 고민하고 사람이 결정합니다.
+`hplan`은 **deterministic measurement** — Python 스크립트가 p50/p90 COGS 마진을 계산하고, append-only registry가 exclusions/decisions를 영구 누적하고, MCP 서버가 Cursor/Windsurf/Kiro/Codex에서 hplan을 호출 가능하게 하고, PreToolUse hook이 사람 승인 전까지 PRD/spec 작성을 차단합니다. **oracle/atlas/forge/argus/muse를 대체하지 않고 layering**합니다.
 
 특히 중요한 건 **마지막 단계인 muse → 첫 단계인 oracle로 이어지는 순환 구조**입니다. muse에서 축적한 PM 운영 노하우(TK)가 다음 에이전트를 만들 때 자동으로 반영되기 때문에, 에이전트를 만들수록 다음 에이전트의 품질이 올라갑니다.
 

@@ -29,6 +29,7 @@ hooks:
 - 비용이 아닌 모델 성능/품질 기준이면 → `router` (모델 라우팅)
 - 비용 **추적/최적화**(이미 운영 중)면 → `burn-rate`
 - 비용이 과다해서 직접 구축 vs 외부 솔루션을 비교한다면 → `build-or-buy`
+- 결정론적 p50/p90 마진 + free-user abuse 시뮬레이션 수치가 필요할 때 → `cogs-sentinel` (hplan plugin)
 
 ### Boundary Checks
 - 이 스킬은 **사전 시뮬레이션** 전용이다. 실 비용 추적/모니터링은 `burn-rate` 범위.

@@ -26,6 +26,7 @@ model: sonnet
 - 선택된 기회의 가정(Value/Feasibility/Reliability/Ethics)을 깊이 있게 검증해야 할 때 → `assumptions` 스킬
 - 최우선 기회의 기술 구현 방식(Trigger Agent vs Pipeline Agent vs Research Agent)을 결정해야 할 때 → `build-or-buy` 스킬
 - 선택한 에이전트에 인간 개입 지점을 설계해야 할 때 → `hitl` 스킬
+- Opportunity Tree를 Mermaid + `docs/OPPORTUNITY_TREE.md`로 영구화하고 5/3 strong-Push 패턴으로 검증할 때 → `ost` (hplan plugin)
 
 ### Boundary Checks
 - **범위 확인**: AOT는 "어떤 에이전트를 만들 것인가"를 정하는 것이지, "어떻게 만드는가"를 설명하지 않음 — 구현은 `agent-instruction-design`으로 연결
