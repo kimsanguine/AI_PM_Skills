@@ -1,8 +1,6 @@
-# hplan — AI Agent PM Skill Marketplace
+# hplan — The Product Build Gate for AI Agents
 
-> 43 skills for PMs who decide what, why, and how to build AI agents — starting from the **evidence gate** that runs before everything
->
-> *Previously named `AI_PM_Skills`. Renamed to `hplan` in v0.5 to reflect the flagship Stage 0 gate. The marketplace still contains 6 plugins; only the repo name changed. Old GitHub URLs auto-redirect.*
+> Stop AI products from getting built before they should. Mandatory evidence, executable COGS, and a decision log that audits itself.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
@@ -10,15 +8,22 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> 🆕 **v0.5 — [`hplan` plugin](./hplan/) added**: the evidence + COGS + decision gate that runs *before* you commit to building. Mandatory interview evidence, executable COGS sentinel, append-only Do-Not-Build registry, self-eval decision log, and multi-target handoff to Spec-Kit / Kiro / GStack / Claude Code.
-
-> ⭐ **If you're a PM building AI agents, star this repo** — it's the only skillset designed for the full agent product lifecycle.
+> **What makes this different from every other PM toolkit:**
+>
+> - 🧪 **Executable COGS sentinel** — p50/p90 monthly margin computed by a lognormal sampler, not a vibe. Catches Replit-style margin collapse before any code.
+> - 📚 **Append-only exclusions registry** — every "Do Not Build" you decide survives across runs. Future ideas auto-checked against it (Korean-aware fuzzy match).
+> - 📊 **Self-evaluating decision log** — 3–6 months later, audits its own hit_rate, false_holds, missed_builds. The only PM gate that measures its own accuracy.
+> - 🔌 **MCP server** — the same gate works in Cursor / Windsurf / Kiro / Codex / Goose, not just Claude Code.
+> - 🛑 **PreToolUse hook** — blocks PRD/spec writes at the filesystem level until a human approves the gate.
+> - 🚚 **Multi-target handoff** — one brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours`, Claude Code `AGENTS.md` + `CLAUDE.md`.
+>
+> *Renamed from `AI_PM_Skills` in v0.5. The new flagship plugin (`hplan`) sits at Stage 0 of a 6-stage marketplace. Old URLs auto-redirect.*
 
 <p align="center">
-  <img src="docs/images/demo-terminal.svg" alt="hplan Demo — opp-tree skill auto-triggered" width="800"/>
+  <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
 </p>
 
-> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
+> 🆕 **New to Claude Code?** → [`forge/claude-md`](forge/skills/claude-md/SKILL.md) scans your project, auto-generates CLAUDE.md, and recommends the right hplan plugins. The fastest way to onboard.
 
 ---
 
@@ -37,16 +42,32 @@ This project turns those questions into **43 production-grade skills** across th
 
 ---
 
-## Quick Start (30 seconds)
+## Quick Start (60 seconds)
 
 ```bash
-# 1. Install the plugin
+# 1. Install the marketplace
 /plugin marketplace add kimsanguine/hplan
-/plugin install oracle@kimsanguine-hplan
+/plugin install hplan@kimsanguine-hplan
 
-# 2. Just describe your task — the right skill loads automatically
-"We handle 500 support tickets/day. Which parts should an agent handle?"
-# → opp-tree skill auto-loads → opportunity mapping starts
+# 2. Run the Evidence Gate on any idea — collision check + 100-point rubric
+/hplan-evidence "AI meeting transcription tool"
+# → exclusions check ... COLLISION (Granola/Otter own this)
+# → reopen_trigger UNMET → decision: hold
+
+# 3. Or test pricing economics deterministically before committing
+/hplan-cogs --provider anthropic --model claude-sonnet-4-6 \
+            --tokens-in 3000 --calls 40 --arpu 29
+# → p50 margin 95%, p90 90%, blended 49% → GREEN
+```
+
+**Already past the gate?** Install one of the 5 lifecycle plugins:
+
+```bash
+/plugin install oracle@kimsanguine-hplan   # Discover — opportunity trees, assumptions, cost sim
+/plugin install atlas@kimsanguine-hplan    # Architect — orchestration, memory, moat
+/plugin install forge@kimsanguine-hplan    # Ship — agent PRD, instructions, prompts
+/plugin install argus@kimsanguine-hplan    # Operate — KPI, burn rate, reliability
+/plugin install muse@kimsanguine-hplan     # Learn — PM tacit knowledge, decision patterns
 ```
 
 ---
