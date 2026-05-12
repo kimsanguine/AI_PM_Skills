@@ -53,8 +53,7 @@ export const HplanIntro16x9: React.FC = () => {
         <SceneCTA />
       </Sequence>
 
-      {/* Narration audio — uncomment after generating via scripts/generate_narration.py */}
-      {/*
+      {/* Narration audio — generated via scripts/generate_narration.py (Gemini TTS, Charon voice, 1.2x atempo) */}
       <Sequence from={SCENE_TIMING.hook.start}>
         <Audio src={staticFile('audio/narration/01-hook.mp3')} />
       </Sequence>
@@ -79,8 +78,8 @@ export const HplanIntro16x9: React.FC = () => {
       <Sequence from={SCENE_TIMING.cta.start}>
         <Audio src={staticFile('audio/narration/06-cta.mp3')} />
       </Sequence>
-      <Audio src={staticFile('audio/bgm.mp3')} volume={0.15} />
-      */}
+      {/* BGM — ffmpeg-synthesized A-minor ambient pad, mixed at -18dB under narration */}
+      <Audio src={staticFile('audio/bgm.mp3')} volume={0.12} />
     </AbsoluteFill>
   );
 };
