@@ -41,19 +41,23 @@ export const typography = {
 };
 
 /**
- * Total video length is 70s at 30fps = 2100 frames.
+ * Total video length is 84s at 30fps = 2520 frames.
+ * v0.6.1: extended from 70s to 84s after first Gemini TTS render produced
+ * narration longer than initial budget. Sped narration 1.2x via ffmpeg atempo
+ * and reset scene durations to fit each clip + small visual buffer.
+ *
  * Each scene exposes [startFrame, endFrame] for absolute placement.
  */
 export const SCENE_TIMING = {
-  hook: { start: 0, end: 180 },          // 0-6s
-  problem: { start: 180, end: 600 },     // 6-20s
-  solution: { start: 600, end: 840 },    // 20-28s
-  demoEvidence: { start: 840, end: 1080 }, // 28-36s
-  demoCogs: { start: 1080, end: 1380 },  // 36-46s
-  demoHandoff: { start: 1380, end: 1650 }, // 46-55s
-  lifecycle: { start: 1650, end: 1890 }, // 55-63s
-  cta: { start: 1890, end: 2100 },       // 63-70s
+  hook: { start: 0, end: 180 },             // 0-6s   (narration 5.0s + 1s buffer)
+  problem: { start: 180, end: 750 },        // 6-25s  (narration 17.8s + 1.2s buffer)
+  solution: { start: 750, end: 990 },       // 25-33s (narration 6.4s + 1.6s buffer)
+  demoEvidence: { start: 990, end: 1260 },  // 33-42s (narration 7.1s + 1.9s buffer)
+  demoCogs: { start: 1260, end: 1680 },     // 42-56s (narration 12.3s + 1.7s buffer)
+  demoHandoff: { start: 1680, end: 1950 },  // 56-65s (narration 8.3s + 0.7s buffer)
+  lifecycle: { start: 1950, end: 2310 },    // 65-77s (narration 11.2s + 0.8s buffer)
+  cta: { start: 2310, end: 2520 },          // 77-84s (narration 5.0s + 2s buffer)
 } as const;
 
 export const FPS = 30;
-export const TOTAL_FRAMES = 2100;
+export const TOTAL_FRAMES = 2520;
