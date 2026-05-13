@@ -8,10 +8,13 @@
 > 말의 고삐(harness)처럼, Claude Code · Cursor · Lovable 같은 AI 코딩 도구의 거친 동력에 **방향을 부여하는 사전 계획**입니다. 코드를 만드는 도구는 이미 충분히 강합니다. 부족한 건 *"어디로 향할지"*. hplan은 코드를 쓰기 전 7일 동안 시장조사·문제정의·COGS를 강제로 묻습니다.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-6-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
+[![Version](https://img.shields.io/badge/version-0.7.0-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
+
+> **v0.7.0** — `operate` 플러그인 신규 (다중 에이전트 포트폴리오), PRD mermaid 정합성 게이트, PPTX 4엔진 라우터, 실행 통합 스킬 3종 (harness-design / parallel-team / build-loop) 추가. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
@@ -146,7 +149,7 @@ Day 50-60   매출·성과 구조
 - "에이전트 여러 개를 어떻게 조합하고 오케스트레이션하지?"
 - "3개월 동안 쌓은 운영 노하우를 에이전트 인스트럭션에 어떻게 녹이지?"
 
-저도 같은 질문을 했습니다. AI Dubbing, AI Avatar 서비스를 성장시키면서, 그리고 지금 Agentic AI 제품을 만들면서 마주친 문제들이었습니다. 그 경험을 체계화해서, 에이전트 라이프사이클 전체를 커버하는 **43개 프로덕션급 스킬**로 정리한 것이 이 프로젝트입니다.
+저도 같은 질문을 했습니다. AI Dubbing, AI Avatar 서비스를 성장시키면서, 그리고 지금 Agentic AI 제품을 만들면서 마주친 문제들이었습니다. 그 경험을 체계화해서, 에이전트 라이프사이클 전체를 커버하는 **50개 프로덕션급 스킬**로 정리한 것이 이 프로젝트입니다.
 
 ---
 
@@ -176,22 +179,23 @@ Day 50-60   매출·성과 구조
 /plugin install deliver@kimsanguine-hplan    # 실행 — agent PRD, instruction, prompt
 /plugin install measure@kimsanguine-hplan    # 운영 — KPI, burn rate, reliability
 /plugin install learn@kimsanguine-hplan     # 학습 — PM 암묵지, 결정 패턴
+/plugin install operate@kimsanguine-hplan   # ⭐ NEW v0.7 — 5+ 에이전트 포트폴리오 운영
 ```
 
-스킬 이름을 외울 필요는 없습니다. 자연어로 질문하면 43개 스킬 중 맞는 게 auto-load 됩니다 (96 test query 기준 97.9% 정확도).
+스킬 이름을 외울 필요는 없습니다. 자연어로 질문하면 50개 스킬 중 맞는 게 auto-load 됩니다 (96 test query 기준 v0.6에서 97.9% 정확도 — v0.7 신규 7개 스킬은 재평가 예정).
 
 ---
 
-## 에이전트 PM 여정 — 6단계
+## 에이전트 PM 여정 — 7단계
 
-이 프로젝트의 43개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **6단계 여정** — v0.5부터 **`hplan`이 0단계 게이트** — 만들지 말지부터 결정합니다.
+이 프로젝트의 50개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **7단계 여정** — v0.5부터 **`hplan`이 0단계 게이트**, v0.7부터 **`operate`가 포트폴리오 운영 단계**입니다.
 
 ```
-게이트(Gate) → 발견(Discover) → 설계(Architect) → 딜리버리(Deliver) → 측정(Measure) → 학습(Learn)
-   hplan          discover            architect            deliver          measure          learn
-  7 skills       6 skills          7 skills        12 skills       8 skills       3 skills
-     ↑                                                                              │
-     └────────────────── 축적된 TK가 다음 에이전트에 피드백 ─────────────────────────┘
+게이트 → 발견 → 설계 → 딜리버리 → 측정 → 학습 → 운영
+hplan    discover  architect  deliver   measure  learn   operate
+7 skills 6 skills  7 skills  15 skills  8 skills 3 skills 4 skills
+   ↑                                                          │
+   └─────────────── 축적된 TK가 다음 에이전트에 피드백 ───────┘
 ```
 
 | 단계 | 플러그인 | 이 단계에서 부딪히는 질문 | 주요 스킬 |
@@ -199,14 +203,15 @@ Day 50-60   매출·성과 구조
 | **게이트** ⭐ | `hplan` | "정말 만들 가치가 있을까?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
 | **발견** | `discover` | "어떤 에이전트를 만들어야 할까?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **설계** | `architect` | "어떻게 구조를 잡을까?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **실행** | `deliver` | "어떻게 스펙을 쓰고 출시할까?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 커뮤니케이션 4종 |
-| **운영** | `measure` | "어떻게 측정하고 개선할까?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
+| **실행** | `deliver` | "어떻게 스펙을 쓰고 출시할까?" | claude-md · prd (+mermaid 정합성 게이트) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4엔진 라우터) · harness-design · parallel-team · build-loop + 커뮤니케이션 4종 |
+| **측정** | `measure` | "어떻게 측정하고 개선할까?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
 | **학습** | `learn` | "에이전트가 시간이 갈수록 똑똑해지려면?" | pm-framework · pm-decision · pm-engine |
+| **운영** ⭐ NEW | `operate` | "5+ 에이전트 포트폴리오를 어떻게 굴릴까?" | agent-portfolio (T1~T5 티어링) · scorecard-5axis · weekly-rollup · cross-team-routing |
 
-### hplan이 나머지 5개와 다른 점
+### hplan이 나머지 6개와 다른 점
 
 다른 plugin들은 **prompt-driven thinking** — LLM이 고민하고 사람이 결정합니다.
-`hplan`은 **deterministic measurement** — Python 스크립트가 p50/p90 COGS 마진을 계산하고, append-only registry가 exclusions/decisions를 영구 누적하고, MCP 서버가 Cursor/Windsurf/Kiro/Codex에서 hplan을 호출 가능하게 하고, PreToolUse hook이 사람 승인 전까지 PRD/spec 작성을 차단합니다. **discover/architect/deliver/measure/learn를 대체하지 않고 layering**합니다.
+`hplan`은 **deterministic measurement** — Python 스크립트가 p50/p90 COGS 마진을 계산하고, append-only registry가 exclusions/decisions를 영구 누적하고, MCP 서버가 Cursor/Windsurf/Kiro/Codex에서 hplan을 호출 가능하게 하고, PreToolUse hook이 사람 승인 전까지 PRD/spec 작성을 차단합니다. v0.7부터 **`scripts/validate-mermaid.py`**가 PRD의 workflow ↔ userflow ↔ requirements 정합성을 결정론으로 차분 검증해 같은 가족에 합류했습니다. **discover/architect/deliver/measure/learn/operate를 대체하지 않고 layering**합니다.
 
 특히 중요한 건 **마지막 단계인 learn → 첫 단계인 discover로 이어지는 순환 구조**입니다. learn에서 축적한 PM 운영 노하우(TK)가 다음 에이전트를 만들 때 자동으로 반영되기 때문에, 에이전트를 만들수록 다음 에이전트의 품질이 올라갑니다.
 
@@ -220,11 +225,11 @@ Day 50-60   매출·성과 구조
 
 시중의 PM 스킬셋은 대부분 "AI로 뭔가를 빠르게 하는 도구"입니다. PRD 자동생성, OKR 작성기, 경쟁사 분석기 같은 것들이죠. 하지만 에이전트를 제품으로 만들 때는 "어떤 에이전트를 만들지 → 어떻게 설계할지 → 어떻게 스펙을 쓸지 → 어떻게 운영할지 → 어떻게 학습시킬지"라는 **연속된 흐름**이 필요합니다.
 
-이 마켓플레이스의 43개 스킬은 6단계에 정확히 매핑됩니다. 발견부터 자기개선 에이전트까지, **에이전트를 제품으로 만드는 구조화된 방법론**입니다.
+이 마켓플레이스의 50개 스킬은 7단계에 정확히 매핑됩니다. 발견부터 자기개선 에이전트까지, **에이전트를 제품으로 만드는 구조화된 방법론**입니다.
 
 ### ② 2레이어 아키텍처 — Platform과 Content의 분리
 
-스킬이 많아지면 반드시 생기는 문제가 있습니다: **"엉뚱한 스킬이 발동된다."** 43개 스킬이 서로 비슷한 키워드에 반응하면, Claude가 혼동을 일으키거든요.
+스킬이 많아지면 반드시 생기는 문제가 있습니다: **"엉뚱한 스킬이 발동된다."** 50개 스킬이 서로 비슷한 키워드에 반응하면, Claude가 혼동을 일으키거든요.
 
 이 문제를 해결하기 위해 **두 층을 분리**했습니다. Claude가 스킬을 찾는 메커니즘(Platform Layer — Skills 2.0 스펙의 frontmatter, auto-invocation 등)과, 각 스킬 안에서 "언제 나를 부르고, 언제 부르지 말아야 하는지"를 정의하는 내용(Content Layer — Trigger Gate 패턴)을 분리한 것입니다.
 
@@ -243,7 +248,7 @@ Trigger Gate의 핵심은 세 가지입니다:
 - **Route**: "이런 상황이면 다른 스킬에게 넘겨라" (플러그인 간 라우팅)
 - **Boundary**: "이런 상황에서는 절대 나를 부르지 마라" (오발동 방지)
 
-이 패턴 덕분에 96개 테스트 쿼리에서 **97.9% 트리거 정확도**를 달성했습니다. 43개 스킬이 서로 충돌하지 않고 정확하게 발동됩니다.
+이 패턴 덕분에 96개 테스트 쿼리에서 **97.9% 트리거 정확도**를 달성했습니다. 50개 스킬이 서로 충돌하지 않고 정확하게 발동됩니다.
 
 ### ③ 데이터 플라이휠 — 쓸수록 쌓이는 PM 암묵지
 
@@ -505,7 +510,7 @@ hplan/                # repo 루트
 
 ### 스킬 해부학 — 각 스킬 안에는 뭐가 들어 있나
 
-43개 스킬 모두 동일한 내부 구조를 따릅니다. 이것은 Skills 2.0 스펙 준수만이 아니라, **스킬 품질을 측정·테스트·개선하기 위해 설계된 콘텐츠 아키텍처**입니다.
+50개 스킬 모두 동일한 내부 구조를 따릅니다. 이것은 Skills 2.0 스펙 준수만이 아니라, **스킬 품질을 측정·테스트·개선하기 위해 설계된 콘텐츠 아키텍처**입니다.
 
 ```
 discover/skills/opp-tree/           ← 예시: opp-tree 스킬
@@ -534,13 +539,13 @@ discover/skills/opp-tree/           ← 예시: opp-tree 스킬
 
 | 구성 요소 | 왜 넣었는가 | 측정된 효과 |
 |-----------|-----------|-----------|
-| `SKILL.md`의 Trigger Gate | Use/Route/Boundary 3조건으로 43개 스킬의 충돌 방지 | 97.9% 트리거 정확도 |
+| `SKILL.md`의 Trigger Gate | Use/Route/Boundary 3조건으로 50개 스킬의 충돌 방지 | 97.9% 트리거 정확도 |
 | `context/domain.md` | Claude가 기본적으로 모르는 도메인 전문성 주입 | +12~46% 출력 품질 향상 |
 | `examples/good-01.md` | "이 수준이 정답"이라는 구체적 앵커 제공 | Claude 생성 품질 안정화 |
 | `examples/bad-01.md` | "이건 틀린 것"이라는 명시적 반면교사 | 흔한 실패 패턴 사전 차단 |
 | `references/test-cases.md` | 엣지 케이스 + 어설션 정의 | eval 시스템 구동 (54개 어설션) |
 
-이 패턴이 43개 스킬 전체에 일관되게 적용됩니다. 총 **180개 이상의 보조 파일**이 각 스킬을 측정 가능하고, 테스트 가능하고, 개선 가능하게 만듭니다.
+이 패턴이 50개 스킬 전체에 일관되게 적용됩니다. 총 **200개 이상의 보조 파일**이 각 스킬을 측정 가능하고, 테스트 가능하고, 개선 가능하게 만듭니다.
 
 </details>
 

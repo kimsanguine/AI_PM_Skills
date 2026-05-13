@@ -139,7 +139,7 @@
 "hplan, discover, architect, deliver, measure, learn." [2s]
 ```
 
-**On-screen**: 6 plugin 박스 sequential animation with arrows. Big stat: "**6 plugins · 43 skills · 18 commands**"
+**On-screen**: 7 plugin 박스 sequential animation with arrows. Big stat: "**7 plugins · 50 skills · 18 commands**"
 
 ### Scene 6 — CTA (63–70s)
 

@@ -2,6 +2,14 @@
 PM-ENGINE-MEMORY.md
 **/PM-ENGINE-MEMORY.md
 
+# Personal profiles (each operator's own running data) — keep _template + README public
+profiles/*
+!profiles/_template/
+!profiles/README.md
+
+# Worktree workspace (parallel-team skill)
+.worktrees/
+
 # OS files
 .DS_Store
 Thumbs.db

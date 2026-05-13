@@ -1,0 +1,25 @@
+{
+  "name": "operate",
+  "version": "0.7.0",
+  "description": "Operate a portfolio of AI agents — multi-agent tiering, weighted scorecards, weekly rollups, cross-team routing. Use when running ≥5 agents across multiple teams, where single-agent KPIs (measure plugin) are no longer enough and you need portfolio-level visibility, tier-based prioritization, and inter-team routing decisions.",
+  "author": {
+    "name": "AI PM Skills Contributors",
+    "url": "https://github.com/kimsanguine"
+  },
+  "repository": "https://github.com/kimsanguine/hplan",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "portfolio",
+    "operations",
+    "scorecard",
+    "tiering",
+    "multi-agent",
+    "rollup",
+    "routing",
+    "pm",
+    "agent-ecosystem"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

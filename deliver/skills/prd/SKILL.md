@@ -10,6 +10,43 @@ hooks:
       command: "bash scripts/validate-prd.sh . 2>/dev/null || true"
 ---
 
+## Mermaid 정합성 게이트 (v0.7.0+, 결정론 검증)
+
+> 한 PRD에는 **반드시 두 종류의 mermaid 다이어그램**이 함께 존재해야 한다:
+>
+> 1. **workflow (시스템 관점)** — 어떤 컴포넌트/에이전트가 어떤 순서로 동작하는가
+> 2. **userflow (유저 관점)** — 사용자가 어떤 진입점에서 어떤 출력까지 도달하는가
+>
+> 두 다이어그램과 `Requirements` 섹션은 `scripts/validate-mermaid.py`가
+> Python으로 노드·라벨을 파싱해 **차분 검증**한다.
+> hplan의 `cogs-sentinel`과 같은 가족이다 — "맞춰봤다"는 LLM 자기보고를 결정론화한다.
+
+### 검증 규칙
+
+| 종류 | 판정 |
+|---|---|
+| workflow에만 존재하는 노드 | ⚠️ 경고 (orphan) — 유저 가치 없는 시스템 작업 의심 |
+| userflow에만 존재하는 노드 | ⚠️ 경고 (orphan) — 시스템 구현 없는 유저 약속 의심 |
+| 두 다이어그램 어디에도 매핑 안 된 요구사항 | ❌ 실패 (missing) — 빌드 차단 권고 |
+| `--strict` 모드 | 모든 orphan을 ❌로 격상 |
+
+### PRD 작성 시 추가 요건
+
+1. `## Workflow (System View)` 헤딩 아래 `\`\`\`mermaid ... \`\`\`` 블록 1개
+2. `## Userflow (User View)` 헤딩 아래 `\`\`\`mermaid ... \`\`\`` 블록 1개
+3. `## Requirements` 섹션의 각 항목은 bullet/numbered 리스트로 작성
+4. 두 다이어그램의 노드 라벨은 **요구사항 표현과 부분 일치**하도록 작성 (검증기 정규화 매칭)
+
+### 실행
+
+```bash
+python3 scripts/validate-mermaid.py PRD.md          # 기본
+python3 scripts/validate-mermaid.py PRD.md --strict # orphan 0건 강제
+```
+
+Stop hook이 `validate-prd.sh`를 통해 자동 호출하므로 별도 명령은 불필요.
+
+
 ## Project Context (auto-injected)
 
 > 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.

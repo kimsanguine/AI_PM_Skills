@@ -6,10 +6,13 @@
 > Like a horse's harness, hplan gives direction to the raw power of AI coding tools (Claude Code, Cursor, Lovable, etc.). The tools that *make* code are already strong enough. What's missing is *where to point them*. hplan is the 7-day discipline that forces you to answer market research, problem definition, and COGS *before* a single PRD line is written.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-43-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-6-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
+[![Version](https://img.shields.io/badge/version-0.7.0-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
+
+> **v0.7.0** — Adds `operate` plugin (multi-agent portfolio), PRD mermaid consistency gate, PPTX 4-engine router, and execution-integration skills (harness-design / parallel-team / build-loop). See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 
@@ -115,16 +118,16 @@ This project turns those questions into **43 production-grade skills** across th
 
 ---
 
-## The Agent PM Journey — 6 Stages
+## The Agent PM Journey — 7 Stages
 
-This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all.
+This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all. v0.7 adds **`operate`** as the portfolio stage for teams running 5+ agents.
 
 ```
-   Gate    →   Discover   →   Architect   →   Deliver   →   Measure   →   Learn
-   hplan         discover          architect         deliver       measure        learn
-  7 skills      6 skills        7 skills      12 skills   8 skills    3 skills
-     ↑                                                                    │
-     └──────── Accumulated TK feeds back into next agent ─────────────────┘
+   Gate  →  Discover  →  Architect  →  Deliver  →  Measure  →  Learn  →  Operate
+   hplan      discover       architect      deliver     measure     learn      operate
+  7 skills   6 skills      7 skills   15 skills   8 skills   3 skills   4 skills
+     ↑                                                                       │
+     └────────── Accumulated TK feeds back into next agent ──────────────────┘
 ```
 
 | Stage | Plugin | The Question | Key Skills |
@@ -132,11 +135,12 @@ This isn't a random collection of skills. It's a **complete lifecycle** — the 
 | **Gate** ⭐ | `hplan` | "Should we build this at all?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
 | **Discover** | `discover` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **Architect** | `architect` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **Ship** | `deliver` | "How to spec and ship it?" | claude-md · prd · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review + 4 comms tools |
-| **Operate** | `measure` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
+| **Ship** | `deliver` | "How to spec and ship it?" | claude-md · prd (+mermaid consistency gate) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4-engine router) · harness-design · parallel-team · build-loop + 4 comms tools |
+| **Measure** | `measure` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
 | **Learn** | `learn` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
+| **Operate** ⭐ NEW | `operate` | "How to run 5+ agents as a portfolio?" | agent-portfolio (T1~T5 tiering) · scorecard-5axis · weekly-rollup · cross-team-routing |
 
-### What makes hplan different from the other 5
+### What makes hplan different from the other 6
 
 Other plugins are **prompt-driven thinking** — LLM ponders, you decide.
 `hplan` adds **deterministic measurement** — Python scripts calculate p50/p90 COGS margins, append-only registries persist exclusions and decisions across runs, an MCP server lets Cursor/Windsurf/Kiro/Codex call hplan primitives, and a PreToolUse hook blocks PRD/spec writes until the human approves the gate. It is paired with discover/architect/deliver/measure/learn, not a replacement.
@@ -149,7 +153,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ① Complete Agent Lifecycle, Not Random Tools
 
-43 skills map to 6 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents.
+50 skills map to 7 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents and multi-agent portfolio operations.
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
@@ -314,19 +318,19 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 
 ```bash
 /plugin marketplace add kimsanguine/hplan
-/plugin install hplan@kimsanguine-hplan    # or discover, architect, deliver, measure, learn
+/plugin install hplan@kimsanguine-hplan    # or discover, architect, deliver, measure, learn, operate
 ```
 
 ### Option 2: Clone Locally
 
 ```bash
 git clone https://github.com/kimsanguine/hplan.git
-claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, architect, deliver, measure, learn)
+claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, architect, deliver, measure, learn, operate)
 ```
 
 **Not sure which AI product to commit to?** → Start with `hplan` — evidence gate first.
 **First time with Claude Code?** → Run `deliver/claude-md` — it scans your project and recommends the right plugins.
-**Already past the gate?** → Pick by lifecycle stage (discover → architect → deliver → measure → learn).
+**Already past the gate?** → Pick by lifecycle stage (discover → architect → deliver → measure → learn → operate).
 
 ### Other AI Tools
 
@@ -427,7 +431,7 @@ discover/skills/opp-tree/           ← example skill
 | `examples/bad-01.md` | Explicit anti-patterns with explanations | Prevents common failures |
 | `references/test-cases.md` | Edge cases + assertions | Powers eval system (54 assertions) |
 
-This pattern repeats across all 43 skills — **180+ supporting files** that make each skill measurable, testable, and improvable.
+This pattern repeats across all 50 skills — **200+ supporting files** that make each skill measurable, testable, and improvable.
 
 </details>
 

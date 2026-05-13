@@ -1,0 +1,28 @@
+# ralph-loop.yaml — 빌드 자율 모드 환경 설정
+#
+# deliver/harness-design 스킬이 자율 모드 진입 시 참조.
+
+profile: "_template"
+
+ralph_loop:
+  enabled_by_keyword:
+    - "ralph loop로 진행"
+    - "ralph loop"
+    - "자율 모드"
+    - "autonomous"
+
+  safety:
+    require_backup: true                    # git branch + tar
+    require_dry_run: true                   # 비가역 변경 전 dry-run
+    pending_inputs_path: ".claude/pending_inputs.md"
+
+  abort_conditions:
+    consecutive_failures: 2                 # 같은 테스트 2회 실패 시 중단
+    pending_inputs_max: 5                   # 누적 5건 넘으면 중단
+    backup_failure: true
+
+  team_minimum:
+    lead: 1
+    builder: 2
+    reviewer: 1
+    verifier: 1

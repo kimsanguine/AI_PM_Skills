@@ -12,7 +12,7 @@ import re
 import sys
 from pathlib import Path
 
-PLUGINS = ["hplan", "discover", "architect", "deliver", "measure", "learn"]
+PLUGINS = ["hplan", "discover", "architect", "deliver", "measure", "learn", "operate"]
 REQUIRED_SKILL_FIELDS = ["name", "description"]
 SKILL_WORD_RANGE = (50, 5000)
 DESC_MIN_LENGTH = 40

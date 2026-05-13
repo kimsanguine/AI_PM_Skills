@@ -1,0 +1,42 @@
+# pptx-engines.yaml — 4엔진 라우터 환경별 매핑
+#
+# deliver/pptx-ai-slide 스킬의 Step 0 엔진 선택이 이 yaml을 참조.
+
+profile: "_template"
+
+engines:
+  mckinsey:
+    enabled: true
+    handler: "pptx-mckinsey-subagent"   # 본인 환경의 서브에이전트/CLI 이름
+    triggers:
+      - "장수 >= 30"
+      - "강의자료"
+      - "리포트 시리즈"
+
+  hifidelity:
+    enabled: true
+    handler: "pptx-hifidelity-subagent"
+    triggers:
+      - "장수 <= 10"
+      - "이미지 자동 생성"
+      - "투자 피치"
+    cost_warning: "Imagen 호출 X N장 — cogs-sentinel 사전 검증 권장"
+
+  html-qa:
+    enabled: true
+    handler: "pptx-html-qa-subagent"
+    is_default: true
+    triggers:
+      - "장수 5~25"
+      - "미니멀 / 에디토리얼"
+      - "리디자인 (no-delete)"
+      - "100점 QA"
+
+  video:
+    enabled: true
+    handler: "pptx-video-subagent"
+    must_chain: true
+    triggers:
+      - "YouTube URL"
+      - "*.mp4 / *.m4a / *.wav"
+      - "녹화 / 전사"

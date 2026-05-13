@@ -1,0 +1,29 @@
+# scorecard-weights.yaml — operate/scorecard-5axis 가중치 프로파일
+#
+# 합 100. 사업 컨텍스트에 맞게 조정.
+
+profile: "_template"
+
+# 디폴트 (균형)
+default:
+  accuracy: 25
+  reliability: 25
+  cost: 20
+  velocity: 15
+  satisfaction: 15
+
+# 그룹별 프리셋 (선택)
+groups:
+  T1:
+    accuracy: 25
+    reliability: 30
+    cost: 10
+    velocity: 15
+    satisfaction: 20
+
+  T4_experimental:
+    accuracy: 35
+    reliability: 15
+    cost: 10
+    velocity: 30
+    satisfaction: 10

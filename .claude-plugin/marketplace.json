@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "hplan",
-  "version": "0.6.0",
-  "description": "43 skills and 18 commands across 6 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through PM lifecycle (discover → architect → deliver → measure → learn).",
+  "version": "0.7.0",
+  "description": "50 skills and 18 commands across 7 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through PM lifecycle (discover → architect → deliver → measure → learn → operate). v0.7 adds operate (5+ agent portfolio), PRD mermaid consistency gate, PPTX 4-engine router, harness + parallel team + build-loop, and profile separation.",
   "owner": {
     "name": "AI PM Skills Contributors",
     "email": "your-email@example.com",
@@ -43,6 +43,12 @@
       "name": "learn",
       "description": "Turn PM tacit knowledge into reusable agent assets — structured knowledge units, decision patterns, and memory management.",
       "source": "./learn",
+      "category": "product-management"
+    },
+    {
+      "name": "operate",
+      "description": "Operate a portfolio of AI agents — multi-agent tiering (T1~T5), weighted 5-axis scorecards, weekly rollups, cross-team routing decisions. For teams running 5+ agents where single-agent KPIs no longer reveal priorities.",
+      "source": "./operate",
       "category": "product-management"
     }
   ]

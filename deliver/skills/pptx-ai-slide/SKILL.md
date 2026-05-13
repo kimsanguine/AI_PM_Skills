@@ -1,6 +1,6 @@
 ---
 name: pptx-ai-slide
-description: "Create and edit presentation slides (PPTX) for AI agent projects — pitch decks, architecture overviews, stakeholder updates, and demo presentations. Use when translating agent designs into compelling visual narratives. Routes to agent-demo-video for video conversion."
+description: "Route PPTX requests to the right engine (mckinsey for 30+ lecture decks, hifidelity for image-heavy pitches ≤10 slides, html-qa for mid-size minimal/editorial decks with auto QA, video for video-to-slide preprocessing) and produce pitch decks, architecture overviews, stakeholder updates, or demo presentations. Use when translating agent designs into compelling visual narratives. Routes to agent-demo-video for video conversion."
 argument-hint: "[presentation topic or agent to present]"
 allowed-tools: ["Read", "Write", "Edit", "Bash"]
 model: sonnet
@@ -82,9 +82,57 @@ model: sonnet
 
 ---
 
+## 엔진 라우팅 (v0.7.0+)
+
+> 단일 PPTX 생성 방식은 청중/규모/스타일에 맞지 않을 때가 많다.
+> **입력 신호 → 4개 엔진 중 하나로 라우팅**하는 결정 트리를 따른다.
+> 각 엔진은 다른 도구 체인을 가지며 트레이드오프가 명확히 다르다.
+
+### 엔진 카탈로그
+
+| 엔진 | 적합 케이스 | 도구 체인 | 강점 | 약점 |
+|---|---|---|---|---|
+| **mckinsey** | 30+장 강의/대량 자료, 컨설팅 톤 | PptxGenJS / Node.js | 디자인 결정론, 일관성, 속도 | 슬라이드별 커스터마이즈 약함 |
+| **hifidelity** | 1~10장 투자 피치, 슬라이드별 이미지 | Imagen 4.0 + 슬라이드 디자이너 파이프라인 | 비주얼 임팩트, 연구급 폴리시 | 이미지 비용·시간 큼 |
+| **html-qa** | 5~25장 미니멀/에디토리얼, QA 필수 | HTML-first + Playwright PDF + 100점 루브릭 | 슬라이드별 디자인 자유도 + 자동 QA | 30+장은 비효율 |
+| **video** | 영상(YouTube/mp4) → 슬라이드 | Whisper 전사 + 섹션화 + 체이닝 | 음성 자산 재활용 | 후속 엔진 체이닝 필수 (단독 사용 불가) |
+
+### 라우팅 결정 트리
+
+```
+입력 = 영상 URL/mp4?
+  → video 엔진 (전사 → 구조화 brief → html-qa 또는 mckinsey 체인)
+  STOP
+
+장수 ≥ 30 또는 강의/리포트 시리즈?
+  → mckinsey 엔진
+  STOP
+
+장수 ≤ 10 AND (투자 피치 / 연구 / 슬라이드별 이미지 필수)?
+  → hifidelity 엔진
+  STOP
+
+그 외 (5~25장, 일반 미니멀/에디토리얼, QA 필요):
+  → html-qa 엔진  ← 디폴트
+```
+
+### Boundary
+
+- **이 스킬은 라우터 + 단일-스킬 fallback**이다. 4엔진은 외부 도구 체인이므로
+  hplan은 라우팅 결정과 입력 명세를 책임지고, 실제 생성은 사용자의
+  설치된 PPT 도구 체인이 수행한다.
+- 엔진 미설치 환경에서는 PptxGenJS 기반 단일 흐름으로 fallback한다.
+
+---
+
 ## Instructions
 
 You are creating a presentation for: **$ARGUMENTS**
+
+**Step 0 — 엔진 선택** (v0.7.0+)
+- 위 결정 트리로 엔진 1개 선정
+- 선택 근거를 한 줄로 명시 (예: "장수 35 + 강의 시리즈 → mckinsey")
+- 영상 입력이면 video → 후속 엔진 체이닝까지 명시
 
 **Step 1 — 요구 정렬**
 - 발표 목적/청중/시간을 확인

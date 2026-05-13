@@ -4,6 +4,68 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.0] — 2026-05-14
+
+운영 노하우 4영역(실행 통합 / PRD 검증 깊이 / 에이전트 생태계 / PPTX 생산성)을 hplan에 흡수.
+
+### Added — new plugin
+
+- **operate** — 에이전트 포트폴리오 운영. 단일 에이전트 KPI(measure)를 넘어서 5+ 에이전트 운영을 다룬다.
+  - `agent-portfolio` — T1~T5 티어링 + 인시던트 가중치
+  - `scorecard-5axis` — Accuracy/Reliability/Cost/Velocity/Satisfaction 5축 가중 점수
+  - `weekly-rollup` — 주차별 평균·Δ·Top 이동자·이상치 자동 요약
+  - `cross-team-routing` — capability + 부하 + 티어 + handoff cost 기반 단일 라우팅 결정
+
+### Added — deliver 확장 (실행 통합도)
+
+- `deliver/harness-design` — 4명+ 빌드 팀 + Ralph Loop + 백업 + dry-run + pending_inputs 배치
+- `deliver/parallel-team` — 독립 태스크 ≥2 시 worktree 격리 병렬 디스패치
+- `deliver/build-loop` — 발견→리서치→설계→PRD→분해→구현 한 루프 (`/build`)
+
+### Added — PRD mermaid 정합성 게이트 (결정론 검증)
+
+- `scripts/validate-mermaid.py` — workflow ↔ userflow ↔ requirements 차분 검증 Python 스크립트
+- `scripts/validate-prd.sh`가 mermaid 검증을 자동 호출
+- `deliver/skills/prd/SKILL.md`에 게이트 섹션 + 두 다이어그램 의무화
+- `deliver/skills/prd/examples/good-02-mermaid-consistency.md`, `bad-02-mermaid-orphan.md` 예시
+- `cogs-sentinel`과 같은 결정론 게이트 가족
+
+### Changed — pptx 4엔진 라우터
+
+- `deliver/skills/pptx-ai-slide`가 단일 흐름에서 **4엔진 라우터**로 재정의
+  - mckinsey (30+장, 강의 시리즈)
+  - hifidelity (≤10장, 이미지 자동 생성)
+  - html-qa (5~25장, 디폴트, 자동 QA)
+  - video (영상 입력 전처리, 후속 엔진 체이닝 필수)
+- `references/engine-comparison.md`, `examples/good-02-engine-routing.md`, `bad-02-engine-misroute.md` 추가
+- description을 라우터 문법으로 갱신
+
+### Added — profiles/ 패턴
+
+- `profiles/_template/` — 새 운영자가 복사해서 시작할 yaml 4종
+  - `agent-fleet.yaml`, `scorecard-weights.yaml`, `pptx-engines.yaml`, `ralph-loop.yaml`
+- `.gitignore`에 `profiles/*` + `!profiles/_template/` + `!profiles/README.md` 추가
+- 공개 스킬 ↔ 개인 운영 데이터 레이어 분리
+
+### Added — pm-engine starter TK 4종
+
+- `learn/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md`에 TK-006~TK-009 추가
+- TK-006: 독립 태스크 ≥2 → worktree + 4명+ 팀
+- TK-007: PRD는 workflow + userflow 두 다이어그램 정합성 검증
+- TK-008: 5+ 에이전트 → 5축 가중 ScoreCard
+- TK-009: PPTX는 4엔진 라우팅 결정으로 시작
+
+### Added — 메타 데모 시드
+
+- `tools/intro-video/scenes/v0.7-meta-demo-script.md` — "hplan으로 hplan을 짠다" 70초 자기참조 영상 스크립트
+
+### Infra
+
+- `validate_plugins.py`의 PLUGINS에 `operate` 추가
+- 총 7 플러그인 / 50 스킬 / 18 커맨드
+
+---
+
 ## [0.6.0] — 2026-05-11
 
 ### Breaking — 5 plugins renamed to PM standard vocabulary

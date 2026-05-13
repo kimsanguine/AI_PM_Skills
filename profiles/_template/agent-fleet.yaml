@@ -1,0 +1,26 @@
+# agent-fleet.yaml — 운영 중인 에이전트 인벤토리 + 티어
+#
+# operate/agent-portfolio 스킬이 읽어 포트폴리오 헬스 뷰를 생성한다.
+# 새 에이전트 추가 시 티어 부여 + 사업 근거 명시 필수.
+
+profile: "_template"
+
+agents:
+  # 예시 — 본인의 운영 중 에이전트로 교체
+  - id: "daily-brief"
+    name: "Daily Briefing"
+    team: "ops"
+    tier: T2
+    rationale: "매일 의사결정 의존, 누락 시 운영 지연"
+    capability: ["aggregate", "summarize", "telegram"]
+    capacity_per_week: 14
+
+  - id: "cost-guard"
+    name: "Cost Monitor"
+    team: "platform"
+    tier: T1
+    rationale: "예산 초과 즉시 알림 필요"
+    capability: ["billing", "anomaly-detect"]
+    capacity_per_week: 30
+
+  # T1 ≤ 20% / T2 30~40% / T3 30~40% / T4~T5 ≤ 15% 권장
