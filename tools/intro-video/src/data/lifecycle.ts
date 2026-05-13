@@ -1,5 +1,6 @@
 /**
- * 6 plugins in lifecycle order — used by Scene 5.
+ * 7 plugins in lifecycle order — used by Scene 5.
+ * v0.7: operate plugin added; deliver count updated to 15.
  */
 import { colors } from '../theme';
 
@@ -36,7 +37,7 @@ export const LIFECYCLE: LifecycleStage[] = [
   {
     name: 'deliver',
     phase: 'Delivery',
-    count: '12 skills',
+    count: '15 skills',
     color: '#f59e0b',
   },
   {
@@ -50,5 +51,11 @@ export const LIFECYCLE: LifecycleStage[] = [
     phase: 'Learning',
     count: '3 skills',
     color: '#ec4899',
+  },
+  {
+    name: 'operate',
+    phase: 'Operations',
+    count: '4 skills',
+    color: '#0ea5e9',
   },
 ];

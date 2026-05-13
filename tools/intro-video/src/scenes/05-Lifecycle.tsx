@@ -7,7 +7,8 @@ import { LIFECYCLE } from '../data/lifecycle';
 
 /**
  * Scene 5 — Lifecycle reveal (55-63s, 240 frames).
- * 6 plugin boxes appear sequentially with arrows, then big stats fade in.
+ * 7 plugin boxes appear sequentially with arrows, then big stats fade in.
+ * v0.7: operate plugin added; stat targets updated to 7/50/18.
  */
 export const SceneLifecycle: React.FC = () => {
   const frame = useCurrentFrame();
@@ -83,8 +84,8 @@ export const SceneLifecycle: React.FC = () => {
           alignItems: 'flex-end',
         }}
       >
-        <BigStat appearAt={statsAppearAt} target={6} label="plugins" fontSize={80} />
-        <BigStat appearAt={statsAppearAt + 12} target={43} label="skills" fontSize={80} color={colors.skillTag} />
+        <BigStat appearAt={statsAppearAt} target={7} label="plugins" fontSize={80} />
+        <BigStat appearAt={statsAppearAt + 12} target={50} label="skills" fontSize={80} color={colors.skillTag} />
         <BigStat appearAt={statsAppearAt + 24} target={18} label="commands" fontSize={80} color={colors.arrow} />
       </div>
     </AbsoluteFill>
