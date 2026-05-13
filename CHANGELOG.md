@@ -63,6 +63,7 @@ All notable changes to AI_PM_Skills are documented here.
 
 - `validate_plugins.py`의 PLUGINS에 `operate` 추가
 - 총 7 플러그인 / 50 스킬 / 18 커맨드
+- `evals/trigger-evals.json`에 신규 7개 스킬(harness-design, parallel-team, build-loop, agent-portfolio, scorecard-5axis, weekly-rollup, cross-team-routing) 시드 추가 — 스킬당 should_trigger 2건 + should_not 2건. 총 31 스킬 / 124 쿼리. **실제 회귀 평가는 v0.7.x patch에서 진행 예정** (96→124 쿼리 확장 측정 포함).
 
 ---
 
