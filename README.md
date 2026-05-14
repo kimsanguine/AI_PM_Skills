@@ -263,7 +263,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 |-------|-------------|-------------|
 | `claude-md` ⭐ | Scan project structure → auto-generate CLAUDE.md → recommend matching hplan plugins | "New project — set up Claude Code context and find the right skills" |
 | `instruction` | Define Role/Context/Goal/Tools/Memory/Output/Failure with least-privilege tool access | "What goes in (and out of) the system prompt?" |
-| `prd` | 7-section agent spec: Instruction/Tools/Memory/Triggers/Output/Failure with dual narrative (tech + biz) | "I need a PRD that covers hallucination recovery and tool permissions" |
+| `prd` | **Unified 14-section PRD** — People/Problem/Decisions (1-6) + Agent/Execution Spec (7-11) + Metrics/Hypotheses/Failure (12-14). Single source of truth for products and the agents inside them. | "1인 변호사 한국 판례 RAG PRD 작성해줘" |
 | `prompt` | CRISP framework (Context/Role/Instruction/Scope/Parameters) + Why-First principle + 7 failure pattern avoidance | "Longer prompts make my agent behave worse" |
 | `ctx-budget` | Estimate per-file token usage → classify Essential/Conditional/Excluded → 70% threshold alerts | "How do I fit 5 RAG docs + chat history into 128K?" |
 | `okr` | Dual-axis OKRs: Business Impact + Operational Health with mandatory cost KR | "Is 95% accuracy enough, or do I need cost metrics too?" |

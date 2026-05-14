@@ -1,194 +1,57 @@
-# Domain Context — prd 스킬
+# Domain Context — Unified PRD 14-section
 
-## 1) Domain Scope
+## PRD = 단일 진입점
 
-**이 스킬이 소유하는 영역:**
-- Agent PRD의 7섹션 구조화 및 작성
-- 에이전트 설계 요소(지시사항, 도구, 메모리, 트리거, 출력, 실패처리)의 명시화
-- 기술 스펙과 비즈니스 가치를 동시에 표현하는 공식 문서화
+본 PRD skill은 **단일 통합 양식**. customer-facing SaaS + 내부 LLM 에이전트 spec을 분리 없이 14-section으로 통합.
 
-**이 스킬이 소유하지 않는 영역:**
-- 에이전트 설계 자체 (→ `deliver/instruction` 또는 `agent-plan-review`)
-- OKR 정의 (→ `deliver/okr`)
-- 메모리 아키텍처 상세화 (→ `architect/memory-arch`)
-- 신뢰성/SLO 정의 (→ `measure/reliability`)
+- 분리하지 않는 이유: 2026년 모든 SaaS는 LLM 에이전트 포함. 두 PRD 분리는 인위적
+- 통합의 본질: 상단 (1-6) = 사람 / 중단 (7-11) = 에이전트·실행 / 하단 (12-14) = 지표·가설·실패
+- PM은 PRD 1개를 가지고 매 주 갱신
 
-## 2) Primary Users
+## 1인 빌더 60일 사이클
 
-- **구현팀 엔지니어**: PRD를 읽고 코드 작성 가능한 수준의 명세서 필요
-- **PM**: 에이전트 포트폴리오를 표준화하고 싶어하는 사용자
-- **이해관계자 (경영진, 법무)**: 에이전트의 기술 스펙과 운영 기준을 이해해야 함
-- **운영팀**: Failure Handling과 Success Metrics를 통해 모니터링 기준 수립
+본 PRD는 1인 빌더 60일 사이클에 최적화.
 
-## 3) Required Inputs
+- Day 1~14: Discovery + PRD v0.1 (Section 1-6 상세, 7-11 간단)
+- Day 15~30: MVP Wave 1 빌드 (Section 7-11 상세화)
+- Day 31~45: 5명 인터뷰 + PRD v0.2 (Section 12-14 추가)
+- Day 46~60: Live URL + 첫 매출 (PRD v0.3 — 14개 섹션 모두 작성)
+- Day 61~90: 5명 사랑 검증 (Sean Ellis 40% — Section 13 가설 결과 갱신)
 
-**필수 입력:**
-1. 에이전트 이름 또는 설명
-2. 기존 instruction.md (있으면 참고), 또는 에이전트의 목적/역할
-3. 도구 목록 (사용할 API/도구명)
-4. 메모리 전략 개요 (로드할 파일/데이터)
+## 도메인별 적용
 
-**선택 입력:**
-- 기존 PRD 버전 (v1.0 존재 시, 업데이트 범위 확정)
-- 비용 목표, 신뢰성 요구사항
+### 법률 (1인 변호사)
+- 핵심 가설: 한국어 판례 정확도 ≥ 0.88
+- HITL: L3 default (변호사 책임)
+- Anti-Goal: Hallucination 0건
 
-## 4) Output Contract
+### 교육 (1인 강사)
+- 핵심 가설: 콘텐츠 도메인 충실성 ≥ 0.85
+- HITL: L2 default
+- Anti-Goal: 잘못된 학습 정보 X
 
-**산출물:**
-- 완전한 Agent PRD 마크다운 문서 (7섹션)
-- 각 섹션이 구현팀의 질문을 명확히 답변하는 수준
+### 의료 (가정의·치과)
+- 핵심 가설: 도메인 충실성 ≥ 0.9
+- HITL: L3 default
+- Anti-Goal: 의학적 진단 대체 X
 
-**섹션별 보증:**
-| 섹션 | 포함 항목 | 실행 가능성 |
-|------|---------|-----------|
-| 1 Overview | 이름/버전/상태/한 줄 정의 | 구현 시작 지점 명확함 |
-| 2 Instruction | Role/Goal/Anti-Goals | 에이전트의 판단 기준 명시 |
-| 3 Tools | API 목록, 사용 조건, 호출 제한 | 어떤 도구를 언제 쓸지 불명확하지 않음 |
-| 4 Memory | Working/Long-term/Procedural 계획 | 필요한 파일과 로드 전략 명시 |
-| 5 Trigger | 트리거 유형, 실행 흐름 Step-by-Step | 에이전트가 언제 어떻게 실행될지 명시 |
-| 6 Output | 채널/형식/길이/언어/톤 + 예시 | 출력이 어떻게 보일지 예측 가능 |
-| 7 Failure | 실패 시나리오 테이블, 성공 지표 | 운영 기준과 모니터링 방식 정의 |
+## 관련 1차 출처
+- Marty Cagan, *INSPIRED* (2017): Discovery vs Delivery 분리
+- Bob Moesta, *Demand-Side Sales* (2020): Switch Interview 4 Forces
+- Sean Ellis, *Hacking Growth* (2017): 40% PMF Rule
+- Andreessen, "The Only Thing That Matters" (Pmarchive 2007)
 
-## 5) Guardrails
+## 마이그레이션 (v0.6 → v0.7)
 
-**라우팅 규칙 (내부 권장사항 — 프로젝트 구조에 따라 조정):**
-- Instruction 7요소 설계가 불완전하면 → `deliver/instruction` 먼저 완료
-- OKR 성공 지표 정의 필요 → `deliver/okr` 연계
-- 메모리 아키텍처 상세화 필요 → `architect/memory-arch` 연계
-- 신뢰성/SLO 정의 필요 → `measure/reliability` 연계
+v0.6 이전: Agent PRD 7-section (Section 1=Overview / 2=Instruction / 3=Tools / 4=Memory / 5=Trigger / 6=Output / 7=Failure)
 
-**품질 경계:**
-- PRD는 "무엇을 하는가"를 명시하지만, "어떻게 기술적으로 구현하는가"는 별도 구현 문서 범위
-- 각 섹션은 "구현팀이 이것만으로도 구현 가능한가?"의 기준으로 검증
-- 실패 시나리오 테이블은 최소 4개 이상의 현실적 상황 포함
-- 성공 지표는 정량화 가능해야 함 (정성적 표현 금지)
+v0.7+ 통합: 위 7-section이 새 14-section의 어디에 매핑되는가
+- v0.6 Section 1 (Overview) → v0.7 Section 1·3 (페르소나·문제)
+- v0.6 Section 2 (Instruction) → v0.7 Section 7 (Role + Anti-Goals)
+- v0.6 Section 3 (Tools) → v0.7 Section 8 (Tools)
+- v0.6 Section 4 (Memory) → v0.7 Section 9 (Memory)
+- v0.6 Section 5 (Trigger) → v0.7 Section 10 (Trigger)
+- v0.6 Section 6 (Output) → v0.7 Section 11 (Output)
+- v0.6 Section 7 (Failure + Success) → v0.7 Section 12 (Success) + 14 (Failure) 분리
 
-## 6) Working Facts
-
-**에이전트 PRD 구조 기준 (예시값):**
-
-| 섹션 | 최소 길이 | 예상 토큰 |
-|------|----------|---------|
-| 1 Overview | 2~3 문단 | 200~300 |
-| 2 Instruction | 6개 하위요소 | 800~1000 |
-| 3 Tools | 4~10개 도구 표 | 400~600 |
-| 4 Memory | 3계층 × 2~3줄 | 300~500 |
-| 5 Trigger | 트리거 + Step 5~10개 | 400~600 |
-| 6 Output | 채널/형식/예시 | 300~500 |
-| 7 Failure | 실패 테이블 4개 + KPI 5개 | 600~800 |
-| **Total** | **7 Section** | **~3500~4500 tokens** |
-
-**TO BE UPDATED by reviewer:**
-- 각 조직의 PRD 복잡도 기준 (대형 에이전트 vs 간단한 에이전트)
-- 실패 시나리오의 "현실적" 기준 (도메인마다 다름)
-- 성공 지표의 기본 임계값 (예: 정확도 95% 이상, 비용 $50/월 이하)
-
-## 7) Fill-in Checklist
-
-- [ ] 에이전트의 핵심 가치 1문장이 명확한가?
-- [ ] Instruction 7요소가 모두 정의되었는가?
-- [ ] Tools 목록에 사용 조건과 호출 제한이 명시되었는가?
-- [ ] Memory 전략이 단기/장기/절차적 계층으로 분리되었는가?
-- [ ] Trigger와 Execution이 Step-by-Step으로 정의되었는가?
-- [ ] Output Format이 채널(Telegram/파일/API)에 맞게 최적화되었는가?
-- [ ] Failure Handling 테이블에 4개 이상의 현실적 시나리오가 포함되었는가?
-- [ ] Success Metrics가 정량화되었는가? (% 수치, 달러, 초 단위)
-- [ ] 섹션 간 일관성이 검증되었는가? (예: 출력은 간결한데 instruction은 상세함 X)
-- [ ] Anti-Goals가 충분히 구체적인가?
-
-## 8) 참고 사례: Quality Gate 설계 원칙
-
-> **아래는 특정 프로덕션 환경에서의 사례입니다. 조직과 도메인에 따라 다르게 설계할 수 있습니다.**
-
-### Trigger Gate 상호배타성 규칙과 충돌 쌍 관리
-
-PRD 스킬의 트리거는 다른 스킬과의 경계를 명확히 해야 한다:
-
-| 트리거 요청 | 이 스킬? | 경계 설정 |
-|----------|--------|--------|
-| "PRD를 작성해줄래?" | **Yes** | 스킬 실행 |
-| "Instruction 7요소를 재설계해줄래?" | **No** | deliver/instruction으로 라우팅 (상호배타) |
-| "메모리 아키텍처를 다시 설계해줄래?" | **No** | architect/memory-arch으로 라우팅 (상호배타) |
-| "신뢰성 SLO를 정의해줄래?" | **No** | measure/reliability로 라우팅 (상호배타) |
-
-**충돌 쌍 명시적 고정** (Trigger Gate 강화):
-
-1. **prd ↔ deliver/instruction**
-   - PRD는 "공식 문서로서 7섹션 구조"
-   - deliver/instruction은 "에이전트가 실제로 따를 Role/Goal"
-   - Disambiguator: "PRD는 '무엇을 하는가' 문서지만, Instruction은 '어떻게 판단할 것인가' 매뉴얼"
-
-2. **prd ↔ architect/memory-arch**
-   - PRD의 Section 4 (Memory)는 "전략 수준: Working/Long-term/Procedural"
-   - architect/memory-arch는 "기술 수준: 어떤 DB 쓸까, 토큰 오버헤드는?"
-   - Disambiguator: "PRD가 '뭘 로드할까'를 정하면, memory-arch가 '어떻게 로드할까'를 정함"
-
-3. **prd ↔ measure/reliability**
-   - PRD의 Section 7 (Failure)은 "실패 시나리오와 대응"
-   - measure/reliability는 "SLO, MTTR, Error Budget"
-   - Disambiguator: "PRD는 '이 실패가 발생하면 뭐 할까'이고, reliability는 '이 실패가 월 몇 번까지 허용될까'를 정함"
-
-### Quality Gate의 "검증 가능한 문장만" 원칙
-
-PRD 작성 시 모든 요구사항은 Yes/No, N/N, 수치 임계치로 검증 가능해야 한다:
-
-| 추상 표현 (금지) | 검증 가능 표현 (필수) |
-|-------------|------------------|
-| "충분한 도구" | "최소 4개 이상의 도구 제공 (예시값)" |
-| "적절한 메모리 전략" | "Working Memory: 매요청마다 로드, Long-term: 월 1회 갱신 (예시값)" |
-| "빠른 응답" | "평균 응답 시간 < 5초, P95 < 15초 (예시값)" |
-| "높은 정확도" | "청구 데이터 vs 리포트 오차 < 1% (예시값)" |
-| "안정적인 실행" | "월 가동률 99.5% 이상 (예시값, 최대 3.6시간 다운타임 허용)" |
-
-**PRD 작성 체크**:
-1. Section 3 (Tools): "각 도구 사용 조건" = Yes/No로 판단 가능? (예: "호출 5회/분 이상은 Rate Limit 에러" — 예시값)
-2. Section 6 (Output): "출력 길이" = 정확한 숫자? (예: "최대 1000자" — 예시값, Not "간결하게")
-3. Section 7 (Failure): "성공 지표" = 측정 단위 명시? (예: "정확도 95%" — 예시값, Not "충분히 정확함")
-
-### 실패 처리 3가지 구조 (중단조건 + 보완요청 + 재진입조건)
-
-PRD의 Section 7 (Failure Handling)에서 각 실패 시나리오마다:
-
-```markdown
-### 실패 시나리오 N: [시나리오명]
-
-**감지 방법**: [무엇을 보고 실패를 알 것인가? 구체적 신호]
-- 예: "API 응답 코드 429 또는 타임아웃 > 30초"
-- 검증: 로그/모니터링으로 Yes/No 확인 가능?
-
-**중단 조건**: [이 실패가 발생하면 곧바로 중단할 것인가?]
-- Yes: "구현 직후 즉시 알림 발생 + 재시도 3회"
-- No: "로그에만 기록, 사용자에게 Fallback 제공"
-
-**사용자 반환 보완 요청**: [사용자에게 뭘 건네줄 것인가?]
-- 예: "API 에러 시 → Cached 데이터(1주일 이전 버전) 제공 + '최신 데이터 불가능' 명시"
-
-**재진입 조건**: [이 실패 후 어떻게 다시 진행할 것인가?]
-- 예: "캐시 제공 후, 다음 정시(매 시간)에 재시도"
-```
-
-**예제: 데이터 없음 시나리오**
-
-```markdown
-감지: 쿼리 결과 0건 또는 API 응답 {}
-중단: No (데이터 없는 것도 의미 있는 결과)
-보완: "수집 가능한 데이터가 없습니다" 메시지 + 대체 링크 제시
-재진입: 1시간 후 자동 재시도 또는 사용자 요청 시 즉시 재시도
-```
-
-### 적용 교훈: PRD에서 검증 가능한 수용기준을 작성하는 법
-
-**왜 PRD에서 추상 표현을 금지하나?**
-- 구현팀이 "충분하다"의 기준을 해석할 때 엔지니어마다 다름
-- 테스트 팀이 "적절하다"를 검증할 수 없음 (따라서 QA 무효화)
-- 운영팀이 "안정적"의 임계값을 모름 (따라서 온콜 기준 혼란)
-
-**검증 가능한 문장 작성 팁**:
-1. 모든 성능 요구사항 = 단위 필수 (%, ms, $, 개 수)
-2. 모든 가능/불가능 = Yes/No로 판단 가능하도록 (그래이 영역 금지)
-3. 모든 실패 대응 = "감지 → 중단? → 사용자 통지 → 재시도" 4단계 필수
-
-**실제 효과**:
-- 구현 중 "이게 '적절한' 수준인가?"라는 논쟁 제로화
-- QA 테스트 케이스가 PRD에서 자동으로 생성됨 (수용기준 = 테스트 케이스)
-- 운영 모니터링 알림 규칙을 PRD에서 직접 추출 가능
+기존 v0.6 PRD를 v0.7로 마이그레이션 시: Section 1·3·4·5·6 (사람·결정·범위·가설) 신규 추가 + 기존 내용을 위 매핑대로 재배치.

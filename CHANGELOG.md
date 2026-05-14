@@ -4,6 +4,80 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.1] — 2026-05-14
+
+### Changed — `deliver/skills/prd` expanded to **Unified PRD 14-section**
+
+Previously the `prd` skill was Agent-PRD-only (7-section: Overview / Instruction / Tools / Memory / Trigger / Output / Failure). This expansion unifies it with the customer-facing product PRD format so PMs maintain a **single source of truth** for both the product and the LLM agents inside it.
+
+**Why unify:**
+- In 2026, virtually every SaaS contains an LLM agent. The product PRD vs agent PRD split was artificial.
+- One PRD = one cognitive entry point for PMs and solo builders.
+- Solo-builder 60-day cycle teams maintain a single PRD they re-version (v0.1 → v0.3) instead of juggling two documents.
+
+**New 14-section structure:**
+
+Top (1-6) — People / Problem / Decisions
+1. ICP & personas (via `discover/agent-gtm` beachhead 5-criteria)
+2. JTBD with Switch 4 Forces
+3. Core problem + 10x value (quantified)
+4. Decision options matrix (`discover/build-or-buy` + `architect/orchestration` + `discover/hitl`)
+5. Out-of-scope (min 5, via `hplan/exclusions`)
+6. Now/Next/Later + cogs p50/p90 (via `discover/cost-sim`)
+
+Middle (7-11) — Agent / Execution Spec
+7. Role + Primary Goal + Anti-Goals (≥ 3) — `deliver/instruction` for detail
+8. Tools & Integrations + call limits mandatory
+9. Memory & Context (3-tier: Working / Long-term / Procedural)
+10. Trigger & Execution Flow (Cron/Event/Manual/Pipeline)
+11. Output Specification + sample
+
+Bottom (12-14) — Metrics / Hypotheses / Failure
+12. Dual-axis OKR (North Star + Business + Operational + Anti-Metric; cost KR mandatory) — `measure/north-star` + `deliver/okr`
+13. Top-3 hypotheses (Value/Feasibility/Reliability/Ethics) + 2-day experiment — `discover/assumptions`
+14. Failure modes (≥ 4) + Human-in-the-loop triggers
+
+**Migration from v0.6 → v0.7 PRD:**
+
+| v0.6 (Agent PRD 7-section) | v0.7 (Unified 14-section) |
+|---|---|
+| Section 1 Overview | Section 1 (페르소나) + Section 3 (문제) |
+| Section 2 Instruction Design | Section 7 (Role + Anti-Goals) |
+| Section 3 Tools & Integrations | Section 8 (same) |
+| Section 4 Memory Strategy | Section 9 (same) |
+| Section 5 Trigger & Execution | Section 10 (same) |
+| Section 6 Output Specification | Section 11 (same) |
+| Section 7 Failure + Success Metrics | Section 12 (success) + Section 14 (failure) split |
+
+New sections to fill in for migration: 1·3·4·5·6·13 (people / decisions / hypotheses).
+
+**Pure-agent use case (internal LLM agents)**:
+Section 1·3 personas = internal users. Section 2 JTBD = internal workflow. Section 7-11 stays detailed.
+
+**Pure-SaaS use case (no LLM agent)**:
+Section 7-11 may be marked "N/A — no AI feature" with a single line, leaving placeholders for future AI additions.
+
+**Quality Gate**: `scripts/validate-prd.sh` updated to check all 14 sections (was 7). 17 quality gate items total (14 sections + consistency + TK citations + Y/N coverage).
+
+### Updated
+
+- `deliver/skills/prd/SKILL.md` (449 lines) — 14-section template + Trigger Gate + Quality Gate + Phase 1-5 instructions
+- `deliver/commands/write-prd.md` (123 lines) — 5-phase chain with 2 user checkpoints
+- `deliver/skills/prd/examples/good-01.md` — 1인 변호사 한국 판례 RAG SaaS (full 14-section example)
+- `deliver/skills/prd/examples/bad-01.md` — anti-pattern with 14-section diagnostic table
+- `deliver/skills/prd/references/test-cases.md` — 17 Quality Gate items + interview validation
+- `deliver/skills/prd/references/troubleshooting.md` — 10 FAQs (general SaaS vs agent-heavy SaaS, etc.)
+- `deliver/skills/prd/context/domain.md` — 60-day cycle + domain notes + v0.6 → v0.7 migration table
+- `scripts/validate-prd.sh` — 14-section keyword check
+- `README.md` / `README-ko.md` — `prd` skill description updated to "Unified PRD 14-section"
+
+### Not breaking — backward compatible
+
+- Existing v0.6 Agent PRDs remain valid; missing sections (1·3·4·5·6·13) show as "TBD" in validate-prd.sh warnings but don't block.
+- `/write-prd` command preserved (no rename); chain extended.
+
+---
+
 ## [0.7.0] — 2026-05-14
 
 운영 노하우 4영역(실행 통합 / PRD 검증 깊이 / 에이전트 생태계 / PPTX 생산성)을 hplan에 흡수.

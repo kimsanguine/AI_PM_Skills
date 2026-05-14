@@ -360,7 +360,7 @@ Claude Code의 최신 플랫폼 스펙을 모두 적용했습니다: auto-invoca
 |------|------|-------------------|
 | `claude-md` ⭐ | 프로젝트 구조 스캔 → CLAUDE.md 자동 생성 → 맞춤형 hplan 플러그인 추천 | "새 프로젝트에 Claude Code를 세팅하고, 어떤 스킬을 쓸지 추천받고 싶어" |
 | `instruction` | Role/Context/Goal/Tools/Memory/Output/Failure 정의 + 최소 권한 도구 접근 설계 | "시스템 프롬프트에 뭘 넣고 뭘 빼야 하지?" |
-| `prd` | 7섹션 에이전트 스펙 (Instruction/Tools/Memory/Triggers/Output/Failure) + 기술·비즈니스 이중 서술 | "환각 복구 시나리오와 도구 권한까지 포함된 PRD가 필요해" |
+| `prd` | **통합 14섹션 PRD** — 사람/문제/결정 (1-6) + 에이전트·실행 사양 (7-11) + 지표/가설/실패 (12-14). 제품과 그 안의 에이전트를 단일 PRD로. | "1인 변호사 한국 판례 RAG PRD 작성해줘" |
 | `prompt` | CRISP 프레임워크(Context/Role/Instruction/Scope/Parameters) + Why-First 원칙 + 7가지 실패 패턴 회피 | "프롬프트가 길어질수록 에이전트가 오히려 이상하게 동작해" |
 | `ctx-budget` | 파일별 토큰 사용량 추정 → Essential/Conditional/Excluded 분류 → 70% 임계값 알림 | "RAG 문서 5개 + 대화 히스토리를 128K 컨텍스트에 어떻게 넣지?" |
 | `okr` | 이중축 OKR: 비즈니스 임팩트 + 운영 건강도, 필수 비용 KR 포함 | "정확도 95%면 충분한가? 비용 지표도 넣어야 하는 거 아닌가?" |

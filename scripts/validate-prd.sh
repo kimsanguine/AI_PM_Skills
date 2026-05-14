@@ -1,45 +1,67 @@
 #!/bin/bash
-# validate-prd.sh — PRD 스킬 완료 시 Quality Gate 검증
-# Phase 1: 최소 검증 (출력 파일 존재 + 필수 섹션 확인)
-# Phase 2 (2026-05-14): mermaid workflow ↔ userflow ↔ requirements 정합성 검증
+# validate-prd.sh — Unified PRD 14-section Quality Gate
+# v0.7: Agent PRD 7-section → Unified PRD 14-section 통합
 
 OUTPUT_DIR="${1:-.}"
 ERRORS=0
 
-# 최근 생성된 PRD 파일 찾기
 PRD_FILE=$(find "$OUTPUT_DIR" -name "*prd*" -o -name "*PRD*" | head -1)
 
 if [ -z "$PRD_FILE" ]; then
-  echo "⚠️ PRD 파일을 찾을 수 없습니다. 출력물을 확인하세요."
-  exit 0  # 경고만, 블로킹하지 않음
+  echo "⚠️ PRD 파일을 찾을 수 없습니다."
+  exit 0
 fi
 
-echo "📋 PRD Quality Gate 검증: $PRD_FILE"
+echo "📋 Unified PRD 14-section Quality Gate 검증: $PRD_FILE"
 
-# 필수 섹션 체크
-REQUIRED_SECTIONS=("Role" "Context" "Objective" "Tools" "Memory" "Output" "Failure")
-for section in "${REQUIRED_SECTIONS[@]}"; do
-  if ! grep -qi "$section" "$PRD_FILE" 2>/dev/null; then
-    echo "❌ 누락된 섹션: $section"
+# 14-section 필수 키워드 (한글·영문 모두 매칭)
+SECTIONS=(
+  "ICP|페르소나|persona"
+  "JTBD|Jobs|Push|Pull"
+  "문제|problem|10배|10x"
+  "결정 옵션|decision|매트릭스"
+  "제외사항|Out-of-Scope|exclusion"
+  "Now|Next|Later|MVP|범위|scope"
+  "Role|Anti-Goal"
+  "Tools|Integration|도구"
+  "Memory|Working|Long-term|Procedural"
+  "Trigger|Cron|Event|Manual|Pipeline"
+  "Output|출력|채널"
+  "OKR|North Star|Anti-Metric|성공 지표"
+  "가설|Hypothes|2-day experiment"
+  "실패|Failure|HITL|Human-in-the-loop"
+)
+
+SECTION_NAMES=(
+  "ICP·페르소나"
+  "JTBD·Switch 4 Forces"
+  "문제·10배 가치"
+  "결정 옵션 매트릭스"
+  "제외사항 (Out-of-Scope)"
+  "Now/Next/Later"
+  "Role·Anti-Goals"
+  "Tools & Integrations"
+  "Memory & Context (3-tier)"
+  "Trigger & Execution"
+  "Output Specification"
+  "Success Metrics (OKR)"
+  "검증 가능 가설"
+  "실패 모드·HITL"
+)
+
+for i in "${!SECTIONS[@]}"; do
+  pattern="${SECTIONS[$i]}"
+  name="${SECTION_NAMES[$i]}"
+  if ! grep -qiE "$pattern" "$PRD_FILE" 2>/dev/null; then
+    echo "❌ Section $((i+1)) 누락: $name"
     ERRORS=$((ERRORS + 1))
   fi
 done
 
-# mermaid 정합성 검증 (Python 결정론 게이트)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MERMAID_VALIDATOR="${SCRIPT_DIR}/validate-mermaid.py"
-if [ -f "$MERMAID_VALIDATOR" ] && grep -q '```mermaid' "$PRD_FILE" 2>/dev/null; then
-  if command -v python3 >/dev/null 2>&1; then
-    python3 "$MERMAID_VALIDATOR" "$PRD_FILE" || ERRORS=$((ERRORS + 1))
-  else
-    echo "⚠️ python3 없음 — mermaid 정합성 검증 건너뜀"
-  fi
-fi
-
 if [ $ERRORS -eq 0 ]; then
-  echo "✅ Quality Gate 통과 — 필수 섹션 + mermaid 정합성 모두 충족"
+  echo "✅ Quality Gate 통과 — 14-section 모두 포함"
 else
-  echo "⚠️ $ERRORS개 항목 미충족 — 검토 권장"
+  echo "⚠️ $ERRORS개 섹션 누락 — 검토 권장"
 fi
 
 exit 0

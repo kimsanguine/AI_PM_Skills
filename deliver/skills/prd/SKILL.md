@@ -1,7 +1,7 @@
 ---
 name: prd
-description: "Write a PRD specifically for an AI agent — covering Instruction, Tools, Memory, Triggers, Output, and Failure handling. Structurally different from a standard product PRD. Use when formally documenting an agent before implementation, or standardizing agent specs across a portfolio."
-argument-hint: "[agent to spec]"
+description: "Write a complete unified PRD covering user/JTBD/decisions/scope/agent-spec/metrics/hypotheses in 14 sections. Single source of truth for both customer-facing products and the LLM agents inside them. Replaces the older 7-section agent-only template."
+argument-hint: "[product or agent name]"
 allowed-tools: ["Read", "Write"]
 model: sonnet
 hooks:
@@ -10,63 +10,23 @@ hooks:
       command: "bash scripts/validate-prd.sh . 2>/dev/null || true"
 ---
 
-## Mermaid 정합성 게이트 (v0.7.0+, 결정론 검증)
-
-> 한 PRD에는 **반드시 두 종류의 mermaid 다이어그램**이 함께 존재해야 한다:
->
-> 1. **workflow (시스템 관점)** — 어떤 컴포넌트/에이전트가 어떤 순서로 동작하는가
-> 2. **userflow (유저 관점)** — 사용자가 어떤 진입점에서 어떤 출력까지 도달하는가
->
-> 두 다이어그램과 `Requirements` 섹션은 `scripts/validate-mermaid.py`가
-> Python으로 노드·라벨을 파싱해 **차분 검증**한다.
-> hplan의 `cogs-sentinel`과 같은 가족이다 — "맞춰봤다"는 LLM 자기보고를 결정론화한다.
-
-### 검증 규칙
-
-| 종류 | 판정 |
-|---|---|
-| workflow에만 존재하는 노드 | ⚠️ 경고 (orphan) — 유저 가치 없는 시스템 작업 의심 |
-| userflow에만 존재하는 노드 | ⚠️ 경고 (orphan) — 시스템 구현 없는 유저 약속 의심 |
-| 두 다이어그램 어디에도 매핑 안 된 요구사항 | ❌ 실패 (missing) — 빌드 차단 권고 |
-| `--strict` 모드 | 모든 orphan을 ❌로 격상 |
-
-### PRD 작성 시 추가 요건
-
-1. `## Workflow (System View)` 헤딩 아래 `\`\`\`mermaid ... \`\`\`` 블록 1개
-2. `## Userflow (User View)` 헤딩 아래 `\`\`\`mermaid ... \`\`\`` 블록 1개
-3. `## Requirements` 섹션의 각 항목은 bullet/numbered 리스트로 작성
-4. 두 다이어그램의 노드 라벨은 **요구사항 표현과 부분 일치**하도록 작성 (검증기 정규화 매칭)
-
-### 실행
-
-```bash
-python3 scripts/validate-mermaid.py PRD.md          # 기본
-python3 scripts/validate-mermaid.py PRD.md --strict # orphan 0건 강제
-```
-
-Stop hook이 `validate-prd.sh`를 통해 자동 호출하므로 별도 명령은 불필요.
-
-
 ## Project Context (auto-injected)
 
-> 아래 섹션은 스킬 실행 시 자동으로 현재 프로젝트 데이터로 치환됩니다.
-> 도구가 설치되지 않은 경우 graceful하게 건너뜁니다.
-
 **프로젝트 메모리:**
-!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음 — .claude/MEMORY.md를 생성하면 자동 참조됩니다."`
+!`cat .claude/MEMORY.md 2>/dev/null || echo "프로젝트 메모리 없음."`
 
 **현재 이슈 (Linear/GitHub):**
-!`linear issue list --mine --status "In Progress" --limit 5 2>/dev/null || gh issue list --limit 5 --json number,title --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null || echo "이슈 트래커 연결 없음 — Linear CLI 또는 GitHub CLI 설치 시 자동 연동됩니다."`
+!`linear issue list --mine --status "In Progress" --limit 5 2>/dev/null || gh issue list --limit 5 --json number,title --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null || echo "이슈 트래커 연결 없음."`
 
 ---
 
-## Agent PRD Template
+## Unified PRD Template — 14 Sections
 
 ## Core Goal
 
-- 에이전트의 모든 설계 요소(지시사항, 도구, 메모리, 트리거, 출력, 실패 처리)를 7개 섹션으로 체계화하여 구현팀이 일관성 있게 구축할 수 있는 정식 명세서 작성
-- 기술 스펙과 사업 가치를 동시에 명시하여 엔지니어링과 경영진 모두가 이해 가능한 공식 문서 제공
-- 사전 정의된 실패 시나리오와 성공 지표로 배포 후 운영 기준을 명확히 함
+- 고객(인간) 대상 제품과 그 안의 LLM 에이전트 사양을 **단일 PRD 14-section**으로 통합
+- "사람·문제·결정"이 상단 (1-6), "에이전트·실행 사양"이 중단 (7-11), "지표·가설·실패"가 하단 (12-14)
+- 1인 빌더 60일 사이클 + 5명 사랑 검증 + Live URL 도착까지 같은 PRD를 매번 갱신
 
 ---
 
@@ -74,24 +34,31 @@ Stop hook이 `validate-prd.sh`를 통해 자동 호출하므로 별도 명령은
 
 ### Use This Skill When
 
-- 프로토타입 검증이 완료되고 본격 구현에 들어가기 전에 공식 문서화 필요
-- 에이전트 포트폴리오를 표준화하고 싶을 때
-- 다른 팀이나 외부 엔지니어에게 구현을 위임해야 할 때
-- 에이전트 배포 전 최종 리뷰 및 승인 필요
+- 새 SaaS·버티컬 앱·1인 빌더 제품의 정식 사양 문서화 (PRD v0.1)
+- 5명 사랑 검증 직전 PRD v0.2~v0.3 갱신
+- 도메인 특화 제품 (법률·교육·의료) — 사용자 페르소나·JTBD가 핵심
+- 내부용 LLM 에이전트 spec — Section 1·3에 페르소나 = 내부 사용자, Section 7-11에 에이전트 상세
+- 투자자·파트너·외부 엔지니어에게 제품 사양 공식 전달
 
 ### Route to Other Skills When
 
-- Instruction 7요소 설계 필요 → `deliver/instruction` 스킬로 라우팅
-- OKR 성공 지표 정의 필요 → `deliver/okr` 스킬로 라우팅
-- 메모리 아키텍처 상세화 필요 → `architect/memory-arch` 스킬로 라우팅
-- 신뢰성/SLO 정의 필요 → `measure/reliability` 스킬로 라우팅
-- PRD를 Spec-Kit / Kiro / GStack / Claude Code 다중 ecosystem으로 동시 export할 때 → `handoff` (hplan plugin)
+- **ICP·beachhead 정의** → `discover/agent-gtm`로 라우팅 후 Section 1에 주입
+- **JTBD·Switch Interview** → `discover/agent-gtm`로 라우팅 후 Section 2에 주입
+- **결정 옵션 매트릭스** → `discover/build-or-buy` (6축) + `architect/orchestration` (4패턴) + `discover/hitl` (5레벨) → Section 4
+- **제외사항 자동 인용** → `hplan/exclusions` 레지스트리 fuzzy match → Section 5
+- **MVP 비용 시뮬레이션** → `discover/cost-sim` (lognormal p50/p90) → Section 6
+- **Instruction 7요소 상세 설계** → `deliver/instruction` → Section 7 보강
+- **OKR 정의** → `measure/north-star` + `deliver/okr` (dual-axis) → Section 12
+- **가설 분해** → `discover/assumptions` (4축) → Section 13
+- **신뢰성·SLO** → `measure/reliability` → Section 14
+- **Multi-ecosystem export** → `hplan/handoff` (Spec-Kit / Kiro / GStack / Claude Code)
 
 ### Boundary Checks
 
-- PRD는 "무엇을 하는가"를 명시하지만, "어떻게 기술적으로 구현하는가"는 별도 구현 문서 범위
-- 각 섹션은 "구현팀이 이것만으로도 구현 가능한가?"의 기준으로 검증
-- 실패 시나리오 테이블은 최소 4개 이상의 현실적 상황 포함
+- PRD 14-section은 "무엇을 하는가"를 명시하지만, "어떻게 기술적으로 구현하는가"는 별도 구현 문서
+- 각 섹션은 "5명 사랑 인터뷰에 그대로 쓸 수 있는가? + 엔지니어가 이것만으로 구현 가능한가?" 두 기준으로 검증
+- 제외사항(Section 5)이 최소 5개 이상 — "의식적으로 안 만드는 것" 명시
+- Section 7-11 (에이전트 사양)은 1인 빌더가 LLM 에이전트를 포함하지 않으면 "N/A — 일반 SaaS"로 간단 표기 가능
 
 ---
 
@@ -99,247 +66,161 @@ Stop hook이 `validate-prd.sh`를 통해 자동 호출하므로 별도 명령은
 
 | 실패 상황 | 감지 | 대응 |
 |----------|------|------|
-| PRD 작성 중 Instruction과 출력 포맷이 충돌 (예: 출력은 간결인데 instruction은 상세) | Section 2와 6을 읽어보니 일관성 없음 | 어느 것이 정답인지 재결정하고, 양쪽 모두 업데이트 |
-| Tools & Integrations 섹션에서 도구 목록만 있고 호출 제한이 없음 | Section 3을 리뷰했을 때 "사용 조건" 컬럼이 비어있거나 모호함 | deliver/instruction 스킬로 라우팅하여 도구별 상세 조건 정의 |
-| Failure Handling 테이블이 추상적 (예: "데이터 오류 발생 시 처리") | 실제로 어떤 데이터 오류인지, 어떻게 대응하는지 구체적이지 않음 | 각 시나리오를 구체적 에러 상황으로 재정의 (예: "API 응답 없음 → 3회 재시도 → 실패 시 Fallback 값 반환") |
-| Success Metrics가 측정 불가능 (예: "정확도 높음") | 수치, 측정 방법, 기한이 없음 | OKR 스킬과 연계하여 "정확도 95% 이상 by 2026-06-30" 형태로 재정의 |
-| MVP PRD vs Full PRD 선택 기준이 모호 | 어떤 에이전트는 1page, 어떤 건 7page인지 일관성 없음 | 프로토타입 단계 = MVP, 본격 구현 = Full로 명시적 기준 제시 |
+| ICP가 "20-50대 일반인" 같이 추상적 | Section 1 검토 시 beachhead 5-criteria 통과 못 함 | `discover/agent-gtm` 라우팅으로 ICP 재정의 |
+| JTBD가 솔루션 어조 ("편하게 X 할 수 있다") | Section 2가 Job이 아닌 Feature 설명 | Switch Interview 4 Forces (Push·Pull·Anxiety·Habit)로 재작성 |
+| 결정 옵션 매트릭스가 옵션 1개만 | Section 4에 옵션 A/B/C 중 하나만 | 최소 2개 옵션 + 트레이드오프 강제. `discover/build-or-buy` 호출 |
+| 제외사항 비어 있음 | Section 5 빈 칸 | "절대 안 만드는 것 5개" 강제 입력. `hplan/exclusions` 자동 인용 |
+| MVP·Full vision 분리 없음 | Section 6에 Now/Next/Later 구분 없음 | 3-tier 분할 + 각 tier에 cogs p50/p90 첨부 |
+| Anti-Goals 없음 | Section 7에 "하면 안 되는 것" 없음 | 최소 3개 강제. 도메인 룰·hallucination 정책·법적 책임 영역 포함 |
+| Tools 호출 제한 없음 | Section 8 일부 행에 "호출 제한" 컬럼 빈 칸 | `deliver/instruction` 라우팅으로 도구별 상세 조건 정의 |
+| Trigger 모호 ("필요 시") | Section 10 트리거 유형 미지정 | Cron/Event/Manual/Pipeline 중 명시적 선택 |
+| Output 예시 없음 | Section 11 출력 샘플 칸 빈 칸 | 실제 출력 1개 작성 강제 (Markdown / JSON / Plain text) |
+| 성공 지표가 추정·동기 부재 | Section 12에 측정·기한 없음 | `measure/north-star` + `deliver/okr` 라우팅으로 Dual-axis 재작성 |
+| 검증 가능 가설 없음 | Section 13에 가설 0개 | `discover/assumptions`로 top-3 + 2-day experiment 강제 |
+| HITL 트리거 모호 | Section 14에 "사용자 확인" 같이 추상 | 구체적 임계값·이벤트로 재정의 (예: 충실성 < 0.7) |
 
 ---
 
 ## Quality Gate
 
-- [ ] Section 1 완료: 에이전트 이름, 버전, 상태, 한 줄 정의 (Yes/No)
-- [ ] Section 2 완료: Role/Primary Goal/Secondary Goals/Anti-Goals (Yes/No)
-- [ ] Section 3 완료: Tools 목록 + 사용 조건 + 호출 제한 (Yes/No)
-- [ ] Section 4 완료: 3계층 메모리 (Working/Long-term/Procedural) 계획 (Yes/No)
-- [ ] Section 5 완료: 트리거 유형 + 실행 흐름 Step-by-Step (Yes/No)
-- [ ] Section 6 완료: 채널/형식/길이/언어/톤 + 출력 샘플 (Yes/No)
-- [ ] Section 7 완료: 실패 시나리오 테이블 (4개 이상) + 성공 지표 (Yes/No)
-- [ ] 전체 일관성 검증: 섹션 간 충돌/누락 없음 (Yes/No)
+- [ ] Section 1: ICP 1줄 + 페르소나 2~3개 + 도달 채널 (Yes/No)
+- [ ] Section 2: JTBD 1~3개 + Switch 4 Forces (Yes/No)
+- [ ] Section 3: 핵심 문제 1~3개 + "10배 가치" 정량 (Yes/No)
+- [ ] Section 4: 결정 옵션 매트릭스 (최소 2개 옵션·트레이드오프) (Yes/No)
+- [ ] Section 5: 제외사항 5개 이상 (Yes/No)
+- [ ] Section 6: Now/Next/Later + cogs p50/p90 (Yes/No)
+- [ ] Section 7: Role + Primary Goal + Anti-Goals 3개 이상 (Yes/No)
+- [ ] Section 8: Tools + 사용 조건 + 호출 제한 (Yes/No)
+- [ ] Section 9: 3-tier 메모리 (Working / Long-term / Procedural) (Yes/No)
+- [ ] Section 10: 트리거 유형 + 실행 흐름 Step-by-Step (Yes/No)
+- [ ] Section 11: 채널/형식/길이/언어/톤 + 출력 샘플 (Yes/No)
+- [ ] Section 12: OKR + North Star + Anti-Metric + Cost KR mandatory (Yes/No)
+- [ ] Section 13: Top-3 가설 + 2-day experiment 링크 (Yes/No)
+- [ ] Section 14: 실패 시나리오 (4개 이상) + HITL 트리거 (Yes/No)
+- [ ] 전체 일관성: 섹션 간 충돌·누락 없음 (Yes/No)
+- [ ] TK 인용: `learn/pm-engine` 쿼리로 관련 TK-NNN 3~5개 (Yes/No)
 
 ---
 
-## Examples
+## Unified PRD 14-section 구조
 
-### Good Example
-
-```markdown
-# Agent PRD — cost-analyst
-
-## Section 1 — Overview
-
-에이전트 이름: cost-analyst
-버전: 1.0
-작성일: 2026-03-07
-작성자: PM (담당자)
-상태: Ready for Implementation
-
-한 줄 정의:
-cost-analyst는 production agent workspace 시스템의 월간 API 비용을 자동 분석하고, 절감 기회를 식별하는 에이전트다.
-
-배경:
-production agent workspace 운영 중 Gemini/Claude API 비용이 예측 불가능하게 증가. 월별 비용 분석을 자동화하고, 상위 10% 비용 소비처를 식별해 최적화 전략을 제시할 필요.
+> **상단** = 사람·문제·결정 (Section 1~6) → 비즈니스가 읽음
+> **중단** = 에이전트·실행 사양 (Section 7~11) → 엔지니어가 읽음
+> **하단** = 지표·가설·실패 (Section 12~14) → PM이 매주 갱신
 
 ---
 
-## Section 2 — Instruction Design
+### Section 1 — 사용자 / ICP / 페르소나
 
-Role:
-cost-analyst는 데이터 분석 PM으로서, Google Cloud Billing과 Anthropic API 청구 데이터를 수집하고,
-PM 담당자에게 실행 가능한 비용 절감 권고를 제시한다.
-
-Primary Goal:
-월간 API 비용의 상위 10개 비용 소비처(에이전트/도구별)를 식별하고, 각각의 절감 기회를 수치화하여 보고.
-
-Secondary Goals:
-1. 전월 대비 비용 증감 추이 시각화
-2. 비용 이상 탐지 (예: 예상치의 200% 이상)
-3. 절감 우선순위별 권고 (ROI 높은 것부터)
-
-Anti-Goals:
-1. 추측 기반 권고 금지 — 모든 수치는 실제 청구 데이터 기반
-2. 비용 절감을 위해 기능 제거 권고 금지 — 최적화만 제시
-3. 일관되지 않은 계산 방식 — 매달 동일한 로직으로 분석
-
----
-
-## Section 3 — Tools & Integrations
-
-| 도구 | 용도 | 사용 조건 | 호출 제한 |
-|------|------|----------|---------|
-| Google Cloud Billing API | 월간 GCP 비용 조회 | 매월 1회 | 1회/실행 |
-| Anthropic API | 월간 Claude 사용량 조회 | 매월 1회 | 1회/실행 |
-| read_file | production agent workspace 실행 로그 읽기 | 에이전트 사용 기록 분석 시 | 제한 없음 |
-| write_file | 분석 결과 저장 | 월말 분석 완료 후 | 1회/실행 |
-| message (Telegram) | 최종 리포트 전송 | 분석 완료 후 무조건 | 1회/실행 |
-
-최소 권한 원칙: 읽기 전용 (비용 데이터 열람만, 과금 정책 변경 불가)
-
----
-
-## Section 4 — Memory Strategy
-
-Working Memory (컨텍스트):
-- 항상 로드: 지난 3개월 비용 요약 (CSV) (~2KB = 600 tokens)
-- 조건부 로드: 이상 탐지 규칙 SKILL.md (비용 200% 이상 증가 시만) (~1KB = 300 tokens)
-- 컨텍스트 예산: 총 10,000 tokens 중 1,000 tokens 사용 (10%)
-
-Long-term Memory (파일):
-- 읽기: monthly-cost-2026-01.json, 02.json, 03.json
-- 쓰기: monthly-analysis-2026-03.md (분석 결과)
-- 저장 트리거: 분석 완료 후 자동 저장
-
-Procedural Memory (Skills):
-- cost-analysis.md (비용 분석 프레임워크)
-- anomaly-detection.md (이상 탐지 규칙)
-
----
-
-## Section 5 — Trigger & Execution
-
-트리거 유형:
-☑ Cron — 매월 1일 오전 10:00 UTC
-☐ Event-Driven
-☐ Manual
-☐ Pipeline
-
-실행 흐름:
-Step 1: Google Cloud Billing API 호출 → 지난 달 비용 데이터 수집
-Step 2: Anthropic API 호출 → Claude 사용량 데이터 수집
-Step 3: 데이터 통합 및 분석 (상위 10개 소비처 식별)
-Step 4: 절감 권고 생성 (각각의 예상 절감액 계산)
-Step 5: Telegram 리포트 전송
-
-예상 실행 시간: 2분
-타임아웃 설정: 5분
-
----
-
-## Section 6 — Output Specification
-
-출력 채널: Telegram
-출력 형식: Markdown
-출력 길이: 최대 1000자 (기본) + CSV 파일 첨부
-언어: 한국어
-톤: 간결하고 실용적 (수치 우선)
-
-출력 예시:
 ```
-📊 2026년 3월 API 비용 분석
+ICP (Ideal Customer Profile):
+[한 줄 정의 — beachhead 5-criteria 통과]
 
-**월간 총 비용:** $48.50 (전월 대비 +12%)
+페르소나 (2~3개):
 
-🏆 상위 5개 비용 소비처:
-1. pm-briefing (Gemini 이미지) — $15.30 (32%)
-   💡 제안: Flash → 배치 50% 할인 적용 시 -$7.65/월
-2. cost-analyst (Claude Sonnet) — $12.80 (26%)
-   💡 제안: 요약본 우선 전략으로 -$3.84/월
-...
+### 페르소나 A. [이름·역할]
+- 하루 일과:
+- 핵심 고통 (top 3):
+- 현재 대안:
+- 도달 채널 (verified):
+```
 
-📈 전월 대비: 3월은 pm-briefing 이미지 생성이 40회 → 60회로 증가.
-   특정 스타일의 이미지 요청이 많아지면서 비용 상승.
-
-🎯 가장 효과적인 절감: Flash 배치 할인 적용 → 월 -$8 예상
+> 자동 호출: `discover/agent-gtm` beachhead 5-criteria 결과 inject
 
 ---
-자세한 분석은 첨부 CSV 참조.
+
+### Section 2 — JTBD (Jobs To Be Done)
+
+```
+핵심 Job (1~3개):
+
+### Job-1: [상황]에서 [목표]를 달성하고 싶다, 그래서 [성공 기준]
+- Push (현 상태 불만):
+- Pull (새 솔루션 매력):
+- Anxiety (도입 불안):
+- Habit (기존 습관 관성):
+```
+
+> 자동 호출: `discover/agent-gtm` Switch Interview 산출물
+
+---
+
+### Section 3 — 핵심 문제 + 해결할 가치
+
+```
+문제 (top 1~3 — 절실히 이해):
+1. [페르소나]는 [상황]에서 [고통] — 매일 N시간 또는 ₩M 손실
+
+해결 방식 (워크플로우, 솔루션 X):
+[본 제품이 풀어주는 흐름 — 일하는 방식이 어떻게 바뀌는가]
+
+10배 가치 (정량):
+- 시간: [Before] N시간 → [After] N분 (M배)
+- 돈: [Before] ₩M → [After] ₩K (M배)
+- 또는: 새로 가능해지는 것
 ```
 
 ---
 
-## Section 7 — Failure Handling & Success Metrics
-
-실패 시나리오:
-
-| 시나리오 | 감지 방법 | 대응 행동 |
-|---------|---------|---------|
-| API 응답 없음 (Google Cloud Billing) | 10초 타임아웃 | 3회 재시도 (30초 간격) → 실패 시 "지난달 데이터 없음" 알림 + 진행 중단 |
-| API 요금 데이터 불완전 (모든 트랜잭션 누락) | 예상 비용 대비 50% 미만 반환 | "데이터가 불완전합니다. 24시간 후 다시 시도하세요" 알림 |
-| 이상 탐지 트리거 (전월 대비 200% 이상 증가) | monthly-cost 비교 | 추가 분석 SKILL 활성화 → "비용 이상 알림" 강조 + 긴급 검토 권고 |
-| 계산 오류 (분석 결과 검증 실패) | 수수료 합계 ≠ 리포트 합계 | 로그 재검토 → 재분석 → 재전송 (알림: "재분석 결과") |
-
-Human-in-the-loop 트리거:
-비용 이상 감지(200% 이상) → 즉시 PM 담당자에게 알림 (긴급 검토 요청)
-
-성공 지표:
-- 정확도: API 청구 데이터 vs 리포트 비용 오차 < 1%
-- 비용: 에이전트 월 운영 비용 $5 이하
-- 레이턴시: 실행 시간 < 3분
-- 신뢰성: 월 28회 실행 중 27회 이상 성공 (99% uptime)
-```
-
-### Bad Example
-
-```markdown
-# PRD — agent-y
-
-에이전트: 데이터를 분석합니다.
-
-하는 일: 데이터 처리
-
-도구: API 여러 개
-
-메모리: 파일을 로드합니다.
-
-출력: 결과를 전송합니다.
-
-실패 시: 에러 메시지를 보냅니다.
-
----
-
-문제점:
-- 한 줄 정의가 추상적 (누구를 위해? 왜?)
-- Instruction 섹션 불완전 (Anti-Goals 없음)
-- Tools 섹션이 구체적이지 않음 (도구 명시 X, 사용 조건 X)
-- Memory 계획이 없음 (어떤 파일? 언제 로드?)
-- Trigger가 명시되지 않음 (Cron? Event?)
-- Output 예시가 없음 (어떻게 생겼는지 몰라)
-- Failure Handling이 추상적 (구체적 대응 방법 없음)
-```
-
----
-
-## Agent PRD Template
-
-일반 PRD와 에이전트 PRD는 구조가 다릅니다.
-
-| 일반 PRD | 에이전트 PRD |
-|---|---|
-| 사용자 스토리 중심 | Instruction 설계 중심 |
-| 기능 명세 | 행동 + 판단 기준 명세 |
-| UI/UX 흐름 | 트리거 → 실행 → 출력 흐름 |
-| 성공 지표: DAU, 전환율 | 성공 지표: 정확도, 비용, 신뢰성 |
-| 실패 처리: 에러 메시지 | 실패 처리: Fallback + Human escalation |
-
----
-
-### Agent PRD 7섹션 구조
-
----
-
-#### Section 1 — Overview
+### Section 4 — 결정 옵션 매트릭스
 
 ```
-에이전트 이름:
-버전:
-작성일:
-작성자:
-상태: [Draft / Review / Approved / Deployed]
-
-한 줄 정의:
-[누구를 위해] [어떤 목적으로] [어떻게 동작하는] 에이전트
-
-배경 / 만드는 이유:
-[왜 지금 이 에이전트가 필요한가]
+| 결정 항목 | 옵션 A | 옵션 B | 옵션 C | 선택 | 트레이드오프 | 재검토 시점 |
+|---------|--------|--------|--------|------|-------------|------------|
+| RAG 인프라 | Supabase pgvector | ChromaDB | Pinecone | A | Cloud 한 스택 vs 로컬 자유도 | 100명 |
+| 결제 | Paddle MoR | Stripe | Lemon Squeezy | A | 사업자 등록 vs 직접 통합 | 1,000명 |
+| Orchestration | Sequential | Parallel | Router | A | 디버깅 vs 속도 | Wave 2 |
+| HITL 레벨 | L2 (suggest) | L3 (approve) | L4 (autonomous) | L3 | 안전성 vs 속도 | 5명 사랑 후 |
 ```
+
+> 자동 호출: `discover/build-or-buy` + `architect/orchestration` + `discover/hitl`
 
 ---
 
-#### Section 2 — Instruction Design
+### Section 5 — 제외사항 (Out-of-Scope)
 
-에이전트의 정체성과 행동 원칙.  
-→ [agent-instruction-design] 스킬의 7요소를 이 섹션에 채운다.
+```
+의식적으로 안 만드는 것 (최소 5개):
+
+1. ❌ [기능 X] — 이유: [왜 안 만드나, 한 줄]
+2. ❌ [기능 Y] — 이유:
+3. ❌ ...
+4. ❌ ...
+5. ❌ ...
+
+재검토 신호:
+- [언제 이 제외 결정을 다시 볼 것인가]
+```
+
+> 자동 호출: `hplan/exclusions` 레지스트리 fuzzy match top-10
+
+---
+
+### Section 6 — MVP 범위 / Full vision
+
+```
+### Now (Wave 1, Day 1~60) — 5명 사랑 도달
+- 핵심 기능 3~5개 (이것 없이 5명 사랑 불가능)
+- cogs (p50): $___ / 사용자 / 월
+- cogs (p90): $___ / 사용자 / 월
+- Live URL 도착: Day 60
+
+### Next (Wave 2, Day 61~120) — 5명 → 30명
+- 확장 기능 3~5개
+- cogs (p50): $___ / 사용자 / 월
+
+### Later (Wave 3, Day 121+) — 30명 → 100명+
+- 확장 기능
+- cogs (p50): $___ / 사용자 / 월
+```
+
+> 자동 호출: `discover/cost-sim` (p50/p90 lognormal)
+
+---
+
+### Section 7 — Role + Primary Goal + Anti-Goals
+
+> 본 제품이 LLM 에이전트를 포함하면 작성. 일반 SaaS면 "N/A"
 
 ```
 Role:
@@ -352,56 +233,58 @@ Secondary Goals:
 1.
 2.
 
-Anti-Goals (하면 안 되는 것):
-1.
-2.
-3.
+Anti-Goals (하면 안 되는 것, 최소 3개):
+1. [도메인 룰 — 예: 변호사 책임 영역 hallucination 금지]
+2. [데이터 정책 — 예: 사용자 데이터 외부 전송 금지]
+3. [법적 책임 — 예: 의료 진단 대체 금지]
 ```
 
+> 자동 호출: `deliver/instruction` 7요소 상세 설계
+
 ---
 
-#### Section 3 — Tools & Integrations
+### Section 8 — Tools & Integrations
 
-에이전트가 사용하는 도구와 외부 연결 목록.
-
+```
 | 도구/API | 용도 | 사용 조건 | 호출 제한 |
-|---|---|---|---|
-| web_search | 최신 정보 수집 | 내부 데이터 부족 시 | 최대 5회/실행 |
-| Read/Write | 파일 접근 | 메모리 읽기/저장 | 제한 없음 |
-| message | Telegram 전송 | 최종 출력 | 1회/실행 |
-| exec | 스크립트 실행 | 계산/데이터 처리 | 명시된 경우만 |
+|---------|------|---------|---------|
+| OpenAI text-embedding-3-small | 벡터 임베딩 | 새 문서 ingest 시 | 1회/문서 |
+| Supabase pgvector | 유사도 검색 | 사용자 쿼리 시 | 무제한 |
+| Paddle API | 결제·세금 | 구독 가입·해지 | 이벤트 기반 |
+| Channel Talk API | CS 응답 | 사용자 메시지 | 1회/메시지 |
+```
 
-최소 권한 원칙: 필요한 도구만 포함, 각 도구의 사용 범위 명시
+최소 권한 원칙: 필요한 도구만 포함, 각 도구 사용 범위 명시
 
 ---
 
-#### Section 4 — Memory Strategy
+### Section 9 — Memory & Context Design
 
 ```
 Working Memory (컨텍스트):
-- 항상 로드: [파일 목록]
-- 조건부 로드: [파일 목록 + 조건]
-- 컨텍스트 예산: [예상 토큰 수]
+- 항상 로드: [시스템 프롬프트, 도메인 룰, 사용자 컨텍스트]
+- 조건부 로드: [관련 문서 top-5 from RAG]
+- 컨텍스트 예산: [최대 N tokens]
 
-Long-term Memory (파일):
-- 읽기: [어떤 파일에서 무엇을 읽는가]
-- 쓰기: [어떤 파일에 무엇을 저장하는가]
-- 저장 트리거: [언제 저장하는가]
+Long-term Memory (DB / 파일):
+- 읽기: [사용자별 누적 데이터 위치]
+- 쓰기: [언제 무엇을 저장]
+- 저장 트리거: [세션 종료 / 사용자 액션]
 
 Procedural Memory (Skills):
-- 사용하는 SKILL.md 목록
+- [참조하는 도메인 SKILL.md 목록]
 ```
 
 ---
 
-#### Section 5 — Trigger & Execution
+### Section 10 — Trigger & Execution Flow
 
 ```
 트리거 유형:
-☐ Cron (주기적)   — 스케줄:
-☐ Event-Driven    — 이벤트:
-☐ Manual          — 조건:
-☐ Pipeline        — 선행 에이전트:
+☐ Cron (주기적) — 스케줄:
+☐ Event-Driven — 이벤트:
+☐ Manual — 조건:
+☐ Pipeline — 선행 에이전트:
 
 실행 흐름:
 Step 1: [입력 수집]
@@ -415,10 +298,10 @@ Step 4: [전달/저장]
 
 ---
 
-#### Section 6 — Output Specification
+### Section 11 — Output Specification
 
 ```
-출력 채널: [Telegram / 파일 / stdout / Notion / API]
+출력 채널: [Web UI / Telegram / 이메일 / API]
 출력 형식: [Markdown / Plain text / JSON / 구조화 텍스트]
 출력 길이: [최대 N자 / N줄]
 언어: [한국어 / 영어]
@@ -432,101 +315,123 @@ Step 4: [전달/저장]
 
 ---
 
-#### Section 7 — Failure Handling & Success Metrics
+### Section 12 — 성공 지표 통합 (Dual-axis)
 
 ```
-실패 시나리오:
+North Star Metric:
+[단 하나 가장 중요한 지표 — 사용자 가치와 직결]
 
-| 시나리오 | 감지 방법 | 대응 행동 |
-|---|---|---|
-| 데이터 없음 | 빈 결과 반환 | 안내 메시지 전송 후 종료 |
-| API 실패 | HTTPError | 3회 재시도 → 실패 알림 |
-| 토큰 초과 | 컨텍스트 85%+ | 요약 후 핵심만 처리 |
-| 판단 불확실 | 신뢰도 < 임계값 | Human-in-the-loop 에스컬레이션 |
+Business KRs (3~5개):
+1. DAU / WAU / MAU
+2. MRR / ARR
+3. 리텐션 D7 / D30
+4. NPS
+5. Sean Ellis 40% — "더 이상 못 쓰면 매우 실망"
+
+Operational KRs (3~5개, mandatory cost KR 포함):
+1. TTV (Time To Value) ≤ 5분
+2. 도메인 충실성 ≥ 0.85
+3. 에이전트 응답 시간 p95 ≤ 3초
+4. 월 cogs / 사용자 ≤ $___
+5. 에러율 ≤ 1%
+
+Anti-Metric (이 지표가 오르면 위험):
+[예: 평균 세션 시간이 30분 넘으면 사용자가 길을 잃은 것]
+```
+
+> 자동 호출: `measure/north-star` + `deliver/okr` (dual-axis)
+
+---
+
+### Section 13 — 검증 가능 가설 박스
+
+```
+Top-3 가설 (Value/Feasibility/Reliability/Ethics 4축):
+
+### 가설 H-1 (Value)
+- 가설: [if X then Y because Z]
+- 측정: [어떻게 측정]
+- 임계값: [통과 기준]
+- 2-day experiment: [실험 설계]
+- 결과: [통과 / 실패 / 진행 중]
+
+### 가설 H-2 (Feasibility)
+...
+
+### 가설 H-3 (Reliability)
+...
+```
+
+> 자동 호출: `discover/assumptions` (4축 분해 + 2-day experiment)
+
+---
+
+### Section 14 — 실패 모드 + Human-in-the-loop
+
+```
+실패 시나리오 매트릭스 (최소 4개):
+
+| 시나리오 | 감지 | 대응 | 사용자 영향 |
+|---------|------|-----|------------|
+| 도메인 RAG 충실성 < 0.7 | Eval suite | Fallback to GPT + 경고 | 낮음 |
+| 결제 API 실패 | HTTPError | 3회 재시도 → 대안 결제 안내 | 중간 |
+| 한국어 판례명 잘못 인식 | 사용자 신고 | admin 알림 + roll back | 높음 |
+| 데이터 유출 의심 | 비정상 access | 즉시 차단 + audit log | Critical |
 
 Human-in-the-loop 트리거:
-[어떤 상황에서 인간 판단을 요청하는가]
-
-성공 지표:
-- 정확도 목표: [%]
-- 비용 목표: [월 $ 이하]
-- 레이턴시 목표: [초 이하]
-- 신뢰성 목표: [% uptime]
+- 도메인 충실성 < 0.7 → 사용자 확인 요청
+- 결제 분쟁 → admin escalation
+- 법률·의료 등 high-stakes → 항상 사용자 확인
 ```
 
 ---
 
-### 간소화 버전 (MVP PRD)
+## Instructions
 
-빠른 프로토타이핑용 1페이지 포맷:
+You are helping write a complete **Unified PRD** for: **$ARGUMENTS**
 
-```
-에이전트: [이름]
-목적: [한 줄]
-트리거: [언제]
-입력: [무엇을 받는가]
-처리: [무엇을 하는가]
-출력: [무엇을 전달하는가]
-도구: [사용하는 도구]
-모델: [Haiku / Sonnet / Opus]
-실패 시: [어떻게 처리하는가]
-성공 기준: [측정 방법]
-```
+**Phase 1** — Section 1-3 (사람·문제·가치)
+- Section 1: ICP·페르소나 — `discover/agent-gtm` 호출 (beachhead 5-criteria)
+- Section 2: JTBD·Switch 4 Forces
+- Section 3: 핵심 문제 + 10배 가치 (정량)
 
----
+🔍 Checkpoint 1: User 검증 — "ICP·JTBD·문제가 5명 사랑 인터뷰에 그대로 쓸 수 있는가?"
 
-### 사용 방법
+**Phase 2** — Section 4-6 (결정·범위)
+- Section 4: 결정 옵션 매트릭스 — `discover/build-or-buy` + `architect/orchestration` + `discover/hitl`
+- Section 5: 제외사항 — `hplan/exclusions` 자동 인용
+- Section 6: Now/Next/Later — `discover/cost-sim` (cogs p50/p90)
 
-`/write-agent-prd [에이전트 이름 또는 목적]`
+🔍 Checkpoint 2: User 검증 — "MVP가 60일 안에 가능한가? cogs가 1인 빌더 감당 가능한가?"
 
----
+**Phase 3** — Section 7-11 (에이전트·실행 사양)
+- Section 7: Role + Anti-Goals — `deliver/instruction` 호출
+- Section 8: Tools & Integrations + 호출 제한 mandatory
+- Section 9: 3-tier Memory (Working / Long-term / Procedural)
+- Section 10: Trigger & Execution Flow Step-by-Step
+- Section 11: Output Specification + 실제 예시 1개
 
-### Instructions
+> 일반 SaaS (LLM 에이전트 없음) 이면 Section 7-11에 "N/A — 일반 SaaS" 간단 표기 가능
 
-You are helping write a complete **Agent PRD** for: **$ARGUMENTS**
+**Phase 4** — Section 12-14 (지표·가설·실패)
+- Section 12: Dual-axis OKR — `measure/north-star` + `deliver/okr` (cost KR mandatory)
+- Section 13: Top-3 가설 — `discover/assumptions` + 2-day experiment
+- Section 14: 실패 모드 (4개 이상) + HITL 트리거
 
-**Step 1** — Section 1 Overview 작성 (에이전트 이름, 한 줄 정의, 배경)
-
-**Step 2** — Section 2 Instruction Design  
-→ `agent-instruction-design` 스킬의 7요소 적용
-
-**Step 3** — Section 3 Tools & Integrations  
-도구 목록 + 최소 권한 원칙 적용
-
-**Step 4** — Section 4 Memory Strategy  
-3계층 메모리 계획 (`memory-architecture` 스킬 연계)
-
-**Step 5** — Section 5 Trigger & Execution  
-트리거 유형 선택 + 실행 흐름 Step-by-Step
-
-**Step 6** — Section 6 Output Specification  
-채널/형식/길이/예시 포함
-
-**Step 7** — Section 7 Failure Handling & Success Metrics  
-실패 시나리오 테이블 + KPI 목표값 설정  
-(`agent-kpi` 스킬 연계)
-
-**Step 8** — PRD 검토  
-- Anti-Goals가 충분히 구체적인가?
-- 실패 시나리오가 완전한가?
-- 성공 지표가 측정 가능한가?
-
----
-
-### 참고
-- 설계자: AI PM Skills Contributors, 2026-03
-- 일반 PM PRD 템플릿 기반 → 에이전트 특화 70% 재작성
-- Sections 4~7: production cron job 운영 경험에서 도출
+**Phase 5** — PRD 통합 & TK 인용
+- `learn/pm-engine` 쿼리로 관련 TK-NNN 3~5개 인용 (각 섹션 하단에 시드)
+- Quality Gate 16개 항목 (14 섹션 + 일관성 + TK 인용) 모두 통과 확인
+- `docs/PRD.md`에 저장
 
 ---
 
 ## Further Reading
-- Marty Cagan, *INSPIRED* — Product requirements and discovery
-- Shreyas Doshi — "Pre-Mortem for PRDs" framework
+- Marty Cagan, *INSPIRED* — Discovery before delivery
+- Bob Moesta, *Demand-Side Sales* — Switch Interview / JTBD
+- Sean Ellis, *Hacking Growth* — 40% PMF Rule
+- Marc Andreessen, *Pmarchive 2007* — "The Only Thing That Matters" PMF
 
 ## Contextual Knowledge (auto-loaded)
-
-> 보조 파일이 존재할 때만 자동 로드됩니다. 파일이 없으면 건너뜁니다.
 
 ### Good Example
 !`cat examples/good-01.md 2>/dev/null || echo ""`
