@@ -120,6 +120,14 @@ interview_notes: |
 
 interview_count: 0        # 실제 인터뷰 건수 (AI 대화 제외)
 strong_push_count: 0      # 동일 push signal을 반복한 사람 수 (Torres 기준: 3+ = strong)
+interview_artifact: ""    # 원본 증거 링크 1개 필수: Zoom 녹화·transcript·Dovetail 링크·노트 파일 경로
+                          # 없으면 interview_count 점수 최대 12점 제한 (Dovetail artifact rule)
+                          # ✅ Good: "https://dovetail.com/... " / "notes/2026-05-10-interview.md"
+                          # ❌ Bad: 빈칸 (인터뷰 수는 높아도 artifact 없으면 신뢰도 상한 제한)
+unique_insights: 0        # 인터뷰로 발견한 고유 인사이트 수 (건수와 별개)
+                          # 밀도 = unique_insights / interview_count < 0.5이면 페널티 적용
+                          # ✅ Good: 인터뷰 5건 → 인사이트 4개 (밀도 0.8)
+                          # ❌ Bad: 인터뷰 10건 → 인사이트 2개 (밀도 0.2 — 형식적 인터뷰 의심)
 
 ---
 

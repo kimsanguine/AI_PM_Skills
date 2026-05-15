@@ -42,17 +42,54 @@ from typing import Optional
 # Scoring tables
 # ---------------------------------------------------------------------------
 
-def score_interview_volume(count: int) -> tuple[int, str]:
-    """25 pts. Based on YC/Torres: 5+ interviews = pattern convergence."""
+def score_interview_volume(
+    count: int,
+    artifact: str = "",
+    unique_insights: int = 0,
+) -> tuple[int, str]:
+    """25 pts. Interview count + Dovetail artifact rule + Netflix density penalty.
+
+    Dovetail rule: count > 0 but no artifact → cap at 12 (unverifiable claim).
+    Netflix rule:  insight density < 0.5 per interview → -3 pts (gaming signal).
+    """
     if count == 0:
         return 0, "0 interviews — LLM will speculate on customer evidence"
+
+    has_artifact = bool(artifact and artifact.strip() not in ("", '""'))
+
     if count <= 2:
-        return 5, f"{count} interview(s) — very limited signal"
-    if count <= 4:
-        return 12, f"{count} interviews — some signal, below convergence threshold (5)"
-    if count <= 9:
-        return 20, f"{count} interviews — pattern convergence likely"
-    return 25, f"{count} interviews — strong sample"
+        base = 5
+    elif count <= 4:
+        base = 12
+    elif count <= 9:
+        base = 20
+    else:
+        base = 25
+
+    notes = []
+
+    # Dovetail artifact rule: cap unverified interview claims
+    if not has_artifact:
+        base = min(base, 12)
+        notes.append("no artifact link — capped at 12 (add interview_artifact to unlock)")
+
+    # Netflix density rule: penalise low-insight-per-interview ratio
+    if unique_insights > 0 and count > 0:
+        density = unique_insights / count
+        if density < 0.5:
+            penalty = min(3, base // 4)
+            base = max(0, base - penalty)
+            notes.append(
+                f"low insight density ({unique_insights}/{count} = {density:.1f}) — -{penalty} pts"
+            )
+
+    suffix = f" [{'; '.join(notes)}]" if notes else ""
+    label = (
+        f"{count} interview(s) — very limited signal"
+        if count <= 2
+        else f"{count} interviews — {'pattern convergence likely' if count <= 9 else 'strong sample'}"
+    )
+    return base, label + suffix
 
 
 def score_segment_diversity(icp_segment: str, icp_anti: str) -> tuple[int, str]:
@@ -278,8 +315,10 @@ def score_file(path: Path) -> CQSResult:
     direct_competitors  = extract_field(text, "direct_competitors")
     interview_notes     = extract_block(text, "interview_notes")
     interview_count     = extract_int_field(text, "interview_count")
+    interview_artifact  = extract_field(text, "interview_artifact")
+    unique_insights     = extract_int_field(text, "unique_insights")
 
-    s_iv,  n_iv  = score_interview_volume(interview_count)
+    s_iv,  n_iv  = score_interview_volume(interview_count, interview_artifact, unique_insights)
     s_sd,  n_sd  = score_segment_diversity(icp_segment, icp_anti)
     s_er,  n_er  = score_evidence_recency(event_recency)
     s_si,  n_si  = score_source_independence(interview_notes, workaround_tool, direct_competitors)
