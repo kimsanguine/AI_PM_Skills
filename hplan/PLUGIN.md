@@ -80,6 +80,45 @@ python3 hplan/hplan_mcp/server.py    # stdio MCP server
 
 See [`hplan_mcp/README.md`](./hplan_mcp/README.md) for host registration.
 
+## Gate Integrity Harness
+
+Three layers that keep "good decision" guarantees from degrading after the gate passes:
+
+### HARD-GATE (command-level enforcement)
+
+`/hplan-product` and `/hplan-build` carry `<HARD-GATE>` blocks at their tops:
+
+- **`<HARD-GATE name="evidence">`** in `/hplan-product`: blocks entry unless `decision_log` shows a passed Evidence Gate. Allows research inputs as exception — competitor analysis, customer profiling, AI persona drafts, market research may run *before* the gate as inputs, not as gate-passing substitutes. Persona drafts without interview or behavior evidence do not satisfy Evidence Gate.
+- **`<HARD-GATE name="product">`** in `/hplan-build`: blocks entry unless `decision_log` shows a passed Product Gate with Journey map + Sitemap.
+
+### STATE.md + SessionStart hook (session continuity)
+
+When `/hplan-build` outputs `CONDITIONAL_GO`, it automatically writes `harness/STATE.md` with the current gate, active conditions, verification anchors, and blockers. The `.claude/settings.json` `SessionStart` hook prints this file at the start of every new Claude Code session.
+
+To activate for a project using hplan:
+
+```bash
+# Copy the bundled example to your project's .claude/ directory
+mkdir -p .claude
+cp path/to/hplan/hplan/references/settings-example.json .claude/settings.json
+```
+
+Or add manually to your existing `.claude/settings.json`:
+```jsonc
+"SessionStart": [{
+  "matcher": "",
+  "hooks": [{"type": "command", "command": "[ -f harness/STATE.md ] && cat harness/STATE.md || true"}]
+}]
+```
+
+Template: [`hplan/references/settings-example.json`](./references/settings-example.json) — includes both SessionStart hook and PreToolUse gate_guard hook.
+
+### Condition anchor table (condition → verification tracking)
+
+Every `CONDITIONAL_GO` output includes a `| 조건 | verified_by | 상태 |` table. Each row maps a named condition to the test/task file that proves it. Rows start as ❌; updated to ✅ when the file exists. `validate_docs.py --check condition_coverage` cross-checks this automatically.
+
+---
+
 ## Operating Rules
 
 1. Do not skip competitor or alternative research.
@@ -90,6 +129,7 @@ See [`hplan_mcp/README.md`](./hplan_mcp/README.md) for host registration.
 6. Do not assume a paid AI product is viable before COGS, usage caps, and gross margin are calculated.
 7. Do not claim realtime / instant / live value without latency budget and benchmark results.
 8. Do not advance Evidence, Product, or Build Gate without a visible human checkpoint.
+9. AI persona draft is a research input, not an Evidence Gate pass. Persona without interview or behavior evidence = gate still open.
 
 (Full 22 rules in [`SKILL.md`](./skills/evidence-rubric/SKILL.md) and `references/human-in-loop.md`.)
 

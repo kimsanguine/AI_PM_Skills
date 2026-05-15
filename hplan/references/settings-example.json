@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f harness/STATE.md ] && echo '=== hplan STATE ===' && cat harness/STATE.md && echo '==================' || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hplan/hooks/gate_guard.py"
+          }
+        ]
+      }
+    ]
+  }
+}
