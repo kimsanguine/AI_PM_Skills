@@ -66,6 +66,36 @@ Copy template to `harness/competitor-context.md` per project.
 
 **`hplan/references/context-intake.md`** — 9-section structured intake template with ✅/❌ inline examples for every field. Eliminates LLM inference dependency on GIGO inputs.
 
+### Fixed — Pre-commit hook reads staged index, not working tree (security)
+
+**Reported by**: Codex adversarial review.
+
+**Bug**: `scripts/install-hooks.sh` read `harness/build-gate/checkpoint.json` from the working tree via `open(path)`. Git commits the index, not the working tree — a user could leave an approved checkpoint unstaged while staging guarded PRD/spec files; the hook would pass, but the resulting commit contained no approved checkpoint.
+
+**Fix**: Replace `open(checkpoint)` with `git show :harness/build-gate/checkpoint.json` to read the index blob. Also run `context_dates` freshness threshold check against the staged blob (was: only gate_guard.py soft warning; now hard-blocks stale evidence at commit time).
+
+Bypass: `CLAUDE_HPLAN_BYPASS=1` still available for authorized use.
+
+---
+
+### Added — Dovetail artifact rule + Netflix density penalty in CQS interview scoring
+
+Two design weaknesses identified via adversarial review + market research (Guest et al. 2006, Dovetail, Netflix DORA):
+
+**약점 2 — self-report unverifiable (Dovetail artifact rule)**
+- New field: `interview_artifact` — link to Zoom recording / transcript / Dovetail board / note file. One artifact required.
+- `score_interview_volume()` caps at 12/25 when `interview_count > 0` but no artifact is present.
+- Prevents zero-evidence interview count claims from scoring as HIGH.
+
+**약점 3 — gamification incentive (Netflix density penalty)**
+- New field: `unique_insights` — number of distinct insights discovered across interviews.
+- Density = `unique_insights / interview_count`; if < 0.5 → −3 pts applied.
+- Discourages bulk low-quality interviews that inflate count without discovery.
+
+**Evidence**: gaming scenario (10 interviews, no artifact, 1 insight) → 9/25. Honest scenario (10 interviews, artifact linked, 7 insights) → 25/25. The 16-point gap crosses the MODERATE ↔ HIGH boundary.
+
+**약점 1 note — threshold calibration**: CQS thresholds (30/55/75) remain as **v0.7.2 hypotheses** — empirically derived only from Guest, Bunce & Johnson (2006) saturation research and Stage-Gate risk calibration patterns. Real calibration requires outcome tracking: collect 20+ hplan-gated project results (6-month retention, COGS accuracy) and back-calculate from pass/fail distributions. Planned for a future release once usage data accumulates.
+
 ---
 
 ## [0.7.1] — 2026-05-14
