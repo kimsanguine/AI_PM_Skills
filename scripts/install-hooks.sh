@@ -69,29 +69,58 @@ if [ "${CLAUDE_HPLAN_BYPASS:-}" = "1" ]; then
   exit 0
 fi
 
-if [ ! -f "$CHECKPOINT" ]; then
+# Read checkpoint from the staged index (not working tree) to prevent bypass via
+# unstaged approved checkpoint. git show :path reads the index blob.
+STAGED_CHECKPOINT=$(git show ":$CHECKPOINT" 2>/dev/null)
+
+if [ -z "$STAGED_CHECKPOINT" ]; then
   echo "" >&2
   echo "hplan pre-commit BLOCKED ──────────────────────────" >&2
   echo "  Staged files require Build Gate approval:" >&2
   echo "$GUARDED" | sed 's/^/    /' >&2
-  echo "  Missing: $CHECKPOINT" >&2
+  echo "  Missing from index: $CHECKPOINT" >&2
+  echo "  Stage the approved checkpoint first: git add $CHECKPOINT" >&2
   echo "  Run /hplan \"<idea>\" to complete the gate first." >&2
   echo "────────────────────────────────────────────────────" >&2
   exit 1
 fi
 
-# Read status field (works without jq — uses python3 or awk fallback)
+# Parse status and context_dates from staged blob (python3 or awk fallback)
 if command -v python3 &>/dev/null; then
-  STATUS=$(python3 -c "
+  read -r STATUS FRESHNESS_VERDICT <<< "$(python3 -c "
 import json, sys
+from datetime import date
+
+THRESHOLDS = {
+    'customer_interviews':  90,
+    'competitive_analysis': 90,
+    'provider_pricing':     60,
+    'market_size':          180,
+}
+
 try:
-    d = json.load(open('$CHECKPOINT'))
-    print(d.get('status', ''))
+    d = json.loads('''$STAGED_CHECKPOINT''')
+    status = d.get('status', '')
+    today = date.today()
+    blocked = []
+    for field, limit in THRESHOLDS.items():
+        val = (d.get('context_dates') or {}).get(field, '')
+        if val:
+            try:
+                age = (today - date.fromisoformat(val)).days
+                if age > limit:
+                    blocked.append(f'{field} ({age}d > {limit}d limit)')
+            except ValueError:
+                pass
+    verdict = 'block:' + '|'.join(blocked) if blocked else 'ok'
+    print(status, verdict)
 except Exception:
-    print('')
-" 2>/dev/null)
+    print('', 'ok')
+" 2>/dev/null)"
+  )"
 else
-  STATUS=$(awk -F'"' '/"status"/{print $4; exit}' "$CHECKPOINT" 2>/dev/null || echo "")
+  STATUS=$(echo "$STAGED_CHECKPOINT" | awk -F'"' '/"status"/{print $4; exit}')
+  FRESHNESS_VERDICT="ok"
 fi
 
 if [ "$STATUS" != "approved" ]; then
@@ -101,6 +130,18 @@ if [ "$STATUS" != "approved" ]; then
   echo "$GUARDED" | sed 's/^/    /' >&2
   echo "  checkpoint.json status = \"$STATUS\" (need \"approved\")" >&2
   echo "  Run /hplan \"<idea>\" to complete the gate first." >&2
+  echo "────────────────────────────────────────────────────" >&2
+  exit 1
+fi
+
+# Freshness check against staged checkpoint context_dates
+if [[ "$FRESHNESS_VERDICT" == block:* ]]; then
+  STALE=$(echo "$FRESHNESS_VERDICT" | sed 's/^block://' | tr '|' '\n')
+  echo "" >&2
+  echo "hplan pre-commit BLOCKED ──────────────────────────" >&2
+  echo "  Stale context_dates in staged checkpoint:" >&2
+  echo "$STALE" | sed 's/^/    /' >&2
+  echo "  Re-gather the stale evidence and re-run /hplan." >&2
   echo "────────────────────────────────────────────────────" >&2
   exit 1
 fi
