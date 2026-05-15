@@ -226,6 +226,20 @@ Every skill includes `examples/good-01.md` and `examples/bad-01.md` — concrete
 
 Built on Claude Code's latest platform spec: auto-invocation, `context: fork`, `allowed-tools`, `model` field, dynamic `!command` injection, marketplace, and eval system. New users start with the [PM-ENGINE-MEMORY Starter Kit](learn/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md) — 5 seed TK entries so the value is **immediate**, not "someday when I accumulate enough data."
 
+### ⑦ Three Engineering Layers — The Stack Most AI Toolkits Miss
+
+Most "AI for PMs" tools operate at a single layer: Prompt Engineering — better templates, faster output. hplan is built across three layers that must work together:
+
+| Layer | What it does | hplan tools |
+|-------|-------------|-------------|
+| **Prompt Engineering** | Structured prompts that extract real signal — not opinion or LLM speculation | evidence-rubric · interview-synthesis · OST · cogs-sentinel |
+| **Context Engineering** | *Garbage in, garbage out.* Customer documents, market data, and competitive context enter the system *before* any PRD — not inferred afterward. The exclusions registry and decision-log are institutional memory as permanent, structured context. | exclusions · decision-log · interview-synthesis |
+| **Harness Engineering** | Deterministic guardrails enforced at the system level: Python scripts, append-only JSONL registries, a PreToolUse hook that blocks PRD writes at the filesystem. The discipline exists even when you'd rather skip it. | gate_guard.py · cogs_sentinel.py · exclusions_registry.py · MCP server |
+
+> *Prompt Engineering improves HOW you ask. Context Engineering determines WHAT goes in. Harness Engineering enforces WHETHER you proceed.*
+
+A perfect prompt with bad customer data produces confidently wrong conclusions. An excellent evidence rubric means nothing if a developer can bypass it and write the PRD anyway. All three layers are required — and in that order.
+
 ---
 
 ## Plugins — Full Skill List

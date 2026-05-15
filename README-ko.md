@@ -138,6 +138,40 @@ Day 50-60   매출·성과 구조
 
 ---
 
+## 세 개의 엔지니어링 레이어
+
+대부분의 AI PM 도구는 한 레이어에서만 작동합니다. hplan은 세 레이어를 모두 담은 유일한 프레임워크입니다:
+
+| 레이어 | 역할 | hplan 도구 |
+|--------|-----|-----------|
+| **프롬프트 엔지니어링** | 의견이 아닌 실제 신호를 추출하는 구조화된 프롬프트 | evidence-rubric · interview-synthesis · OST |
+| **컨텍스트 엔지니어링** | *쓰레기를 넣으면 쓰레기가 나온다.* LLM에 무엇이 들어가는지가 결과를 결정한다. 고객 문서·시장 데이터·경쟁사 분석이 PRD *이전*에 들어와야 한다. exclusions registry와 decision-log는 영구적으로 구조화된 기관 기억으로서의 컨텍스트다. | exclusions · decision-log · interview-synthesis |
+| **하네스 엔지니어링** | 시스템 레벨의 결정론적 가드레일: Python 스크립트, append-only JSONL 레지스트리, 파일 시스템에서 PRD 작성을 차단하는 PreToolUse hook. 건너뛰고 싶어도 건너뛸 수 없는 규율. | gate_guard.py · cogs_sentinel.py · exclusions_registry.py · MCP 서버 |
+
+> *프롬프트 엔지니어링은 어떻게 묻는지를 개선한다. 컨텍스트 엔지니어링은 무엇이 들어가는지를 결정한다. 하네스 엔지니어링은 진행할지 말지를 강제한다.*
+
+잘 짜인 프롬프트에 잘못된 고객 데이터를 넣으면 자신감 있게 틀린 결론이 나옵니다. 훌륭한 evidence rubric도 개발자가 무시하고 PRD를 쓸 수 있다면 의미가 없습니다. 세 레이어가 모두 필요하고, 순서가 있습니다.
+
+## WHETHER — 다른 도구들이 묻지 않는 질문
+
+> **"AI 코딩 도구가 HOW를 잘하게 됐다면, hplan은 WHETHER를 다룬다. 둘은 같이 쓰는 것이 아니라 순서가 있다 — hplan이 먼저다."**
+
+**HOW**는 묻습니다: *"어떻게 만들까?"*
+**WHETHER**는 묻습니다: *"만들어야 하는가 — YES인가 NO인가?"*
+
+WHETHER는 WHY보다 큽니다. WHY는 이유를 답합니다("왜 사용자가 돈을 낼까?"). WHETHER는 WHY를 *포함*하는 이진 판정입니다 — hplan의 각 게이트는 WHY 질문에 답하고, 세 WHY가 합쳐져 WHETHER가 나옵니다:
+
+| 게이트 | 답하는 WHY | 생성하는 WHETHER |
+|--------|-----------|----------------|
+| Evidence Rubric | 사용자에게 정말 이 문제가 있는가? | 진행할 충분한 증거가 있는가? |
+| Exclusions Check | 이전에 왜 이 아이디어를 죽였나? | 이번 시도는 의미 있게 다른가? |
+| COGS Sentinel | 왜 이 가격이 스케일에서 작동하는가? | 실제 비즈니스를 지탱할 수 있는가? |
+| **세 개 합산** | — | **GO / HOLD / INVESTIGATE** |
+
+다른 도구들은 **HOW**(superpowers → Claude Code 활용법), **WHO**(gstack → 에이전트 역할), **WHERE**(GSD → 워크플로우 위치)를 다룹니다. hplan은 **WHETHER** — 모든 결정보다 먼저 오는 결정을 다룹니다.
+
+---
+
 ## 왜 이 프로젝트를 만들었나
 
 2026년, PM들에게 "에이전트를 만들라"는 요구가 쏟아지고 있습니다.
@@ -160,12 +194,13 @@ Day 50-60   매출·성과 구조
 /plugin marketplace add kimsanguine/hplan
 /plugin install hplan@kimsanguine-hplan
 
-# 2. 아이디어를 Evidence Gate로 검증 — collision check + 100점 루브릭
-/hplan-evidence "AI 마케팅 카피 생성기"
-# → exclusions check ... COLLISION (해당 영역 이미 점유 중)
-# → reopen_trigger UNMET → decision: hold
+# 2. 3개 게이트를 한 번에 — exclusions + evidence + COGS → 판정
+/hplan "AI 마케팅 카피 생성기"
+# → [exclusions] COLLISION with ex-2026-04-17 (해당 영역 이미 점유 중)
+# → reopen_trigger UNMET → HOLD
 
-# 3. 또는 paid AI 가격 모델의 마진을 결정론적으로 검증
+# 또는 개별 게이트로 깊은 분석:
+/hplan-evidence "AI 마케팅 카피 생성기"   # 100점 루브릭 전체 + 인터뷰 합성
 /hplan-cogs --provider anthropic --model claude-sonnet-4-6 \
             --tokens-in 3000 --calls 40 --arpu 29
 # → p50 마진 95%, p90 90%, blended 49% → GREEN
