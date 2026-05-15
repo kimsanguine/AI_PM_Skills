@@ -28,7 +28,7 @@ Every AI tool today is great at making things *fast*. None of them ask whether t
 - 📋 Confidently shipping clones of established incumbents without realizing the territory is taken
 - 🤷 Making "build" or "hold" decisions and never finding out which ones were actually right
 
-**hplan is the gate that runs *before* all of that.** It's the discipline of saying "let me check first" — encoded as deterministic tools, not just good intentions.
+**hplan is the 30-minute proof that your next 6 months will work.** It's the discipline of saying "let me check first" — encoded as deterministic tools, not just good intentions.
 
 ## How hplan Shows Up in Your Day
 
@@ -51,6 +51,34 @@ The pattern: **you don't have to remember to invoke hplan.** Once installed, it 
 - **Product managers** who keep getting asked "can we build this with AI?" and want a structured way to answer
 - **Teams using Spec-Kit / Cursor / Kiro / Claude Code** who want a *pre-spec filter* — not a replacement
 - **Anyone** who has shipped something that looked good on paper and died in production, and wants the next idea to go differently
+
+## WHETHER — The Question Every Other Tool Skips
+
+> **"AI 코딩 도구가 HOW를 잘하게 됐다면, hplan은 WHETHER를 다룬다. 둘은 같이 쓰는 것이 아니라 순서가 있다 — hplan이 먼저다."**
+>
+> *"If AI coding tools have mastered HOW, hplan handles WHETHER. They're not used together — there's an order. hplan goes first."*
+
+**HOW** asks: *"In what way should we build this?"*
+**WHETHER** asks: *"Should we build this at all — yes or no?"*
+
+WHETHER is bigger than WHY. WHY answers the reason ("why would users pay?"). WHETHER is the binary verdict that *contains* WHY — every gate in hplan answers a WHY question, and together they produce the WHETHER:
+
+| Gate | WHY it answers | WHETHER it produces |
+|------|---------------|---------------------|
+| Evidence Rubric | Why do users actually have this problem? | Do we have sufficient proof to proceed? |
+| Exclusions Check | Why did we kill this idea before? | Is this iteration meaningfully different? |
+| COGS Sentinel | Why would this pricing work at scale? | Can the economics support a real business? |
+| **All 3 combined** | — | **GO / HOLD / INVESTIGATE** |
+
+Other tools handle **HOW** (superpowers → how to work with Claude Code), **WHO** (gstack → who the agents are), **WHERE** (GSD → where in the workflow). hplan handles **WHETHER** — the decision that comes before all other decisions.
+
+### hplan's 3 Principles vs Opposing Assumptions
+
+| hplan 원칙 | 대립 가정 |
+|-----------|---------|
+| **대화↓ 고객문서↑** — 고객·시장·경쟁사에 대한 문서가 많을수록 LLM이 더 정확하게 돕는다 | LLM과 대화를 더 많이 할수록 결과가 개선된다 |
+| **큰 작업은 단계별로** — 검증되지 않은 전제를 컨텍스트에 쌓지 않는다 | 한 번에 큰 컨텍스트를 주면 LLM이 더 잘 이해한다 |
+| **검증 먼저·개발 나중** — 증거 없이 PRD를 쓰는 것은 기술적 부채의 시작이다 | 빠른 프로토타입을 만들어보면 검증된다 |
 
 <p align="center">
   <img src="docs/images/demo-terminal.svg" alt="hplan demo — exclusion collision + RED COGS catch a bad idea before any PRD is written" width="800"/>
@@ -95,12 +123,13 @@ This project turns those questions into **43 production-grade skills** across th
 /plugin marketplace add kimsanguine/hplan
 /plugin install hplan@kimsanguine-hplan
 
-# 2. Run the Evidence Gate on any idea — collision check + 100-point rubric
-/hplan-evidence "AI marketing copy generator"
-# → exclusions check ... COLLISION (established incumbents already cover this)
-# → reopen_trigger UNMET → decision: hold
+# 2. Run all 3 gates in one command — exclusions + evidence + COGS → verdict
+/hplan "AI marketing copy generator"
+# → [exclusions] COLLISION with ex-2026-04-17 (established incumbents)
+# → reopen_trigger UNMET → HOLD
 
-# 3. Or test pricing economics deterministically before committing
+# Or run individual gates for deeper analysis:
+/hplan-evidence "AI marketing copy generator"   # full 100-point evidence rubric
 /hplan-cogs --provider anthropic --model claude-sonnet-4-6 \
             --tokens-in 3000 --calls 40 --arpu 29
 # → p50 margin 95%, p90 90%, blended 49% → GREEN
@@ -216,7 +245,7 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 | `decision-log` | Append-only build/interview/pivot/hold log + 3–6 month self-eval audit (hit_rate, false_holds, missed_builds) | "Were my product decisions 6 months ago actually right?" |
 | `handoff` | Multi-target Build Gate brief → Spec-Kit / Kiro / GStack / Claude Code in one command | "Ready to start building — export the spec to my coding agent" |
 
-**Commands:** `/hplan-evidence` · `/hplan-product` · `/hplan-build` · `/hplan-cogs` · `/hplan-exclude` · `/hplan-handoff`
+**Commands:** `/hplan` ⭐ · `/hplan-evidence` · `/hplan-product` · `/hplan-build` · `/hplan-cogs` · `/hplan-exclude` · `/hplan-handoff`
 
 **Cross-cutting assets:** MCP server (`hplan_mcp/`) for Cursor / Windsurf / Kiro / Codex / Goose · PreToolUse hook (`hooks/gate_guard.py`) · 4 role-locked reviewer agents (`agents/`)
 </details>
@@ -365,6 +394,7 @@ The Trigger Gate's "Route" field enables routing between plugins:
 
 | Command | Chained Skills | Plugin |
 |---------|---------------|--------|
+| `/hplan` ⭐ | exclusions → evidence-rubric → cogs-sentinel → verdict | hplan |
 | `/discover` | opp-tree → assumptions → build-or-buy | discover |
 | `/architecture` | orchestration → 3-tier → memory-arch | architect |
 | `/write-prd` | prd → instruction → ctx-budget | deliver |
