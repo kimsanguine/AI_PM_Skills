@@ -22,8 +22,21 @@ Before running gates, check if a context intake file exists:
 ls harness/context-intake.md 2>/dev/null && echo "FOUND" || echo "MISSING"
 ```
 
-- **FOUND**: Read `harness/context-intake.md`. Extract: `idea`, `icp_segment`, `recent_event`, `workaround_tool`, `monthly_cost_estimate`, `alternatives`, `interview_notes`, `interview_count`. Use these as inputs for Step 2 instead of inferring from the argument alone.
-- **MISSING**: Proceed with argument only. Note in output: "No context-intake.md found — evidence rubric will rely on provided description. For higher accuracy, complete `hplan/references/context-intake.md` first."
+- **FOUND**: Read `harness/context-intake.md`. Then run the Context Quality Score:
+  ```bash
+  python3 hplan/scripts/context_quality_scorer.py harness/context-intake.md
+  ```
+  - CQS < 30: Stop. Output "Context insufficient (CQS X/100). Complete context-intake.md before running the gate."
+  - CQS 30–54: Proceed with ⚠️ LOW confidence badge noted in final output.
+  - CQS 55–74: Proceed with ⚠️ MODERATE confidence badge.
+  - CQS ≥ 75: Proceed normally. Extract `idea`, `icp_segment`, `recent_event`, `workaround_tool`, `monthly_cost_estimate`, `alternatives`, `interview_notes`, `interview_count` as inputs for Step 2.
+- **MISSING**: Proceed with argument only. Note in output: "No context-intake.md — evidence rubric relies on description alone (lower reliability). See `hplan/references/context-intake.md` to create one."
+
+Also check for competitor context:
+```bash
+ls harness/competitor-context.md 2>/dev/null && echo "FOUND" || echo "MISSING"
+```
+If FOUND, read it and extract `blockers` fields. Any `blocker == true` → immediate HOLD before Step 1.
 
 ---
 
