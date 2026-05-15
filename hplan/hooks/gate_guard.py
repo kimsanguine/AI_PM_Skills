@@ -34,8 +34,18 @@ import json
 import os
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
+
+# Context freshness thresholds (days). Based on AI market velocity research.
+# warn_after / block_after — absent context_dates field = skip (backward-compat).
+FRESHNESS_THRESHOLDS: dict[str, dict[str, int]] = {
+    "customer_interviews":  {"warn": 60,  "block": 90},
+    "competitive_analysis": {"warn": 45,  "block": 90},
+    "provider_pricing":     {"warn": 30,  "block": 60},
+    "market_size":          {"warn": 90,  "block": 180},
+}
 
 GUARDED_PATTERNS = [
     re.compile(r"(^|/)PRD\.md$", re.I),
@@ -50,6 +60,54 @@ GUARDED_PATTERNS = [
 
 def is_guarded(path: str) -> bool:
     return any(p.search(path) for p in GUARDED_PATTERNS)
+
+
+def check_freshness(project_dir: Path) -> tuple[str, list[str], list[str]]:
+    """Check context_dates in checkpoint.json against FRESHNESS_THRESHOLDS.
+
+    Returns (verdict, warnings, blocks):
+      verdict = 'ok' | 'warn' | 'block'
+      warnings = list of warn-level messages
+      blocks   = list of block-level messages
+    Absent context_dates = 'ok' (backward-compatible with existing checkpoint.json).
+    """
+    cp = project_dir / "harness" / "build-gate" / "checkpoint.json"
+    if not cp.exists():
+        return "ok", [], []
+    try:
+        data = json.loads(cp.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "ok", [], []
+
+    context_dates = data.get("context_dates")
+    if not context_dates:
+        return "ok", [], []
+
+    today = date.today()
+    warnings: list[str] = []
+    blocks: list[str] = []
+    for key, thresholds in FRESHNESS_THRESHOLDS.items():
+        raw = context_dates.get(key)
+        if raw is None:
+            continue
+        try:
+            age = (today - date.fromisoformat(raw)).days
+        except ValueError:
+            continue
+        if age >= thresholds["block"]:
+            blocks.append(
+                f"{key}: {age}d old — block threshold {thresholds['block']}d exceeded"
+            )
+        elif age >= thresholds["warn"]:
+            warnings.append(
+                f"{key}: {age}d old — warn threshold {thresholds['warn']}d exceeded"
+            )
+
+    if blocks:
+        return "block", warnings, blocks
+    if warnings:
+        return "warn", warnings, []
+    return "ok", [], []
 
 
 def gate_approved(project_dir: Path) -> tuple[bool, str]:
@@ -82,6 +140,25 @@ def main():
         return 0
 
     project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()).resolve()
+
+    # --- Freshness check (runs before approval check) ---
+    if os.environ.get("CLAUDE_HPLAN_BYPASS") != "1":
+        freshness_verdict, fresh_warns, fresh_blocks = check_freshness(project_dir)
+        if freshness_verdict == "warn":
+            for w in fresh_warns:
+                print(f"hplan freshness ⚠️  {w}", file=sys.stderr)
+        elif freshness_verdict == "block":
+            lines = ["hplan gate guard BLOCKED: context data is stale."]
+            for b in fresh_blocks:
+                lines.append(f"  🚫 {b}")
+            lines.append(
+                "Update context_dates in harness/build-gate/checkpoint.json "
+                "and re-run /hplan to refresh the gate."
+            )
+            print("\n".join(lines), file=sys.stderr)
+            return 2
+
+    # --- Approval check ---
     ok, reason = gate_approved(project_dir)
     if ok:
         return 0
@@ -96,7 +173,7 @@ def main():
         "Per SKILL.md: WAITING_FOR_HUMAN."
     )
     if os.environ.get("CLAUDE_HPLAN_BYPASS") == "1":
-        print("hplan gate guard: bypass requested via CLAUDE_HPLAN_BYPASS=1", file=sys.stderr)
+        print("hplan gate guard: bypass via CLAUDE_HPLAN_BYPASS=1", file=sys.stderr)
         return 0
     print(msg, file=sys.stderr)
     return 2

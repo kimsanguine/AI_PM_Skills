@@ -14,6 +14,19 @@ You are running the **hplan Build Gate** for: **$ARGUMENTS**
 
 Execute these steps in sequence. Stop early if a gate fails — do not run downstream gates on a HOLD.
 
+### Step 0 — Context Intake Check (optional but recommended)
+
+Before running gates, check if a context intake file exists:
+
+```bash
+ls harness/context-intake.md 2>/dev/null && echo "FOUND" || echo "MISSING"
+```
+
+- **FOUND**: Read `harness/context-intake.md`. Extract: `idea`, `icp_segment`, `recent_event`, `workaround_tool`, `monthly_cost_estimate`, `alternatives`, `interview_notes`, `interview_count`. Use these as inputs for Step 2 instead of inferring from the argument alone.
+- **MISSING**: Proceed with argument only. Note in output: "No context-intake.md found — evidence rubric will rely on provided description. For higher accuracy, complete `hplan/references/context-intake.md` first."
+
+---
+
 ---
 
 ### Step 1 — Exclusions Collision Check
