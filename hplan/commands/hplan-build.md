@@ -83,6 +83,37 @@ generated: [오늘 날짜]
 
 STATE.md 생성 후 사용자에게 안내: "`harness/STATE.md` 생성됨 — 새 세션을 열면 이 파일을 자동으로 읽어 게이트 상태를 복원합니다."
 
+**CONDITIONAL_GO 시 PROGRESS.md 자동 생성** — `harness/PROGRESS.md`에 마일스톤 템플릿 작성:
+
+```markdown
+# PROGRESS — [Product Name]
+
+Generated: [오늘 날짜]
+Decision: CONDITIONAL_GO
+Decision ID: [decision_id]
+
+## W1 — [첫 번째 조건 기반 마일스톤]
+
+> **시작 전 체크**
+> - [ ] 조건: [조건 1] — verified_by: [추후 기입]
+> - [ ] 기술 결정: [이 주에 결정할 기술 선택]
+> - [ ] COGS 추정: p50 X%, p90 X%
+> - [ ] 블로커: [STATE.md 블로커]
+
+### 완료 기준
+- `/hplan-verify [조건 이름]` COMPLETE 판정
+
+## Build Gate 종료 조건
+- [ ] 모든 Active 조건 ✅ (/hplan-verify COMPLETE)
+- [ ] COGS sentinel 재실행 → GREEN
+```
+
+PROGRESS.md는 STATE.md와 쌍으로 운영됩니다:
+- `STATE.md` = 게이트 상태 + 조건 anchor (기계가 읽음)
+- `PROGRESS.md` = 마일스톤 계획 + 시작 전 체크 (사람이 읽음)
+
+`harness/PROGRESS.md` 생성 후: "각 Wx 시작 전 '시작 전 체크' 블록을 채우고, `/hplan-verify`로 조건 검증 상태를 갱신하세요." 안내.
+
 ### Phase 4 — Handoff (or rollback)
 - `build` / `CONDITIONAL_GO` → invoke `handoff` skill or instruct user to call `/hplan-handoff <target>`
 - `pivot` / `hold` → invoke `exclusions` to record the wedge that didn't work + `reopen_trigger`

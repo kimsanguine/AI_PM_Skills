@@ -26,6 +26,7 @@ hplan is **Stage 0**. The other 5 plugins inherit decisions from hplan's gates.
 | [`ost`](./skills/ost/) | Generate Teresa Torres-style Opportunity Solution Tree with Mermaid + outcome → opportunity → solution → experiment + decision_rule | Product |
 | [`decision-log`](./skills/decision-log/) | Append-only build/interview/pivot/hold log + 3-6 month self-eval audit (hit_rate, false_holds, missed_builds) | cross-cutting |
 | [`handoff`](./skills/handoff/) | Build Gate brief → Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours` brief, Claude Code `AGENTS.md` + `CLAUDE.md` | Build (terminal) |
+| [`pmf-gate`](./skills/pmf-gate/) | **[Sketch]** Post-launch loop — COGS realtime + behavior metrics → next Evidence Gate inputs. Closes the hplan cycle. | Post-launch |
 
 ## Commands
 
@@ -33,10 +34,12 @@ hplan is **Stage 0**. The other 5 plugins inherit decisions from hplan's gates.
 |---|---|
 | `/hplan-evidence <idea>` | Run Evidence Gate (rubric → interview synthesis → exclusions check) |
 | `/hplan-product` | Run Product Gate (OST + journey + sitemap + design pointers) |
-| `/hplan-build` | Run Build Gate (cogs-sentinel + decision-log + handoff) |
+| `/hplan-build` | Run Build Gate (cogs-sentinel + decision-log + handoff + STATE.md + PROGRESS.md) |
 | `/hplan-cogs <provider> <model>` | Run COGS sentinel only |
 | `/hplan-exclude <idea>` | Add or check an exclusion |
 | `/hplan-handoff <target>` | Export Build Gate brief to spec-kit / kiro / gstack / claude / all |
+| `/hplan-verify [condition]` | **[Dev]** Verify completion evidence — sync STATE.md condition anchors (❌→✅) |
+| `/hplan-scope-guard <feature>` | **[Dev]** Check new feature against exclusions + CONDITIONAL_GO scope + COGS tier. Returns ALLOW / DEFER / BLOCK |
 
 ## Cross-Cutting Assets
 
