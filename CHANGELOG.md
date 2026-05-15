@@ -4,6 +4,70 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.2] — 2026-05-16
+
+### Added — Context Engineering Layer (3 new artifacts)
+
+**Problem**: hplan ran evidence-rubric scoring even when the context fed to it was garbage — no way to know if a 45/100 score reflected a weak idea or weak research.
+
+**Solution**: a full Context Engineering layer that gates on *input quality* before running rubrics.
+
+#### `hplan/scripts/context_quality_scorer.py` — Context Quality Score (CQS)
+
+RAGAS-inspired 100-point scorer measuring PM research richness *before* the evidence rubric runs. 6 dimensions (100 pts total):
+
+| Dimension | Max | Signal |
+|-----------|-----|--------|
+| Interview volume | 25 | Torres convergence threshold: 5+ = pattern likely |
+| Segment diversity | 20 | Behavioral ICP > demographic ICP |
+| Evidence recency | 20 | within_30d = fresh signal; older = decayed |
+| Source independence | 15 | +5 per type (interviews / public reviews / market data) |
+| Competitor coverage | 10 | pricing + segment depth required |
+| Workaround specificity | 10 | tool + quantified pain = strong demand |
+
+Gate verdicts: CQS ≥ 75 = HIGH ✅ / 55-74 = MODERATE ⚠️ / 30-54 = LOW ⚠️ / < 30 = INSUFFICIENT 🚫 (blocks gate).
+
+No external dependencies (pure stdlib). `--json` flag for CI integration.
+
+```bash
+python3 hplan/scripts/context_quality_scorer.py harness/context-intake.md
+python3 hplan/scripts/context_quality_scorer.py --json harness/context-intake.md
+```
+
+#### `hplan/references/competitor-context.md` — Competitive Gate Template
+
+5-Block structure extracting GO/HOLD signals from competitive analysis:
+
+- **Block A**: Market existence — direct + indirect competitors
+- **Block B**: Segment gap — what incumbent neglects + your wedge
+- **Block C**: Business model conflict — copy cost for incumbent (counterposition test)
+- **Block D**: Hard blockers — 3 boolean fields; any `true` = immediate HOLD
+- **Block E**: Entry rationale — `why_now` + `unfair_advantage` (both required)
+
+Copy template to `harness/competitor-context.md` per project.
+
+#### `hplan/commands/hplan.md` — Step 0 Context Intake Check added
+
+`/hplan` orchestrator now runs a pre-flight before Step 1 (exclusions):
+1. Reads `harness/context-intake.md` if present → runs CQS scorer → blocks if CQS < 30
+2. Reads `harness/competitor-context.md` if present → any `blocker == true` → immediate HOLD
+
+### Added — Freshness Enforcement + Dual-Defense Hook (Phase 1, shipped 2026-05-14)
+
+**`hplan/hooks/gate_guard.py`** extended with `check_freshness()`:
+- Reads `context_dates` from `harness/build-gate/checkpoint.json`
+- Per-field thresholds: `customer_interviews` warn 60d/block 90d; `competitive_analysis` warn 45d/block 90d; `provider_pricing` warn 30d/block 60d; `market_size` warn 90d/block 180d
+- Backward compatible: absent `context_dates` → silently passes
+
+**`scripts/install-hooks.sh`** — git pre-commit hook installer (second defense layer):
+- `gate_guard.py` = soft UX warning when Claude attempts the write
+- `git pre-commit` = deterministic hard block before the commit lands
+- `CLAUDE_HPLAN_BYPASS=1` env var for authorized bypass
+
+**`hplan/references/context-intake.md`** — 9-section structured intake template with ✅/❌ inline examples for every field. Eliminates LLM inference dependency on GIGO inputs.
+
+---
+
 ## [0.7.1] — 2026-05-14
 
 ### Changed — `deliver/skills/prd` expanded to **Unified PRD 14-section**

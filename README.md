@@ -8,11 +8,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.0-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.2-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.7.0** — Adds `operate` plugin (multi-agent portfolio), PRD mermaid consistency gate, PPTX 4-engine router, and execution-integration skills (harness-design / parallel-team / build-loop). See [CHANGELOG.md](CHANGELOG.md).
+> **v0.7.2** — Context Engineering layer: Context Quality Score (CQS) scorer, competitor context template (5-Block), `/hplan` Step 0 pre-flight, context freshness enforcement, dual-defense git hook. See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 

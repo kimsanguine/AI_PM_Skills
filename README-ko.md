@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.0-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.2-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.7.0** — `operate` 플러그인 신규 (다중 에이전트 포트폴리오), PRD mermaid 정합성 게이트, PPTX 4엔진 라우터, 실행 통합 스킬 3종 (harness-design / parallel-team / build-loop) 추가. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.7.2** — 컨텍스트 엔지니어링 레이어 신규: Context Quality Score(CQS) 스코어러, 경쟁 맥락 템플릿(5-Block), `/hplan` Step 0 사전 체크, 컨텍스트 신선도 강제, 이중 방어 git hook. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
