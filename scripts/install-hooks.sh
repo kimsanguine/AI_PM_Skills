@@ -193,6 +193,29 @@ if [[ "$SCOPE_VERDICT" == missing_tests:* ]]; then
   exit 1
 fi
 
+# STATE.md 조건 anchor 소프트 경고
+# 파일 없으면 스킵. 있으면 "추후 기입" 항목 수를 카운트해서 경고만 출력 (exit 0 유지).
+if [ -f "harness/STATE.md" ] && command -v python3 &>/dev/null; then
+  UNFILLED=$(python3 -c "
+import re, sys
+try:
+    text = open('harness/STATE.md', encoding='utf-8').read()
+    # verified_by 컬럼에 '추후 기입' 또는 경로 미기입 상태인 행 카운트
+    rows = re.findall(r'\|\s*[^|]+\|\s*(추후 기입[^|]*|)\s*\|\s*❌', text)
+    print(len(rows))
+except Exception:
+    print(0)
+" 2>/dev/null)
+  if [ "${UNFILLED:-0}" -gt 0 ]; then
+    echo "" >&2
+    echo "hplan ⚠️  STATE.md 조건 미검증 ─────────────────────" >&2
+    echo "  verified_by 미기입 조건: ${UNFILLED}개" >&2
+    echo "  완료 선언 전 /hplan-verify 실행을 권장합니다." >&2
+    echo "  (커밋은 허용됩니다 — 경고만 표시)" >&2
+    echo "────────────────────────────────────────────────────" >&2
+  fi
+fi
+
 exit 0
 HOOK
 
