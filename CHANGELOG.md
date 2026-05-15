@@ -4,6 +4,78 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.3] — 2026-05-16
+
+### Added — Operational Gap Fixes (3 Phases)
+
+Five gaps discovered while using hplan in a real project (habix / legal-graph-RAG). All gaps share the same root: hplan issued a point-in-time gate but provided no enforcement layer to keep code honest *after* the gate passed.
+
+#### Phase 1 — CONDITIONAL_GO scope enforcement
+
+**Problem**: Both `GO` and `CONDITIONAL_GO` wrote `status: "approved"` to checkpoint.json. The guard checked only `status`, so CONDITIONAL_GO became indistinguishable from full approval after the gate opened — outstanding conditions and prototype limits were silently dropped.
+
+**`checkpoint.json` schema extended**:
+```jsonc
+{
+  "status": "approved",
+  "decision": "CONDITIONAL_GO",   // new — "GO" | "CONDITIONAL_GO"
+  "conditions": ["..."],           // new — human-readable gate conditions
+  "allowed_paths": ["specs/001-", "docs/DESIGN.md"],  // new — write-scope constraint
+  "required_tests": ["tests/unit/test_gate_f.py"],    // new — must exist at commit time
+  "expires_at": "2026-06-01"       // new — conditional window hard deadline
+}
+```
+
+**`hplan/hooks/gate_guard.py`**:
+- `gate_approved()` now returns `(bool, reason, dict)` — passes checkpoint data downstream to avoid a second filesystem read.
+- New `check_conditional_scope(data, target)`: if `decision == "CONDITIONAL_GO"`, blocks writes outside `allowed_paths` and blocks if `expires_at` is past.
+- BYPASS moved to top of `main()` for early return before any filesystem work.
+
+**`scripts/install-hooks.sh`** — git pre-commit updated:
+- `git show :harness/build-gate/checkpoint.json` now reads the **staged index blob**, not the working tree. Prevents bypass via leaving an approved checkpoint unstaged.
+- Python inline block extended to output `STATUS FRESHNESS_VERDICT SCOPE_VERDICT` (3 fields).
+- New `SCOPE_VERDICT` blocks: `expired:<date>` (CONDITIONAL_GO past deadline) and `missing_tests:<file1>|<file2>` (required test files absent).
+
+#### Phase 2 — Handoff canonical paths
+
+**Problem**: `export_handoff.py` wrote generated specs/agent files under `harness/exports/<target>/` and told operators to copy them manually. Claude Code, Kiro, and Spec-Kit read from their own canonical locations — the handoff files were never consumed.
+
+**`hplan/scripts/export_handoff.py`**:
+- `export()` now writes directly to canonical paths:
+  - spec-kit → `root/specs/NNN-slug/{spec,plan,tasks}.md`
+  - kiro → `root/.kiro/specs/slug/{requirements,design,tasks}.md`
+  - claude → `root/AGENTS.md` + `root/CLAUDE.md` (AGENTS.md is the OpenAI Codex standard)
+  - gstack → unchanged (harness/exports/ is authoritative — GStack has no canonical root path)
+- `_mirror()` helper silently writes a backup copy to `harness/exports/` for audit trail.
+- Post-export verification returns a `phantom` list; `main()` exits 1 if any written file is missing on disk.
+
+#### Phase 3 — Deterministic cross-reference validator
+
+**Problem**: docs drift accumulates silently after gate generation. During one real project session, 7 inconsistencies were found manually: conflicting prices, phantom AGENTS.md references, wrong code paths in Implementation anchor fields, and CONDITIONAL_GO conditions with no matching test coverage.
+
+**`hplan/scripts/validate_docs.py`** (new):
+
+Three deterministic checks — no LLM, no external deps, pure stdlib:
+
+| Check | What it finds |
+|-------|--------------|
+| `path_existence` | `**Implementation anchor**` / `**Verified by**` declared paths that don't exist on disk |
+| `price_consistency` | Same plan keyword (Pro/Starter/Free/Enterprise) maps to two different price tokens across docs |
+| `condition_coverage` | CONDITIONAL_GO `conditions[]` entries that have no `@pytest.mark.hplan_condition("...")` in tests/ |
+
+```bash
+python3 hplan/scripts/validate_docs.py              # human report, exit 0/1
+python3 hplan/scripts/validate_docs.py --json       # JSON for CI
+python3 hplan/scripts/validate_docs.py --check path_existence
+```
+
+Scans: `docs/`, `specs/`, `harness/` for doc files; `tests/` for pytest marks.
+Exit codes: 0 = all pass, 1 = one or more failures, 2 = usage error.
+
+Wire into project scaffolds via `scripts/run_checks.sh` or pre-commit hook for docs changes.
+
+---
+
 ## [0.7.2] — 2026-05-16
 
 ### Added — Context Engineering Layer (3 new artifacts)

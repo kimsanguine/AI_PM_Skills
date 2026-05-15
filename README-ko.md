@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.2-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.3-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.7.2** — 컨텍스트 엔지니어링 레이어 신규: Context Quality Score(CQS) 스코어러, 경쟁 맥락 템플릿(5-Block), `/hplan` Step 0 사전 체크, 컨텍스트 신선도 강제, 이중 방어 git hook. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.7.3** — 운영 갭 수정: CONDITIONAL_GO 범위 강제, 핸드오프 정식 경로 수정, 결정론적 교차 참조 검증기(경로 존재·가격 일관성·조건 커버리지). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
