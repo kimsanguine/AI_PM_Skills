@@ -110,18 +110,63 @@ def check_freshness(project_dir: Path) -> tuple[str, list[str], list[str]]:
     return "ok", [], []
 
 
-def gate_approved(project_dir: Path) -> tuple[bool, str]:
+def gate_approved(project_dir: Path) -> tuple[bool, str, dict]:
+    """Return (approved, reason, data). data is the full checkpoint dict."""
     cp = project_dir / "harness" / "build-gate" / "checkpoint.json"
     if not cp.exists():
-        return False, f"missing {cp.relative_to(project_dir)}"
+        return False, f"missing {cp.relative_to(project_dir)}", {}
     try:
         data = json.loads(cp.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        return False, f"checkpoint.json is invalid JSON: {e}"
+        return False, f"checkpoint.json is invalid JSON: {e}", {}
     status = data.get("status")
     if status == "approved":
-        return True, ""
-    return False, f"checkpoint.json status = {status!r} (need 'approved')"
+        return True, "", data
+    return False, f"checkpoint.json status = {status!r} (need 'approved')", data
+
+
+def check_conditional_scope(data: dict, target: str) -> tuple[str, str]:
+    """Enforce CONDITIONAL_GO write-time restrictions.
+
+    Returns ('ok', '') or ('block', reason).
+    Absent decision field = treat as GO (backward-compatible).
+    """
+    decision = data.get("decision", "GO")
+    if decision != "CONDITIONAL_GO":
+        return "ok", ""
+
+    # Expiry check
+    expires_at = (data.get("expires_at") or "").strip()
+    if expires_at:
+        try:
+            if date.today() > date.fromisoformat(expires_at):
+                return "block", (
+                    f"CONDITIONAL_GO expired on {expires_at}.\n"
+                    "  Re-run /hplan to reassess or obtain full GO approval."
+                )
+        except ValueError:
+            pass
+
+    # Scope check: if allowed_paths is non-empty, target must be in scope
+    allowed: list[str] = data.get("allowed_paths") or []
+    if allowed:
+        norm = target.replace("\\", "/")
+        in_scope = any(
+            norm.endswith(p.lstrip("/")) or p.lstrip("/") in norm
+            for p in allowed
+        )
+        if not in_scope:
+            conditions = data.get("conditions") or []
+            cond_str = "\n    ".join(conditions) if conditions else "(none listed)"
+            return "block", (
+                f"CONDITIONAL_GO: write is outside allowed scope.\n"
+                f"  Allowed paths: {allowed}\n"
+                f"  Target:        {norm!r}\n"
+                f"  Outstanding conditions:\n    {cond_str}\n"
+                "  Resolve all conditions first or obtain full GO approval."
+            )
+
+    return "ok", ""
 
 
 def main():
@@ -140,43 +185,53 @@ def main():
         return 0
 
     project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()).resolve()
+    bypass = os.environ.get("CLAUDE_HPLAN_BYPASS") == "1"
 
-    # --- Freshness check (runs before approval check) ---
-    if os.environ.get("CLAUDE_HPLAN_BYPASS") != "1":
-        freshness_verdict, fresh_warns, fresh_blocks = check_freshness(project_dir)
-        if freshness_verdict == "warn":
-            for w in fresh_warns:
-                print(f"hplan freshness ⚠️  {w}", file=sys.stderr)
-        elif freshness_verdict == "block":
-            lines = ["hplan gate guard BLOCKED: context data is stale."]
-            for b in fresh_blocks:
-                lines.append(f"  🚫 {b}")
-            lines.append(
-                "Update context_dates in harness/build-gate/checkpoint.json "
-                "and re-run /hplan to refresh the gate."
-            )
-            print("\n".join(lines), file=sys.stderr)
-            return 2
-
-    # --- Approval check ---
-    ok, reason = gate_approved(project_dir)
-    if ok:
-        return 0
-
-    msg = (
-        f"hplan gate guard BLOCKED write to {target_norm}\n"
-        f"reason: {reason}\n"
-        "This file is a Build Gate artifact. Before editing:\n"
-        "  1. Run hplan Evidence Gate + Product Gate.\n"
-        "  2. Approve harness/build-gate/checkpoint.json (status='approved').\n"
-        "  3. Or set CLAUDE_HPLAN_BYPASS=1 in your shell for one explicit override.\n"
-        "Per SKILL.md: WAITING_FOR_HUMAN."
-    )
-    if os.environ.get("CLAUDE_HPLAN_BYPASS") == "1":
+    if bypass:
         print("hplan gate guard: bypass via CLAUDE_HPLAN_BYPASS=1", file=sys.stderr)
         return 0
-    print(msg, file=sys.stderr)
-    return 2
+
+    # --- Freshness check ---
+    freshness_verdict, fresh_warns, fresh_blocks = check_freshness(project_dir)
+    if freshness_verdict == "warn":
+        for w in fresh_warns:
+            print(f"hplan freshness ⚠️  {w}", file=sys.stderr)
+    elif freshness_verdict == "block":
+        lines = ["hplan gate guard BLOCKED: context data is stale."]
+        for b in fresh_blocks:
+            lines.append(f"  🚫 {b}")
+        lines.append(
+            "Update context_dates in harness/build-gate/checkpoint.json "
+            "and re-run /hplan to refresh the gate."
+        )
+        print("\n".join(lines), file=sys.stderr)
+        return 2
+
+    # --- Approval check ---
+    ok, reason, cp_data = gate_approved(project_dir)
+    if not ok:
+        print(
+            f"hplan gate guard BLOCKED write to {target_norm}\n"
+            f"reason: {reason}\n"
+            "This file is a Build Gate artifact. Before editing:\n"
+            "  1. Run hplan Evidence Gate + Product Gate.\n"
+            "  2. Approve harness/build-gate/checkpoint.json (status='approved').\n"
+            "  3. Or set CLAUDE_HPLAN_BYPASS=1 in your shell for one explicit override.\n"
+            "Per SKILL.md: WAITING_FOR_HUMAN.",
+            file=sys.stderr,
+        )
+        return 2
+
+    # --- CONDITIONAL_GO scope check (only when approved) ---
+    scope_verdict, scope_reason = check_conditional_scope(cp_data, target_norm)
+    if scope_verdict == "block":
+        print(
+            f"hplan gate guard BLOCKED: CONDITIONAL_GO scope violation.\n{scope_reason}",
+            file=sys.stderr,
+        )
+        return 2
+
+    return 0
 
 
 if __name__ == "__main__":

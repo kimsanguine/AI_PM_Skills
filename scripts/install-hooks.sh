@@ -85,10 +85,10 @@ if [ -z "$STAGED_CHECKPOINT" ]; then
   exit 1
 fi
 
-# Parse status and context_dates from staged blob (python3 or awk fallback)
+# Parse status, context_dates, and CONDITIONAL_GO fields from staged blob.
 if command -v python3 &>/dev/null; then
-  read -r STATUS FRESHNESS_VERDICT <<< "$(python3 -c "
-import json, sys
+  read -r STATUS FRESHNESS_VERDICT SCOPE_VERDICT <<< "$(python3 -c "
+import json, sys, os
 from datetime import date
 
 THRESHOLDS = {
@@ -102,25 +102,50 @@ try:
     d = json.loads('''$STAGED_CHECKPOINT''')
     status = d.get('status', '')
     today = date.today()
-    blocked = []
+
+    # --- Freshness ---
+    blocked_fresh = []
     for field, limit in THRESHOLDS.items():
         val = (d.get('context_dates') or {}).get(field, '')
         if val:
             try:
                 age = (today - date.fromisoformat(val)).days
                 if age > limit:
-                    blocked.append(f'{field} ({age}d > {limit}d limit)')
+                    blocked_fresh.append(f'{field} ({age}d > {limit}d limit)')
             except ValueError:
                 pass
-    verdict = 'block:' + '|'.join(blocked) if blocked else 'ok'
-    print(status, verdict)
+    freshness = 'block:' + '|'.join(blocked_fresh) if blocked_fresh else 'ok'
+
+    # --- CONDITIONAL_GO scope (commit-time checks) ---
+    decision = d.get('decision', 'GO')
+    scope = 'ok'
+    if decision == 'CONDITIONAL_GO':
+        # Expiry
+        expires_at = (d.get('expires_at') or '').strip()
+        if expires_at:
+            try:
+                if today > date.fromisoformat(expires_at):
+                    scope = f'expired:{expires_at}'
+            except ValueError:
+                pass
+        # Required tests must exist on disk
+        if scope == 'ok':
+            missing = [
+                t for t in (d.get('required_tests') or [])
+                if not os.path.exists(t)
+            ]
+            if missing:
+                scope = 'missing_tests:' + '|'.join(missing)
+
+    print(status, freshness, scope)
 except Exception:
-    print('', 'ok')
+    print('', 'ok', 'ok')
 " 2>/dev/null)"
   )"
 else
   STATUS=$(echo "$STAGED_CHECKPOINT" | awk -F'"' '/"status"/{print $4; exit}')
   FRESHNESS_VERDICT="ok"
+  SCOPE_VERDICT="ok"
 fi
 
 if [ "$STATUS" != "approved" ]; then
@@ -142,6 +167,28 @@ if [[ "$FRESHNESS_VERDICT" == block:* ]]; then
   echo "  Stale context_dates in staged checkpoint:" >&2
   echo "$STALE" | sed 's/^/    /' >&2
   echo "  Re-gather the stale evidence and re-run /hplan." >&2
+  echo "────────────────────────────────────────────────────" >&2
+  exit 1
+fi
+
+# CONDITIONAL_GO scope checks
+if [[ "$SCOPE_VERDICT" == expired:* ]]; then
+  EXP_DATE=$(echo "$SCOPE_VERDICT" | sed 's/^expired://')
+  echo "" >&2
+  echo "hplan pre-commit BLOCKED ──────────────────────────" >&2
+  echo "  CONDITIONAL_GO expired on $EXP_DATE." >&2
+  echo "  Re-run /hplan to reassess or obtain full GO approval." >&2
+  echo "────────────────────────────────────────────────────" >&2
+  exit 1
+fi
+
+if [[ "$SCOPE_VERDICT" == missing_tests:* ]]; then
+  MISSING=$(echo "$SCOPE_VERDICT" | sed 's/^missing_tests://' | tr '|' '\n')
+  echo "" >&2
+  echo "hplan pre-commit BLOCKED ──────────────────────────" >&2
+  echo "  CONDITIONAL_GO requires these test files to exist:" >&2
+  echo "$MISSING" | sed 's/^/    /' >&2
+  echo "  Create the required tests before committing." >&2
   echo "────────────────────────────────────────────────────" >&2
   exit 1
 fi
