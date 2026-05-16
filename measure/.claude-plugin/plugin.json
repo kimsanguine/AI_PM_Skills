@@ -1,6 +1,6 @@
 {
   "name": "measure",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Measure, monitor, and optimize AI agent performance — KPIs, reliability, failure analysis, cost tracking, and North Star metrics. Use when setting up agent monitoring, running health checks, reviewing token costs, doing pre-mortems, or defining success metrics.",
   "author": {
     "name": "AI PM Skills Contributors",

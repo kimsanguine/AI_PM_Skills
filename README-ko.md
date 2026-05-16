@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.8.3-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.8.4-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.8.3** — 2차 Codex 적대적 검수 fix patch. v0.8.2 에 대한 신규 3 findings: (1) judge() 재재설계 — off-mode positive 는 baseline miss (이전 "none" fallback pass 가 정상 스킬을 quarantine 시켰음, 이제 perfect router 가 uplift +0.5 로 promote); (2) `load_yaml_block()` + `check_cross_ref()` 가 YAMLError/non-dict DESIGN.md 안전 처리 (controlled error, traceback 없음); (3) `.design/hierarchy-baseline.json` 도 `.gitignore` 등록 (leak gap 마감). `python3 evals/skill-uplift.py --test` self-contained regression suite 포함. v0.8.2: v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.4** — 3차 Codex 적대적 검수 fix patch. 1 medium finding: `check_cross_ref()` nested type guards (`colors: [{primary:blue}]` 같은 valid YAML 이지만 nested 가 list 인 경우 이전엔 AttributeError, 이제 controlled error). nested dict + string key 검증 추가. `python3 scripts/validate-craft-lint.py --test` regression suite (7 malformed schema case, Codex 의 exact reproducer 포함). 3 라운드 review 수렴: 4→3→1 findings, high 0 잔여. v0.8.3: v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 

@@ -4,6 +4,48 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.8.4] — 2026-05-17
+
+> **3차 Codex adversarial review fix patch.** v0.8.3 의 `isinstance(dict)` 검증이 top-level 만 보호 — nested schema (`colors: [{primary:blue}]` 또는 비-string key) 가 여전히 crash 가능. nested guard + regression suite 추가.
+
+### Fixed — Codex 3차 검수 반영
+
+**[medium] check_cross_ref() nested type guards** (`scripts/validate-craft-lint.py`)
+- v0.8.3 의 약점: `load_yaml_block()` 이 top-level dict 만 검증. `check_cross_ref()` 가 `design.get("colors")` 가 dict 라 가정하고 `k.lower()` 호출 → valid YAML `colors: [{primary: blue}]` 또는 `colors: [1, 2]` 같은 nested list 면 AttributeError + traceback
+- v0.8.4 fix:
+  - `design.colors`: `isinstance(dict)` 검증 → 비-dict 면 controlled error ("dict 형식 필수")
+  - `design.colors` key: `isinstance(str)` 검증 → 비-string key 면 controlled error
+  - `design.typography`: 같은 nested guard 적용
+  - 모든 비-dict / 비-string 경우 traceback 0, 명확한 안내 메시지
+
+### Added — Regression Suite for craft-lint
+
+`python3 scripts/validate-craft-lint.py --test`:
+- 7 deterministic assertions for `check_cross_ref()`:
+  - None / empty / non-dict (list, string) design
+  - colors = list-of-maps (Codex 3차 finding 핵심 reproducer)
+  - colors = list-of-int
+  - colors = dict with int keys
+  - typography = list (nested guard)
+  - valid dict (no false positive)
+- 두 번째 self-contained test 명령 (skill-uplift.py 옆) — CI 호환
+
+### Verified
+- `python3 scripts/validate-craft-lint.py --test`: ✅ all 7 pass
+- `python3 evals/skill-uplift.py --test`: ✅ all 7 pass (v0.8.3 회귀 0)
+- `validate_plugins.py`: 9 plugins / 62 skills / 26 commands / Errors 0 / Warnings 0
+
+### Architecture — 3 라운드 Codex 검수 수렴
+
+- v0.8.0~0.8.1 → 1차 review: 4 findings (3 high + 1 medium) → v0.8.2
+- v0.8.2 → 2차 review: 3 findings (1 high + 2 medium) → v0.8.3
+- v0.8.3 → 3차 review: 1 finding (0 high + 1 medium) → v0.8.4
+- (예상) v0.8.4 → 4차 review: 0 findings 수렴 가능성
+
+findings 수 4→3→1 수렴 + high 잔여 0. cross-model adversarial review 가 mechanical enforcement gate 의 정확한 self-correction 루프로 작동. 같은 Claude 의 self-review 였으면 직관적 fix 가 새 결함 도입한 것을 못 잡았을 것 — Codex 가 직접 `judge()` 호출, malformed schema process substitution 으로 traceback 위치까지 reproduce. 메모리 [[feedback_slide_review]] "2명 합의 + 90점+ 목표" 패턴의 가장 정밀한 사례.
+
+---
+
 ## [0.8.3] — 2026-05-17
 
 > **2차 Codex adversarial review fix patch.** v0.8.2 의 fix 자체가 새 결함을 도입한 것을 cross-model review 가 발견. 3 findings (1 high + 2 medium) 모두 해결 + self-contained regression test 추가.

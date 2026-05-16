@@ -135,15 +135,32 @@ def check_cross_ref(respect: dict, design: dict) -> list[str]:
     if not respect_ref:
         errors.append("RESPECT.md: references_design_md 필드 누락 (DESIGN.md 명시 참조)")
 
+    # design.colors — must be dict with string keys (v0.8.4 Codex 3차 nested guard)
     design_colors = design.get("colors", {})
-    if design_colors:
-        primary_keys = [k for k in design_colors if "primary" in k.lower() or "accent" in k.lower() or "cta" in k.lower()]
-        if not primary_keys:
+    if design_colors and not isinstance(design_colors, dict):
+        errors.append(
+            f"DESIGN.md colors: dict 형식 필수 (현재 {type(design_colors).__name__}). key=토큰 이름, value=hex."
+        )
+    elif design_colors:
+        non_string_keys = [k for k in design_colors if not isinstance(k, str)]
+        if non_string_keys:
+            errors.append(
+                f"DESIGN.md colors: 비-string key {non_string_keys[:3]} (모든 key 는 문자열 필수)"
+            )
+        primary_keys = [
+            k for k in design_colors
+            if isinstance(k, str) and ("primary" in k.lower() or "accent" in k.lower() or "cta" in k.lower())
+        ]
+        if not primary_keys and not non_string_keys:
             errors.append("DESIGN.md colors: primary/accent/cta 키 없음 (CTA 색 명시 필요)")
 
+    # design.typography — must be dict (v0.8.4 Codex 3차 nested guard)
     type_scale = design.get("typography", {})
-    if type_scale and "scale" in type_scale:
-        scale_count = len(type_scale["scale"]) if isinstance(type_scale["scale"], list) else 0
+    if type_scale and not isinstance(type_scale, dict):
+        errors.append(f"DESIGN.md typography: dict 형식 필수 (현재 {type(type_scale).__name__})")
+    elif type_scale and "scale" in type_scale:
+        scale_value = type_scale["scale"]
+        scale_count = len(scale_value) if isinstance(scale_value, list) else 0
         max_scale = respect.get("hierarchy_rules", {}).get("max_type_scale_per_screen", 4)
         if scale_count > max_scale:
             errors.append(
@@ -204,5 +221,44 @@ def main() -> int:
     return 1 if args.strict and warnings else 0
 
 
+def _test_check_cross_ref() -> None:
+    """v0.8.4 Codex 3차 검수 회귀 보호 — malformed DESIGN.md nested schema."""
+    respect_ok = {"references_design_md": "./DESIGN.md"}
+
+    # design = None → controlled error
+    assert check_cross_ref(respect_ok, None), "None design must error"
+    assert check_cross_ref(respect_ok, {}), "empty design must error"
+
+    # design = non-dict (list, string) → controlled error
+    assert check_cross_ref(respect_ok, []), "list design must error"
+    assert check_cross_ref(respect_ok, "markdown text"), "string design must error"
+
+    # design.colors = list-of-maps (Codex 3차 finding 핵심 reproducer)
+    errors = check_cross_ref(respect_ok, {"colors": [{"primary": "blue"}]})
+    assert any("dict 형식 필수" in e for e in errors), f"list-of-maps colors must error, got {errors}"
+
+    # design.colors = list-of-int (Codex 3차 finding)
+    errors = check_cross_ref(respect_ok, {"colors": [1, 2]})
+    assert any("dict 형식 필수" in e for e in errors), f"list colors must error, got {errors}"
+
+    # design.colors = dict with int keys → controlled error
+    errors = check_cross_ref(respect_ok, {"colors": {1: "blue", 2: "red"}})
+    assert any("비-string key" in e for e in errors), f"non-string keys must error, got {errors}"
+
+    # design.typography = list → controlled error (nested guard)
+    errors = check_cross_ref(respect_ok, {"typography": ["sans", "serif"]})
+    assert any("typography: dict 형식 필수" in e for e in errors), f"non-dict typography must error, got {errors}"
+
+    # design.colors = valid dict → no type-level error
+    errors = check_cross_ref(respect_ok, {"colors": {"primary": "blue"}})
+    type_errors = [e for e in errors if "dict 형식" in e or "비-string" in e]
+    assert not type_errors, f"valid dict must not trigger type errors, got {type_errors}"
+
+    print("✅ check_cross_ref() regression tests pass (v0.8.4)")
+
+
 if __name__ == "__main__":
+    if "--test" in sys.argv:
+        _test_check_cross_ref()
+        sys.exit(0)
     raise SystemExit(main())
