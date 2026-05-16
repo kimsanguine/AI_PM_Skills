@@ -56,6 +56,12 @@
       "description": "Track AI coding agent progress at prompt-level granularity — deterministic velocity baseline, lookup-based task estimation, event-driven progress reports, gate checkpoints, and respect-checkpoint matrix. For 5+ prompt cycles per feature where operate's weekly cadence is too coarse.",
       "source": "./track",
       "category": "product-management"
+    },
+    {
+      "name": "craft",
+      "description": "Craft user-respecting UI/UX — DESIGN.md + RESPECT.md two-file design system, three-second rule enforcement, 60/30/10 color ratio, motion language, ui-drift detection. Closes the AI-generic-aesthetic gap by mechanically enforcing user-respect (영상 5번 통찰).",
+      "source": "./craft",
+      "category": "product-management"
     }
   ]
 }
