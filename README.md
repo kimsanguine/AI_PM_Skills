@@ -182,7 +182,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ① Complete Agent Lifecycle, Not Random Tools
 
-50 skills map to 7 stages of agent product development. This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents and multi-agent portfolio operations.
+62 skills map to 9 stages of agent product development (Gate → Discover → Architect → Deliver → Measure → Learn → Operate → Track → Craft). This isn't "AI tools for PMs" — it's **a structured methodology for building agents as products**, from discovery to self-improving agents and multi-agent portfolio operations.
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
@@ -475,7 +475,7 @@ discover/skills/opp-tree/           ← example skill
 | `examples/bad-01.md` | Explicit anti-patterns with explanations | Prevents common failures |
 | `references/test-cases.md` | Edge cases + assertions | Powers eval system (54 assertions) |
 
-This pattern repeats across all 50 skills — **200+ supporting files** that make each skill measurable, testable, and improvable.
+This pattern repeats across all 62 skills — **200+ supporting files** that make each skill measurable, testable, and improvable.
 
 </details>
 
