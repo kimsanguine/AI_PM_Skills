@@ -8,6 +8,8 @@ model: sonnet
 
 # Opportunity Solution Tree — Product Gate Primary Artifact
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - Teresa Torres OST를 PM 라이프사이클의 1급 artifact로 승격 — `docs/OPPORTUNITY_TREE.md` + Mermaid 자동 생성.

@@ -8,6 +8,8 @@ model: sonnet
 
 # Interview Synthesis — AI Extracts, Human Tags
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - 2026 현실 반영 — 78% PM 팀이 AI 합성 사용. **차단하지 말고 받아들이되, evidence strength 태깅은 인간에게 강제**.

@@ -1,5 +1,5 @@
 ---
-description: "Check whether a new feature request is in scope for the current CONDITIONAL_GO gate. Cross-checks against exclusions registry, allowed_paths, and COGS model tier. Returns ALLOW / DEFER / BLOCK. Use before implementing any new feature during a CONDITIONAL_GO build phase."
+description: "Check whether a new feature request is in scope for the current CONDITIONAL_GO gate. Cross-checks against exclusions registry, allowed_paths, and COGS model tier. Returns ALLOW / DEFER / BLOCK. Use when implementing any new feature during a CONDITIONAL_GO build phase to verify it is in scope."
 argument-hint: "[feature description]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---

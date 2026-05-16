@@ -1,5 +1,5 @@
 ---
-description: "Verify task/feature completion against CONDITIONAL_GO conditions in STATE.md. Syncs condition status (❌→✅) before any 'done' declaration. Use before marking a task complete, closing a sprint, or claiming a condition is met."
+description: "Verify task/feature completion against CONDITIONAL_GO conditions in STATE.md. Syncs condition status (❌→✅) before any 'done' declaration. Use when marking a task complete, closing a sprint, or claiming a condition is met."
 argument-hint: "[task description or condition name to verify]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---

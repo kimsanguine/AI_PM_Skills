@@ -8,6 +8,8 @@ model: sonnet
 
 # Exclusions Registry — Do Not Build, with Reason
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - "지금 만들지 않는다"의 *영구 메모리*를 구축한다. 매 hplan run마다 휘발되지 않도록 `harness/exclusions.jsonl` append-only.

@@ -12,6 +12,8 @@ hooks:
 
 # COGS Sentinel — Executable Margin Gate
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - Token 단가와 사용 패턴으로부터 **p50/p90 월간 COGS와 gross margin을 계산**하여 paid AI product의 경제적 viability를 *PRD 전에* 판단한다.

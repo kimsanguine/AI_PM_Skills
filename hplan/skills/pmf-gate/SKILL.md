@@ -1,92 +1,106 @@
 ---
 name: pmf-gate
-description: "PMF Gate — post-launch measurement loop that converts operational data (COGS sentinel results + behavioral metrics) into Evidence Gate inputs for the next build cycle. Closes the hplan loop: Evidence → Product → Build → [ship] → PMF → Evidence (next)."
+description: "PMF Gate — post-launch measurement loop that converts operational data (COGS sentinel results + behavioral metrics) into Evidence Gate inputs for the next build cycle. Closes the hplan loop: Evidence → Product → Build → [ship] → PMF → Evidence (next). Use when the product has shipped and one of these is true: 30+ days post-beta, 10+ paid users, COGS delta ±15pp from prediction, or STATE.md next-entry condition is met."
+argument-hint: "[--mode realtime] [--actual-calls N] [--actual-tokens-in N] [--actual-tokens-out N]"
+allowed-tools: ["Read", "Write", "Bash"]
+model: sonnet
 ---
 
-# PMF Gate (스케치)
+# PMF Gate — Post-Launch Measurement Loop
 
-> **상태**: 스케치 — cogs_sentinel.py 출력 형식 표준화 완료 후 정식 스킬로 승격.
-> Habix Legal 기준 트리거: W6 베타 측정 시점.
+Running for: **$ARGUMENTS**
 
-## 역할
+## Core Goal
 
-```text
-Evidence Gate → Product Gate → Build Gate → [출시]
-     ↑                                           |
-     └─────────── PMF Gate ◄────────────────────┘
-```
+- hplan 루프를 닫는다: Evidence → Product → Build → [출시] → PMF Gate → Evidence (다음).
+- 운영 데이터(COGS 실측 + 행동 지표)를 다음 Evidence Gate의 인풋 형식(`harness/pmf-output.yaml`)으로 변환.
+- "계속 만들어야 하는가"를 데이터로 답한다 — LLM 직감 아님.
 
-PMF Gate는 운영 데이터를 다음 Evidence Gate의 인풋 형식으로 변환합니다.
-"우리가 만든 것을 계속 만들어야 하는가"를 데이터로 답합니다.
+## Trigger Gate
 
-## 트리거 기준
+### Use This Skill When
 
-PMF Gate는 아래 조건 중 하나가 충족될 때 실행합니다:
+- 베타 출시 후 N일 경과 (PROGRESS.md에 명시된 Wx 마감)
+- 유료 사용자 M명 도달 또는 베타 사용자 K명 N주 연속 재방문
+- 실측 p90 margin이 Build Gate 예측과 ±15pp 이상 차이
+- `harness/STATE.md`의 "다음 진입 조건" 항목이 충족됨
 
-| 트리거 | 기준 |
-|--------|------|
-| 시간 기준 | 베타 출시 후 N일 (PROGRESS.md에 명시된 Wx 마감) |
-| 사용자 기준 | 유료 사용자 M명 도달 또는 베타 사용자 K명 N주 연속 사용 |
-| COGS 기준 | 실측 p90 margin이 sentinel 예측과 ±15%p 이상 차이 |
-| 명시 기준 | `harness/STATE.md`의 "다음 진입 조건" 항목 충족 |
-
-**기본값 (프로젝트별로 PROGRESS.md에 오버라이드)**:
+**기본값 (PROGRESS.md에서 오버라이드)**:
 - 시간: 베타 출시 후 30일
 - 사용자: 유료 전환 10명 또는 베타 30일 이상 재방문
 
-## 실행 절차
+### Route to Other Skills When
 
-### Step 1 — COGS 실측
+- PMF_SIGNAL → 다음 `evidence-rubric` 실행 (evidence_carry_over 인풋 사용)
+- ECONOMICS_MISS → `cogs-sentinel` predict 모드로 재산정 후 pricing 조정
+- RETENTION_MISS → `ost` 재검토 (opportunities 재우선순위)
+- PIVOT → `decision-log` pivot 기록 후 Evidence Gate 재시작
+
+### Boundary Checks
+
+- ❌ 행동 지표(retention, conversion)는 이 스킬이 수집하지 않는다 — 사용자가 직접 입력해야 함.
+- ❌ `cogs_sentinel.py --mode realtime`은 실측 호출 수 없이는 의미 있는 결과를 내지 못함.
+- ❌ 이 스킬은 Build Gate를 대체하지 않는다 — 다음 사이클의 Evidence Gate 인풋을 준비할 뿐.
+
+## Inputs
+
+### COGS 실측
 
 ```bash
 python3 hplan/scripts/cogs_sentinel.py --mode realtime \
-  --provider [현재 provider] \
-  --model [현재 model]
+  --provider anthropic --model claude-sonnet-4-6 \
+  --actual-calls-per-user-month [실측값] \
+  --actual-tokens-in [실측 평균 input tokens] \
+  --actual-tokens-out [실측 평균 output tokens] \
+  --arpu [현재 ARPU] \
+  --out harness/pmf-output-cogs.md
 ```
 
-`cogs_sentinel.py`가 이미 존재합니다. 실측 호출 데이터(calls/user/month 실제값)를 주입하면 재계산됩니다.
+Build Gate 예측(`harness/build-gate/cogs_input.json`)과 자동 비교. delta ±15pp 초과 시 경고.
 
-출력 비교:
-- Build Gate 예측 p90 margin
-- 실측 p90 margin
-- 차이 ±Xp%
-
-### Step 2 — 행동 지표 수집
-
-아래 질문에 대한 데이터를 수집합니다:
+### 행동 지표 (사용자 직접 입력)
 
 ```yaml
 retention:
-  day_7: [%]     # 7일 후 재방문율
-  day_30: [%]    # 30일 후 재방문율
+  day_7: [%]
+  day_30: [%]
 engagement:
-  core_flow_completion: [%]   # 핵심 플로우 완료율
-  workaround_reduction: [%]   # "이전에 수동으로 했던 것"을 대체한 비율
+  core_flow_completion: [%]
+  workaround_reduction: [%]
 revenue:
-  paid_conversion: [%]        # 유료 전환율
-  churn_30d: [%]              # 30일 이탈율
+  paid_conversion: [%]
+  churn_30d: [%]
 signal:
-  strong_push_quotes: [N]     # "없으면 못 살아" 수준의 인용 건수
-  nps_qualitative: [한 줄]    # 가장 자주 나온 추천 이유
+  strong_push_quotes: [N]
+  nps_qualitative: [한 줄]
 ```
 
-### Step 3 — PMF 판정
+## Steps
+
+1. `harness/STATE.md`에서 트리거 조건 충족 여부 확인.
+2. `cogs_sentinel.py --mode realtime` 실행 — delta 계산.
+3. 행동 지표를 사용자로부터 수집 (위 YAML 형식).
+4. PMF 판정 기준 적용 (아래 표).
+5. `harness/pmf-output.yaml` 저장.
+6. `evidence_carry_over` 항목을 추출해 다음 `/hplan-evidence` 컨텍스트로 명시.
+
+## Outputs
+
+### PMF 판정 기준
 
 | 조건 | 판정 |
 |------|------|
-| Day-30 retention ≥ 30% + COGS GREEN + strong_push ≥ 3 | **PMF_SIGNAL** — 다음 사이클 GO |
-| COGS 실측 p90 < 20% | **ECONOMICS_MISS** — pricing 재조정 후 재검토 |
-| Day-7 retention < 20% | **RETENTION_MISS** — core flow 재설계 필요 |
-| Strong-push < 3 | **EVIDENCE_THIN** — 더 많은 인터뷰 필요 |
-| 위 조건 복합 | **PIVOT** → hplan Evidence Gate 재시작 |
+| Day-30 retention ≥ 30% + COGS GREEN + strong_push ≥ 3 | **PMF_SIGNAL** |
+| COGS 실측 p90 < 20% | **ECONOMICS_MISS** |
+| Day-7 retention < 20% | **RETENTION_MISS** |
+| strong_push_quotes < 3 | **EVIDENCE_THIN** |
+| 위 조건 복합 | **PIVOT** |
 
-### Step 4 — 다음 Evidence Gate 인풋 생성
-
-PMF Gate 결과를 `harness/pmf-output.yaml`로 저장:
+### pmf-output.yaml 형식
 
 ```yaml
 pmf_date: YYYY-MM-DD
-verdict: PMF_SIGNAL | ECONOMICS_MISS | RETENTION_MISS | PIVOT
+verdict: PMF_SIGNAL | ECONOMICS_MISS | RETENTION_MISS | EVIDENCE_THIN | PIVOT
 cogs_realtime:
   p50_margin: [%]
   p90_margin: [%]
@@ -98,39 +112,14 @@ behavior:
 next_gate:
   action: continue | reprice | redesign | pivot
   evidence_carry_over:
-    # 다음 Evidence Gate에 그대로 들어가는 검증된 신호
     - [인용 또는 데이터 포인트]
   new_hypotheses:
-    # 이번 운영에서 새로 발견된 가설
     - [신규 가설]
 ```
 
-이 파일이 다음 `/hplan-evidence`의 컨텍스트 인풋이 됩니다.
+## Verification
 
-## 출력 형식
-
-```
-PMF Gate — [날짜]
-트리거: [시간/사용자/COGS/STATE.md 조건]
-
-COGS 실측:  p50 X% / p90 Y% (예측 대비 ±Zpp)
-Day-30 retention: X%
-Strong-push 인용: N건
-
-판정: PMF_SIGNAL / ECONOMICS_MISS / RETENTION_MISS / PIVOT
-다음: [continue | 재실행 target]
-
-harness/pmf-output.yaml 저장 완료.
-```
-
-## 연결 지점
-
-- **입력**: `harness/STATE.md` (현재 조건), `cogs_sentinel.py` (재실행), 수동 행동 지표
-- **출력**: `harness/pmf-output.yaml` → 다음 `/hplan-evidence` 컨텍스트 인풋
-- **하네스**: `validate_docs.py`가 pmf-output.yaml 내 `evidence_carry_over` 경로를 검사 가능 (향후 확장)
-
-## 스케치 → 정식 스킬 조건
-
-- [ ] cogs_sentinel.py `--mode realtime` 파라미터 추가 (현재 예측 모드만 있음)
-- [ ] pmf-output.yaml 형식 실사용에서 검증 (Habix Legal W6 측정 후)
-- [ ] Evidence Gate 인풋으로의 자동 연결 구현
+- [ ] `cogs_sentinel.py --mode realtime` 실행 성공 — `harness/pmf-output-cogs.md` 생성
+- [ ] delta_pp 계산 정상 (예측 vs 실측 비교 블록 출력)
+- [ ] `harness/pmf-output.yaml` 저장 완료 + `evidence_carry_over` 비어 있지 않음
+- [ ] 판정 결과가 다음 Gate 행동과 연결됨 (PMF_SIGNAL → Evidence Gate, PIVOT → decision-log)

@@ -8,6 +8,8 @@ model: sonnet
 
 # Decision Log — Self-Calibrating Build Gate
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - 모든 gate 결정을 `harness/decisions.jsonl`에 append-only로 기록 → **3-6개월 뒤 audit으로 hit_rate 측정**.

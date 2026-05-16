@@ -8,6 +8,8 @@ model: sonnet
 
 # Handoff — Build Gate → Downstream Coding Ecosystem
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - hplan은 단독 도구가 아니라 *전처리기*. Build Gate가 통과하면 결과물을 spec-kit / kiro / gstack / claude code 어느 곳으로든 export.

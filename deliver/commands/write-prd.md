@@ -1,6 +1,6 @@
 ---
 name: write-prd
-description: "Write a complete unified PRD covering user/JTBD/decisions/scope/agent-spec/metrics/hypotheses in 14 sections. Single source of truth for both customer-facing products and the LLM agents inside them. Chains discover/agent-gtm, discover/build-or-buy, hplan/exclusions, discover/cost-sim, deliver/instruction, measure/north-star, deliver/okr, discover/assumptions, learn/pm-engine."
+description: "Write a complete unified PRD covering user/JTBD/decisions/scope/agent-spec/metrics/hypotheses in 14 sections. Single source of truth for both customer-facing products and the LLM agents inside them. Use when a product or agent idea has passed the Evidence and Product Gates and needs a full PRD before build. Chains discover/agent-gtm, discover/build-or-buy, hplan/exclusions, discover/cost-sim, deliver/instruction, measure/north-star, deliver/okr, discover/assumptions, learn/pm-engine."
 argument-hint: "[product or agent name]"
 ---
 

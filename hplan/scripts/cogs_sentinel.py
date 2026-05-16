@@ -83,6 +83,61 @@ def lognormal_samples(median: float, p90: float, n: int = 1000, seed: int = 7) -
     return [math.exp(rng.gauss(mu, sigma)) for _ in range(n)]
 
 
+def run_realtime(params: dict, baseline_path: Path | None = None) -> dict:
+    """Compare actual operational data against the Build Gate prediction.
+
+    Reads the previous cogs_input.json (or baseline_path) for the predicted
+    calls_per_user_month/tokens_in/tokens_out and replaces them with actuals
+    before re-running the model, then appends a delta block.
+    """
+    if baseline_path is None:
+        baseline_path = Path("harness/build-gate/cogs_input.json")
+
+    predicted_params: dict = {}
+    if baseline_path.exists():
+        try:
+            predicted_params = json.loads(baseline_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+
+    merged = {**predicted_params, **params}
+    merged.pop("mode", None)
+
+    predicted_calls = float(predicted_params.get("calls_per_user_month", merged.get("calls_per_user_month", 60)))
+    actual_calls = float(params.get("actual_calls_per_user_month", merged.get("calls_per_user_month", predicted_calls)))
+    merged["calls_per_user_month"] = actual_calls
+
+    if "actual_tokens_in" in params:
+        merged["tokens_in"] = int(params["actual_tokens_in"])
+    if "actual_tokens_out" in params:
+        merged["tokens_out"] = int(params["actual_tokens_out"])
+
+    result = run(merged)
+
+    predicted_merged = {**merged, "calls_per_user_month": predicted_calls}
+    if "actual_tokens_in" in params:
+        predicted_merged["tokens_in"] = int(predicted_params.get("tokens_in", merged["tokens_in"]))
+    if "actual_tokens_out" in params:
+        predicted_merged["tokens_out"] = int(predicted_params.get("tokens_out", merged["tokens_out"]))
+    predicted_result = run(predicted_merged)
+
+    delta_p90 = result["gross_margin"]["p90"] - predicted_result["gross_margin"]["p90"]
+    result["mode"] = "realtime"
+    result["realtime"] = {
+        "actual_calls_per_user_month": actual_calls,
+        "predicted_calls_per_user_month": predicted_calls,
+        "predicted_margin_p90": round(predicted_result["gross_margin"]["p90"], 4),
+        "actual_margin_p90": round(result["gross_margin"]["p90"], 4),
+        "delta_pp": round(delta_p90 * 100, 1),
+        "threshold_exceeded": abs(delta_p90) >= 0.15,
+    }
+    if result["realtime"]["threshold_exceeded"]:
+        sign = "+" if delta_p90 >= 0 else ""
+        result["reasons"].insert(0,
+            f"[realtime] p90 margin delta {sign}{delta_p90*100:.1f}pp vs Build Gate prediction — PMF Gate threshold ±15pp exceeded.")
+    return result
+
+
 def run(params: dict) -> dict:
     pricing = params.get("pricing") or load_pricing()
     provider = params.get("provider", "anthropic")
@@ -175,10 +230,12 @@ def run(params: dict) -> dict:
 
 
 def markdown_report(result: dict) -> str:
+    mode = result.get("mode", "predict")
     lines = [
         f"# COGS Sentinel Report",
         "",
         f"Generated: {result['generated']}",
+        f"Mode: {mode}",
         f"Provider: {result['provider']} / {result['model']}",
         "",
         "## Decision",
@@ -203,11 +260,26 @@ def markdown_report(result: dict) -> str:
         "## Inputs",
         *[f"- {k}: {v}" for k, v in result["inputs"].items()],
     ]
+    if mode == "realtime" and "realtime" in result:
+        rt = result["realtime"]
+        threshold_label = "⚠️ EXCEEDED (±15pp threshold)" if rt["threshold_exceeded"] else "✅ within threshold"
+        lines += [
+            "",
+            "## Realtime Comparison",
+            f"- Actual calls/user/month: {rt['actual_calls_per_user_month']}",
+            f"- Predicted calls/user/month: {rt['predicted_calls_per_user_month']}",
+            f"- Predicted p90 margin: {rt['predicted_margin_p90']:.0%}",
+            f"- Actual p90 margin: {rt['actual_margin_p90']:.0%}",
+            f"- Delta: {rt['delta_pp']:+.1f}pp — {threshold_label}",
+        ]
     return "\n".join(lines)
 
 
 def parse_args():
     p = argparse.ArgumentParser(description="hplan COGS sentinel")
+    p.add_argument("--mode", choices=["predict", "realtime"], default="predict",
+                   help="predict: model future COGS from usage params; "
+                        "realtime: compare actual operational data against Build Gate prediction")
     p.add_argument("--params", help="Path to JSON params file (overrides CLI flags)")
     p.add_argument("--provider", default="anthropic")
     p.add_argument("--model", default="claude-sonnet-4-6")
@@ -219,6 +291,14 @@ def parse_args():
     p.add_argument("--free-abuse-multiplier", type=float, default=5)
     p.add_argument("--target-gross-margin", type=float, default=0.70)
     p.add_argument("--payment-fee-pct", type=float, default=0.03)
+    p.add_argument("--actual-calls-per-user-month", type=float,
+                   help="[realtime mode] Measured calls/user/month from production logs")
+    p.add_argument("--actual-tokens-in", type=int,
+                   help="[realtime mode] Measured average input tokens per call")
+    p.add_argument("--actual-tokens-out", type=int,
+                   help="[realtime mode] Measured average output tokens per call")
+    p.add_argument("--baseline", help="[realtime mode] Path to Build Gate cogs_input.json "
+                   "(default: harness/build-gate/cogs_input.json)")
     p.add_argument("--json", action="store_true")
     p.add_argument("--out", help="Write markdown report to path")
     return p.parse_args()
@@ -241,7 +321,19 @@ def main():
             "target_gross_margin": args.target_gross_margin,
             "payment_fee_pct": args.payment_fee_pct,
         }
-    result = run(params)
+
+    if args.mode == "realtime":
+        if args.actual_calls_per_user_month is not None:
+            params["actual_calls_per_user_month"] = args.actual_calls_per_user_month
+        if args.actual_tokens_in is not None:
+            params["actual_tokens_in"] = args.actual_tokens_in
+        if args.actual_tokens_out is not None:
+            params["actual_tokens_out"] = args.actual_tokens_out
+        baseline = Path(args.baseline) if args.baseline else None
+        result = run_realtime(params, baseline_path=baseline)
+    else:
+        result = run(params)
+
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:

@@ -140,6 +140,16 @@ Gate:    [Which gate was decisive: EXCLUSIONS / EVIDENCE / COGS / ALL-PASS]
 
 ---
 
+## Output Format
+
+```
+VERDICT: GO / HOLD / INVESTIGATE
+
+Reason:  [1-line summary of the deciding factor]
+Next:    [Concrete next action]
+Gate:    [Which gate was decisive: EXCLUSIONS / EVIDENCE / COGS / ALL-PASS]
+```
+
 ## Notes
 
 This command is the fastest WHETHER answer. For deeper analysis, follow with:

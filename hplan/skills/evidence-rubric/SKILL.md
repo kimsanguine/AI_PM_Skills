@@ -12,6 +12,8 @@ hooks:
 
 # Evidence Rubric — 100-Point Idea Scoring
 
+Running for: **$ARGUMENTS**
+
 ## Core Goal
 
 - 아이디어를 100점 루브릭으로 측정하여 "PRD 쓰기 전에 인터뷰가 더 필요한지" 명확한 신호를 만든다.
