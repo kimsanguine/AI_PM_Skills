@@ -48,6 +48,18 @@ PRD/feature description 으로 `estimate-tasks` 호출:
 - 다음 진입 phase (requirements → design)
 - Hook silent fail 의심 시 `/track-status` 권장
 
+## Output Format
+
+```
+VERDICT: READY / NEEDS_BASELINE / FAILED
+
+Baseline:   <trust_grade A/B/C 또는 fallback>
+Predicted:  <X tasks · Y LOC · Z tokens · T hours>
+Hooks:      <PostToolUse + PreToolUse 등록 상태>
+Next phase: requirements → design
+Next ask:   <첫 작업 안내 또는 fix 권유>
+```
+
 ## Failure Handling
 
 | 실패 | 대응 |

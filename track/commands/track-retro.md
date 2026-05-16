@@ -1,5 +1,5 @@
 ---
-description: "Post-completion retrospective — extract predicted-vs-actual deviation patterns from .track/actual_log.jsonl, then route to learn/pm-engine /pm-tacit-from-retro for auto-promote of qualifying patterns (deviation_pct ≥ 50% OR recurrence ≥ 3) to PM-ENGINE-MEMORY as TK candidates. Use after a feature completes (all tasks event=complete) to close the data flywheel — turning execution data into reusable PM tacit knowledge."
+description: "Post-completion retrospective — extract predicted-vs-actual deviation patterns from .track/actual_log.jsonl, then route to learn/pm-engine /pm-tacit-from-retro for auto-promote of qualifying patterns (deviation_pct ≥ 50% OR recurrence ≥ 3) to PM-ENGINE-MEMORY as TK candidates. Use when a feature completes (all tasks event=complete) and you want to close the data flywheel — turning execution data into reusable PM tacit knowledge."
 argument-hint: "[feature-name or path/to/predicted.json]"
 allowed-tools: ["Read", "Write", "Bash"]
 ---
@@ -49,6 +49,17 @@ You are running retro for: **$ARGUMENTS**
 - promote 후보 수 / 승인 수
 - 다음 baseline 갱신 권유 여부
 - 데이터 flywheel 완결: 실측 → TK → 다음 예측 정확도 ↑
+
+## Output Format
+
+```
+VERDICT: PROMOTED / NO_CANDIDATES / FAILED
+
+Deviation:     <N tasks scanned · X 후보 식별>
+Auto-promote:  <Y 후보 (deviation ≥ 50% OR recurrence ≥ 3)>
+TK approved:   <Z TK PM-ENGINE-MEMORY append>
+Next:          <velocity-baseline 갱신 권유 또는 다음 feature>
+```
 
 ## Failure Handling
 

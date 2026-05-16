@@ -42,6 +42,18 @@ stdout 또는 `.track/reports/<ts>.md`.
 
 전체 LLM 호출 수: blocker-detect 0 + progress-report 자연어 변환 1회 = **1회만**. 모든 메트릭은 결정론.
 
+## Output Format
+
+```
+─── progress-report ─── <feature> ─── triggered by: <trigger-name>
+Predicted:  X tasks · Y LOC · Z tokens · T hours
+Actual:     X/Y tasks (P%) · L LOC (+Δ%) · T tokens (+Δ%) · E elapsed
+Velocity:   R tasks/h (baseline B, +/-Δ%)
+ETA:        +Xh (p50)  +Yh (p90)
+Blockers:   <N건 score 합산 + suggested action>
+Next gate:  <gate-name + arrival ts>
+```
+
 ## Failure Handling
 
 | 실패 | 대응 |
