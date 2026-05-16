@@ -52,6 +52,7 @@ hooks:
 - **가설 분해** → `discover/assumptions` (4축) → Section 13
 - **신뢰성·SLO** → `measure/reliability` → Section 14
 - **Multi-ecosystem export** → `hplan/handoff` (Spec-Kit / Kiro / GStack / Claude Code)
+- **사용자 인터페이스가 있는 LLM 에이전트 (UI/UX 강제)** → `craft/respect-brief` (RESPECT.md 디자인 시그니처) → Section 11 출력 사양 보강
 
 ### Boundary Checks
 
@@ -97,6 +98,7 @@ hooks:
 - [ ] Section 12: OKR + North Star + Anti-Metric + Cost KR mandatory (Yes/No)
 - [ ] Section 13: Top-3 가설 + 2-day experiment 링크 (Yes/No)
 - [ ] Section 14: 실패 시나리오 (4개 이상) + HITL 트리거 (Yes/No)
+- [ ] 디자인 시그니처 commit: UI/UX 있으면 `craft/respect-brief` 호출 + RESPECT.md 참조, 없으면 "N/A — 백엔드만" 명시 (Yes/No/N/A)
 - [ ] 전체 일관성: 섹션 간 충돌·누락 없음 (Yes/No)
 - [ ] TK 인용: `learn/pm-engine` 쿼리로 관련 TK-NNN 3~5개 (Yes/No)
 
@@ -410,8 +412,10 @@ You are helping write a complete **Unified PRD** for: **$ARGUMENTS**
 - Section 9: 3-tier Memory (Working / Long-term / Procedural)
 - Section 10: Trigger & Execution Flow Step-by-Step
 - Section 11: Output Specification + 실제 예시 1개
+- Section 11 보강 (UI 있으면): `craft/respect-brief` 호출 → RESPECT.md 디자인 시그니처 commit (3초 룰 / 다음 행동 / social proof)
 
 > 일반 SaaS (LLM 에이전트 없음) 이면 Section 7-11에 "N/A — 일반 SaaS" 간단 표기 가능
+> 사용자 인터페이스가 없는 백엔드 에이전트면 디자인 시그니처는 "N/A — 백엔드만" 명시
 
 **Phase 4** — Section 12-14 (지표·가설·실패)
 - Section 12: Dual-axis OKR — `measure/north-star` + `deliver/okr` (cost KR mandatory)
