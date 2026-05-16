@@ -4,6 +4,115 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.4] — 2026-05-16
+
+### Added — Gate Integrity Harness (GSD·Superpowers 패턴 차용)
+
+**배경**: hplan은 "만들어야 하는가"를 판단하는 게이트지만, 게이트를 건너뛰거나 세션이 바뀌면 결정 컨텍스트가 사라지는 세 가지 구조적 취약점이 있었습니다. GSD의 STATE/hook 패턴과 Superpowers의 HARD-GATE 패턴을 차용해 최소 구현으로 해결합니다.
+
+#### 취약점 1 해소 — HARD-GATE (게이트 건너뛰기 차단)
+
+`hplan/commands/hplan-product.md` 상단에 `<HARD-GATE name="evidence">` 추가:
+- Evidence Gate 미통과 시 Product Gate 진입 차단
+- **예외**: 경쟁사 분석·고객 프로파일링·AI persona 초안·시장 리서치는 게이트 전 실행 가능 (Evidence Gate 인풋이지 통과 대체물이 아님)
+
+`hplan/commands/hplan-build.md` 상단에 `<HARD-GATE name="product">` 추가:
+- Product Gate 미통과 시 Build Gate 진입 차단
+- Journey map + Sitemap 없이 PASS 선언 금지
+
+`hplan/PLUGIN.md` Rule 9 추가: "AI persona 초안 ≠ Evidence Gate pass."
+
+#### 취약점 2 해소 — STATE.md + SessionStart hook (세션 컨텍스트 유지)
+
+`/hplan-build` CONDITIONAL_GO 출력 시 `harness/STATE.md` 자동 생성:
+- 현재 게이트·verdict·decision_id
+- Active 조건 테이블 (`verified_by` 파일 경로 + ❌/✅ 상태)
+- 블로커 목록·다음 진입 조건
+
+`harness/PROGRESS.md` 자동 생성 (STATE.md와 쌍):
+- `STATE.md` = 게이트 상태 (기계가 읽음)
+- `PROGRESS.md` = 마일스톤별 "시작 전 체크" 블록 (사람이 읽음)
+
+`hplan/references/settings-example.json` (새 파일):
+```jsonc
+"SessionStart": [{"hooks": [{"command": "[ -f harness/STATE.md ] && cat harness/STATE.md || true"}]}]
+```
+프로젝트 `.claude/settings.json`에 복사하면 세션 시작 시 STATE.md 자동 주입.
+
+참조 템플릿: `hplan/references/state-template.md`, `hplan/references/progress-template.md`
+
+#### 취약점 3 해소 — 조건 anchor 테이블 (조건 → 검증 추적)
+
+CONDITIONAL_GO 출력에 `| 조건 | verified_by | 상태 |` 테이블 포함:
+- `verified_by` 파일이 없음 = 조건 미검증 = 게이트 통과 불완전
+- `validate_docs.py --check condition_coverage`가 자동 교차 검사
+
+---
+
+### Added — 개발 진행 스킬 (Phase 2)
+
+#### `/hplan-verify` — 완료 선언 전 증거 게이트
+
+`hplan/commands/hplan-verify.md` (새 파일):
+- `STATE.md`의 `verified_by` 파일 존재 여부 확인 → ❌→✅ 갱신
+- 파일 존재만 체크 (테스트 실행은 CI 책임 — 결정론/비결정론 경계 유지)
+- 전체 / 특정 조건 이름 매칭 선택 실행
+- 판정: `COMPLETE` / `PARTIAL` / `BLOCKED`
+- condition-sync 스킬 흡수 (별도 스킬 불필요)
+
+#### `/hplan-scope-guard` — 범위 이탈 + COGS 티어 차단
+
+`hplan/commands/hplan-scope-guard.md` (새 파일):
+- Step 1: 영구 제외 레지스트리 충돌 확인 → BLOCK
+- Step 2: checkpoint.json `allowed_paths` 범위 확인 → DEFER
+- Step 3: 새 피처의 외부 API/모델 추가 탐지 → COGS 티어 경고
+- 판정: `ALLOW` / `DEFER` / `BLOCK`
+- DEFER 시 `harness/v2-backlog.md` 자동 기록
+- 설계 시점 차단 (scope-guard) + 커밋 시점 차단 (gate_guard) 이중 레이어
+
+---
+
+### Added — Build Gate 출력 개선 (Phase 3)
+
+`hplan/commands/hplan-build.md` Phase 3에 PROGRESS.md 생성 지시 추가:
+- CONDITIONAL_GO 시 `harness/PROGRESS.md` 자동 생성
+- 각 Wx 마일스톤에 "시작 전 체크" 블록 (조건·기술결정·COGS 추정·블로커) 포함
+- `/hplan-build` 재실행으로 전체 사이클 종료 선언
+- `hplan-discuss` 스킬 제거 (Build Gate 출력물에 흡수)
+
+---
+
+### Added — PMF Gate 스케치 (Phase 4)
+
+`hplan/skills/pmf-gate/SKILL.md` (새 파일, 스케치 상태):
+
+hplan 사이클을 닫는 운영 후 루프:
+```
+Evidence → Product → Build → [출시] → PMF Gate → Evidence (다음)
+```
+
+트리거 기준 4종:
+- 시간: 베타 출시 후 30일 (기본값, PROGRESS.md에서 오버라이드)
+- 사용자: 유료 전환 10명 또는 베타 30일 재방문
+- COGS: 실측 p90 margin이 sentinel 예측과 ±15%p 이상 차이
+- STATE.md "다음 진입 조건" 충족
+
+출력: `harness/pmf-output.yaml` — `cogs_sentinel.py` 실측값 + 행동 지표 + `evidence_carry_over` (다음 Evidence Gate 인풋)
+
+스케치 → 정식 승격 조건: `cogs_sentinel.py --mode realtime` 파라미터 추가 + Habix Legal W6 실측 검증 후.
+
+---
+
+### Fixed — Pre-commit soft warning for unfilled STATE.md anchors
+
+`scripts/install-hooks.sh` 확장:
+- commit 시 `harness/STATE.md`를 스캔해 `verified_by = 추후 기입` + ❌ 항목 카운트
+- N > 0이면 `/hplan-verify` 권장 경고 출력
+- **커밋은 허용** (exit 0 유지) — 완료 의식 없이 hard block하면 우회 인센티브만 생김
+- `harness/STATE.md` 없으면 조용히 스킵 (후방 호환)
+
+---
+
 ## [0.7.3] — 2026-05-16
 
 ### Added — Operational Gap Fixes (3 Phases)

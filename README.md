@@ -8,11 +8,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.3-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.4-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.7.3** — Operational gap fixes: CONDITIONAL_GO scope enforcement, handoff canonical paths, deterministic cross-reference validator (path existence, price consistency, condition coverage). See [CHANGELOG.md](CHANGELOG.md).
+> **v0.7.4** — Gate integrity harness: HARD-GATE enforcement, STATE.md session continuity, `/hplan-verify` + `/hplan-scope-guard` dev commands, PROGRESS.md milestone template, PMF Gate sketch. See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 
