@@ -14,7 +14,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.8.4** — 신규 2 플러그인 **`track`** (prompt-level 진행률 + event-driven 게이트) + **`craft`** (DESIGN.md + RESPECT.md 디자인 시스템 + Playwright 런타임 측정) 가 build → ship 사이 빈 공간을 닫습니다. 11 신규 스킬 모두 Rule 5 mechanical enforcement (LLM 분류만, routing/metric 결정론). v0.8.0 → v0.8.4 동안 3 라운드 적대적 검수로 신규 게이트 강화 (findings 4 → 3 → 1, high 잔여 0). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.4** — hplan 은 AI 도구가 HOW 로 달려가기 전에 **WHETHER 를 묻는 Product Build Gate** 입니다. v0.8 은 게이트 위에 두 신규 플러그인을 얹습니다: **`track`** (진행 중 가드레일 — prompt-level 진행률 + event-driven 블로커 + α/β/γ respect-checkpoint) + **`craft`** (디자인 시스템 mechanical enforcement — DESIGN.md + RESPECT.md + Playwright 런타임 측정). 합쳐서: **시작 전 Build Gate, 진행 중 Track** — 잘못된 방향을 두 단계로 차단합니다. 3 라운드 적대적 검수 (findings 4 → 3 → 1, high 잔여 0). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 

@@ -12,7 +12,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.8.4** — **`track`** (prompt-level progress + event-driven gates) and **`craft`** (DESIGN.md + RESPECT.md design system + Playwright runtime measurement) close the build-to-ship gap. 11 new skills with mechanical Rule 5 enforcement; 3 rounds of adversarial review hardening (4 → 3 → 1 findings, 0 high remaining). See [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.4** — hplan is the **Product Build Gate** that asks WHETHER before AI tools rush to HOW. v0.8 layers two new plugins on top of the gate: **`track`** (build-time guardrail — prompt-level progress + event-driven blockers + α/β/γ respect-checkpoint) and **`craft`** (design-system enforcement — DESIGN.md + RESPECT.md + Playwright runtime measurement). Together: **Build Gate before you build, Track while you build** — wrong directions blocked at both layers. 3 rounds of adversarial review (4 → 3 → 1 findings, 0 high remaining). See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 

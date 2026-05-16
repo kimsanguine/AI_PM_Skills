@@ -23,6 +23,11 @@ export const colors = {
   // hplan brand red
   hplanRed: '#dc2626',
   hplanRedSoft: '#f87171',
+  // v0.8 brand colors
+  trackBlue: '#7dd3fc',     // cyan-300, prompt-level 데이터
+  trackBlueSoft: '#0891b2',
+  craftRose: '#fda4af',     // rose-300, RESPECT.md 디자인
+  craftRoseSoft: '#e11d48',
 };
 
 export const fonts = {
@@ -61,3 +66,51 @@ export const SCENE_TIMING = {
 
 export const FPS = 30;
 export const TOTAL_FRAMES = 2520;
+
+/** v0.8 Editorial — 60s (1800 frames). 메시지 위주, typography 중심. */
+export const V8E_TIMING = {
+  hook: { start: 0, end: 240 },         // 0-8s
+  respect: { start: 240, end: 750 },    // 8-25s
+  lifecycle: { start: 750, end: 1500 }, // 25-50s
+  cta: { start: 1500, end: 1800 },      // 50-60s
+} as const;
+export const V8E_TOTAL = 1800;
+
+/** v0.8 Core — 84s (2520 frames). hplan 본질 (Build Gate, WHETHER vs HOW) 위주, 사용자 narration 충실. */
+export const V8C_TIMING = {
+  hook: { start: 0, end: 300 },              // 0-10s
+  question: { start: 300, end: 540 },        // 10-18s
+  solution: { start: 540, end: 780 },        // 18-26s
+  sixQuestions: { start: 780, end: 1230 },   // 26-41s
+  threeGates: { start: 1230, end: 1830 },    // 41-61s
+  verdict: { start: 1830, end: 2070 },       // 61-69s
+  whyMatters: { start: 2070, end: 2370 },    // 69-79s
+  stage0: { start: 2370, end: 2520 },        // 79-84s
+} as const;
+export const V8C_TOTAL = 2520;
+
+/** v0.8 Core + Track Guardrail — 99s (2970 frames). Core 위에 track 만들기-중 가드레일 1 scene 추가. */
+export const V8CT_TIMING = {
+  hook: { start: 0, end: 300 },                    // 0-10s
+  question: { start: 300, end: 540 },              // 10-18s
+  solution: { start: 540, end: 780 },              // 18-26s
+  sixQuestions: { start: 780, end: 1230 },         // 26-41s
+  threeGates: { start: 1230, end: 1830 },          // 41-61s
+  verdict: { start: 1830, end: 2070 },             // 61-69s
+  trackGuardrail: { start: 2070, end: 2520 },      // 69-84s — NEW
+  whyMatters: { start: 2520, end: 2820 },          // 84-94s
+  stage0: { start: 2820, end: 2970 },              // 94-99s
+} as const;
+export const V8CT_TOTAL = 2970;
+
+/** v0.8 Demo — 90s (2700 frames). 시스템·데모 위주. */
+export const V8D_TIMING = {
+  hook: { start: 0, end: 150 },              // 0-5s
+  twoGaps: { start: 150, end: 450 },         // 5-15s
+  trackDemo: { start: 450, end: 900 },       // 15-30s
+  craftDemo: { start: 900, end: 1350 },      // 30-45s
+  lifecycle: { start: 1350, end: 1800 },     // 45-60s
+  convergence: { start: 1800, end: 2250 },   // 60-75s
+  cta: { start: 2250, end: 2700 },           // 75-90s
+} as const;
+export const V8D_TOTAL = 2700;
