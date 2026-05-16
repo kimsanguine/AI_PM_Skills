@@ -50,6 +50,12 @@
       "description": "Operate a portfolio of AI agents — multi-agent tiering (T1~T5), weighted 5-axis scorecards, weekly rollups, cross-team routing decisions. For teams running 5+ agents where single-agent KPIs no longer reveal priorities.",
       "source": "./operate",
       "category": "product-management"
+    },
+    {
+      "name": "track",
+      "description": "Track AI coding agent progress at prompt-level granularity — deterministic velocity baseline, lookup-based task estimation, event-driven progress reports, gate checkpoints, and respect-checkpoint matrix. For 5+ prompt cycles per feature where operate's weekly cadence is too coarse.",
+      "source": "./track",
+      "category": "product-management"
     }
   ]
 }
