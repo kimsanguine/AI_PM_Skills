@@ -8,11 +8,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.8.0-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.8.2-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.8.0** — Two new plugins close the gap from build-to-ship: **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy measurement + motion-language + ui-drift detection). All 11 new skills enforce Rule 5 (LLM 분류만 허용, routing/policy/metric decisions are deterministic). See [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.2** — Codex adversarial review fix patch on top of v0.8.0/v0.8.1. 4 findings resolved: skill-uplift judge() redesigned (off-mode now requires "none" fallback for positives, so uplift actually measures routing improvement — fixes false-quarantine), craft-lint enforces DESIGN.md as error not warning + `--strict` default, `.track/` + craft runtime files added to `.gitignore` (profiles isolation), version metadata synced across 9 plugin.json + marketplace + README. v0.8.0 still introduced **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy + motion-language + ui-drift). All 11 new skills enforce Rule 5. See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 

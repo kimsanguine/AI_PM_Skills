@@ -1,6 +1,6 @@
 {
   "name": "craft",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Craft user-respecting UI/UX — DESIGN.md (Google standard) + RESPECT.md (hplan extension) two-file design system, three-second rule enforcement, 60/30/10 color ratio validation, hover/motion language, and ui-drift detection across screens. Closes the gap left by AI-generated 'professionally generic' designs by mechanically enforcing the user-respect layer (영상 5번 통찰 — '이 존중은 사람이 넣는 겁니다'). Pairs with track/respect-checkpoint for ship-time gating.",
   "author": {
     "name": "AI PM Skills Contributors",

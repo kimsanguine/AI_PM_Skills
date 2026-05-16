@@ -90,11 +90,28 @@ def call_claude(client, model: str, query: str, block: str) -> str:
 
 
 def judge(predicted: str, expected_skill: str, should_trigger: bool, mode: str) -> bool:
+    """결정론 라우팅 정답 판정.
+
+    on-mode (skill in catalog):
+      - should_trigger=True  → predicted must equal expected_skill (target hit)
+      - should_trigger=False → predicted must NOT equal expected_skill (false positive 회피)
+
+    off-mode (skill removed from catalog):
+      - should_trigger=True  → predicted must be "none" (정답 fallback when intended skill 부재)
+      - should_trigger=False → predicted must NOT equal expected_skill (same as on-mode false case)
+
+    uplift = on_pass_rate - off_pass_rate 가 실제 의미를 가지려면:
+      - on-mode 가 정확히 라우팅 (target hit) + off-mode 가 "none" 으로 fallback 못 함 → uplift 양수
+      - on-mode 가 정확 + off-mode 도 "none" 잘 fallback → uplift ≈ 0 (스킬 추가 가치 약함)
+      - on-mode 가 false positive 증가 (ETH 취리히 -3pp 함정) → uplift 음수 (quarantine)
+    """
     if mode == "on":
-        return (predicted == expected_skill and should_trigger) or (predicted != expected_skill and not should_trigger)
-    expected_in_off = "none" if should_trigger else expected_skill
-    if should_trigger:
+        if should_trigger:
+            return predicted == expected_skill
         return predicted != expected_skill
+    # off-mode
+    if should_trigger:
+        return predicted == "none"
     return predicted != expected_skill
 
 

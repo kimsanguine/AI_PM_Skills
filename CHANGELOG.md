@@ -4,6 +4,62 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.8.2] — 2026-05-17
+
+> **Codex adversarial review fix patch.** v0.7.5..v0.8.1 검수에서 도출된 4 findings (3 high + 1 medium) 모두 해결. v0.8.0/v0.8.1 의 mechanical enforcement 약속을 진짜로 작동시키는 patch.
+
+### Fixed — Critical (Codex 검수 반영)
+
+**[high] skill-uplift judge() 로직 재설계** (`evals/skill-uplift.py`)
+- 기존: off-mode 에서 target skill 카탈로그 제거 → 모델이 절대 선택 불가 → `judge()` 가 should_trigger 든 false 든 항상 pass → off_pass_rate trends to 1.0 → 정상 라우팅 스킬도 uplift 음수 → false quarantine
+- 수정: off-mode 에서 should_trigger=True 쿼리는 **predicted == "none" 만 정답** 으로 판정. LLM 이 fallback 잘 못 하면 off_pass_rate 낮음 → uplift 양수 (스킬 추가 의미 있음). on-mode false positive 증가 (ETH 취리히 -3pp 함정) → uplift 음수 (진짜 quarantine 후보).
+- 의미: uplift = on_routing_accuracy - off_routing_accuracy 가 실제 의미를 가짐. v0.8.1 trigger-eval gate 가 진짜 결정론 게이트가 됨.
+
+**[high] craft-lint DESIGN.md 누락 자동 fail** (`scripts/validate-craft-lint.py` + `craft/commands/craft-lint.md`)
+- 기존: `check_cross_ref()` 가 DESIGN.md 없으면 warning 만, exit 0 (`/craft-lint` 가 `--strict` 없이 호출) → 디자인 게이트 무력화
+- 수정: DESIGN.md 누락을 error 로 격상 (warning 아님) + `/craft-lint` Step 1 에 `--strict` 명시 (defense in depth)
+- 의미: Google DESIGN.md base 없이는 ship 게이트 통과 못 함. craft release 의 "mechanical enforcement" 약속 진짜로 작동.
+
+**[high] .track/ 및 craft runtime profiles 격리** (`.gitignore`)
+- 기존: `.gitignore` 에 `.track/` 부재 (progress-probe install 시점에만 append). 공유 repo 에서 operator 간 runtime state (actual_log / predicted / blockers) 충돌 가능.
+- 수정: repo-level `.gitignore` 에 `.track/` + `**/.track/` 미리 등록. craft runtime 파일 (hierarchy-report.json / motion-drift.md / ui-drift-report.md) 도 .design/ 안 개별 등록.
+- 추후 별도 cycle: SKILL.md 의 path 를 `profiles/<operator>/track/<feature>/` 구조로 격리 (구조 변경, surgical 아님)
+
+### Fixed — Medium
+
+**[medium] v0.8.1 metadata 불일치 정합** (9 plugin.json + marketplace.json + README + README-ko)
+- 기존: v0.8.1 tag 였으나 manifests 모두 0.8.0 (Codex 권고 4번)
+- 수정: 9 plugin.json + marketplace.json + README badges + intro 모두 0.8.2 일괄. v0.8.1 tag 그대로 유지 (force-update 안 함, 외부 사용자 영향 회피). v0.8.2 에서 통합 정합.
+
+### Verified
+- `validate_plugins.py`: 9 plugins / 62 skills / 26 commands / Errors 0 / Warnings 0
+- v0.7.5 회귀 0 (operate 4 스킬 그대로)
+- 4 fix 모두 결정론 (Rule 5 위반 0)
+
+### Architecture — Codex 검수의 가치
+v0.8.0 release 후 v0.8.1 patch 진행 상태에서 외부 모델 (Codex/GPT-5) 의 적대적 검수가 4 findings 도출. 3 high finding 모두 mechanical enforcement (Rule 5) 의 정확한 적용을 막던 logic 결함이었고, 이번 patch 로 진짜 결정론 게이트가 됨. 메모리 [[feedback_slide_review]] "2명 합의" 패턴의 정확한 적용 — 같은 Claude 가 self-review 했으면 발견 못 했을 logic 버그를 cross-model review 가 잡음.
+
+---
+
+## [0.8.1] — 2026-05-17
+
+### Added — evals 인프라 완성
+
+`evals/trigger-evals.json`: 31 → 42 entries, 124 → 168 queries (+44).
+- 11 신규 스킬 (velocity-baseline / estimate-tasks / progress-probe / blocker-detect / progress-report / gate-checkpoint / respect-checkpoint / respect-brief / hierarchy-rules / motion-language / ui-drift-detect) 각 4 시드 (should_trigger 2 + should_not 2).
+- should_not 시드는 헷갈리는 라우팅 경계 케이스 (예: velocity-baseline false 시드 → estimate-tasks 가야 하는 쿼리).
+
+`evals/skill-uplift.py` PLUGINS 에 track + craft 추가 (catalog scan 갱신).
+
+> ⚠️ v0.8.1 의 manifests 는 0.8.0 그대로 (release skew). v0.8.2 에서 통합 정합.
+
+### Pending — API 한도 풀린 후 (2026-06-01)
+```bash
+ANTHROPIC_API_KEY=<key> python3 evals/skill-uplift.py --all --runs-per-query 3 --threshold 0.05
+```
+
+---
+
 ## [0.8.0] — 2026-05-17
 
 > **Build-to-Ship 사이의 빈 공간을 닫는 두 신규 플러그인.** "이 존중은 사람이 넣는 겁니다" (영상 5번 통찰) 를 mechanical enforcement 로. 11 신규 스킬 모두 Rule 5 위반 0 (LLM 분류만 허용, routing/policy/metric 결정은 결정론).

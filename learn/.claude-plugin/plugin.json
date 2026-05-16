@@ -1,6 +1,6 @@
 {
   "name": "learn",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Turn PM tacit knowledge into reusable agent assets — structured knowledge units, decision patterns, and memory management. Use when extracting lessons from PM experience, applying decision frameworks, converting tacit knowledge to agent instructions, or building a personal PM knowledge base.",
   "author": {
     "name": "AI PM Skills Contributors",

@@ -1,6 +1,6 @@
 {
   "name": "operate",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Operate a portfolio of AI agents — multi-agent tiering, weighted scorecards, weekly rollups, cross-team routing. Use when running ≥5 agents across multiple teams, where single-agent KPIs (measure plugin) are no longer enough and you need portfolio-level visibility, tier-based prioritization, and inter-team routing decisions.",
   "author": {
     "name": "AI PM Skills Contributors",

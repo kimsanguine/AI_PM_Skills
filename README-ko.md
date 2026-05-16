@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.8.0-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.8.2-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.8.0** — build-to-ship 사이를 닫는 신규 2 플러그인: **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint 매트릭스) + **`craft`** (DESIGN.md + RESPECT.md 이중 파일 디자인 시스템 + Playwright 런타임 hierarchy 측정 + motion-language + ui-drift 감지). 11 신규 스킬 모두 Rule 5 준수 (LLM 분류만 허용, routing/policy/metric 결정은 결정론). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.2** — Codex 적대적 검수 fix patch (v0.8.0/v0.8.1 위). 4 findings 해결: skill-uplift judge() 재설계 (off-mode 에서 should_trigger=true 는 "none" fallback 만 정답 — 정상 스킬 false quarantine 차단), craft-lint 가 DESIGN.md 누락을 error 로 격상 + `--strict` default, `.track/` + craft runtime 파일을 `.gitignore` 등록 (profiles 격리), 9 plugin.json + marketplace + README 버전 정렬. v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 

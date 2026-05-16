@@ -10,6 +10,15 @@ profiles/*
 # Worktree workspace (parallel-team skill)
 .worktrees/
 
+# Track plugin runtime state (personal: actual_log.jsonl / predicted.json / blockers.md)
+.track/
+**/.track/
+
+# Craft plugin runtime state (personal: hierarchy-report.json / motion-drift.md / ui-drift-report.md)
+.design/hierarchy-report.json
+.design/motion-drift.md
+.design/ui-drift-report.md
+
 # OS files
 .DS_Store
 Thumbs.db

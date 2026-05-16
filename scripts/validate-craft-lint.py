@@ -122,7 +122,7 @@ def check_next_action(respect: dict) -> list[str]:
 def check_cross_ref(respect: dict, design: dict) -> list[str]:
     errors = []
     if not design:
-        return ["DESIGN.md 없음 — cross-ref 건너뜀 (warning)"]
+        return ["DESIGN.md 누락 — Google 표준 base 필수 (`npx @google/design.md init` 권유). craft-lint 통과 거부."]
 
     respect_ref = respect.get("references_design_md")
     if not respect_ref:

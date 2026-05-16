@@ -12,11 +12,13 @@ Single command chaining all craft validation. Stops early if any layer fails.
 
 You are running craft-lint for: **$ARGUMENTS**
 
-### Step 1 — 정적 검증 (validate-craft-lint.py)
+### Step 1 — 정적 검증 (validate-craft-lint.py --strict)
 
 ```bash
-python3 scripts/validate-craft-lint.py
+python3 scripts/validate-craft-lint.py --strict
 ```
+
+`--strict` 명시 — DESIGN.md 누락 등 warning 도 exit 1 로 차단 (defense in depth, v0.8.2 Codex 검수 반영).
 
 - RESPECT.md 필수 필드 검증
 - DESIGN.md cross-reference
