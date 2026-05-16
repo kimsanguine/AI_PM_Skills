@@ -36,7 +36,7 @@ import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-PLUGINS = ["hplan", "discover", "architect", "deliver", "measure", "learn", "operate"]
+PLUGINS = ["hplan", "discover", "architect", "deliver", "measure", "learn", "operate", "track", "craft"]
 
 
 def load_skill_catalog() -> dict[str, str]:

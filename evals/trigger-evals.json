@@ -649,5 +649,236 @@
         "should_trigger": false
       }
     ]
+  },
+  {
+    "skill": "velocity-baseline",
+    "queries": [
+      {
+        "query": "직전 5개 프로젝트의 git log + token usage로 본인 velocity baseline 추출해줘. complexity 1-5 percentile lookup table 만들어야 해.",
+        "should_trigger": true
+      },
+      {
+        "query": "Extract my personal velocity baseline from prior projects so estimate-tasks can lookup loc/tokens/minutes deterministically.",
+        "should_trigger": true
+      },
+      {
+        "query": "이 PRD를 task로 분해하고 토큰 예측해줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "에이전트 KPI를 어떻게 측정할지 알려줘.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "estimate-tasks",
+    "queries": [
+      {
+        "query": "이 PRD를 WBS로 분해하고 각 task의 예측 토큰·시간을 lock 해줘. baseline lookup으로 결정론.",
+        "should_trigger": true
+      },
+      {
+        "query": "Decompose this feature into tasks with p50/p90 estimates pulled from velocity baseline — LLM should not hallucinate tokens.",
+        "should_trigger": true
+      },
+      {
+        "query": "내 personal velocity baseline 먼저 만들어줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "지금 진행률 알려줘.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "progress-probe",
+    "queries": [
+      {
+        "query": "actual_log.jsonl에 매 tool call 자동 기록되게 PostToolUse Hook 설치해줘. fallback shell도 같이.",
+        "should_trigger": true
+      },
+      {
+        "query": "Install Hook + shell fallback so every Claude Code tool call appends to .track/actual_log.jsonl for prompt-level telemetry.",
+        "should_trigger": true
+      },
+      {
+        "query": "jsonl에서 막힌 패턴 자동 감지해.",
+        "should_trigger": false
+      },
+      {
+        "query": "PRD를 14-section으로 작성해줘.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "blocker-detect",
+    "queries": [
+      {
+        "query": "jsonl에서 막힌 지점 결정론 감지해줘 — 같은 파일 재편집 3회, 테스트 실패 반복, context 70% 넘으면.",
+        "should_trigger": true
+      },
+      {
+        "query": "Scan actual_log for blocker patterns deterministically — self-doubt regex, retry loops, test failures, context pressure. No LLM.",
+        "should_trigger": true
+      },
+      {
+        "query": "Hook 설치 먼저 해줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "이번 phase 게이트 통과 조건 확인해.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "progress-report",
+    "queries": [
+      {
+        "query": "지금 상태 알려줘. 진행률, 남은 task, 블로커, ETA 한꺼번에.",
+        "should_trigger": true
+      },
+      {
+        "query": "Force a live progress report — event-driven trigger, not weekly cadence. Predicted vs actual deviation.",
+        "should_trigger": true
+      },
+      {
+        "query": "이번 주 multi-agent portfolio rollup 작성해줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "에이전트들 5축 점수 매겨서 비교해.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "gate-checkpoint",
+    "queries": [
+      {
+        "query": "design phase 통과 조건 확인 후 implementation 진입 차단해줘. PreToolUse Hook으로 mechanical enforcement.",
+        "should_trigger": true
+      },
+      {
+        "query": "Enforce 6 phase transition gates (requirements → design → tasks → implementation → verification → ship) with deterministic checklists.",
+        "should_trigger": true
+      },
+      {
+        "query": "에이전트 portfolio 티어링.",
+        "should_trigger": false
+      },
+      {
+        "query": "이번 prompt cycle 실측 기록 시작해.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "respect-checkpoint",
+    "queries": [
+      {
+        "query": "이 화면 ship 전 사용자 존중 게이트 통과시켜줘. α(인간 7초) + β(72h 데이터) + γ(Playwright saliency) 매트릭스 적용.",
+        "should_trigger": true
+      },
+      {
+        "query": "Pre-ship user-respect gate — classify screen_type and traffic_level, then lookup alpha/beta/gamma gate combination from matrix yaml.",
+        "should_trigger": true
+      },
+      {
+        "query": "디자인 토큰 60/30/10 비율 측정해.",
+        "should_trigger": false
+      },
+      {
+        "query": "이 화면 처음 RESPECT.md 작성하고 싶어.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "respect-brief",
+    "queries": [
+      {
+        "query": "이 화면용 RESPECT.md 작성해줘. 3초 룰, 다음 행동, social proof, hierarchy, motion 5 섹션.",
+        "should_trigger": true
+      },
+      {
+        "query": "Generate RESPECT.md before any UI code — three_second_rule with forbidden words enforced and cta_count_above_fold = 1.",
+        "should_trigger": true
+      },
+      {
+        "query": "RESPECT와 DESIGN cross-ref 결정론 검증해줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "ship 직전 종합 게이트 통과시켜.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "hierarchy-rules",
+    "queries": [
+      {
+        "query": "이 화면 60/30/10 color ratio, fold density, WCAG AA contrast 런타임 측정해줘. Playwright로.",
+        "should_trigger": true
+      },
+      {
+        "query": "Measure visual hierarchy rules at runtime — Playwright + DOM saliency + pixel KMeans + WCAG AA contrast. Outputs gamma-gate data.",
+        "should_trigger": true
+      },
+      {
+        "query": "CSS transition 일관성만 검증해.",
+        "should_trigger": false
+      },
+      {
+        "query": "RESPECT.md 처음 작성하고 싶어.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "motion-language",
+    "queries": [
+      {
+        "query": "프로젝트 전체 hover transition 200ms 일관성 검증해줘. RESPECT motion_language 명세 대비 drift 보고.",
+        "should_trigger": true
+      },
+      {
+        "query": "Scan CSS and framer-motion for transition / easing drift against RESPECT motion_language spec — regex + AST, no LLM.",
+        "should_trigger": true
+      },
+      {
+        "query": "5+ 화면 시각 일관성 비교해줘.",
+        "should_trigger": false
+      },
+      {
+        "query": "fold density 측정만 하면 돼.",
+        "should_trigger": false
+      }
+    ]
+  },
+  {
+    "skill": "ui-drift-detect",
+    "queries": [
+      {
+        "query": "5+ 화면 캡처해서 디자인 시스템 회귀 자동 감지해줘. pHash + DOM tree edit distance.",
+        "should_trigger": true
+      },
+      {
+        "query": "Detect visual drift across N screens — perceptual hash + color palette KMeans + DOM tree edit distance. 5 dimension drift score.",
+        "should_trigger": true
+      },
+      {
+        "query": "단일 화면 hierarchy 측정만 해.",
+        "should_trigger": false
+      },
+      {
+        "query": "motion 일관성 검증.",
+        "should_trigger": false
+      }
+    ]
   }
 ]
