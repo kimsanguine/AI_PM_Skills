@@ -12,7 +12,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.8.4** — Third-round Codex adversarial review fix patch. 1 medium finding: `check_cross_ref()` nested type guards (DESIGN.md `colors: [{primary:blue}]` or non-dict `typography` previously crashed with AttributeError instead of controlled error). Now validates nested dict + string keys; added `python3 scripts/validate-craft-lint.py --test` regression suite (7 malformed schema cases including Codex's exact reproducer). 3-round review convergence: 4→3→1 findings, 0 high remaining. v0.8.3: v0.8.0 still introduced **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy + motion-language + ui-drift). All 11 new skills enforce Rule 5. See [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.4** — **`track`** (prompt-level progress + event-driven gates) and **`craft`** (DESIGN.md + RESPECT.md design system + Playwright runtime measurement) close the build-to-ship gap. 11 new skills with mechanical Rule 5 enforcement; 3 rounds of adversarial review hardening (4 → 3 → 1 findings, 0 high remaining). See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 
@@ -97,7 +97,7 @@ For the technically curious, here's what makes hplan different from every other 
 - 🛑 **Claude Code PreToolUse hook** — blocks writes to `PRD.md` / `specs/*` / `.kiro/specs/*` until `harness/build-gate/checkpoint.json` shows `status: "approved"`. Gate enforcement at the filesystem level, not just in prompts.
 - 🚚 **Multi-target handoff** — one brief JSON exports simultaneously to Spec-Kit `specs/NNN-slug/`, Kiro `.kiro/specs/`, GStack `/office-hours` brief, and Claude Code `AGENTS.md` + `CLAUDE.md`.
 
-*Renamed from `AI_PM_Skills` in v0.5. The new flagship plugin (`hplan`) sits at Stage 0 of a 6-stage marketplace. Old URLs auto-redirect.*
+*Renamed from `AI_PM_Skills` in v0.5. The flagship plugin (`hplan`) sits at Stage 0 of a 9-stage marketplace (v0.8 adds `track` + `craft`). Old URLs auto-redirect.*
 
 ---
 
@@ -112,7 +112,7 @@ General PM skills teach you to **use AI as a tool** — write PRDs faster, gener
 - "How do I orchestrate multiple agents together?"
 - "How do I encode 3 months of operational judgment into the agent's instructions?"
 
-This project turns those questions into **43 production-grade skills** across the full agent lifecycle.
+This project turns those questions into **62 production-grade skills** across the full agent lifecycle.
 
 ---
 
@@ -135,41 +135,47 @@ This project turns those questions into **43 production-grade skills** across th
 # → p50 margin 95%, p90 90%, blended 49% → GREEN
 ```
 
-**Already past the gate?** Install one of the 5 lifecycle plugins:
+**Already past the gate?** Install one of the 8 lifecycle plugins:
 
 ```bash
 /plugin install discover@kimsanguine-hplan   # Discover — opportunity trees, assumptions, cost sim
-/plugin install architect@kimsanguine-hplan    # Architect — orchestration, memory, moat
+/plugin install architect@kimsanguine-hplan  # Architect — orchestration, memory, moat
 /plugin install deliver@kimsanguine-hplan    # Deliver — agent PRD, instructions, prompts
 /plugin install measure@kimsanguine-hplan    # Measure — KPI, burn rate, reliability
-/plugin install learn@kimsanguine-hplan     # Learn — PM tacit knowledge, decision patterns
+/plugin install learn@kimsanguine-hplan      # Learn — PM tacit knowledge, decision patterns
+/plugin install operate@kimsanguine-hplan    # Operate — 5+ agent portfolio (T1~T5, scorecard, rollup)
+/plugin install track@kimsanguine-hplan      # Track ⭐ v0.8 — prompt-level progress, event-driven gates
+/plugin install craft@kimsanguine-hplan      # Craft ⭐ v0.8 — DESIGN.md + RESPECT.md design system
 ```
 
 ---
 
-## The Agent PM Journey — 7 Stages
+## The Agent PM Journey — 9 Stages
 
-This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all. v0.7 adds **`operate`** as the portfolio stage for teams running 5+ agents.
+This isn't a random collection of skills. It's a **complete lifecycle** — the same path every agent PM walks. Starting in v0.5, **`hplan` is Stage 0** — the evidence gate that decides whether the thing should be built at all. v0.7 added **`operate`** as the portfolio stage for teams running 5+ agents. v0.8 adds **`track` + `craft`** as the build-to-ship gap closers — prompt-level progress visibility and mechanical design-system enforcement.
 
 ```
-   Gate  →  Discover  →  Architect  →  Deliver  →  Measure  →  Learn  →  Operate
-   hplan      discover       architect      deliver     measure     learn      operate
-  7 skills   6 skills      7 skills   15 skills   8 skills   3 skills   4 skills
-     ↑                                                                       │
-     └────────── Accumulated TK feeds back into next agent ──────────────────┘
+   Gate → Discover → Architect → Deliver → Measure → Learn → Operate → Track → Craft
+   hplan   discover    architect    deliver   measure    learn    operate    track     craft
+   7        6           7            15        8          3         4          7         4   skills
+
+     ↑                                                                                        │
+     └──────────────── Accumulated TK feeds back into next agent ────────────────────────────┘
 ```
 
 | Stage | Plugin | The Question | Key Skills |
 |-------|--------|-------------|------------|
-| **Gate** ⭐ | `hplan` | "Should we build this at all?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
+| **Gate** ⭐ | `hplan` | "Should we build this at all?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff · pmf-gate |
 | **Discover** | `discover` | "What agent should we build?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **Architect** | `architect` | "How should we structure it?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **Ship** | `deliver` | "How to spec and ship it?" | claude-md · prd (+mermaid consistency gate) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4-engine router) · harness-design · parallel-team · build-loop + 4 comms tools |
+| **Ship** | `deliver` | "How to spec and ship it?" | claude-md · prd (+mermaid + craft routing) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4-engine router) · harness-design · parallel-team · build-loop + 4 comms tools |
 | **Measure** | `measure` | "How to measure and improve?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
-| **Learn** | `learn` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine |
-| **Operate** ⭐ NEW | `operate` | "How to run 5+ agents as a portfolio?" | agent-portfolio (T1~T5 tiering) · scorecard-5axis · weekly-rollup · cross-team-routing |
+| **Learn** | `learn` | "How to make agents smarter over time?" | pm-framework · pm-decision · pm-engine (+`/pm-tacit-from-retro` auto-promote) |
+| **Operate** | `operate` | "How to run 5+ agents as a portfolio?" | agent-portfolio (T1~T5 tiering) · scorecard-5axis · weekly-rollup · cross-team-routing |
+| **Track** ⭐ v0.8 NEW | `track` | "How to see actual vs predicted prompt-level scope?" | velocity-baseline · estimate-tasks · progress-probe (Hook + shell fallback) · blocker-detect (50 regex/counter signals) · progress-report (7 event-driven triggers) · gate-checkpoint (6-phase PreToolUse) · respect-checkpoint (α/β/γ matrix) |
+| **Craft** ⭐ v0.8 NEW | `craft` | "How to enforce user-respecting UI/UX?" | respect-brief (RESPECT.md 5-section interview) · hierarchy-rules (Playwright + saliency + WCAG AA) · motion-language (CSS/framer-motion drift) · ui-drift-detect (pHash + DOM tree edit distance) |
 
-### What makes hplan different from the other 6
+### What makes hplan different from the other 8
 
 Other plugins are **prompt-driven thinking** — LLM ponders, you decide.
 `hplan` adds **deterministic measurement** — Python scripts calculate p50/p90 COGS margins, append-only registries persist exclusions and decisions across runs, an MCP server lets Cursor/Windsurf/Kiro/Codex call hplan primitives, and a PreToolUse hook blocks PRD/spec writes until the human approves the gate. It is paired with discover/architect/deliver/measure/learn, not a replacement.
@@ -361,14 +367,14 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 
 ```bash
 /plugin marketplace add kimsanguine/hplan
-/plugin install hplan@kimsanguine-hplan    # or discover, architect, deliver, measure, learn, operate
+/plugin install hplan@kimsanguine-hplan    # or discover · architect · deliver · measure · learn · operate · track · craft
 ```
 
 ### Option 2: Clone Locally
 
 ```bash
 git clone https://github.com/kimsanguine/hplan.git
-claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, architect, deliver, measure, learn, operate)
+claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, architect, deliver, measure, learn, operate, track, craft)
 ```
 
 **Not sure which AI product to commit to?** → Start with `hplan` — evidence gate first.

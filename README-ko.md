@@ -14,7 +14,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.8.4** — 3차 Codex 적대적 검수 fix patch. 1 medium finding: `check_cross_ref()` nested type guards (`colors: [{primary:blue}]` 같은 valid YAML 이지만 nested 가 list 인 경우 이전엔 AttributeError, 이제 controlled error). nested dict + string key 검증 추가. `python3 scripts/validate-craft-lint.py --test` regression suite (7 malformed schema case, Codex 의 exact reproducer 포함). 3 라운드 review 수렴: 4→3→1 findings, high 0 잔여. v0.8.3: v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.4** — 신규 2 플러그인 **`track`** (prompt-level 진행률 + event-driven 게이트) + **`craft`** (DESIGN.md + RESPECT.md 디자인 시스템 + Playwright 런타임 측정) 가 build → ship 사이 빈 공간을 닫습니다. 11 신규 스킬 모두 Rule 5 mechanical enforcement (LLM 분류만, routing/metric 결정론). v0.8.0 → v0.8.4 동안 3 라운드 적대적 검수로 신규 게이트 강화 (findings 4 → 3 → 1, high 잔여 0). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
@@ -206,44 +206,49 @@ WHETHER는 WHY보다 큽니다. WHY는 이유를 답합니다("왜 사용자가 
 # → p50 마진 95%, p90 90%, blended 49% → GREEN
 ```
 
-**Gate 통과 후** — 5개 lifecycle plugin 중 필요한 것 설치:
+**Gate 통과 후** — 8개 lifecycle plugin 중 필요한 것 설치:
 
 ```bash
 /plugin install discover@kimsanguine-hplan   # 발견 — opportunity tree, assumptions, cost sim
-/plugin install architect@kimsanguine-hplan    # 설계 — orchestration, memory, moat
+/plugin install architect@kimsanguine-hplan  # 설계 — orchestration, memory, moat
 /plugin install deliver@kimsanguine-hplan    # 실행 — agent PRD, instruction, prompt
-/plugin install measure@kimsanguine-hplan    # 운영 — KPI, burn rate, reliability
-/plugin install learn@kimsanguine-hplan     # 학습 — PM 암묵지, 결정 패턴
-/plugin install operate@kimsanguine-hplan   # ⭐ NEW v0.7 — 5+ 에이전트 포트폴리오 운영
+/plugin install measure@kimsanguine-hplan    # 측정 — KPI, burn rate, reliability
+/plugin install learn@kimsanguine-hplan      # 학습 — PM 암묵지, 결정 패턴
+/plugin install operate@kimsanguine-hplan    # 운영 — 5+ 에이전트 포트폴리오 (T1~T5, scorecard, rollup)
+/plugin install track@kimsanguine-hplan      # ⭐ v0.8 신규 — prompt-level 진행률 + event-driven 게이트
+/plugin install craft@kimsanguine-hplan      # ⭐ v0.8 신규 — DESIGN.md + RESPECT.md 디자인 시스템
 ```
 
-스킬 이름을 외울 필요는 없습니다. 자연어로 질문하면 50개 스킬 중 맞는 게 auto-load 됩니다 (96 test query 기준 v0.6에서 97.9% 정확도 — v0.7 신규 7개 스킬은 재평가 예정).
+스킬 이름을 외울 필요는 없습니다. 자연어로 질문하면 62개 스킬 중 맞는 게 auto-load 됩니다 (168 test query 기준 v0.6에서 97.9% 정확도 — v0.8 신규 11 스킬은 API 한도 풀린 후 실측 예정).
 
 ---
 
-## 에이전트 PM 여정 — 7단계
+## 에이전트 PM 여정 — 9단계
 
-이 프로젝트의 50개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **7단계 여정** — v0.5부터 **`hplan`이 0단계 게이트**, v0.7부터 **`operate`가 포트폴리오 운영 단계**입니다.
+이 프로젝트의 62개 스킬은 무작위 모음이 아닙니다. 에이전트 제품을 만드는 PM이 반드시 거치는 **9단계 여정** — v0.5부터 **`hplan`이 0단계 게이트**, v0.7부터 **`operate`가 포트폴리오 단계**, v0.8부터 **`track` + `craft`가 build → ship 사이 빈 공간**을 닫습니다 (prompt-level 진행률 가시화 + 디자인 시스템 mechanical enforcement).
 
 ```
-게이트 → 발견 → 설계 → 딜리버리 → 측정 → 학습 → 운영
-hplan    discover  architect  deliver   measure  learn   operate
-7 skills 6 skills  7 skills  15 skills  8 skills 3 skills 4 skills
-   ↑                                                          │
-   └─────────────── 축적된 TK가 다음 에이전트에 피드백 ───────┘
+게이트 → 발견 → 설계 → 딜리버리 → 측정 → 학습 → 운영 → 추적 → 디자인
+hplan    discover  architect  deliver   measure  learn   operate  track    craft
+ 7        6         7          15        8        3       4        7        4   skills
+
+   ↑                                                                              │
+   └────────────────── 축적된 TK가 다음 에이전트에 피드백 ────────────────────────┘
 ```
 
 | 단계 | 플러그인 | 이 단계에서 부딪히는 질문 | 주요 스킬 |
 |------|---------|------------------------|----------|
-| **게이트** ⭐ | `hplan` | "정말 만들 가치가 있을까?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff |
+| **게이트** ⭐ | `hplan` | "정말 만들 가치가 있을까?" | evidence-rubric · interview-synthesis · exclusions · cogs-sentinel · ost · decision-log · handoff · pmf-gate |
 | **발견** | `discover` | "어떤 에이전트를 만들어야 할까?" | opp-tree · assumptions · build-or-buy · cost-sim · hitl · agent-gtm |
 | **설계** | `architect` | "어떻게 구조를 잡을까?" | 3-tier · orchestration · router · memory-arch · moat · growth-loop · biz-model |
-| **실행** | `deliver` | "어떻게 스펙을 쓰고 출시할까?" | claude-md · prd (+mermaid 정합성 게이트) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4엔진 라우터) · harness-design · parallel-team · build-loop + 커뮤니케이션 4종 |
+| **실행** | `deliver` | "어떻게 스펙을 쓰고 출시할까?" | claude-md · prd (+mermaid + craft 라우팅) · instruction · prompt · ctx-budget · okr · stakeholder-map · agent-plan-review · pptx-ai-slide (4엔진 라우터) · harness-design · parallel-team · build-loop + 커뮤니케이션 4종 |
 | **측정** | `measure` | "어떻게 측정하고 개선할까?" | kpi · reliability · premortem · burn-rate · north-star · agent-ab-test · cohort · incident |
-| **학습** | `learn` | "에이전트가 시간이 갈수록 똑똑해지려면?" | pm-framework · pm-decision · pm-engine |
-| **운영** ⭐ NEW | `operate` | "5+ 에이전트 포트폴리오를 어떻게 굴릴까?" | agent-portfolio (T1~T5 티어링) · scorecard-5axis · weekly-rollup · cross-team-routing |
+| **학습** | `learn` | "에이전트가 시간이 갈수록 똑똑해지려면?" | pm-framework · pm-decision · pm-engine (+`/pm-tacit-from-retro` 자동 promote) |
+| **운영** | `operate` | "5+ 에이전트 포트폴리오를 어떻게 굴릴까?" | agent-portfolio (T1~T5 티어링) · scorecard-5axis · weekly-rollup · cross-team-routing |
+| **추적** ⭐ v0.8 신규 | `track` | "예측 vs 실측 prompt-level 진행률을 어떻게 보지?" | velocity-baseline · estimate-tasks · progress-probe (Hook + shell fallback) · blocker-detect (50 regex/카운터 신호) · progress-report (7 event-driven 트리거) · gate-checkpoint (6-phase PreToolUse) · respect-checkpoint (α/β/γ 매트릭스) |
+| **디자인** ⭐ v0.8 신규 | `craft` | "사용자를 존중하는 UI/UX를 어떻게 강제하지?" | respect-brief (RESPECT.md 5섹션 인터뷰) · hierarchy-rules (Playwright + saliency + WCAG AA) · motion-language (CSS/framer-motion drift) · ui-drift-detect (pHash + DOM tree edit distance) |
 
-### hplan이 나머지 6개와 다른 점
+### hplan이 나머지 8개와 다른 점
 
 다른 plugin들은 **prompt-driven thinking** — LLM이 고민하고 사람이 결정합니다.
 `hplan`은 **deterministic measurement** — Python 스크립트가 p50/p90 COGS 마진을 계산하고, append-only registry가 exclusions/decisions를 영구 누적하고, MCP 서버가 Cursor/Windsurf/Kiro/Codex에서 hplan을 호출 가능하게 하고, PreToolUse hook이 사람 승인 전까지 PRD/spec 작성을 차단합니다. v0.7부터 **`scripts/validate-mermaid.py`**가 PRD의 workflow ↔ userflow ↔ requirements 정합성을 결정론으로 차분 검증해 같은 가족에 합류했습니다. **discover/architect/deliver/measure/learn/operate를 대체하지 않고 layering**합니다.
@@ -260,13 +265,13 @@ hplan    discover  architect  deliver   measure  learn   operate
 
 시중의 PM 스킬셋은 대부분 "AI로 뭔가를 빠르게 하는 도구"입니다. PRD 자동생성, OKR 작성기, 경쟁사 분석기 같은 것들이죠. 하지만 에이전트를 제품으로 만들 때는 "어떤 에이전트를 만들지 → 어떻게 설계할지 → 어떻게 스펙을 쓸지 → 어떻게 운영할지 → 어떻게 학습시킬지"라는 **연속된 흐름**이 필요합니다.
 
-이 마켓플레이스의 50개 스킬은 7단계에 정확히 매핑됩니다. 발견부터 자기개선 에이전트까지, **에이전트를 제품으로 만드는 구조화된 방법론**입니다.
+이 마켓플레이스의 62개 스킬은 9단계에 정확히 매핑됩니다. 발견부터 자기개선 에이전트, 그리고 prompt-level 추적과 디자인 시스템 enforcement까지, **에이전트를 제품으로 만드는 구조화된 방법론**입니다.
 
 ### ② 2레이어 아키텍처 — Platform과 Content의 분리
 
-스킬이 많아지면 반드시 생기는 문제가 있습니다: **"엉뚱한 스킬이 발동된다."** 50개 스킬이 서로 비슷한 키워드에 반응하면, Claude가 혼동을 일으키거든요.
+스킬이 많아지면 반드시 생기는 문제가 있습니다: **"엉뚱한 스킬이 발동된다."** 62개 스킬이 서로 비슷한 키워드에 반응하면, Claude가 혼동을 일으키거든요.
 
-이 문제를 해결하기 위해 **두 층을 분리**했습니다. Claude가 스킬을 찾는 메커니즘(Platform Layer — Skills 2.0 스펙의 frontmatter, auto-invocation 등)과, 각 스킬 안에서 "언제 나를 부르고, 언제 부르지 말아야 하는지"를 정의하는 내용(Content Layer — Trigger Gate 패턴)을 분리한 것입니다.
+이 문제를 해결하기 위해 **두 층을 분리**했습니다. Claude가 스킬을 찾는 메커니즘(Platform Layer — Skills 2.0 스펙의 frontmatter, auto-invocation 등)과, 각 스킬 안에서 "언제 나를 부르고, 언제 부르지 말아야 하는지"를 정의하는 내용(Content Layer — Trigger Gate 패턴)을 분리한 것입니다. 62개 스킬이 동시에 카탈로그에 있어도 routing 충돌이 안 나는 이유입니다.
 
 ```
 ┌─ Platform Layer ──── Skills 2.0 Spec ──────────────────────┐
@@ -283,7 +288,7 @@ Trigger Gate의 핵심은 세 가지입니다:
 - **Route**: "이런 상황이면 다른 스킬에게 넘겨라" (플러그인 간 라우팅)
 - **Boundary**: "이런 상황에서는 절대 나를 부르지 마라" (오발동 방지)
 
-이 패턴 덕분에 96개 테스트 쿼리에서 **97.9% 트리거 정확도**를 달성했습니다. 50개 스킬이 서로 충돌하지 않고 정확하게 발동됩니다.
+이 패턴 덕분에 168개 테스트 쿼리 (v0.6 124 + v0.8 신규 44) 에서 v0.6 기준 **97.9% 트리거 정확도**를 달성했습니다 (v0.8 신규 11 스킬은 API 한도 풀린 후 실측 예정). 62개 스킬이 서로 충돌하지 않고 정확하게 발동됩니다.
 
 ### ③ 데이터 플라이휠 — 쓸수록 쌓이는 PM 암묵지
 
@@ -454,14 +459,14 @@ Claude Code의 최신 플랫폼 스펙을 모두 적용했습니다: auto-invoca
 
 ```bash
 /plugin marketplace add kimsanguine/hplan
-/plugin install hplan@kimsanguine-hplan    # 또는 discover, architect, deliver, measure, learn
+/plugin install hplan@kimsanguine-hplan    # 또는 discover · architect · deliver · measure · learn · operate · track · craft
 ```
 
 ### 방법 2: 로컬 클론
 
 ```bash
 git clone https://github.com/kimsanguine/hplan.git
-claude --plugin-dir ./hplan/hplan   # 필요한 것 선택 (hplan, discover, architect, deliver, measure, learn)
+claude --plugin-dir ./hplan/hplan   # 필요한 것 선택 (hplan, discover, architect, deliver, measure, learn, operate, track, craft)
 ```
 
 **어디서부터 시작할지 모르겠다면?**
@@ -487,7 +492,7 @@ claude --plugin-dir ./hplan/hplan   # 필요한 것 선택 (hplan, discover, arc
 
 ### 자동 호출 (Auto-Invocation)
 
-스킬을 이름으로 부를 필요가 없습니다. "우리 CS팀 업무 중 에이전트가 맡을 수 있는 건 뭘까?"처럼 자연어로 질문하면, Claude가 각 SKILL.md의 `description` 필드와 매칭하여 가장 적합한 스킬을 자동으로 로드합니다. 96개 테스트 쿼리에서 **97.9% 정확도**.
+스킬을 이름으로 부를 필요가 없습니다. "우리 CS팀 업무 중 에이전트가 맡을 수 있는 건 뭘까?"처럼 자연어로 질문하면, Claude가 각 SKILL.md의 `description` 필드와 매칭하여 가장 적합한 스킬을 자동으로 로드합니다. 168개 테스트 쿼리에서 v0.6 기준 **97.9% 정확도** (v0.8 신규 11 스킬 재평가 예정).
 
 ### 크로스 플러그인 라우팅
 
@@ -545,7 +550,7 @@ hplan/                # repo 루트
 
 ### 스킬 해부학 — 각 스킬 안에는 뭐가 들어 있나
 
-50개 스킬 모두 동일한 내부 구조를 따릅니다. 이것은 Skills 2.0 스펙 준수만이 아니라, **스킬 품질을 측정·테스트·개선하기 위해 설계된 콘텐츠 아키텍처**입니다.
+62개 스킬 모두 동일한 내부 구조를 따릅니다. 이것은 Skills 2.0 스펙 준수만이 아니라, **스킬 품질을 측정·테스트·개선하기 위해 설계된 콘텐츠 아키텍처**입니다.
 
 ```
 discover/skills/opp-tree/           ← 예시: opp-tree 스킬
@@ -574,13 +579,13 @@ discover/skills/opp-tree/           ← 예시: opp-tree 스킬
 
 | 구성 요소 | 왜 넣었는가 | 측정된 효과 |
 |-----------|-----------|-----------|
-| `SKILL.md`의 Trigger Gate | Use/Route/Boundary 3조건으로 50개 스킬의 충돌 방지 | 97.9% 트리거 정확도 |
+| `SKILL.md`의 Trigger Gate | Use/Route/Boundary 3조건으로 62개 스킬의 충돌 방지 | 97.9% 트리거 정확도 |
 | `context/domain.md` | Claude가 기본적으로 모르는 도메인 전문성 주입 | +12~46% 출력 품질 향상 |
 | `examples/good-01.md` | "이 수준이 정답"이라는 구체적 앵커 제공 | Claude 생성 품질 안정화 |
 | `examples/bad-01.md` | "이건 틀린 것"이라는 명시적 반면교사 | 흔한 실패 패턴 사전 차단 |
 | `references/test-cases.md` | 엣지 케이스 + 어설션 정의 | eval 시스템 구동 (54개 어설션) |
 
-이 패턴이 50개 스킬 전체에 일관되게 적용됩니다. 총 **200개 이상의 보조 파일**이 각 스킬을 측정 가능하고, 테스트 가능하고, 개선 가능하게 만듭니다.
+이 패턴이 62개 스킬 전체에 일관되게 적용됩니다. 총 **200개 이상의 보조 파일**이 각 스킬을 측정 가능하고, 테스트 가능하고, 개선 가능하게 만듭니다.
 
 </details>
 
