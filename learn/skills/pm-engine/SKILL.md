@@ -29,6 +29,7 @@ model: sonnet
 - "이 TK가 의사결정에 어떻게 쓰이는지 실제 사례를 보고 싶어" → pm-decision의 패턴 라이브러리 참조
 - "에이전트 Instruction을 새 TK를 기반으로 업데이트하고 싶어" → deliver의 instruction, prd 스킬 사용
 - "TK를 기반으로 비용 시뮬레이션이나 시나리오 분석을 하고 싶어" → discover의 cost-sim, opp-tree 사용
+- "에이전트 실행 중 예측 vs 실측 deviation 을 TK 후보로 자동 추출" → track/retro-extract → /pm-tacit-from-retro 로 자동 promote
 
 ### Boundary Checks
 
@@ -369,6 +370,18 @@ Step 2 — Instruction 7요소 중 어느 섹션에 들어가는지 결정
 Step 3 — 에이전트가 따를 수 있는 구체적 지시 문장으로 변환
 Step 4 — 변환된 Instruction 조각 출력
 Step 5 — 기존 Instruction과의 충돌 여부 검토
+
+**[/pm-tacit-from-retro 실행 시]**
+
+track/retro-extract 출력 (예측 vs 실측 deviation log) 에서 TK 후보 자동 promote: **$ARGUMENTS**
+
+Step 1 — track 산출물 `.track/retro-deviation.jsonl` 로드 (deviation_pct, blocker_pattern, recurrence_count)
+Step 2 — Auto-promote 결정론 기준 검증: deviation_pct ≥ 50% OR recurrence_count ≥ 3 (LLM 호출 0)
+Step 3 — 기준 통과 후보를 TK-NNN 시드 구조로 자동 변환 (패턴 한 줄 요약만 LLM 분류)
+Step 4 — 사용자에게 "promote 후보 N개 검토" 한 번에 요청 (pending_inputs 묶음, [[feedback_ralph_loop_autonomous]])
+Step 5 — 승인된 TK만 PM-ENGINE-MEMORY.md append, 거부된 것은 `deviation_log/rejected/` 격리
+
+> Rule 5 준수: auto-promote 임계치 비교·jsonl 파싱·격리 디렉터리 이동 모두 결정론. LLM 호출은 Step 3 패턴 한 줄 요약 (분류) 만.
 
 ---
 
