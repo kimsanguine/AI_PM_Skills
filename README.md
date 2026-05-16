@@ -6,13 +6,13 @@
 > Like a horse's harness, hplan gives direction to the raw power of AI coding tools (Claude Code, Cursor, Lovable, etc.). The tools that *make* code are already strong enough. What's missing is *where to point them*. hplan is the 7-day discipline that forces you to answer market research, problem definition, and COGS *before* a single PRD line is written.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.5-green?style=flat-square)](CHANGELOG.md)
+[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
+[![Version](https://img.shields.io/badge/version-0.8.0-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.7.5** — Validator polish + PMF Gate promoted from sketch to skill: validator warnings 12 → 0, `cogs_sentinel --mode realtime` for post-launch COGS delta tracking (±15pp threshold), `pmf-gate` SKILL.md formalized with full 7-section structure. See [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.0** — Two new plugins close the gap from build-to-ship: **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy measurement + motion-language + ui-drift detection). All 11 new skills enforce Rule 5 (LLM 분류만 허용, routing/policy/metric decisions are deterministic). See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 

@@ -8,13 +8,13 @@
 > 말의 고삐(harness)처럼, Claude Code · Cursor · Lovable 같은 AI 코딩 도구의 거친 동력에 **방향을 부여하는 사전 계획**입니다. 코드를 만드는 도구는 이미 충분히 강합니다. 부족한 건 *"어디로 향할지"*. hplan은 코드를 쓰기 전 7일 동안 시장조사·문제정의·COGS를 강제로 묻습니다.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.5-green?style=flat-square)](CHANGELOG.md)
+[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
+[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
+[![Version](https://img.shields.io/badge/version-0.8.0-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.7.5** — Validator 정리 + PMF Gate 정식 승격: validator 경고 12 → 0, `cogs_sentinel --mode realtime` 추가(±15pp 기준 사후 COGS delta 추적), `pmf-gate` SKILL.md를 스케치에서 7-section 정식 스킬로 승격. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.0** — build-to-ship 사이를 닫는 신규 2 플러그인: **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint 매트릭스) + **`craft`** (DESIGN.md + RESPECT.md 이중 파일 디자인 시스템 + Playwright 런타임 hierarchy 측정 + motion-language + ui-drift 감지). 11 신규 스킬 모두 Rule 5 준수 (LLM 분류만 허용, routing/policy/metric 결정은 결정론). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 

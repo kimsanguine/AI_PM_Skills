@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "hplan",
-  "version": "0.7.5",
-  "description": "50 skills and 18 commands across 7 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through PM lifecycle (discover → architect → deliver → measure → learn → operate). v0.7 adds operate (5+ agent portfolio), PRD mermaid consistency gate, PPTX 4-engine router, harness + parallel team + build-loop, and profile separation.",
+  "version": "0.8.0",
+  "description": "62 skills and 26 commands across 9 plugins for PMs who decide what, why, and how to build AI agents — from evidence gate (hplan) through PM lifecycle (discover → architect → deliver → measure → learn → operate → track → craft). v0.8 adds track (prompt-level progress + event-driven gates + respect-checkpoint α/β/γ matrix) and craft (DESIGN.md + RESPECT.md two-file design system + hierarchy-rules runtime measurement + motion-language + ui-drift-detect — '이 존중은 사람이 넣는 겁니다' 영상 5번 통찰 mechanical enforcement). All new skills enforce Rule 5 (LLM 분류만 허용, routing/policy/metric은 결정론).",
   "owner": {
     "name": "AI PM Skills Contributors",
     "email": "your-email@example.com",

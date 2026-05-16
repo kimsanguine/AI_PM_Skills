@@ -4,6 +4,63 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.8.0] — 2026-05-17
+
+> **Build-to-Ship 사이의 빈 공간을 닫는 두 신규 플러그인.** "이 존중은 사람이 넣는 겁니다" (영상 5번 통찰) 를 mechanical enforcement 로. 11 신규 스킬 모두 Rule 5 위반 0 (LLM 분류만 허용, routing/policy/metric 결정은 결정론).
+
+### Added — 신규 2 플러그인 (track + craft) + 11 스킬 + 5 commands
+
+**`track`** — prompt-level 진행률 추적 (7 스킬 + 3 commands)
+- `velocity-baseline`: git log + token usage → complexity 1-5 × percentile lookup table 결정론 추출 (LLM 호출 0)
+- `estimate-tasks`: WBS 분해 (LLM 분류) + lookup 기반 loc/tokens/minutes p50/p90 예측 (LLM 호출 0 in Step 4)
+- `progress-probe`: PostToolUse Hook (primary) + shell fallback (defensive, claude-code issue #17688 대응) 이중 메커니즘
+- `blocker-detect`: 5종 결정론 신호 (self_doubt 정규식 50 패턴, retry_loop_file, test_fail_repeat, context_pressure, stall) + 부가 (cycle_dependency, token/time overrun), severity 가중치 합산
+- `progress-report`: 7 event-driven 트리거 강제 보고 (operate/weekly-rollup cadence와 차별화)
+- `gate-checkpoint`: 6 phase 전환 게이트 (requirements → design → tasks → implementation → verification → ship), PreToolUse Hook 차단
+- `respect-checkpoint`: AI 분류 (screen_type/traffic_level) + 결정론 매트릭스 lookup → α (인간 7초) + β (72h 데이터) + γ (Playwright + saliency map) 게이트 조합
+- commands: `/track-init` / `/track-status` / `/track-retro`
+
+**`craft`** — DESIGN.md + RESPECT.md 이중 파일 디자인 시스템 (4 스킬 + 2 commands)
+- `respect-brief`: RESPECT.md 5 섹션 (three_second_rule / next_action / social_proof / hierarchy_rules / motion_language) 인터뷰 강제 생성, 영상 5번 통찰 시스템화
+- `hierarchy-rules`: Playwright + DOM saliency + pixel KMeans + WCAG AA 런타임 측정 (5 룰 + contrast)
+- `motion-language`: CSS transition / framer-motion AST 결정론 스캔, RESPECT 명세 대비 drift 보고
+- `ui-drift-detect`: 5+ 화면 pHash + KMeans palette + DOM tree edit distance (5 차원 drift score)
+- commands: `/craft-init` / `/craft-lint`
+
+### Added — 기존 스킬 3 확장 (Phase 2 통합 패턴)
+
+- `learn/skills/pm-engine`: `/pm-tacit-from-retro` 트리거 + Route에 track/retro-extract 자동 promote 경로 (deviation_pct ≥ 50% OR recurrence ≥ 3)
+- `deliver/skills/prd`: Route + Quality Gate + Instructions Phase 3 보강 (craft/respect-brief 라우팅), 14-section 구조 그대로 surgical 추가
+- `scripts/validate-craft-lint.py` 신규 (180 LOC, RESPECT.md + DESIGN.md cross-ref 결정론 검증)
+
+### Added — evals 인프라
+
+- `evals/skill-uplift.py` (208 LOC): ETH 취리히 -3pp 함정 자동 감지 runner. 각 스킬을 (on/off) 두 모드로 trigger eval → uplift threshold (+5pp 기본) 미달 시 quarantine 후보 분류. LLM 호출은 1줄 라우팅 결정만, uplift 계산·judge·quarantine 모두 결정론.
+
+### Changed — monorepo 버전 정렬
+
+- 모든 plugin.json + marketplace.json 0.7.5 → 0.8.0 일괄
+- marketplace.json description: 50/18/7 → 62/26/9 + v0.8 신규 플러그인 설명
+- README badges + intro callout 양방 갱신 (README.md + README-ko.md)
+- validate_plugins.py PLUGINS 상수에 "track", "craft" 추가
+
+### Verified
+
+- `validate_plugins.py`: 9 plugins / 62 skills / 26 commands / Errors 0 / Warnings 0
+- 4 worktree (track + craft + integration + evals) 병렬 작업 → 단일 main 머지 (conflict: validate_plugins.py + marketplace.json 2건, 둘 다 결정론 해결)
+- Ralph Loop 자율 모드 6 Phase 완주 ([[feedback_ralph_loop_autonomous]] 준수 — 질문 금지, pending_inputs 묶음, 백업+dry-run+검증)
+
+### Architecture — "AI 는 기능을 만들어 주지만, 이 존중은 사람이 넣는 겁니다"
+
+v0.7 까지의 hplan 은 "what to build" + "how to operate portfolio" 에 강점. v0.8 은 "build 와 ship 사이" 의 빈 공간을 두 플러그인으로 메움:
+
+- `track` 은 단일 프로젝트의 prompt-level 실시간 가시성 (operate 의 weekly cadence 와 차별화)
+- `craft` 는 AI 코딩의 "professionally generic" 수렴 함정을 token 위의 의도 레이어 (RESPECT.md) 로 차단
+
+두 플러그인 모두 mechanical enforcement of "human intent" — Rule 5 의 정확한 적용. LLM 을 if 문으로 쓰지 않고, 인간의 의도를 yaml 정책으로 인코딩한 뒤 결정론으로 강제.
+
+---
+
 ## [0.7.5] — 2026-05-16
 
 ### Fixed — Validator warnings 12 → 0
