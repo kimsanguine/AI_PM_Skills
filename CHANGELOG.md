@@ -4,6 +4,52 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.7.5] — 2026-05-16
+
+### Fixed — Validator warnings 12 → 0
+
+7개 스킬(`exclusions`, `evidence-rubric`, `cogs-sentinel`, `decision-log`, `interview-synthesis`, `ost`, `handoff`) body에 `Running for: **$ARGUMENTS**` 라인 추가 — `argument-hint` frontmatter는 있었지만 body가 `$ARGUMENTS`를 참조하지 않아 validator가 경고를 띄우던 상태였습니다.
+
+3개 커맨드 description에 "Use when" 트리거 패턴 적용:
+- `hplan-scope-guard.md`: "Use before implementing" → "Use when implementing"
+- `hplan-verify.md`: "Use before marking" → "Use when marking"
+- `write-prd.md`: 14-section 설명에 "Use when ... before build" 절 삽입
+
+`hplan.md` 커맨드에 `## Output Format` 섹션 명시 (verdict block 형식이 인라인 Step 4에만 있어 검사기가 못 찾던 문제).
+
+### Added — `cogs_sentinel.py --mode realtime`
+
+PMF Gate 정식 승격 조건 1번 충족. 베타 출시 후 실측 호출 데이터(`--actual-calls-per-user-month`, `--actual-tokens-in`, `--actual-tokens-out`)를 주입하면 Build Gate 예측값(`harness/build-gate/cogs_input.json`)과 자동 비교해 `delta_pp`를 계산합니다.
+
+```bash
+python3 hplan/scripts/cogs_sentinel.py --mode realtime \
+  --actual-calls-per-user-month 65 \
+  --provider anthropic --model claude-sonnet-4-6 --arpu 29
+```
+
+출력에 `## Realtime Comparison` 블록 추가:
+- predicted vs actual p90 margin
+- delta_pp (±)
+- ±15pp 임계치 초과 시 ⚠️ EXCEEDED 표시 + reasons[0]에 PMF threshold 경고 삽입
+
+기본 `--mode predict`는 이전과 100% 동일하게 동작합니다 (backward-compatible).
+
+### Changed — `pmf-gate` 스케치 → 정식 스킬
+
+`hplan/skills/pmf-gate/SKILL.md`를 7-section 표준 구조로 승격:
+- frontmatter 표준화 (`argument-hint`, `allowed-tools`, `model`)
+- `Running for: **$ARGUMENTS**` 포함
+- Core Goal / Trigger Gate (Use·Route·Boundary) / Inputs / Steps / Outputs / Verification 섹션 분리
+- "스케치" 표시 제거
+
+여전히 외부 의존 항목 (Habix Legal W6 실측 검증)은 운영 단계에서 충족 예정.
+
+### Sync — Plugin version metadata
+
+`marketplace.json` + 7개 `plugin.json`이 v0.7.0~0.7.4 동안 동기화되지 않아 모두 `"version": "0.7.0"`이었던 누적 drift를 v0.7.5로 일괄 정렬.
+
+---
+
 ## [0.7.4] — 2026-05-16
 
 ### Added — Gate Integrity Harness (GSD·Superpowers 패턴 차용)

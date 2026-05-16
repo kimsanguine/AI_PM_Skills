@@ -1,6 +1,6 @@
 {
   "name": "deliver",
-  "version": "0.7.0",
+  "version": "0.7.5",
   "description": "Spec and ship AI agents — instruction design, PRD templates (with deterministic mermaid workflow/userflow consistency gate), prompt engineering, sprint planning, demo videos, visual assets, PPTX 4-engine router (mckinsey/hifidelity/html-qa/video), and build-execution scaffolding (harness-design, parallel-team worktrees, build-loop). Use when writing agent PRDs, designing agent instructions, planning context window budgets, setting agent OKRs, creating demo videos, building infographics, preparing presentation decks, or running an autonomous build loop.",
   "author": {
     "name": "AI PM Skills Contributors",

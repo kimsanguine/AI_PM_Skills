@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-50-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-7-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.7.4-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.5-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.7.4** — 게이트 무결성 하네스: HARD-GATE 강제, STATE.md 세션 연속성, `/hplan-verify` + `/hplan-scope-guard` 개발 단계 커맨드, PROGRESS.md 마일스톤 템플릿, PMF Gate 스케치. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.7.5** — Validator 정리 + PMF Gate 정식 승격: validator 경고 12 → 0, `cogs_sentinel --mode realtime` 추가(±15pp 기준 사후 COGS delta 추적), `pmf-gate` SKILL.md를 스케치에서 7-section 정식 스킬로 승격. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
