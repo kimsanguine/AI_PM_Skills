@@ -4,6 +4,48 @@ All notable changes to AI_PM_Skills are documented here.
 
 ---
 
+## [0.8.3] — 2026-05-17
+
+> **2차 Codex adversarial review fix patch.** v0.8.2 의 fix 자체가 새 결함을 도입한 것을 cross-model review 가 발견. 3 findings (1 high + 2 medium) 모두 해결 + self-contained regression test 추가.
+
+### Fixed — Critical (Codex 2차 검수 반영)
+
+**[high] judge() off-mode positive = baseline miss (재재설계)** (`evals/skill-uplift.py`)
+- v0.8.2 의 잘못된 가정: off-mode 에서 should_trigger=True 쿼리는 `predicted == "none"` 이면 pass (정답 fallback 인정)
+- 실제 결과: LLM 이 영리하게 "none" fallback 잘 하면 → off_pass_rate 1.0 → uplift 0 → 정상 스킬도 quarantine
+- v0.8.3 fix: off-mode 의 should_trigger=True 는 **본질적으로 baseline miss** (이 스킬이 채우는 라우팅 빈 공간). 항상 `False` 반환.
+- 검증: perfect-router 시나리오 (2 positives + 2 negatives 모두 정답) → on=1.0, off=0.5, uplift=+0.5 → promote ✅
+- ETH -3pp 함정: on-mode 의 false positive 증가 → on_pass_rate 하락 → uplift 음수 → quarantine ✅
+
+**[medium] DESIGN.md parsing 안전화** (`scripts/validate-craft-lint.py`)
+- v0.8.2 의 약점: `load_yaml_block()` 이 markdown text 받으면 `yaml.YAMLError` 또는 scalar/list 반환 → `check_cross_ref()` 의 `design.get()` 호출이 AttributeError + 깨진 traceback
+- v0.8.3 fix:
+  - `load_yaml_block`: `yaml.YAMLError` catch + `isinstance(parsed, dict)` 검증 → 안전한 None 반환
+  - `check_cross_ref`: design 인자 dict 타입 명시 검증 + controlled error 메시지 ("fenced ```yaml 블록 필수")
+- 결과: 어떤 형식의 DESIGN.md 가 와도 craft-lint 가 traceback 없이 명확한 안내 메시지로 fail
+
+**[medium] `.design/hierarchy-baseline.json` gitignore 누락 마감** (`.gitignore`)
+- v0.8.2 의 누락: `/craft-init` 가 `hierarchy-baseline.json` 생성하지만 .gitignore 에 없음 → 첫 baseline 실행이 personal state 를 commit 에 노출
+- v0.8.3 fix: `.design/hierarchy-baseline.json` 추가 (craft runtime ignore block 완성)
+
+### Added — Self-contained regression test
+
+`python3 evals/skill-uplift.py --test`:
+- 7 deterministic assertions for `judge()` (on/off × positive/negative 4 cases + edge)
+- Perfect-router uplift = +0.5 회귀 차단 (v0.8.2 의 false-quarantine 함정 재발 방지)
+- CI 에서 모듈 import 없이 단일 명령으로 실행 가능
+
+### Verified
+- `python3 evals/skill-uplift.py --test`: ✅ all pass
+- `validate_plugins.py`: 9 plugins / 62 skills / 26 commands / Errors 0 / Warnings 0
+- v0.7.5..v0.8.2 회귀 0 (operate / track / craft / evals 모두 그대로)
+
+### Architecture — 2 라운드 Codex 검수의 정합성
+
+v0.8.0 (track + craft) → v0.8.1 (evals 시드) → v0.8.2 (1차 fix) → v0.8.3 (2차 fix). 두 라운드 모두 같은 패턴: cross-model adversarial review 가 self-review 가 못 본 logic 결함 발견. v0.8.2 fix 의 "off-mode positive 'none' pass" 정책이 직관적이었지만 실제로는 perfect-router 를 false-quarantine 시키는 함정이었음을 Codex 가 직접 `judge()` 호출로 검증해 잡음. 메모리 [[feedback_slide_review]] "2명 합의 + 90점+ 목표" 패턴의 가장 정확한 사례.
+
+---
+
 ## [0.8.2] — 2026-05-17
 
 > **Codex adversarial review fix patch.** v0.7.5..v0.8.1 검수에서 도출된 4 findings (3 high + 1 medium) 모두 해결. v0.8.0/v0.8.1 의 mechanical enforcement 약속을 진짜로 작동시키는 patch.

@@ -51,6 +51,7 @@ THREE_SECOND_FORBIDDEN_WORDS = [
 
 
 def load_yaml_block(path: Path) -> dict | None:
+    """YAML dict 만 안전 로드. 파싱 실패·dict 아닌 결과는 None (controlled error)."""
     if not path.exists():
         return None
     try:
@@ -60,9 +61,15 @@ def load_yaml_block(path: Path) -> dict | None:
         sys.exit(2)
     text = path.read_text(encoding="utf-8")
     fenced = re.search(r"```ya?ml\n(.+?)\n```", text, re.DOTALL)
-    if fenced:
-        return yaml.safe_load(fenced.group(1))
-    return yaml.safe_load(text)
+    try:
+        parsed = yaml.safe_load(fenced.group(1) if fenced else text)
+    except yaml.YAMLError as e:
+        print(f"⚠️  YAML 파싱 실패: {path.name}: {e}", file=sys.stderr)
+        return None
+    # Markdown text / scalar / list 등 dict 아닌 결과는 controlled None
+    if not isinstance(parsed, dict):
+        return None
+    return parsed
 
 
 def check_respect_required(respect: dict) -> list[str]:
@@ -121,8 +128,8 @@ def check_next_action(respect: dict) -> list[str]:
 
 def check_cross_ref(respect: dict, design: dict) -> list[str]:
     errors = []
-    if not design:
-        return ["DESIGN.md 누락 — Google 표준 base 필수 (`npx @google/design.md init` 권유). craft-lint 통과 거부."]
+    if not design or not isinstance(design, dict):
+        return ["DESIGN.md 누락 또는 YAML dict 아님 — Google 표준 base 필수 (fenced ```yaml 블록 또는 `npx @google/design.md init`). craft-lint 통과 거부."]
 
     respect_ref = respect.get("references_design_md")
     if not respect_ref:

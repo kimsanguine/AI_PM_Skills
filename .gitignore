@@ -14,7 +14,8 @@ profiles/*
 .track/
 **/.track/
 
-# Craft plugin runtime state (personal: hierarchy-report.json / motion-drift.md / ui-drift-report.md)
+# Craft plugin runtime state (personal: hierarchy-baseline/report.json / motion-drift.md / ui-drift-report.md)
+.design/hierarchy-baseline.json
 .design/hierarchy-report.json
 .design/motion-drift.md
 .design/ui-drift-report.md

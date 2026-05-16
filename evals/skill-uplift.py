@@ -90,28 +90,32 @@ def call_claude(client, model: str, query: str, block: str) -> str:
 
 
 def judge(predicted: str, expected_skill: str, should_trigger: bool, mode: str) -> bool:
-    """결정론 라우팅 정답 판정.
+    """결정론 라우팅 정답 판정 (v0.8.3 Codex 재검수 반영).
 
     on-mode (skill in catalog):
       - should_trigger=True  → predicted must equal expected_skill (target hit)
       - should_trigger=False → predicted must NOT equal expected_skill (false positive 회피)
 
     off-mode (skill removed from catalog):
-      - should_trigger=True  → predicted must be "none" (정답 fallback when intended skill 부재)
-      - should_trigger=False → predicted must NOT equal expected_skill (same as on-mode false case)
+      - should_trigger=True  → **항상 False (baseline miss)** — 스킬 부재면 정답 라우팅 불가능
+      - should_trigger=False → predicted must NOT equal expected_skill (negative 회피만 평가)
 
-    uplift = on_pass_rate - off_pass_rate 가 실제 의미를 가지려면:
-      - on-mode 가 정확히 라우팅 (target hit) + off-mode 가 "none" 으로 fallback 못 함 → uplift 양수
-      - on-mode 가 정확 + off-mode 도 "none" 잘 fallback → uplift ≈ 0 (스킬 추가 가치 약함)
-      - on-mode 가 false positive 증가 (ETH 취리히 -3pp 함정) → uplift 음수 (quarantine)
+    v0.8.2 의 "off-mode positive 가 predicted=='none' 이면 pass" 정책은 잘못된 측정이었음:
+    LLM 이 영리하게 "none" fallback 하면 off_pass_rate 1.0 → uplift 0 → 정상 스킬 false quarantine.
+    v0.8.3 fix — off-mode positive 는 본질적으로 baseline miss (스킬이 채우는 빈 공간) 로 카운트.
+
+    이로써 uplift = on_pass_rate - off_pass_rate 가:
+      - 잘 만든 스킬: on=1.0 (positives hit + negatives avoid), off=0.5 (positives miss + negatives avoid) → uplift +0.5 → promote ✅
+      - ETH -3pp 함정: on-mode false positive 증가 → on_pass_rate 하락 → uplift 음수 → quarantine
     """
     if mode == "on":
         if should_trigger:
             return predicted == expected_skill
         return predicted != expected_skill
-    # off-mode
+    # off-mode: skill removed from catalog
     if should_trigger:
-        return predicted == "none"
+        # 스킬 부재 = baseline miss (이 스킬이 채우는 라우팅 빈 공간)
+        return False
     return predicted != expected_skill
 
 
@@ -221,5 +225,33 @@ def main() -> int:
     return 0 if not quarantine else 1
 
 
+def _test_judge() -> None:
+    """v0.8.3 Codex 재검수 회귀 보호 — perfect router 가 promote 되는지 결정론 검증."""
+    # Well-routed skill (on-mode)
+    assert judge("foo", "foo", True, "on") is True, "on positive hit"
+    assert judge("bar", "foo", False, "on") is True, "on negative avoid"
+    assert judge("foo", "foo", False, "on") is False, "on false positive"
+    # Off-mode (v0.8.3 핵심): positive = baseline miss, negative = avoidance only
+    assert judge("none", "foo", True, "off") is False, "off positive='none' should be baseline miss"
+    assert judge("bar", "foo", True, "off") is False, "off positive='other' should be baseline miss"
+    assert judge("bar", "foo", False, "off") is True, "off negative avoid"
+    assert judge("foo", "foo", False, "off") is False, "off should never predict expected"
+    # Perfect-router scenario: 2 positives + 2 negatives, all routed correctly on-mode
+    on_passes = sum([
+        judge("foo", "foo", True, "on"), judge("foo", "foo", True, "on"),
+        judge("bar", "foo", False, "on"), judge("bar", "foo", False, "on"),
+    ])
+    off_passes = sum([
+        judge("none", "foo", True, "off"), judge("none", "foo", True, "off"),
+        judge("bar", "foo", False, "off"), judge("bar", "foo", False, "off"),
+    ])
+    uplift = on_passes / 4 - off_passes / 4
+    assert uplift == 0.5, f"perfect-router uplift must be +0.5 (Codex 회귀), got {uplift}"
+    print("✅ judge() regression tests pass (v0.8.3)")
+
+
 if __name__ == "__main__":
+    if "--test" in sys.argv:
+        _test_judge()
+        sys.exit(0)
     raise SystemExit(main())

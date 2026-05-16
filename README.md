@@ -8,11 +8,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.8.2-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.8.3-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
 
-> **v0.8.2** — Codex adversarial review fix patch on top of v0.8.0/v0.8.1. 4 findings resolved: skill-uplift judge() redesigned (off-mode now requires "none" fallback for positives, so uplift actually measures routing improvement — fixes false-quarantine), craft-lint enforces DESIGN.md as error not warning + `--strict` default, `.track/` + craft runtime files added to `.gitignore` (profiles isolation), version metadata synced across 9 plugin.json + marketplace + README. v0.8.0 still introduced **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy + motion-language + ui-drift). All 11 new skills enforce Rule 5. See [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.3** — Second-round Codex adversarial review fix patch. 3 new findings on v0.8.2: (1) judge() re-redesigned — off-mode positive is now baseline miss (not "none" pass), so perfect routers actually promote (+0.5 uplift) instead of false-quarantine; (2) `load_yaml_block()` and `check_cross_ref()` hardened against YAMLError/non-dict DESIGN.md (controlled error, no traceback); (3) `.design/hierarchy-baseline.json` added to `.gitignore` (closed leak gap). Includes self-contained `python3 evals/skill-uplift.py --test` regression suite. v0.8.2: v0.8.0 still introduced **`track`** (prompt-level progress + event-driven gates + α/β/γ respect-checkpoint matrix) and **`craft`** (DESIGN.md + RESPECT.md two-file design system + Playwright runtime hierarchy + motion-language + ui-drift). All 11 new skills enforce Rule 5. See [CHANGELOG.md](CHANGELOG.md).
 
 ## The Problem hplan Solves
 

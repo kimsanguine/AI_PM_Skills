@@ -10,11 +10,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
 [![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
-[![Version](https://img.shields.io/badge/version-0.8.2-green?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.8.3-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)
 
-> **v0.8.2** — Codex 적대적 검수 fix patch (v0.8.0/v0.8.1 위). 4 findings 해결: skill-uplift judge() 재설계 (off-mode 에서 should_trigger=true 는 "none" fallback 만 정답 — 정상 스킬 false quarantine 차단), craft-lint 가 DESIGN.md 누락을 error 로 격상 + `--strict` default, `.track/` + craft runtime 파일을 `.gitignore` 등록 (profiles 격리), 9 plugin.json + marketplace + README 버전 정렬. v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
+> **v0.8.3** — 2차 Codex 적대적 검수 fix patch. v0.8.2 에 대한 신규 3 findings: (1) judge() 재재설계 — off-mode positive 는 baseline miss (이전 "none" fallback pass 가 정상 스킬을 quarantine 시켰음, 이제 perfect router 가 uplift +0.5 로 promote); (2) `load_yaml_block()` + `check_cross_ref()` 가 YAMLError/non-dict DESIGN.md 안전 처리 (controlled error, traceback 없음); (3) `.design/hierarchy-baseline.json` 도 `.gitignore` 등록 (leak gap 마감). `python3 evals/skill-uplift.py --test` self-contained regression suite 포함. v0.8.2: v0.8.0 신규 2 플러그인 — **`track`** (prompt-level 진행률 + event-driven 게이트 + α/β/γ respect-checkpoint) + **`craft`** (DESIGN.md + RESPECT.md + hierarchy 런타임 + motion-language + ui-drift). 11 신규 스킬 모두 Rule 5 준수. 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
 ## 만약 당신이...
 
