@@ -16,6 +16,12 @@
 
 > **v0.8.4** — hplan 은 AI 도구가 HOW 로 달려가기 전에 **WHETHER 를 묻는 Product Build Gate** 입니다. v0.8 은 게이트 위에 두 신규 플러그인을 얹습니다: **`track`** (진행 중 가드레일 — prompt-level 진행률 + event-driven 블로커 + α/β/γ respect-checkpoint) + **`craft`** (디자인 시스템 mechanical enforcement — DESIGN.md + RESPECT.md + Playwright 런타임 측정). 합쳐서: **시작 전 Build Gate, 진행 중 Track** — 잘못된 방향을 두 단계로 차단합니다. 3 라운드 적대적 검수 (findings 4 → 3 → 1, high 잔여 0). 자세한 변경 내역은 [CHANGELOG.md](CHANGELOG.md).
 
+### 📺 99초 소개 영상
+
+https://github.com/kimsanguine/hplan/releases/download/v0.8.4-video-preview/v8-core-track-16x9.mp4
+
+> _본질 narrative + Track 가드레일 통합본. 다른 variant (60초 Editorial, 90초 Demo, 84초 Core-only) 는 [v0.8.4-video-preview release](https://github.com/kimsanguine/hplan/releases/tag/v0.8.4-video-preview) 에서 받기._
+
 ## 만약 당신이...
 
 - ✋ Claude Code · Cursor · Lovable로 진입했는데 **6개월째 pivot 반복**하고 있다면

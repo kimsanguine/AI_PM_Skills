@@ -14,6 +14,12 @@
 
 > **v0.8.4** — hplan is the **Product Build Gate** that asks WHETHER before AI tools rush to HOW. v0.8 layers two new plugins on top of the gate: **`track`** (build-time guardrail — prompt-level progress + event-driven blockers + α/β/γ respect-checkpoint) and **`craft`** (design-system enforcement — DESIGN.md + RESPECT.md + Playwright runtime measurement). Together: **Build Gate before you build, Track while you build** — wrong directions blocked at both layers. 3 rounds of adversarial review (4 → 3 → 1 findings, 0 high remaining). See [CHANGELOG.md](CHANGELOG.md).
 
+### 📺 99-second intro
+
+https://github.com/kimsanguine/hplan/releases/download/v0.8.4-video-preview/v8-core-track-16x9.mp4
+
+> _Core narrative + Track guardrail. Other variants (60s Editorial, 90s Demo, 84s Core-only) in [v0.8.4-video-preview release](https://github.com/kimsanguine/hplan/releases/tag/v0.8.4-video-preview)._
+
 ## The Problem hplan Solves
 
 You have an AI product idea. Cursor can prototype it in a weekend. Spec-Kit can spec it in an hour. Claude Code can ship a first version overnight.
