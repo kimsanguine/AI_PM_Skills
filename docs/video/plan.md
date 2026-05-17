@@ -1,9 +1,11 @@
-# hplan Intro Video — Remotion Production Plan
+# hplan Intro Video — Remotion Production Plan (v0.7.0)
 
+> ⚠️ **이 문서는 v0.7.0 intro video plan 입니다.** v0.8 영상 (4 variants — Editorial / Demo / Core / Core+Track) 의 source 는 `tools/intro-video/src/scenes/v8*` 와 `tools/intro-video/src/compositions/HplanV8*.tsx`. mp4 는 `v0.8.4-video-preview` GitHub release 에서 받기.
+>
 > 70-second README intro video built with Remotion.dev
 > Target: 한국 1인 메이커 / PM / 솔로 창업자 (primary), global GitHub visitor (secondary)
-> Status: Pre-production · Locked
-> Last updated: 2026-05-11
+> Status: Released as `v0.7.0-video-preview` (visual-only)
+> Last updated: 2026-05-11 · v0.7.0 reference only (do not edit for v0.8)
 
 ## 1. Locked decisions
 

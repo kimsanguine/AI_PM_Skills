@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to AI_PM_Skills are documented here.
+All notable changes to hplan (renamed from AI_PM_Skills in v0.5) are documented here.
 
 ---
 

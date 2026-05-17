@@ -59,13 +59,13 @@ https://github.com/kimsanguine/hplan/releases/download/v0.8.4-video-preview/v8-c
 
 20년간 PM 일을 하면서 본 패턴 하나: **시장조사·문제정의가 풀리지 않은 채 빌딩에 들어가는 게 1인 메이커가 6개월을 잃는 가장 비싼 사고**입니다.
 
-대기업 PM이 누리는 "다음 PRD 쓰기 전 5명 인터뷰" 디스시플린이 1인 메이커에게는 없습니다. 그래서 hplan은 그 하네스을 *결정론적 도구*로 강제합니다 — Python 스크립트, MCP 서버, Claude Code hook, append-only registry 형태로.
+대기업 PM이 누리는 "다음 PRD 쓰기 전 5명 인터뷰" 규율이 1인 메이커에게는 없습니다. 그래서 hplan은 그 하네스를 *결정론적 도구*로 강제합니다 — Python 스크립트, MCP 서버, Claude Code hook, append-only registry 형태로.
 
 ---
 
 ## 어떤 사람을 위한 도구인가
 
-**한 줄 정의**: *"쉽고 제품을 만들고 싶은데, 시장조사·문제정의가 풀리지 않아 못 나아가는 사람"*
+**한 줄 정의**: *"제품을 빠르게 만들고 싶은데, 시장조사·문제정의가 풀리지 않아 못 나아가는 사람"*
 
 | # | 페르소나 | 진짜 페인 | hplan으로 풀고 싶은 것 |
 |---|---|---|---|
@@ -189,7 +189,7 @@ WHETHER는 WHY보다 큽니다. WHY는 이유를 답합니다("왜 사용자가 
 - "에이전트 여러 개를 어떻게 조합하고 오케스트레이션하지?"
 - "3개월 동안 쌓은 운영 노하우를 에이전트 인스트럭션에 어떻게 녹이지?"
 
-저도 같은 질문을 했습니다. AI Dubbing, AI Avatar 서비스를 성장시키면서, 그리고 지금 Agentic AI 제품을 만들면서 마주친 문제들이었습니다. 그 경험을 체계화해서, 에이전트 라이프사이클 전체를 커버하는 **50개 프로덕션급 스킬**로 정리한 것이 이 프로젝트입니다.
+저도 같은 질문을 했습니다. AI Dubbing, AI Avatar 서비스를 성장시키면서, 그리고 지금 Agentic AI 제품을 만들면서 마주친 문제들이었습니다. 그 경험을 체계화해서, 에이전트 라이프사이클 전체를 커버하는 **62개 프로덕션급 스킬**로 정리한 것이 이 프로젝트입니다.
 
 ---
 
@@ -455,6 +455,52 @@ Claude Code의 최신 플랫폼 스펙을 모두 적용했습니다: auto-invoca
 > 💡 [PM-ENGINE-MEMORY 스타터 킷](learn/skills/pm-engine/examples/PM-ENGINE-MEMORY-STARTER.md)으로 시작하세요 — 실무에서 검증된 5개 시드 TK가 미리 들어 있어, 빈 파일이 아닌 바로 쓸 수 있는 상태로 시작합니다.
 
 > 프레임워크는 오픈소스입니다. 하지만 PM-ENGINE-MEMORY.md에 쌓이는 당신의 판단 기록은 당신만의 자산입니다.
+</details>
+
+<details>
+<summary><strong>7. operate</strong> — 5+ 에이전트 포트폴리오 운영 <code>(4 skills, 0 commands)</code></summary>
+
+| 스킬 | 기능 | 이런 상황에서 쓰세요 |
+|------|------|-------------------|
+| `agent-portfolio` | T1~T5 티어링 (Reach × Reliability × Strategic value) | "에이전트 5+ 개 운영 중 — 다음 분기에 어디 투자할까?" |
+| `scorecard-5axis` | 가중 점수 (Accuracy / Reliability / Cost / Velocity / User Satisfaction) → 단일 비교 가능한 숫자 | "주간 운영 회의에서 에이전트 간 직접 비교" |
+| `weekly-rollup` | Cron 기반 포트폴리오 rollup (trend + 이상 감지) | "월요일 아침 — 지난 주 fleet 에 무슨 변화?" |
+| `cross-team-routing` | capability × load × tier × handoff cost 점수화로 요청 라우팅 결정 | "3개 에이전트가 처리 가능 — 어디로 보낼까?" |
+
+> 사용 시점: 5+ 에이전트 운영 시 단일 에이전트 KPI (measure 플러그인) 만으로 우선순위가 안 보일 때.
+</details>
+
+<details>
+<summary><strong>8. track</strong> ⭐ v0.8 신규 — Prompt-level 진행률 + event-driven 가드레일 <code>(7 skills, 3 commands)</code></summary>
+
+| 스킬 | 기능 | 이런 상황에서 쓰세요 |
+|------|------|-------------------|
+| `velocity-baseline` | 직전 프로젝트 git log + token usage → complexity × percentile lookup table 결정론 추출 | "예측 전에 내 실제 작업 속도부터 학습" |
+| `estimate-tasks` | WBS 분해 + complexity 분류 (LLM) + loc/tokens/minutes 예측 (결정론 lookup, LLM hallucination 0) | "시작 전에 예측 scope lock — Rule 5 준수" |
+| `progress-probe` | PostToolUse Hook + shell fallback → 매 tool call 을 `.track/actual_log.jsonl` 에 append | "매 prompt cycle 텔레메트리 (issue #17688 silent fail 대비 이중 메커니즘)" |
+| `blocker-detect` | 50+ 결정론 정규식·카운터 신호 (self-doubt / retry loops / test failures / context pressure / stalls) | "막힌 지점 자동 감지 — LLM 호출 0, 패턴+임계치만" |
+| `progress-report` | 7 event-driven 트리거가 현재 상태 보고 강제 (weekly cadence 아님 — 그건 operate/weekly-rollup) | "phase 전환 / 블로커 임계 / context 70% 시점에 상태 snapshot" |
+| `gate-checkpoint` | 6-phase 전환 게이트 (requirements → ship) PreToolUse Hook 차단 | "mechanical enforcement: design phase 미통과 시 impl 코드 작성 차단" |
+| `respect-checkpoint` | AI 가 (screen_type × traffic) 분류 → 결정론 매트릭스 lookup → α (인간 7초) + β (72h 데이터) + γ (Playwright saliency) 게이트 조합 | "ship 직전 사용자 존중 게이트 — '이 존중은 사람이 넣는 겁니다' 강제" |
+
+**명령어:** `/track-init` · `/track-status` · `/track-retro`
+
+> 7 스킬 모두 Rule 5 준수 (LLM 분류만; routing/policy/metric 결정론). self-contained regression test 2개: `python3 evals/skill-uplift.py --test` + `python3 scripts/validate-craft-lint.py --test`.
+</details>
+
+<details>
+<summary><strong>9. craft</strong> ⭐ v0.8 신규 — DESIGN.md + RESPECT.md 디자인 시스템 강제 <code>(4 skills, 2 commands)</code></summary>
+
+| 스킬 | 기능 | 이런 상황에서 쓰세요 |
+|------|------|-------------------|
+| `respect-brief` | 인터뷰 기반 RESPECT.md (5 섹션: three_second_rule / next_action / social_proof / hierarchy / motion) + 금지어 강제 | "UI 코드 작성 전 — 사용자 존중 의도를 YAML 제약으로 capture" |
+| `hierarchy-rules` | Playwright + DOM saliency + pixel KMeans + WCAG AA 런타임 측정 (fold density / type hierarchy / 60-30-10 색 / whitespace / CTA count) | "사람이 실제로 본 것을 측정 — 토큰의 약속이 아님" |
+| `motion-language` | 정규식 + framer-motion AST 스캔 → RESPECT motion_language 명세 대비 drift 보고 | "hover transition 200ms 일관? page easing 일관? ship 전 drift 감지" |
+| `ui-drift-detect` | 5+ 화면 pHash + KMeans palette + DOM tree edit distance → 5 차원 drift score | "디자인 시스템 회귀 감지 — 신규 화면이 design language 깼나?" |
+
+**명령어:** `/craft-init` · `/craft-lint`
+
+> `scripts/validate-craft-lint.py` (결정론 DESIGN.md + RESPECT.md cross-ref 검증) 와 쌍. AI 의 "professionally generic" 함정을 token 위의 user-respect 레이어로 mechanical 차단.
 </details>
 
 ---

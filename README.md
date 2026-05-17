@@ -365,6 +365,52 @@ The gate that runs *before* discovery. Deterministic measurement (Python scripts
 > The framework is open-source; your data (PM-ENGINE-MEMORY.md) is your own asset.
 </details>
 
+<details>
+<summary><strong>7. operate</strong> — Run a portfolio of AI agents <code>(4 skills, 0 commands)</code></summary>
+
+| Skill | What it does | When to use |
+|-------|-------------|-------------|
+| `agent-portfolio` | T1~T5 tiering by Reach × Reliability × Strategic value | "I run 5+ agents — which one deserves next quarter's investment?" |
+| `scorecard-5axis` | Weighted scoring across Accuracy / Reliability / Cost / Velocity / User Satisfaction → single comparable number | "Head-to-head agent comparison for weekly ops review" |
+| `weekly-rollup` | Cron-driven portfolio rollup (trend + anomaly detection across all agents) | "Monday morning — what changed across my agent fleet?" |
+| `cross-team-routing` | Score capability × load × tier × handoff cost to decide which agent serves a request | "3 different agents could handle this — which should take it?" |
+
+> Use case: teams running 5+ agents where single-agent KPIs (measure plugin) no longer reveal priorities.
+</details>
+
+<details>
+<summary><strong>8. track</strong> ⭐ v0.8 NEW — Prompt-level progress + event-driven guardrail <code>(7 skills, 3 commands)</code></summary>
+
+| Skill | What it does | When to use |
+|-------|-------------|-------------|
+| `velocity-baseline` | Extract personal velocity from prior projects (git log + token usage → complexity × percentile lookup) | "Before estimating, learn how fast I actually code" |
+| `estimate-tasks` | WBS decomposition + complexity classification (LLM) + loc/tokens/minutes prediction (deterministic lookup, NO LLM hallucination) | "Lock predicted scope before starting — Rule 5 compliant" |
+| `progress-probe` | PostToolUse Hook + shell fallback → append every tool call to `.track/actual_log.jsonl` | "Telemetry on every prompt cycle (defends against issue #17688 silent fail)" |
+| `blocker-detect` | 50+ deterministic regex/counter signals (self-doubt, retry loops, test failures, context pressure, stalls) | "Auto-detect when I'm stuck — no LLM, just patterns + thresholds" |
+| `progress-report` | 7 event-driven triggers force a current-status report (NOT weekly cadence — that's operate/weekly-rollup) | "Status snapshot at phase transition / blocker threshold / context 70%" |
+| `gate-checkpoint` | 6-phase transition gates (requirements → ship) with PreToolUse Hook blocking | "Mechanical enforcement: can't write impl code until design phase passes" |
+| `respect-checkpoint` | AI classifies (screen_type × traffic) → deterministic matrix lookup → α (human 7s) + β (72h analytics) + γ (Playwright saliency) gate combination | "Ship-time user-respect gate — '이 존중은 사람이 넣는 겁니다' enforced" |
+
+**Commands:** `/track-init` · `/track-status` · `/track-retro`
+
+> All 7 skills enforce Rule 5 (LLM classification only; routing/policy/metrics deterministic). Two self-contained regression tests: `python3 evals/skill-uplift.py --test` + `python3 scripts/validate-craft-lint.py --test`.
+</details>
+
+<details>
+<summary><strong>9. craft</strong> ⭐ v0.8 NEW — DESIGN.md + RESPECT.md design-system enforcement <code>(4 skills, 2 commands)</code></summary>
+
+| Skill | What it does | When to use |
+|-------|-------------|-------------|
+| `respect-brief` | Interview-driven RESPECT.md (5 sections: three_second_rule / next_action / social_proof / hierarchy / motion) with forbidden words enforcement | "Before any UI code — capture user-respect intent as YAML constraints" |
+| `hierarchy-rules` | Playwright + DOM saliency + pixel KMeans + WCAG AA at runtime (fold density / type hierarchy / 60-30-10 color / whitespace / CTA count) | "Measure what humans actually see — not what tokens promised" |
+| `motion-language` | Regex + framer-motion AST scan → drift report against RESPECT motion_language spec | "Hover transitions all 200ms? Page easing consistent? Catch drift before ship" |
+| `ui-drift-detect` | 5+ screen pHash + KMeans palette + DOM tree edit distance → 5-dimension drift score | "Design system regression detection — new screen broke the language?" |
+
+**Commands:** `/craft-init` · `/craft-lint`
+
+> Pairs with `scripts/validate-craft-lint.py` (deterministic DESIGN.md + RESPECT.md cross-ref validation). Closes the AI "professionally generic" trap by mechanically enforcing the user-respect layer on top of Google DESIGN.md token spec.
+</details>
+
 ---
 
 ## Installation
