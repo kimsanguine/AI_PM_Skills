@@ -31,7 +31,7 @@ export const V8CQuestion: React.FC = () => {
           marginBottom: 40,
         }}
       >
-        PM 에게 더 중요한 질문은 따로 있습니다.
+        만들기 전에 더 중요한 질문이 있습니다.
       </div>
 
       <div

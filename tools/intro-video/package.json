@@ -9,6 +9,11 @@
     "build:1x1": "remotion render HplanIntro1x1 out/intro-1x1.mp4 --concurrency=4",
     "build:9x16": "remotion render HplanIntro9x16 out/intro-9x16.mp4 --concurrency=4",
     "build:all": "npm run build:16x9 && npm run build:1x1 && npm run build:9x16",
+    "build:v8-core-track": "remotion render HplanV8CoreTrack out/v8-core-track-16x9.mp4 --concurrency=4",
+    "build:v8-core": "remotion render HplanV8Core out/v8-core-16x9.mp4 --concurrency=4",
+    "build:v8-editorial": "remotion render HplanV8Editorial out/v8-editorial-16x9.mp4 --concurrency=4",
+    "build:v8-demo": "remotion render HplanV8Demo out/v8-demo-16x9.mp4 --concurrency=4",
+    "build:v8-all": "npm run build:v8-core-track && npm run build:v8-core && npm run build:v8-editorial && npm run build:v8-demo",
     "build:gif": "remotion render HplanIntro16x9 out/intro.gif --image-format=jpeg --gif --width=1280",
     "narration": "python3 scripts/generate_narration.py"
   },

@@ -6,8 +6,8 @@
 > Like a horse's harness, hplan gives direction to the raw power of AI coding tools (Claude Code, Cursor, Lovable, etc.). The tools that *make* code are already strong enough. What's missing is *where to point them*. hplan is the 7-day discipline that forces you to answer market research, problem definition, and COGS *before* a single PRD line is written.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)](#plugins--full-skill-list)
+[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)](#the-agent-pm-journey--9-stages)
 [![Version](https://img.shields.io/badge/version-0.8.4-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-blue?style=flat-square)](README-ko.md)
@@ -198,7 +198,7 @@ Each skill **auto-loads from natural language** — describe your task and the r
 
 ### ② Two-Layer Architecture — Platform and Content Separation
 
-We separate **how Claude finds skills** (Platform Layer — Skills 2.0 spec) from **what goes inside each skill** (Content Layer). The Content Layer defines the Trigger Gate (Use/Route/Boundary) pattern that prevents skill collisions, plus domain-specific context in each skill's `context/domain.md`. Result: **97.9% trigger accuracy** across 96 test queries.
+We separate **how Claude finds skills** (Platform Layer — Skills 2.0 spec) from **what goes inside each skill** (Content Layer). The Content Layer defines the Trigger Gate (Use/Route/Boundary) pattern that prevents skill collisions, plus domain-specific context in each skill's `context/domain.md`. Result: **97.9% trigger accuracy** measured on v0.6 baseline (124 queries); v0.8 expands to 168 total queries (+44 for new 11 skills, re-measurement after API quota reset).
 
 ```
 ┌─ Platform Layer ──── Skills 2.0 Spec ──────────────────────┐
@@ -449,7 +449,7 @@ claude --plugin-dir ./hplan/hplan   # pick what you need (hplan, discover, archi
 
 ### Auto-Invocation
 
-You don't call skills by name. Describe your task in natural language, and Claude matches it against each SKILL.md's `description` field to auto-load the best fit. Trigger accuracy: **97.9%** across 96 test queries.
+You don't call skills by name. Describe your task in natural language, and Claude matches it against each SKILL.md's `description` field to auto-load the best fit. Trigger accuracy: **97.9%** measured on v0.6 baseline (124 queries); v0.8 expands to 168 total queries (+44 for new 11 skills, re-measurement after API quota reset).
 
 ### Cross-Plugin Routing
 

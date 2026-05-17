@@ -54,7 +54,7 @@ export const V8CThreeGates: React.FC = () => {
           letterSpacing: '-0.01em',
         }}
       >
-        hplan 의 핵심은{' '}
+        hplan의 핵심은{' '}
         <span style={{ color: colors.text, fontWeight: 600 }}>세 가지 Gate</span>
       </div>
 

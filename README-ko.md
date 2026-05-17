@@ -8,8 +8,8 @@
 > 말의 고삐(harness)처럼, Claude Code · Cursor · Lovable 같은 AI 코딩 도구의 거친 동력에 **방향을 부여하는 사전 계획**입니다. 코드를 만드는 도구는 이미 충분히 강합니다. 부족한 건 *"어디로 향할지"*. hplan은 코드를 쓰기 전 7일 동안 시장조사·문제정의·COGS를 강제로 묻습니다.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)]()
-[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)]()
+[![Skills](https://img.shields.io/badge/skills-62-blue?style=flat-square)](#플러그인별-전체-스킬-목록)
+[![Plugins](https://img.shields.io/badge/plugins-9-purple?style=flat-square)](#에이전트-pm-여정--9단계)
 [![Version](https://img.shields.io/badge/version-0.8.4-green?style=flat-square)](CHANGELOG.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/lang-English-blue?style=flat-square)](README.md)

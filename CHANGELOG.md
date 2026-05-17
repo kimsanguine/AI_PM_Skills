@@ -6,7 +6,9 @@ All notable changes to hplan (renamed from AI_PM_Skills in v0.5) are documented 
 
 ## [0.8.4] — 2026-05-17
 
-> **3차 Codex adversarial review fix patch.** v0.8.3 의 `isinstance(dict)` 검증이 top-level 만 보호 — nested schema (`colors: [{primary:blue}]` 또는 비-string key) 가 여전히 crash 가능. nested guard + regression suite 추가.
+> **사용자 영향**: `/craft-lint` 가 잘못된 형식의 DESIGN.md 를 만나도 안전하게 fail 합니다 (traceback 없이 명확한 한국어 에러 메시지). 자체 regression test 2 종 (`evals/skill-uplift.py --test` + `scripts/validate-craft-lint.py --test`) 으로 미래 회귀 자동 차단. **`/craft-lint` / `/track-status` 같은 명령이 깨진 입력으로 인해 알 수 없는 traceback 으로 종료되는 일이 없어집니다.**
+>
+> **(내부 detail)** 3차 Codex adversarial review fix patch. v0.8.3 의 `isinstance(dict)` 검증이 top-level 만 보호 — nested schema (`colors: [{primary:blue}]` 또는 비-string key) 가 여전히 crash 가능했음. nested guard + regression suite 추가.
 
 ### Fixed — Codex 3차 검수 반영
 

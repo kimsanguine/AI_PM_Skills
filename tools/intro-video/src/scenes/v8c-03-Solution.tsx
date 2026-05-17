@@ -60,10 +60,10 @@ export const V8CSolution: React.FC = () => {
         }}
       >
         AI 개발 도구가{' '}
-        <span style={{ color: colors.trackBlue, fontWeight: 600 }}>HOW</span> 를 빠르게 만든다면,
+        <span style={{ color: colors.trackBlue, fontWeight: 600 }}>HOW</span>를 빠르게 만든다면,
         <br />
-        hplan 은 그 전에{' '}
-        <span style={{ color: colors.hplanRed, fontWeight: 600 }}>WHETHER</span> 를 검증합니다.
+        hplan은 그 전에{' '}
+        <span style={{ color: colors.hplanRed, fontWeight: 600 }}>WHETHER</span>를 검증합니다.
       </div>
     </AbsoluteFill>
   );

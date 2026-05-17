@@ -64,7 +64,7 @@ export const V8CTTrackGuardrail: React.FC = () => {
         }}
       >
         <div style={{ fontSize: 28, color: colors.dim, marginBottom: 16, letterSpacing: '-0.01em' }}>
-          GO 가 나와도 끝이 아닙니다.
+          GO가 나와도 끝이 아닙니다.
         </div>
         <div style={{ fontSize: 52, color: colors.text, fontWeight: 600, letterSpacing: '-0.02em' }}>
           <span style={{ color: colors.trackBlue }}>track</span> 은{' '}
