@@ -71,7 +71,7 @@ export const V8CThreeGates: React.FC = () => {
                 border: `2px solid ${colors[g.color]}`,
                 borderRadius: 14,
                 backgroundColor: `${colors[g.color]}11`,
-                width: 480,
+                width: 560,
                 textAlign: 'left',
               }}
             >
