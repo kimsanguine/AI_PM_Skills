@@ -58,7 +58,7 @@ export const V8CThreeGates: React.FC = () => {
         <span style={{ color: colors.text, fontWeight: 600 }}>세 가지 Gate</span>
       </div>
 
-      <div style={{ display: 'flex', gap: 32, alignItems: 'stretch' }}>
+      <div style={{ display: 'flex', gap: 40, alignItems: 'stretch' }}>
         {GATES.map((g) => {
           const sp = spring({ frame: frame - g.start, fps: FPS, config: { mass: 0.6, damping: 14 }, from: 0, to: 1 });
           return (
@@ -71,20 +71,20 @@ export const V8CThreeGates: React.FC = () => {
                 border: `2px solid ${colors[g.color]}`,
                 borderRadius: 14,
                 backgroundColor: `${colors[g.color]}11`,
-                width: 380,
+                width: 480,
                 textAlign: 'left',
               }}
             >
-              <div style={{ fontSize: 14, color: colors[g.color], fontFamily: fonts.mono, letterSpacing: '0.2em', marginBottom: 12 }}>
+              <div style={{ fontSize: 18, color: colors[g.color], fontFamily: fonts.mono, letterSpacing: '0.2em', marginBottom: 14 }}>
                 GATE {g.n}
               </div>
-              <div style={{ fontSize: 30, color: colors[g.color], fontWeight: 600, letterSpacing: '-0.02em' }}>
+              <div style={{ fontSize: 32, color: colors[g.color], fontWeight: 600, letterSpacing: '-0.02em' }}>
                 {g.name}
               </div>
-              <div style={{ marginTop: 14, fontSize: 18, color: colors.text, lineHeight: 1.5 }}>
+              <div style={{ marginTop: 14, fontSize: 20, color: colors.text, lineHeight: 1.5 }}>
                 {g.desc}
               </div>
-              <div style={{ marginTop: 16, fontSize: 14, color: colors.veryDim, fontFamily: fonts.mono }}>
+              <div style={{ marginTop: 16, fontSize: 18, color: colors.veryDim, fontFamily: fonts.mono }}>
                 {g.detail}
               </div>
             </div>

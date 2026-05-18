@@ -41,7 +41,7 @@ export const V8CHook: React.FC = () => {
         <span style={{ color: colors.trackBlue, fontWeight: 600 }}>충분히 빠릅니다</span>.
       </div>
 
-      <div style={{ display: 'flex', gap: 48, fontFamily: fonts.mono }}>
+      <div style={{ display: 'flex', gap: 56, fontFamily: fonts.mono }}>
         {TOOLS.map((t) => {
           const op = interpolate(frame, [t.start, t.start + 40], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
           const y = interpolate(frame, [t.start, t.start + 40], [20, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
@@ -55,12 +55,12 @@ export const V8CHook: React.FC = () => {
                 border: `1.5px solid ${colors.veryDim}`,
                 borderRadius: 10,
                 textAlign: 'center',
-                minWidth: 280,
+                minWidth: 380,
                 backgroundColor: colors.surface,
               }}
             >
               <div style={{ fontSize: 26, fontWeight: 600, color: colors.text }}>{t.name}</div>
-              <div style={{ fontSize: 16, color: colors.dim, marginTop: 8 }}>{t.sub}</div>
+              <div style={{ fontSize: 18, color: colors.dim, marginTop: 8 }}>{t.sub}</div>
             </div>
           );
         })}

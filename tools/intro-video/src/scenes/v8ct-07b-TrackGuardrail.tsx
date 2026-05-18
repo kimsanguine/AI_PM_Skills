@@ -24,9 +24,9 @@ export const V8CTTrackGuardrail: React.FC = () => {
   const layerOp = interpolate(frame, [370, 410], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const fadeOut = interpolate(frame, [430, 450], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
 
-  // Burnup paths
-  const chartW = 700;
-  const chartH = 240;
+  // Burnup paths — chartW 700 → 1000 (영역 80% 확장 일관)
+  const chartW = 1000;
+  const chartH = 300;
   const xAt = (t: number) => 80 + t * chartW;
   const predY = (t: number) => 40 + (1 - t) * chartH;
   const actY = (t: number) => {
@@ -84,15 +84,15 @@ export const V8CTTrackGuardrail: React.FC = () => {
           <path d={actPath} stroke={colors.trackBlue} strokeWidth={3} fill="none" />
           {blockerSp > 0 && (
             <g opacity={blockerSp}>
-              <circle cx={xAt(0.72)} cy={actY(0.72)} r={12} fill={colors.bad} opacity={0.3} />
-              <circle cx={xAt(0.72)} cy={actY(0.72)} r={6} fill={colors.bad} />
-              <text x={xAt(0.72) + 16} y={actY(0.72) + 5} fill={colors.bad} fontSize={15} fontFamily={fonts.mono}>
+              <circle cx={xAt(0.72)} cy={actY(0.72)} r={14} fill={colors.bad} opacity={0.3} />
+              <circle cx={xAt(0.72)} cy={actY(0.72)} r={7} fill={colors.bad} />
+              <text x={xAt(0.72)} y={actY(0.72) - 22} fill={colors.bad} fontSize={20} fontFamily={fonts.mono} textAnchor="middle">
                 블로커 score 17 — 즉시 알림
               </text>
             </g>
           )}
-          <text x={chartW - 70} y={70} fill={colors.dim} fontSize={13} fontFamily={fonts.mono}>--- predicted</text>
-          <text x={chartW - 70} y={90} fill={colors.trackBlue} fontSize={13} fontFamily={fonts.mono}>━━━ actual</text>
+          <text x={chartW - 90} y={70} fill={colors.dim} fontSize={18} fontFamily={fonts.mono}>--- predicted</text>
+          <text x={chartW - 90} y={95} fill={colors.trackBlue} fontSize={18} fontFamily={fonts.mono}>━━━ actual</text>
         </svg>
       </div>
 
