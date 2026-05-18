@@ -63,10 +63,10 @@ export const V8CTTrackGuardrail: React.FC = () => {
           width: '100%',
         }}
       >
-        <div style={{ fontSize: 28, color: colors.dim, marginBottom: 16, letterSpacing: '-0.01em' }}>
+        <div style={{ fontSize: 32, color: colors.dim, marginBottom: 16, letterSpacing: '-0.01em' }}>
           GO가 나와도 끝이 아닙니다.
         </div>
-        <div style={{ fontSize: 52, color: colors.text, fontWeight: 600, letterSpacing: '-0.02em' }}>
+        <div style={{ fontSize: 56, color: colors.text, fontWeight: 600, letterSpacing: '-0.02em' }}>
           <span style={{ color: colors.trackBlue }}>track</span> 은{' '}
           <span style={{ color: colors.hplanRed }}>진행 중</span>에도 작동하는 가드레일
         </div>
@@ -74,7 +74,7 @@ export const V8CTTrackGuardrail: React.FC = () => {
 
       {/* burnup chart — 3s 후 등장 */}
       <div style={{ opacity: chartOp, marginTop: 40 }}>
-        <div style={{ fontSize: 22, color: colors.dim, fontFamily: fonts.mono, marginBottom: 12, textAlign: 'center' }}>
+        <div style={{ fontSize: 26, color: colors.dim, fontFamily: fonts.mono, marginBottom: 12, textAlign: 'center' }}>
           predicted vs actual · 7/12 tasks · 58%
         </div>
         <svg width={chartW + 100} height={chartH + 60}>
@@ -86,13 +86,13 @@ export const V8CTTrackGuardrail: React.FC = () => {
             <g opacity={blockerSp}>
               <circle cx={xAt(0.72)} cy={actY(0.72)} r={14} fill={colors.bad} opacity={0.3} />
               <circle cx={xAt(0.72)} cy={actY(0.72)} r={7} fill={colors.bad} />
-              <text x={xAt(0.72)} y={actY(0.72) - 22} fill={colors.bad} fontSize={20} fontFamily={fonts.mono} textAnchor="middle">
+              <text x={xAt(0.72)} y={actY(0.72) - 22} fill={colors.bad} fontSize={24} fontFamily={fonts.mono} textAnchor="middle">
                 블로커 score 17 — 즉시 알림
               </text>
             </g>
           )}
-          <text x={chartW - 90} y={70} fill={colors.dim} fontSize={18} fontFamily={fonts.mono}>--- predicted</text>
-          <text x={chartW - 90} y={95} fill={colors.trackBlue} fontSize={18} fontFamily={fonts.mono}>━━━ actual</text>
+          <text x={chartW - 90} y={70} fill={colors.dim} fontSize={22} fontFamily={fonts.mono}>--- predicted</text>
+          <text x={chartW - 90} y={95} fill={colors.trackBlue} fontSize={22} fontFamily={fonts.mono}>━━━ actual</text>
         </svg>
       </div>
 
@@ -104,7 +104,7 @@ export const V8CTTrackGuardrail: React.FC = () => {
           opacity: layerOp,
           textAlign: 'center',
           width: '100%',
-          fontSize: 22,
+          fontSize: 26,
           color: colors.dim,
           fontFamily: fonts.mono,
           letterSpacing: '-0.01em',

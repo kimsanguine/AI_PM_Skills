@@ -21,7 +21,7 @@ export const V8CStage0: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 60,
+          fontSize: 64,
           fontWeight: 700,
           color: colors.text,
           opacity: titleSp,
@@ -36,7 +36,7 @@ export const V8CStage0: React.FC = () => {
       <div
         style={{
           marginTop: 24,
-          fontSize: 22,
+          fontSize: 26,
           color: colors.dim,
           opacity: stageOp,
           letterSpacing: '-0.01em',
@@ -48,7 +48,7 @@ export const V8CStage0: React.FC = () => {
       <div
         style={{
           marginTop: 48,
-          fontSize: 18,
+          fontSize: 22,
           color: colors.veryDim,
           fontFamily: fonts.mono,
           opacity: repoOp,

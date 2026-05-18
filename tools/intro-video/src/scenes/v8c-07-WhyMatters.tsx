@@ -24,7 +24,7 @@ export const V8CWhyMatters: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 36,
+          fontSize: 40,
           color: colors.dim,
           opacity: line1,
           letterSpacing: '-0.01em',
@@ -39,7 +39,7 @@ export const V8CWhyMatters: React.FC = () => {
       <div
         style={{
           marginTop: 32,
-          fontSize: 28,
+          fontSize: 32,
           color: colors.dim,
           opacity: line2,
           letterSpacing: '-0.01em',
@@ -53,7 +53,7 @@ export const V8CWhyMatters: React.FC = () => {
       <div
         style={{
           marginTop: 24,
-          fontSize: 48,
+          fontSize: 52,
           fontWeight: 700,
           color: colors.hplanRed,
           opacity: dangerSp,

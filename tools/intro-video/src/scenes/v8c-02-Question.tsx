@@ -24,7 +24,7 @@ export const V8CQuestion: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 28,
+          fontSize: 32,
           color: colors.veryDim,
           opacity: introOp,
           letterSpacing: '0.02em',
@@ -36,7 +36,7 @@ export const V8CQuestion: React.FC = () => {
 
       <div
         style={{
-          fontSize: 48,
+          fontSize: 52,
           color: colors.dim,
           opacity: howOp * howDim,
           fontWeight: 300,
@@ -51,7 +51,7 @@ export const V8CQuestion: React.FC = () => {
       <div
         style={{
           marginTop: 32,
-          fontSize: 72,
+          fontSize: 76,
           color: colors.hplanRed,
           opacity: whetherSp,
           transform: `scale(${whetherSp})`,

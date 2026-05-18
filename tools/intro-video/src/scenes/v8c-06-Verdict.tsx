@@ -26,7 +26,7 @@ export const V8CVerdict: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 28,
+          fontSize: 32,
           color: colors.veryDim,
           marginBottom: 56,
           letterSpacing: '0.05em',
@@ -43,7 +43,7 @@ export const V8CVerdict: React.FC = () => {
             <div key={v.word} style={{ opacity: sp, transform: `scale(${sp})` }}>
               <div
                 style={{
-                  fontSize: 64,
+                  fontSize: 68,
                   fontWeight: 700,
                   color: colors[v.color],
                   letterSpacing: '-0.02em',
@@ -55,7 +55,7 @@ export const V8CVerdict: React.FC = () => {
               <div
                 style={{
                   marginTop: 16,
-                  fontSize: 20,
+                  fontSize: 24,
                   color: colors.dim,
                   fontFamily: fonts.display,
                 }}

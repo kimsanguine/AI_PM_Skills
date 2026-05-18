@@ -47,7 +47,7 @@ export const V8CThreeGates: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 36,
+          fontSize: 40,
           color: colors.dim,
           opacity: titleOp,
           marginBottom: 56,
@@ -75,16 +75,16 @@ export const V8CThreeGates: React.FC = () => {
                 textAlign: 'left',
               }}
             >
-              <div style={{ fontSize: 18, color: colors[g.color], fontFamily: fonts.mono, letterSpacing: '0.2em', marginBottom: 14 }}>
+              <div style={{ fontSize: 22, color: colors[g.color], fontFamily: fonts.mono, letterSpacing: '0.2em', marginBottom: 14 }}>
                 GATE {g.n}
               </div>
-              <div style={{ fontSize: 32, color: colors[g.color], fontWeight: 600, letterSpacing: '-0.02em' }}>
+              <div style={{ fontSize: 36, color: colors[g.color], fontWeight: 600, letterSpacing: '-0.02em' }}>
                 {g.name}
               </div>
-              <div style={{ marginTop: 14, fontSize: 20, color: colors.text, lineHeight: 1.5 }}>
+              <div style={{ marginTop: 14, fontSize: 24, color: colors.text, lineHeight: 1.5 }}>
                 {g.desc}
               </div>
-              <div style={{ marginTop: 16, fontSize: 18, color: colors.veryDim, fontFamily: fonts.mono }}>
+              <div style={{ marginTop: 16, fontSize: 22, color: colors.veryDim, fontFamily: fonts.mono }}>
                 {g.detail}
               </div>
             </div>
@@ -95,7 +95,7 @@ export const V8CThreeGates: React.FC = () => {
       <div
         style={{
           marginTop: 48,
-          fontSize: 22,
+          fontSize: 26,
           color: colors.dim,
           opacity: interpolate(frame, [470, 510], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }),
           letterSpacing: '-0.01em',

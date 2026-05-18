@@ -23,7 +23,7 @@ export const V8CSolution: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 120,
+          fontSize: 124,
           fontWeight: 700,
           color: colors.hplanRed,
           opacity: logoSp,
@@ -38,7 +38,7 @@ export const V8CSolution: React.FC = () => {
       <div
         style={{
           marginTop: 24,
-          fontSize: 44,
+          fontSize: 48,
           color: colors.text,
           opacity: tagOp,
           fontWeight: 300,
@@ -51,7 +51,7 @@ export const V8CSolution: React.FC = () => {
       <div
         style={{
           marginTop: 56,
-          fontSize: 22,
+          fontSize: 26,
           color: colors.dim,
           opacity: subOp,
           letterSpacing: '-0.01em',

@@ -29,7 +29,7 @@ export const V8CSixQuestions: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 36,
+          fontSize: 40,
           color: colors.dim,
           opacity: titleOp,
           marginBottom: 56,
@@ -50,7 +50,7 @@ export const V8CSixQuestions: React.FC = () => {
               style={{
                 opacity: op,
                 transform: `translateX(${x}px)`,
-                fontSize: 26,
+                fontSize: 30,
                 color: colors.text,
                 display: 'flex',
                 gap: 20,

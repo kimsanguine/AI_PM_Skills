@@ -27,7 +27,7 @@ export const V8CHook: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 56,
+          fontSize: 60,
           fontWeight: 300,
           color: colors.text,
           opacity: titleOp,
@@ -59,8 +59,8 @@ export const V8CHook: React.FC = () => {
                 backgroundColor: colors.surface,
               }}
             >
-              <div style={{ fontSize: 26, fontWeight: 600, color: colors.text }}>{t.name}</div>
-              <div style={{ fontSize: 18, color: colors.dim, marginTop: 8 }}>{t.sub}</div>
+              <div style={{ fontSize: 30, fontWeight: 600, color: colors.text }}>{t.name}</div>
+              <div style={{ fontSize: 22, color: colors.dim, marginTop: 8 }}>{t.sub}</div>
             </div>
           );
         })}
