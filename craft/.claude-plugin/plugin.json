@@ -1,0 +1,23 @@
+{
+  "name": "craft",
+  "version": "0.1.0",
+  "description": "Build-time design quality validation — mobile responsiveness, visual hierarchy, CSS transition consistency, and cross-page drift detection. Use when validating UI against DESIGN.md specs, checking breakpoint compliance, or running visual regression checks during development.",
+  "author": {
+    "name": "AI PM Skills Contributors",
+    "url": "https://github.com/your-username"
+  },
+  "repository": "https://github.com/kimsanguine/hplan",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "validation",
+    "mobile",
+    "responsive",
+    "playwright",
+    "wcag",
+    "breakpoint",
+    "craft"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/"
+}
